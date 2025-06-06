@@ -1,0 +1,65 @@
+.df{
+    box-shadow: 0px 0px 4px 0px;
+}
+
+.ripple-btn .ripple {
+  position: absolute;
+  background: white;
+  opacity: 1;
+  border-radius: 50%;
+  transform: scale(0);
+  animation: ripple-solid 1.5s ease-out;
+  pointer-events: none;
+  z-index: 10;
+}
+
+@keyframes ripple-solid {
+  to {
+    transform: translate(-50%, -50%) scale(4);
+    opacity: 0;
+  }
+}
+input::placeholder{
+    color: rgb(61, 61, 61);
+    font-weight: 400;
+    font-size: 0.9rem;
+}
+input{
+    font-weight: 500;
+}
+
+button::after{
+    content: "";
+    position: absolute;
+    background-color: rgb(99, 99, 99);
+    width: 1.5px;
+    height: 60%;
+    right: 5px;
+    top: 15px;
+}
+
+::placeholder {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+button{
+    border: 2px solid;
+}
+
+.custom-ripple {
+  position: absolute;
+  top: 10%;
+  left: 10%;
+  width: 80%;
+  height: 80%;
+  background: white;
+  opacity: 0.9;
+  border-radius: 1rem;
+  transform: scale(0.8);
+  animation: ripple-grow 0.4s ease-out forwards;
+  pointer-events: none;
+  z-index: 0;
+}
