@@ -28,15 +28,6 @@ input{
     font-weight: 500;
 }
 
-button::after{
-    content: "";
-    position: absolute;
-    background-color: rgb(99, 99, 99);
-    width: 1.5px;
-    height: 60%;
-    right: 5px;
-    top: 15px;
-}
 
 ::placeholder {
   user-select: none;
