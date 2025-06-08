@@ -10,7 +10,7 @@ function Nav() {
       setShowVideo(false);
     };
   return (
-    <nav className="h-50 bg-[#ececec]">
+    <nav className="h-55 bg-[#ececec]">
       <div className="stickyPart justify-between flex">
         <div className="brand w-3xs">
           <img
