@@ -87,3 +87,17 @@ th {
   display: flex;
   justify-content: space-between;
 }
+/* Ensure container is relative */
+#myElement {
+  position: relative;
+}
+
+/* Focus indicator style */
+.focus-indicator {
+  transition: all 0.3s ease-in-out;
+  background: white;
+  border-radius: 2rem;
+  position: absolute;
+  height: 4.1rem;
+  z-index: 1;
+}

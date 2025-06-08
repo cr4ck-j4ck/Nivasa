@@ -5,24 +5,17 @@ import SearchIcon from "@mui/icons-material/Search";
 
 export default function SearchBar() {
   const elementRef = useRef(null);
-  const buttonRef = useRef(null);
   const inputRef1 = useRef(null);
   const inputRef2 = useRef(null);
   const inputRef3 = useRef(null);
   const inputRef4 = useRef(null);
+  const buttonRef1 = useRef(null);
   const buttonRef2 = useRef(null);
   const buttonRef3 = useRef(null);
   const buttonRef4 = useRef(null);
 
-  // Focus state as an object
-  const [focusStates, setFocusStates] = useState({
-    input1: false,
-    input2: false,
-    input3: false,
-    input4: false,
-  });
-
-  const ignoreNextBlur = useRef(false);
+  const [focusedInput, setFocusedInput] = useState(null);
+  const [indicatorStyle, setIndicatorStyle] = useState({ left: 0, width: 0 });
   const [position, updatePosition] = useState(0);
 
   // Get position initially after DOM mounts
@@ -47,28 +40,42 @@ export default function SearchBar() {
       window.removeEventListener("resize", reportPosition);
     };
   }, []);
+  const buttonRefs = {
+    input1: buttonRef1,
+    input2: buttonRef2,
+    input3: buttonRef3,
+    input4: buttonRef4,
+  };
+
+  const inputRefs = {
+    input1: inputRef1,
+    input2: inputRef2,
+    input3: inputRef3,
+    input4: inputRef4,
+  };
+
+  // Update indicator position on focus
+  const updateIndicatorPosition = (key) => {
+    const button = buttonRefs[key].current;
+    const container = elementRef.current;
+
+    if (button && container) {
+      const buttonRect = button.getBoundingClientRect();
+      const containerRect = container.getBoundingClientRect();
+
+      setIndicatorStyle({
+        left: buttonRect.left - containerRect.left,
+        width: buttonRect.width,
+      });
+    }
+  };
 
   useEffect(() => {
-    const handleVisibilityChange = () => {
-      if (document.visibilityState === "hidden") {
-        ignoreNextBlur.current = true;
-      }
-    };
+    if (focusedInput) {
+      updateIndicatorPosition(focusedInput);
+    }
+  }, [focusedInput]);
 
-    document.addEventListener("visibilitychange", handleVisibilityChange);
-    return () => {
-      document.removeEventListener("visibilitychange", handleVisibilityChange);
-    };
-  }, []);
-
-  function handleMouseEnter(e) {
-    e.currentTarget.previousElementSibling.style.visibility = "hidden";
-  }
-  function handleMouseLeave(e) {
-    e.currentTarget.previousElementSibling.style.visibility = "";
-  }
-
-  // When clicking/focusing an input button
   const handleClick = (buttonRef, inputRef, inputKey) => {
     const button = buttonRef.current;
     const circle = document.createElement("span");
@@ -81,53 +88,60 @@ export default function SearchBar() {
     circle.style.left = "50%";
     circle.style.top = "50%";
     circle.style.transform = `translate(-50%, -50%) scale(0)`;
-    if (button.querySelector(".ripple")) return;
-    button.appendChild(circle);
+
+    if (!button.querySelector(".ripple")) {
+      button.appendChild(circle);
+    }
 
     setTimeout(() => {
       circle.remove();
-      // Set focusStates: make all false except the clicked one true
-      setFocusStates({
-        input1: false,
-        input2: false,
-        input3: false,
-        input4: false,
-        [inputKey]: true,
-      });
+      setFocusedInput(inputKey);
       inputRef.current?.focus();
     }, 300);
   };
 
-  const handleInputBlur = (inputKey) => (e) => {
+  const handleInputBlur = (inputKey) => () => {
     setTimeout(() => {
       if (!elementRef.current.contains(document.activeElement)) {
-        setFocusStates(prev => ({ ...prev, [inputKey]: false }));
+        setFocusedInput(null);
       }
     }, 0);
   };
 
-  const isAnyInputFocused =
-    focusStates.input1 ||
-    focusStates.input2 ||
-    focusStates.input3 ||
-    focusStates.input4;
+  const handleMouseEnter = (e) => {
+    e.currentTarget.previousElementSibling.style.visibility = "hidden";
+  };
+
+  const handleMouseLeave = (e) => {
+    e.currentTarget.previousElementSibling.style.visibility = "";
+  };
 
   return (
     <>
-      <div className="flex justify-center items-center h-24 ">
+      <div className="flex justify-center items-center h-24">
         <div
           id="myElement"
           ref={elementRef}
-          className={`h-16 w-[54rem] rounded-4xl df relative ${
-            isAnyInputFocused ? "bg-[#d6d6d6]" : "bg-white"
-          } flex`}
+          className="h-16 w-[54rem] rounded-4xl relative flex bg-[#d6d6d6]"
         >
+          {/* Animated White Box */}
+          {focusedInput && (
+            <div
+              className="absolute h-[4.1rem] rounded-4xl bg-white z-1 transition-all duration-200 ease-in-out"
+              style={{
+                left: `${indicatorStyle.left}px`,
+                width: `${indicatorStyle.width}px`,
+              }}
+            />
+          )}
+
+          {/* Button 1 */}
           <button
-            ref={buttonRef}
-            onClick={!focusStates.input1 ? () => handleClick(buttonRef, inputRef1, "input1") : () => {}}
-            onFocus={!focusStates.input1 ? () => handleClick(buttonRef, inputRef1, "input1") : () => {}}
-            className={`z-2 ripple-btn relative bottom-[1px] w-[16.5rem] h-[4.1rem] rounded-4xl overflow-hidden mr-2
-            ${focusStates.input1 ? "bg-white" : "hover:bg-[#bebebe]"}`}
+            ref={buttonRef1}
+            onClick={() => handleClick(buttonRef1, inputRef1, "input1")}
+            className={`z-2 ripple-btn relative bottom-[1px] w-[16.5rem] h-[4.1rem] rounded-4xl overflow-hidden mr-2 ${
+              focusedInput === "input1" ? "bg-white" : "hover:bg-[#bebebe]"
+            }`}
           >
             <p className="absolute z-20 top-3 text-[0.8em] font-medium left-[1.7rem]">
               Where
@@ -141,21 +155,21 @@ export default function SearchBar() {
             />
           </button>
 
-          <div className="divide1 absolute h-[4.1rem] w-14 left-60 z-1 flex justify-center ">
+          <div className="divide1 absolute h-[4.1rem] w-14 left-60 z-1 flex justify-center">
             <div className="relative h-[70%] w-px top-[15%] bg-[#ababab]"></div>
           </div>
 
+          {/* Button 2 */}
           <button
             className={`ripple-btn w-[9rem] h-[4rem] rounded-4xl relative z-2 mr-2 overflow-hidden ${
-              focusStates.input2 ? "bg-white" : "hover:bg-[#bebebe]"
+              focusedInput === "input2" ? "bg-white" : "hover:bg-[#bebebe]"
             }`}
             ref={buttonRef2}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
-            onClick={!focusStates.input2 ? () => handleClick(buttonRef2, inputRef2, "input2") : () => {}}
-            onFocus={!focusStates.input2 ? () => handleClick(buttonRef2, inputRef2, "input2") : () => {}}
+            onClick={() => handleClick(buttonRef2, inputRef2, "input2")}
           >
-            <p className="absolute text-[0.8em] font-medium top-3 left-6 ">
+            <p className="absolute text-[0.8em] font-medium top-3 left-6">
               Check in
             </p>
             <input
@@ -171,17 +185,17 @@ export default function SearchBar() {
             <div className="relative h-[70%] w-px top-[15%] bg-[#ababab]"></div>
           </div>
 
+          {/* Button 3 */}
           <button
             className={`w-[9rem] ripple-btn overflow-hidden h-[4rem] rounded-4xl relative z-2 mr-2 ${
-              focusStates.input3 ? "bg-white" : "hover:bg-[#bebebe]"
+              focusedInput === "input3" ? "bg-white" : "hover:bg-[#bebebe]"
             }`}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
             ref={buttonRef3}
-            onClick={!focusStates.input3 ? () => handleClick(buttonRef3, inputRef3, "input3") : () => {}}
-            onFocus={!focusStates.input3 ? () => handleClick(buttonRef3, inputRef3, "input3") : () => {}}
+            onClick={() => handleClick(buttonRef3, inputRef3, "input3")}
           >
-            <p className="absolute text-[0.8em] font-medium top-3 left-6 ">
+            <p className="absolute text-[0.8em] font-medium top-3 left-6">
               Check out
             </p>
             <input
@@ -193,21 +207,21 @@ export default function SearchBar() {
             />
           </button>
 
-          <div className="divide absolute  h-[4.1rem] w-14 left-[33.9rem] z-1 flex justify-center">
+          <div className="divide absolute h-[4.1rem] w-14 left-[33.9rem] z-1 flex justify-center">
             <div className="relative h-[70%] w-px top-[15%] bg-[#ababab]"></div>
           </div>
 
+          {/* Button 4 */}
           <button
             className={`input4 h-[4.1rem] ripple-btn overflow-hidden rounded-4xl relative z-2 flex-1 ${
-              focusStates.input4 ? "bg-white" : "hover:bg-[#bebebe]"
+              focusedInput === "input4" ? "bg-white" : "hover:bg-[#bebebe]"
             }`}
             ref={buttonRef4}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
-            onClick={!focusStates.input4 ? () => handleClick(buttonRef4, inputRef4, "input4") : () => {}}
-            onFocus={!focusStates.input4 ? () => handleClick(buttonRef4, inputRef4, "input4") : () => {}}
+            onClick={() => handleClick(buttonRef4, inputRef4, "input4")}
           >
-            <p className="absolute text-[0.8em] font-medium top-3 left-7 ">
+            <p className="absolute text-[0.8em] font-medium top-3 left-7">
               Who
             </p>
             <input
