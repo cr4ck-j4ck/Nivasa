@@ -1,5 +1,5 @@
 .df {
-  box-shadow: 0px 0px 4px 0px;
+  box-shadow: 0px 1px 7px 0px rgb(134, 134, 134);
 }
 
 .ripple-btn .ripple {
@@ -21,15 +21,19 @@
 }
 
 input::placeholder {
-  color: rgb(61, 61, 61);
-  font-weight: 400;
+  color: rgb(116, 116, 116);
+  font-weight: 500;
   font-size: 0.9rem;
+  position: relative;
 }
 
 input {
   font-weight: 500;
 }
 
+button:hover +div{
+  visibility: hidden;
+}
 
 ::placeholder,
 .bla {
