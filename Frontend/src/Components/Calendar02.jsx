@@ -4,10 +4,7 @@ import { Calendar } from "@/components/ui/calendar";
 export function Calendar02({ position }) {
   const [date, setDate] = React.useState(new Date());
 
-  // Construct the class name dynamically
-  // const dynamicLeftClass = `${Math.floor(position-200)}`;
-  const dynamicLeftClass = `550`;
-  console.log("apne Element ki position : ",dynamicLeftClass);
+  const dynamicLeftClass = `${Math.floor(position-20)}`;
   return (
     <Calendar
       mode="single"
