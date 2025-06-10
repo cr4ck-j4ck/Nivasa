@@ -1,0 +1,606 @@
+[
+  {
+    "host": "6847f16e043d74f581019c14",
+    "title": "Sunny Loft with Skyline Views",
+    "description": "Enjoy your stay in this bright and spacious loft located in the vibrant Andheri West neighborhood of Mumbai. Fully equipped with modern amenities and a cozy vibe, perfect for families or groups.",
+    "location": {
+      "city": "Mumbai",
+      "country": "India",
+      "latitude": 19.119,
+      "longitude": 72.8467
+    },
+    "price": 4500,
+    "roomType": "Entire home/apt",
+    "amenities": [
+      "WiFi",
+      "Kitchen",
+      "Air conditioning",
+      "Washer",
+      "Dryer",
+      "Heating",
+      "Coffee maker",
+      "Smart TV"
+    ],
+    "availability": {
+      "startDate": "2025-08-01T00:00:00.000Z",
+      "endDate": "2025-08-31T23:59:59.999Z"
+    },
+    "capacity": {
+      "guests": 5,
+      "bedrooms": 1,
+      "beds": 3,
+      "bathrooms": 1
+    },
+    "gallery": {
+      "bedroom": [
+        "https://a0.muscache.com/im/pictures/miso/Hosting-48103959/original/ba48eb7f-7f3b-44b5-a6f4-94a857fd4eb5.jpeg",
+        "https://a0.muscache.com/im/pictures/miso/Hosting-48103959/original/ba48eb7f-7f3b-44b5-a6f4-94a857fd4eb5.jpeg",
+        "https://a0.muscache.com/im/pictures/miso/Hosting-48103959/original/ba48eb7f-7f3b-44b5-a6f4-94a857fd4eb5.jpeg",
+        "https://a0.muscache.com/im/pictures/miso/Hosting-48103959/original/9b1db8fe-75b4-4aaf-bfc2-390d3b677526.jpeg",
+        "https://a0.muscache.com/im/pictures/miso/Hosting-48103959/original/b698cadb-37ee-48bf-96a8-98e770dac6cd.jpeg",
+        "https://a0.muscache.com/im/pictures/miso/Hosting-48103959/original/62d33db4-f102-40e4-8ee7-a9efa96dd5c2.jpeg",
+        "https://a0.muscache.com/im/pictures/miso/Hosting-48103959/original/d5948e41-3d48-4a72-852d-098de99f579c.jpeg",
+        "https://a0.muscache.com/im/pictures/miso/Hosting-48103959/original/edbb81b2-33f8-4246-b1f2-ab1f17304560.jpeg",
+        "https://a0.muscache.com/im/pictures/miso/Hosting-48103959/original/424c0f0c-65b3-4c7e-bdf1-cc8bc607be69.jpeg"
+      ],
+      "bathroom": [
+        "https://a0.muscache.com/im/pictures/miso/Hosting-48103959/original/9d7284b0-31fc-49d6-a362-94491e0994cf.jpeg",
+        "https://a0.muscache.com/im/pictures/miso/Hosting-48103959/original/d03f5e21-76c1-40d6-b950-73420776b4be.jpeg",
+        "https://a0.muscache.com/im/pictures/miso/Hosting-48103959/original/9d7284b0-31fc-49d6-a362-94491e0994cf.jpeg",
+        "https://a0.muscache.com/im/pictures/miso/Hosting-48103959/original/0a143cb7-3595-4c10-b927-793944b6c710.jpeg"
+      ],
+      "outdoor": [
+        "https://a0.muscache.com/im/pictures/miso/Hosting-48103959/original/95447487-194c-4ac5-88e5-660a96f7ca97.jpeg"
+      ],
+      "additional": [
+        "https://a0.muscache.com/im/pictures/miso/Hosting-48103959/original/2657dfa0-ca14-4ab7-8084-08ccf8f8de11.jpeg"
+      ]
+    },
+    "createdAt": "2025-06-10T10:00:00.000Z"
+  },
+  {
+    "host": "6847f16e043d74f581019c1b",
+    "title": "Comfortable 3BHK Apartment Near MG Road, Bangalore",
+    "description": "Experience the vibrant city life with this fully furnished 3-bedroom apartment located just minutes from Bangalore’s MG Road. Perfect for families or professionals seeking a convenient stay with modern amenities and easy access to transport, cafes, and shopping.",
+    "location": {
+      "city": "Bangalore",
+      "country": "India",
+      "latitude": 12.972442,
+      "longitude": 77.580643
+    },
+    "price": 3500,
+    "roomType": "Entire home/apt",
+    "amenities": [
+      "WiFi",
+      "Air conditioning",
+      "Washer",
+      "TV",
+      "Parking",
+      "Elevator",
+      "Hot water"
+    ],
+    "availability": {
+      "startDate": "2025-07-05T00:00:00.000Z",
+      "endDate": "2025-08-05T23:59:59.999Z"
+    },
+    "capacity": {
+      "guests": 6,
+      "bedrooms": 3,
+      "beds": 4,
+      "bathrooms": 3
+    },
+    "gallery": {
+      "bedroom1": [
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTEwMDc5ODg1ODE4NzMxNTA1MQ%3D%3D/original/1b125982-e985-4c60-b131-191a049e984a.jpeg?im_w=720",
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTEwMDc5ODg1ODE4NzMxNTA1MQ%3D%3D/original/1b125982-e985-4c60-b131-191a049e984a.jpeg?im_w=720"
+      ],
+      "bedroom2": [
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTEwMDc5ODg1ODE4NzMxNTA1MQ%3D%3D/original/9627638b-aadf-4042-93e4-03fcca61ab9e.jpeg?im_w=720",
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-1100798858187315051/original/82ff1fdd-7e31-4dfb-89ba-e52b27723964.jpeg?im_w=720"
+      ],
+      "bedroom3": [
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTEwMDc5ODg1ODE4NzMxNTA1MQ%3D%3D/original/ccb60742-9de9-4e59-bed2-e4cc50476670.jpeg?im_w=720",
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTEwMDc5ODg1ODE4NzMxNTA1MQ%3D%3D/original/ccb60742-9de9-4e59-bed2-e4cc50476670.jpeg?im_w=720"
+      ],
+      "livingRoom": [
+        "https://a0.muscache.com/im/pictures/miso/Hosting-1100798858187315051/original/0be232fa-149e-44e3-9664-60ab71a5fb68.jpeg?im_w=720",
+        "https://a0.muscache.com/im/pictures/miso/Hosting-1100798858187315051/original/0be232fa-149e-44e3-9664-60ab71a5fb68.jpeg?im_w=720",
+        "https://a0.muscache.com/im/pictures/miso/Hosting-1100798858187315051/original/0be232fa-149e-44e3-9664-60ab71a5fb68.jpeg?im_w=720",
+        "https://a0.muscache.com/im/pictures/miso/Hosting-1100798858187315051/original/6b9add56-8679-48f0-9bda-fefb8867a3a8.jpeg?im_w=720",
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTEwMDc5ODg1ODE4NzMxNTA1MQ%3D%3D/original/0bddb92e-d2aa-44db-83f0-ca4d67997efa.jpeg?im_w=720",
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTEwMDc5ODg1ODE4NzMxNTA1MQ%3D%3D/original/c896425a-ea80-41e4-a0cf-0f85992224a4.jpeg?im_w=720",
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTEwMDc5ODg1ODE4NzMxNTA1MQ%3D%3D/original/c74e6dc1-3f70-4241-9219-25b1ac59a82e.jpeg?im_w=720",
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTEwMDc5ODg1ODE4NzMxNTA1MQ%3D%3D/original/9671608c-8b85-4dfb-8aa1-d99062797ab4.jpeg?im_w=720",
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTEwMDc5ODg1ODE4NzMxNTA1MQ%3D%3D/original/47c9da05-7e59-4af1-a653-06ad4f498453.jpeg?im_w=720",
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTEwMDc5ODg1ODE4NzMxNTA1MQ%3D%3D/original/c62eb199-6a8e-432c-a43c-f18e39cc576a.jpeg?im_w=720"
+      ],
+      "kitchen": [
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTEwMDc5ODg1ODE4NzMxNTA1MQ%3D%3D/original/68062f01-c047-4539-b4be-51f808cb9d9b.jpeg?im_w=720",
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTEwMDc5ODg1ODE4NzMxNTA1MQ%3D%3D/original/68062f01-c047-4539-b4be-51f808cb9d9b.jpeg?im_w=720",
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTEwMDc5ODg1ODE4NzMxNTA1MQ%3D%3D/original/87359341-1a59-4546-8511-6a886847a014.jpeg?im_w=720"
+      ],
+      "bathroom1": [
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-1100798858187315051/original/310e6a85-67a8-483f-91ff-47d8bbb518e7.jpeg?im_w=720"
+      ],
+      "bathroom2": [
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-1100798858187315051/original/6934c04a-78c5-4d55-a701-9cc1b5055bf5.jpeg?im_w=720"
+      ],
+      "bathroom3": [
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-1100798858187315051/original/8c2f6630-0914-4738-976f-1525810ea2b3.jpeg?im_w=720"
+      ]
+    },
+    "createdAt": "2025-06-10T10:00:00.000Z"
+  },
+  {
+    "host": "6847f16e043d74f581019c1b",
+    "title": "Modern 2BHK Apartment Near Bandra West, Mumbai",
+    "description": "Enjoy your stay in this fully furnished 2-bedroom apartment located in the vibrant suburb of Bandra West. Close to cafes, shopping, and the sea. Ideal for families or small groups looking for comfort and convenience.",
+    "location": {
+      "city": "Mumbai",
+      "country": "India",
+      "latitude": 19.06,
+      "longitude": 72.8296
+    },
+    "price": 4500,
+    "roomType": "Entire home/apt",
+    "amenities": [
+      "WiFi",
+      "Air conditioning",
+      "Kitchen",
+      "Washing machine",
+      "TV",
+      "Hot water",
+      "Parking",
+      "Elevator"
+    ],
+    "availability": {
+      "startDate": "2025-07-05T00:00:00.000Z",
+      "endDate": "2025-08-31T00:00:00.000Z"
+    },
+    "capacity": {
+      "guests": 5,
+      "bedrooms": 2,
+      "beds": 3,
+      "bathrooms": 2
+    },
+    "gallery": {
+      "bedroom1": [
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-1424443262181778549/original/91547aea-3ae0-4e5a-ac38-87035901fdff.jpeg?im_w=720",
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-1424443262181778549/original/91547aea-3ae0-4e5a-ac38-87035901fdff.jpeg?im_w=720"
+      ],
+      "bedroom2": [
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-1424443262181778549/original/88b03597-077c-4c8c-9458-19f65cfd250d.jpeg?im_w=720",
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-1424443262181778549/original/88b03597-077c-4c8c-9458-19f65cfd250d.jpeg?im_w=720"
+      ],
+      "livingRoom": [
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-1424443262181778549/original/d2929d3b-875e-4070-98e7-f78de1f1a78d.jpeg?im_w=720",
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-1424443262181778549/original/d2929d3b-875e-4070-98e7-f78de1f1a78d.jpeg?im_w=720",
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-1424443262181778549/original/ad8c4d3e-706c-4927-a529-b08aead0eaf2.jpeg?im_w=720",
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-1424443262181778549/original/2c4715a3-1a2b-49bc-ae8f-7ce26809a22e.jpeg?im_w=720",
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-1424443262181778549/original/4570b796-1073-4ca1-aab6-bc1760310a90.jpeg?im_w=720",
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-1424443262181778549/original/204f5e4b-c92c-4e07-ae97-6385ff64629e.jpeg?im_w=720",
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-1424443262181778549/original/be818692-88e1-48a5-883e-85dbcd5d50e3.jpeg?im_w=720",
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-1424443262181778549/original/246fdf41-3a14-430b-972a-d1adb5a2d836.jpeg?im_w=720",
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-1424443262181778549/original/29f7854d-3ca4-42f2-bb6d-a6fd5bd603a5.jpeg?im_w=720",
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-1424443262181778549/original/83a96d1e-c0f0-4905-aa3b-873a315a5c91.jpeg?im_w=720",
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-1424443262181778549/original/13d5b734-e09f-46e7-b8ee-c1521226d4a1.jpeg?im_w=720"
+      ],
+      "kitchen": [
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-1424443262181778549/original/8f58f715-eea8-4830-ab7c-4643c0fe5584.jpeg?im_w=720"
+      ],
+      "dining Area": [
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-1424443262181778549/original/3c20c282-c1b2-4b7d-b383-0913a7998288.jpeg?im_w=720"
+      ],
+      "bathroom1": [
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-1424443262181778549/original/0757b9bb-4dbc-4569-af77-e97e96e401ef.jpeg?im_w=720"
+      ],
+      "bathroom2": [
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-1424443262181778549/original/846daf5e-4f62-46ab-ab37-9bf957b10d9f.jpeg?im_w=720"
+      ]
+    },
+    "createdAt": "2025-06-10T10:00:00.000Z"
+  },
+  {
+    "host": "6847f16e043d74f581019c1a",
+    "title": "Spacious 3BHK Flat in South Delhi Near Hauz Khas",
+    "description": "Experience a comfortable stay in this spacious and airy 3-bedroom apartment located near Hauz Khas Village. Equipped with modern amenities and perfect for families or groups looking for a peaceful yet vibrant neighborhood.",
+    "location": {
+      "city": "Delhi",
+      "country": "India",
+      "latitude": 28.5499,
+      "longitude": 77.192
+    },
+    "price": 6000,
+    "roomType": "Entire home/apt",
+    "amenities": [
+      "WiFi",
+      "Air conditioning",
+      "Kitchen",
+      "Washing machine",
+      "Heating",
+      "TV",
+      "Parking",
+      "Elevator",
+      "Hot water"
+    ],
+    "availability": {
+      "startDate": "2025-07-10T00:00:00.000Z",
+      "endDate": "2025-09-15T00:00:00.000Z"
+    },
+    "capacity": {
+      "guests": 6,
+      "bedrooms": 3,
+      "beds": 4,
+      "bathrooms": 2
+    },
+    "gallery": {
+      "bedroom": [
+        "https://a0.muscache.com/im/pictures/f49bda2c-1efe-4708-b038-5f6ede26a02b.jpg?im_w=720",
+        "https://a0.muscache.com/im/pictures/f49bda2c-1efe-4708-b038-5f6ede26a02b.jpg?im_w=720",
+        "https://a0.muscache.com/im/pictures/44421359-dd6c-4a3e-9802-24740f7134fe.jpg?im_w=720",
+        "https://a0.muscache.com/im/pictures/44421359-dd6c-4a3e-9802-24740f7134fe.jpg?im_w=720",
+        "https://a0.muscache.com/im/pictures/d2fd4da3-1640-432a-90c4-2858fefdff3a.jpg?im_w=720",
+        "https://a0.muscache.com/im/pictures/d2fd4da3-1640-432a-90c4-2858fefdff3a.jpg?im_w=720"
+      ],
+      "bathroom": [
+        "https://a0.muscache.com/im/pictures/e0aabfe9-0cb5-4a69-ab50-cf4ad7acf78f.jpg?im_w=720",
+        "https://a0.muscache.com/im/pictures/b21b338f-1c09-4d20-b4f1-fe052adf7987.jpg?im_w=720",
+        "https://a0.muscache.com/im/pictures/f15a47ac-dda4-41c9-bdfc-c442ea540c5b.jpg?im_w=720"
+      ],
+      "livingRoom": [
+        "https://a0.muscache.com/im/pictures/f3edf003-ac04-4f5d-85df-db370d3ef102.jpg?im_w=720",
+        "https://a0.muscache.com/im/pictures/f3edf003-ac04-4f5d-85df-db370d3ef102.jpg?im_w=720",
+        "https://a0.muscache.com/im/pictures/f3edf003-ac04-4f5d-85df-db370d3ef102.jpg?im_w=720",
+        "https://a0.muscache.com/im/pictures/4ecb401a-945a-4c1f-a023-cc08125d5bd4.jpg?im_w=720",
+        "https://a0.muscache.com/im/pictures/5eb51695-08fe-400c-81dd-fce50baffdc1.jpg?im_w=720",
+        "https://a0.muscache.com/im/pictures/1df7f1a2-ce86-4d15-8e38-afe000495716.jpg?im_w=720",
+        "https://a0.muscache.com/im/pictures/0acb9fff-7241-4025-84f2-13411a7bc2cc.jpg?im_w=720",
+        "https://a0.muscache.com/im/pictures/be5b631c-7c2c-492e-9967-d3960421ff96.jpg?im_w=720",
+        "https://a0.muscache.com/im/pictures/8e044893-f7f8-46e0-aa07-50235047b500.jpg?im_w=720",
+        "https://a0.muscache.com/im/pictures/dc4fbde2-7021-46bc-be2e-6e03fe2bd8f6.jpg?im_w=720",
+        "https://a0.muscache.com/im/pictures/833bffa5-9dfc-4c2b-bf7c-36f87efb13c1.jpg?im_w=720",
+        "https://a0.muscache.com/im/pictures/a3b80758-08ed-4b1d-a5dc-c3de6c9f1217.jpg?im_w=720",
+        "https://a0.muscache.com/im/pictures/3879a7bf-e8c5-48cb-b987-c3dbcaec2c25.jpg?im_w=720"
+      ],
+      "kitchen": [
+        "https://a0.muscache.com/im/pictures/38b696ac-a3e6-4c5c-a012-0d32e4e081fb.jpg?im_w=720"
+      ],
+      "dining": [
+        "https://a0.muscache.com/im/pictures/5a415285-fcd5-4edf-ae41-584c2b840404.jpg?im_w=720"
+      ],
+      "outdoor": [
+        "https://a0.muscache.com/im/pictures/352d48e2-d29d-4e1c-90b4-0edea1698b71.jpg?im_w=720"
+      ],
+      "exterior": [
+        "https://a0.muscache.com/im/pictures/40b1c28f-f8c2-41c3-833c-3cf2fd7091b7.jpg?im_w=720"
+      ]
+    },
+    "createdAt": "2025-06-10T10:00:00.000Z"
+  },
+  {
+    "host": "6847f16e043d74f581019c19",
+    "title": "Charming 1BHK in Bandra West, Mumbai - Near Carter Road",
+    "description": "Experience the vibrant heart of Mumbai in this cozy 1BHK apartment. Located in the upscale Bandra West, it's just a stone's throw away from the lively Carter Road promenade, trendy cafes, and boutiques. Perfect for solo travelers or couples looking for a comfortable stay with all modern amenities. Enjoy a fully equipped kitchen, high-speed Wi-Fi, and a peaceful ambiance despite being in the city's bustling center. Easy access to public transport and major attractions.",
+    "location": {
+      "city": "Mumbai",
+      "country": "India",
+      "latitude": 19.056,
+      "longitude": 72.829
+    },
+    "price": 3500,
+    "roomType": "Entire home/apt",
+    "amenities": [
+      "WiFi",
+      "Kitchen",
+      "Air conditioning",
+      "Washing machine",
+      "TV",
+      "Geyser",
+      "Basic cooking essentials"
+    ],
+    "availability": {
+      "startDate": "2025-07-15T00:00:00.000Z",
+      "endDate": "2025-08-31T00:00:00.000Z"
+    },
+    "capacity": {
+      "guests": 2,
+      "bedrooms": 1,
+      "beds": 1,
+      "bathrooms": 1
+    },
+    "gallery": {
+      "livingRoom": [
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-1370191558257816767/original/0a77c3c6-e4fb-4ee5-a821-1da7cbfacac9.jpeg?im_w=720",
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-1370191558257816767/original/0a77c3c6-e4fb-4ee5-a821-1da7cbfacac9.jpeg?im_w=720",
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-1370191558257816767/original/9f2f3b28-545a-4eb9-9e4c-bbe15d7d5362.jpeg?im_w=720",
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-1370191558257816767/original/8d897489-29ea-456b-ad75-2848984d3c46.jpeg?im_w=720"
+      ],
+      "kitchen": [
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-1370191558257816767/original/ff0988f6-682c-444d-a09a-bc98c2d047bd.jpeg?im_w=720",
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-1370191558257816767/original/ff0988f6-682c-444d-a09a-bc98c2d047bd.jpeg?im_w=720"
+      ],
+      "dining": [
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-1370191558257816767/original/3a7c7272-816d-4969-a232-c5192d9e3ceb.jpeg?im_w=720",
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-1370191558257816767/original/3a7c7272-816d-4969-a232-c5192d9e3ceb.jpeg?im_w=720",
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-1370191558257816767/original/1f84fdf0-2e14-4de0-8427-aee7e44ebc9f.jpeg?im_w=720"
+      ],
+      "bedroom": [
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-1370191558257816767/original/241e3dea-78f0-413c-93db-701d25ef0f6f.jpeg?im_w=720",
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-1370191558257816767/original/241e3dea-78f0-413c-93db-701d25ef0f6f.jpeg?im_w=720",
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-1370191558257816767/original/a01e3ae5-608b-4c01-b42b-3a738598eda6.jpeg?im_w=720",
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-1370191558257816767/original/3d8a32a5-49c3-43c0-8198-8de6252381c1.jpeg?im_w=720",
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-1370191558257816767/original/ec5d0b72-78b4-429a-b2a7-f34d6a65619f.jpeg?im_w=720",
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-1370191558257816767/original/24e84c2a-263d-43dd-8c29-bef63af1402a.jpeg?im_w=720"
+      ],
+      "bathroom": [
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-1370191558257816767/original/7db1e697-4bb0-4a3f-a034-999c0b3440fa.jpeg?im_w=720",
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-1370191558257816767/original/3f8a500c-0dd6-4cbc-8bd6-ebd3540535e0.jpeg?im_w=720"
+      ],
+      "outdoor": [
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-1370191558257816767/original/ab143b57-c07b-47b2-9440-4b4f01f1a14a.jpeg?im_w=720"
+      ],
+      "additionalPhotos": [
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-1370191558257816767/original/1653ee76-9456-445f-977f-47bc6ad7470c.jpeg?im_w=720"
+      ]
+    },
+    "createdAt": "2025-06-10T10:00:00.000Z"
+  },
+  {
+    "host": "6847f16e043d74f581019c18",
+    "title": "Spacious 2BHK Flat with Balcony in HSR Layout, Bangalore",
+    "description": "Discover comfort in this modern 2BHK apartment situated in the bustling yet serene HSR Layout. Ideal for families or groups, this flat offers ample space, a fully equipped kitchen, and a lovely balcony to enjoy your morning coffee. Close to tech parks, popular eateries, and shopping centers. Excellent connectivity to all parts of Bangalore. Features include high-speed internet, smart TV, and 24/7 security. Perfect for both short and long-term stays.",
+    "location": {
+      "city": "Bangalore",
+      "country": "India",
+      "latitude": 12.9122,
+      "longitude": 77.6394
+    },
+    "price": 4800,
+    "roomType": "Entire home/apt",
+    "amenities": [
+      "WiFi",
+      "Kitchen",
+      "Air conditioning",
+      "Washing machine",
+      "TV",
+      "Elevator",
+      "Parking",
+      "Hot water",
+      "Balcony"
+    ],
+    "availability": {
+      "startDate": "2025-07-20T00:00:00.000Z",
+      "endDate": "2025-09-10T00:00:00.000Z"
+    },
+    "capacity": {
+      "guests": 4,
+      "bedrooms": 1,
+      "beds": 2,
+      "bathrooms": 1
+    },
+    "gallery": {
+      "bedroom": [
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTE4Mzg5Nzk1ODA2MzI4MjA2NQ%3D%3D/original/25e7460b-da68-4aa0-be2a-a2b2e837582d.jpeg?im_w=720",
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTE4Mzg5Nzk1ODA2MzI4MjA2NQ%3D%3D/original/cfba9f7b-20a4-4557-8471-e265ead5262d.jpeg?im_w=720"
+      ],
+      "bathroom": [
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTE4Mzg5Nzk1ODA2MzI4MjA2NQ%3D%3D/original/12a350c0-8fde-411f-ac88-95d7af36f07f.jpeg?im_w=720",
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTE4Mzg5Nzk1ODA2MzI4MjA2NQ%3D%3D/original/d809a3fc-c26f-48ab-b26d-e2f9d6f4bf00.jpeg?im_w=720",
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTE4Mzg5Nzk1ODA2MzI4MjA2NQ%3D%3D/original/558f6129-5e28-4603-8d89-91e18a46c5e7.jpeg?im_w=720"
+      ],
+      "outdoor": [
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTE4Mzg5Nzk1ODA2MzI4MjA2NQ%3D%3D/original/01e0e8ba-6c76-4fe0-8723-db222c65a91d.jpeg?im_w=720",
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTE4Mzg5Nzk1ODA2MzI4MjA2NQ%3D%3D/original/53170c73-432e-4061-9a2f-a8e49aa859e8.jpeg?im_w=720"
+      ],
+      "livingRoom": [
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTE4Mzg5Nzk1ODA2MzI4MjA2NQ%3D%3D/original/77d36697-8743-401f-bea2-75c70842995f.jpeg?im_w=720",
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTE4Mzg5Nzk1ODA2MzI4MjA2NQ%3D%3D/original/b69ab4ae-a200-4a22-b2b6-d67aade9f0c3.jpeg?im_w=720"
+      ],
+      "kitchen": [
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTE4Mzg5Nzk1ODA2MzI4MjA2NQ%3D%3D/original/a61faff3-bcbd-4004-a418-c2a5315724ef.jpeg?im_w=720",
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTE4Mzg5Nzk1ODA2MzI4MjA2NQ%3D%3D/original/7cc03d97-4d01-4063-84a3-8f7f33e2872b.jpeg?im_w=720"
+      ],
+      "diningArea": [
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTE4Mzg5Nzk1ODA2MzI4MjA2NQ%3D%3D/original/cb4df95c-f92e-4a6a-99f9-eed5aba7238a.jpeg?im_w=720"
+      ],
+      "patio": [
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTE4Mzg5Nzk1ODA2MzI4MjA2NQ%3D%3D/original/01e0e8ba-6c76-4fe0-8723-db222c65a91d.jpeg?im_w=720"
+      ],
+      "pool": [
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTE4Mzg5Nzk1ODA2MzI4MjA2NQ%3D%3D/original/bdb60b9c-f30d-444a-8914-380d21a07303.jpeg?im_w=720"
+      ]
+    },
+    "createdAt": "2025-06-10T10:00:00.000Z"
+  },
+  {
+    "host": "6847f16e043d74f581019c17",
+    "title": "Modern 2BHK with City Views in South Delhi (Saket)",
+    "description": "Enjoy a comfortable stay in this contemporary 2BHK apartment located in the upscale Saket area of South Delhi. This fully furnished space offers stunning city views, a well-equipped kitchen, and a spacious living area perfect for relaxing. You're just minutes away from popular malls like Select Citywalk and DLF Avenue, trendy restaurants, and historical sites. Ideal for families, business travelers, or groups seeking a premium Delhi experience. Comes with all essential amenities and easy access to the Delhi Metro.",
+    "location": {
+      "city": "Delhi",
+      "country": "India",
+      "latitude": 28.5273,
+      "longitude": 77.209
+    },
+    "price": 6000,
+    "roomType": "Entire home/apt",
+    "amenities": [
+      "WiFi",
+      "Kitchen",
+      "Air conditioning",
+      "Washing machine",
+      "TV",
+      "Elevator",
+      "Free parking on premises",
+      "Hot water",
+      "Workplace friendly"
+    ],
+    "availability": {
+      "startDate": "2025-07-25T00:00:00.000Z",
+      "endDate": "2025-09-05T00:00:00.000Z"
+    },
+    "capacity": {
+      "guests": 4,
+      "bedrooms": 2,
+      "beds": 2,
+      "bathrooms": 2
+    },
+    "gallery": {
+      "bedroom": [
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-1039796931974189995/original/649b0cb7-3e06-4088-9811-54f5da26b200.jpeg?im_w=720",
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-1039796931974189995/original/649b0cb7-3e06-4088-9811-54f5da26b200.jpeg?im_w=720",
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-1039796931974189995/original/af5867a6-ffe0-4cb1-971f-779b7e3dc451.jpeg?im_w=720",
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-1039796931974189995/original/b98e1466-a9ec-4eff-a900-bcb1f55d7341.jpeg?im_w=720"
+      ],
+      "bathroom": [
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-1039796931974189995/original/581c1db5-4427-429c-a0fc-ae1f523eaf1b.jpeg?im_w=720",
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-1039796931974189995/original/b2a36b7f-aaa8-4059-9fec-6c7149227a07.jpeg?im_w=720",
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-1039796931974189995/original/cc6e3553-d490-4592-af7c-5e354c69e5df.jpeg?im_w=720"
+      ],
+      "outdoor": [
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-1039796931974189995/original/bae895f5-ec45-4116-a0f5-6d69ca32a12e.jpeg?im_w=720",
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-1039796931974189995/original/84d6bf56-3411-4201-8949-30e2debc227f.jpeg?im_w=720"
+      ],
+      "livingRoom": [
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-1039796931974189995/original/16e377c5-bd56-468e-82aa-eb70509107ae.jpeg?im_w=720",
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-1039796931974189995/original/16e377c5-bd56-468e-82aa-eb70509107ae.jpeg?im_w=720",
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-1039796931974189995/original/32bf3cd9-d778-4889-ac4b-e90a9af58782.jpeg?im_w=720",
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-1039796931974189995/original/6c5a1c1c-4f4c-4d48-9267-26cc2bacc28b.jpeg?im_w=720",
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-1039796931974189995/original/962f0498-7089-4bd5-bd77-02c52420f073.jpeg?im_w=720",
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-1039796931974189995/original/850c6bad-f658-4535-b2d7-7abe08eb9ffd.jpeg?im_w=720"
+      ],
+      "diningArea": [
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-1039796931974189995/original/54c7f176-c3b3-4fad-b79a-8e3c618b8928.jpeg?im_w=720",
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-1039796931974189995/original/54c7f176-c3b3-4fad-b79a-8e3c618b8928.jpeg?im_w=720",
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-1039796931974189995/original/bb8de1d7-dfda-422b-8a86-37b2f2465943.jpeg?im_w=720"
+      ],
+      "kitchen": [
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-1039796931974189995/original/2dde64fb-6f04-4b21-9a4e-34f5a11d6856.jpeg?im_w=720",
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-1039796931974189995/original/2dde64fb-6f04-4b21-9a4e-34f5a11d6856.jpeg?im_w=720"
+      ]
+    },
+    "createdAt": "2025-06-10T10:00:00.000Z"
+  },
+  {
+    "host": "6847f16e043d74f581019c16",
+    "title": "Riverside 2BHK Retreat with Balcony in Koregaon Park, Pune",
+    "description": "Escape to this peaceful 2BHK apartment nestled in the green and upscale Koregaon Park, Pune. Enjoy the serene riverside views from your private balcony, perfect for morning tea or evening relaxation. This fully furnished home offers a spacious living area, a well-equipped kitchen, and two comfortable bedrooms, making it ideal for families or friends. Located just a short walk from vibrant cafes, art galleries, and the Osho International Meditation Resort. Experience a blend of tranquility and city life with easy access to all amenities and transport.",
+    "location": {
+      "city": "Pune",
+      "country": "India",
+      "latitude": 18.5367,
+      "longitude": 73.8967
+    },
+    "price": 4200,
+    "roomType": "Entire home/apt",
+    "amenities": [
+      "WiFi",
+      "Kitchen",
+      "Air conditioning",
+      "TV",
+      "Balcony",
+      "Hot water",
+      "Free parking on premises",
+      "Essentials"
+    ],
+    "availability": {
+      "startDate": "2025-07-01T00:00:00.000Z",
+      "endDate": "2025-07-31T00:00:00.000Z"
+    },
+    "capacity": {
+      "guests": 4,
+      "bedrooms": 2,
+      "beds": 2,
+      "bathrooms": 1
+    },
+    "gallery": {
+      "bedroom": [
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTMzNjEzOTA4NTAyNzkyMzYzMA==/original/7ccabd90-32ca-4131-bf23-6f1b1a89e5c2.jpeg?im_w=720",
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTMzNjEzOTA4NTAyNzkyMzYzMA==/original/6da12ae0-f161-476b-8463-ee52b5f66159.jpeg?im_w=720"
+      ],
+      "bathroom": [
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTMzNjEzOTA4NTAyNzkyMzYzMA==/original/fead5868-63e7-46c6-90ae-53f205b5f3dd.jpeg?im_w=720",
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTMzNjEzOTA4NTAyNzkyMzYzMA==/original/54f99e8c-e5ba-4c3d-a7f2-2338aed31693.jpeg?im_w=720"
+      ],
+      "outdoor": [
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTMzNjEzOTA4NTAyNzkyMzYzMA==/original/df3cedb4-0ba7-4ff8-90dd-c2e78f4daa08.jpeg?im_w=720",
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTMzNjEzOTA4NTAyNzkyMzYzMA==/original/b87f1721-989b-4cc7-8554-f081ab5e1189.jpeg?im_w=720"
+      ]
+    },
+    "createdAt": "2025-06-10T10:00:00.000Z"
+  },
+  {
+    "host": "6847f16e043d74f581019c15",
+    "title": "Grand 3BHK Penthouse with Terrace in DLF Cyber City, Gurugram",
+    "description": "Indulge in luxury at this grand 3BHK penthouse offering panoramic city views from its expansive private terrace. Located in the heart of DLF Cyber City, Gurugram, this modern and spacious apartment is perfect for corporate stays or large families. Enjoy state-of-the-art amenities, a gourmet kitchen, and plush living spaces. Walking distance to major corporate offices, upscale restaurants, and entertainment hubs. Experience unparalleled comfort and convenience in this prime location with easy access to Delhi.",
+    "location": {
+      "city": "Gurugram",
+      "country": "India",
+      "latitude": 28.4932,
+      "longitude": 77.0877
+    },
+    "price": 8500,
+    "roomType": "Entire home/apt",
+    "amenities": [
+      "WiFi",
+      "Kitchen",
+      "Air conditioning",
+      "Washing machine",
+      "TV",
+      "Balcony",
+      "Free parking on premises",
+      "Elevator",
+      "Gym",
+      "Pool (shared)",
+      "Workplace friendly",
+      "Security cameras"
+    ],
+    "availability": {
+      "startDate": "2025-06-15T00:00:00.000Z",
+      "endDate": "2025-07-20T00:00:00.000Z"
+    },
+    "capacity": {
+      "guests": 6,
+      "bedrooms": 3,
+      "beds": 3,
+      "bathrooms": 2
+    },
+    "gallery": {
+      "bedroom": [
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6OTg1OTA4NDc4NDkyOTcxNTgz/original/ed7a6f46-9bc7-4c69-bdc2-bd6004d41c5d.jpeg?im_w=720",
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6OTg1OTA4NDc4NDkyOTcxNTgz/original/ed7a6f46-9bc7-4c69-bdc2-bd6004d41c5d.jpeg?im_w=720",
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6OTg1OTA4NDc4NDkyOTcxNTgz/original/963ed1de-72b8-4782-8d34-956f01126b56.jpeg?im_w=720",
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6OTg1OTA4NDc4NDkyOTcxNTgz/original/1616a5c5-0297-4f5d-89d8-d29064eccbeb.jpeg?im_w=720"
+      ],
+      "livingRoom": [
+        "https://a0.muscache.com/im/pictures/miso/Hosting-985908478492971583/original/8efc4fd6-24e1-4644-b72f-65d45363dd66.jpeg?im_w=720",
+        "https://a0.muscache.com/im/pictures/miso/Hosting-985908478492971583/original/8efc4fd6-24e1-4644-b72f-65d45363dd66.jpeg?im_w=720",
+        "https://a0.muscache.com/im/pictures/miso/Hosting-985908478492971583/original/8efc4fd6-24e1-4644-b72f-65d45363dd66.jpeg?im_w=720",
+        "https://a0.muscache.com/im/pictures/miso/Hosting-985908478492971583/original/87fcdeb5-df70-4bee-9cd4-fb188a88f49f.jpeg?im_w=720",
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6OTg1OTA4NDc4NDkyOTcxNTgz/original/8ab79e0c-6162-4e7e-a993-79859c72e145.jpeg?im_w=720"
+      ],
+      "bedroom2": [
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6OTg1OTA4NDc4NDkyOTcxNTgz/original/a17dc01b-a341-4d5f-9227-4b20b8c6fbce.jpeg?im_w=720",
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6OTg1OTA4NDc4NDkyOTcxNTgz/original/a17dc01b-a341-4d5f-9227-4b20b8c6fbce.jpeg?im_w=720",
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6OTg1OTA4NDc4NDkyOTcxNTgz/original/a17dc01b-a341-4d5f-9227-4b20b8c6fbce.jpeg?im_w=720"
+      ],
+      "bedroom3": [
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6OTg1OTA4NDc4NDkyOTcxNTgz/original/4f4c5ac2-6186-4594-a2ad-09d30dc7c30d.jpeg?im_w=720",
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6OTg1OTA4NDc4NDkyOTcxNTgz/original/4f4c5ac2-6186-4594-a2ad-09d30dc7c30d.jpeg?im_w=720"
+      ],
+      "kitchen": [
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6OTg1OTA4NDc4NDkyOTcxNTgz/original/21e63ddd-df6a-44aa-8e41-ff5aa40dd32b.jpeg?im_w=720",
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6OTg1OTA4NDc4NDkyOTcxNTgz/original/09f4a4d2-d231-4ce3-8779-79bbdcdb7def.jpeg?im_w=720"
+      ],
+      "bathroom": [
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6OTg1OTA4NDc4NDkyOTcxNTgz/original/52b7d866-a9f8-4988-86ff-ccb47a5867cf.jpeg?im_w=720",
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6OTg1OTA4NDc4NDkyOTcxNTgz/original/1d7821e2-90a0-43e7-b864-07a101f28067.jpeg?im_w=720",
+        "https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6OTg1OTA4NDc4NDkyOTcxNTgz/original/7597b666-6465-47f7-94d8-9d7a0b5ace2c.jpeg?im_w=720"
+      ],
+      "outdoor": [
+        "https://a0.muscache.com/im/pictures/miso/Hosting-985908478492971583/original/f6fad0c4-ad0e-46b8-b4f2-23fe615e73ef.jpeg?im_w=720"
+      ]
+    },
+    "createdAt": "2025-06-10T12:00:00.000Z"
+  }
+]

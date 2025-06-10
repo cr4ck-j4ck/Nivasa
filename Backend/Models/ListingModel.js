@@ -33,7 +33,7 @@ const propertySchema = new Schema({
     of: [String]
   },
   createdAt: { type: Date, default: Date.now },
-});
+},{versionKey: false});
 
-const Property = mongoose.model('Listings', propertySchema);
-module.exports = Property;
+const ListingsModel = mongoose.model('Listing', propertySchema);
+module.exports = ListingsModel;
