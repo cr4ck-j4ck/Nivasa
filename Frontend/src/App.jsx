@@ -1,9 +1,12 @@
 import "./App.css";
 import Nav from "./Layout/nav";
-
+import MainListing from "./Components/Listings/mainListing";
 function App() {
   return (
-    <Nav/>
+    <>
+      <Nav />
+      <MainListing number={8}/>
+    </>
   );
 }
 

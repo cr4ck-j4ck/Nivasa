@@ -14,7 +14,7 @@ function Nav() {
       <div className="stickyPart justify-between flex">
         <div className="brand w-3xs">
           <img
-            src="/nivasaLogo-removebg-preview.png"
+            src="/Nivasa-removebg-preview.png"
             alt="nivasaImg"
             className="block mx-auto h-20 mt-3"
           />

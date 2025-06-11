@@ -1,12 +1,71 @@
-# React + Vite
+# Project Nivasa Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Overview
+This project is a React-based frontend application for Project Nivasa. It provides a user interface for interacting with the application's features.
 
-Currently, two official plugins are available:
+## Features
+- Search functionality with a dedicated SearchBar component.
+- Calendar component for date-related functionalities.
+- Navigation bar for easy access to different parts of the application.
+- Listings component for displaying relevant listings.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Installation
+Instructions on how to install and set up the project locally.
 
-## Expanding the ESLint configuration
+```bash
+# Clone the repository
+git clone <repository-url>
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+# Navigate to the project directory
+cd <project-directory>
+
+# Install dependencies
+npm install
+
+# Start the development server
+npm start
+```
+
+## Usage
+Instructions on how to use the project. Include any relevant commands or examples.
+
+## Project Structure
+A brief overview of the project's folder structure.
+
+```
+src/
+├── Components/       # Reusable UI components
+│   ├── SearchBar.jsx
+│   ├── Calendar02.jsx
+│   ├── searchBar.css
+│   ├── Listings/
+│   └── ui/
+├── Layout/           # Layout components like Nav
+│   ├── Nav.jsx
+│   └── nav.css
+├── lib/              # Utility functions
+│   └── utils.js
+├── assets/           # Static assets like images and videos
+│   ├── react.svg
+│   ├── house-twirl-selected.webm
+│   ├── home.avif
+│   ├── hot air balloon.avif
+│   └── bell.avif
+├── App.jsx           # Main application component
+├── main.jsx          # Entry point of the application
+└── index.css         # Global styles
+```
+
+## Technologies Used
+- React
+- Vite
+- Other libraries or frameworks used
+
+## Contributing
+Instructions on how to contribute to the project.
+
+## License
+Information about the project's license.
+
+## Contact
+Your contact information or how to reach you for questions or feedback.

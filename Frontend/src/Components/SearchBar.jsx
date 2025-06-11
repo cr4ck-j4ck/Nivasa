@@ -46,7 +46,6 @@ export default function SearchBar() {
   const updateIndicatorPosition = (key) => {
     const button = buttonRefs[key];
     const container = elementRef.current;
-    console.log(button,container);
 
     if (button && container) {
       const buttonRect = button.getBoundingClientRect();
@@ -84,7 +83,7 @@ export default function SearchBar() {
     setTimeout(() => {
       circle.remove();
       setFocusedInput(inputKey);
-      inputRef.current?.focus();
+      inputRef?.focus();
     }, 300);
   };
 
@@ -110,7 +109,7 @@ export default function SearchBar() {
         <div
           id="myElement"
           ref={elementRef}
-          className="h-16 w-[54rem] rounded-4xl relative flex bg-[#d6d6d6]"
+          className={`h-16 w-[54rem] rounded-4xl relative flex ${focusedInput ? "bg-[#d6d6d6]" : "bg-white"}`}
         >
           {/* Animated White Box */}
           {focusedInput && (
