@@ -11,6 +11,8 @@ export default function SearchBar() {
   const [focusedInput, setFocusedInput] = useState(null);
   const [indicatorStyle, setIndicatorStyle] = useState({ left: 0, width: 0 });
   const [position, updatePosition] = useState(0);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const calendarRef = useRef(null);
 
   // Get position initially after DOM mounts
   useEffect(() => {
@@ -19,6 +21,23 @@ export default function SearchBar() {
       updatePosition(rect.x);
     }
   }, []);
+
+  useEffect(() => {
+    if (!calendarRef.current) return;
+    
+    const handleClickOutside = (event) => {
+      if (calendarRef.current && !calendarRef.current.contains(event.target)) {
+        handleInputBlur("cal");
+      }
+    };
+
+    document.addEventListener("click", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  });
+
 
   // Update position on window resize
   useEffect(() => {
@@ -34,13 +53,28 @@ export default function SearchBar() {
       window.removeEventListener("resize", reportPosition);
     };
   }, []);
-
+  useEffect(() => {
+    let lastScrollTop = 0;
+    const handleScroll = () => {
+      let currentScroll = window.scrollY;
+      if (currentScroll > lastScrollTop) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
   const buttonRefs = {
     input1: buttonReferences.current[0],
     input2: buttonReferences.current[1],
     input3: buttonReferences.current[2],
-    input4: buttonReferences.current[3]
+    input4: buttonReferences.current[3],
   };
+
 
   // Update indicator position on focus
   const updateIndicatorPosition = (key) => {
@@ -86,13 +120,27 @@ export default function SearchBar() {
       inputRef?.focus();
     }, 300);
   };
+// understan this function
+  // const handleInputBlur = (val) => (event) => {
+  //   console.log("onCal ->");
+  //   // if(val=="cal"){
 
-  const handleInputBlur = () => () => {
-    setTimeout(() => {
-      if (!elementRef.current.contains(document.activeElement)) {
-        setFocusedInput(null);
-      }
-    }, 0);
+  //   // }
+  //     setTimeout(() => {
+  //       if (!elementRef.current.contains(document.activeElement)) {
+  //         setFocusedInput(null);
+  //       }
+  //     }, 0);
+  // };
+
+ function handleInputBlur(val) {
+    if(val=="cal" || val=="input1" || val=="input4"){
+      setTimeout(() => {
+        if (!elementRef.current.contains(document.activeElement)) {
+          setFocusedInput(null);
+        }
+      }, 0);
+    }
   };
 
   const handleMouseEnter = (e) => {
@@ -102,14 +150,16 @@ export default function SearchBar() {
   const handleMouseLeave = (e) => {
     e.currentTarget.previousElementSibling.style.visibility = "";
   };
-  if(focusedInput=="input2"|| focusedInput=="input3") focInput = true;
+  if (focusedInput == "input2" || focusedInput == "input3") focInput = true;
   return (
     <>
       <div className="flex justify-center items-center h-24">
         <div
           id="myElement"
           ref={elementRef}
-          className={`h-16 w-[54rem] rounded-4xl relative flex ${focusedInput ? "bg-[#d6d6d6]" : "bg-white"}`}
+          className={`h-16 w-[54rem] rounded-4xl relative flex ${
+            focusedInput ? "bg-[#d6d6d6]" : "bg-white"
+          } `}
         >
           {/* Animated White Box */}
           {focusedInput && (
@@ -124,8 +174,16 @@ export default function SearchBar() {
 
           {/* Button 1 */}
           <button
-            ref={el =>{buttonReferences.current[0]=el}}
-            onClick={() => handleClick(buttonReferences.current[0], inputReferences.current[0], "input1")}
+            ref={(el) => {
+              buttonReferences.current[0] = el;
+            }}
+            onClick={() =>
+              handleClick(
+                buttonReferences.current[0],
+                inputReferences.current[0],
+                "input1"
+              )
+            }
             className={`z-2 ripple-btn relative bottom-[1px] w-[16.5rem] h-[4.1rem] rounded-4xl overflow-hidden mr-2 ${
               focusedInput === "input1" ? "bg-white" : "hover:bg-[#bebebe]"
             }`}
@@ -134,9 +192,9 @@ export default function SearchBar() {
               Where
             </p>
             <input
-              ref={el => inputReferences.current[0] = el}
+              ref={(el) => (inputReferences.current[0] = el)}
               type="text"
-              onBlur={handleInputBlur("input1")}
+              onBlur={(()=>{handleInputBlur("input1")})}
               placeholder="Search Destinations"
               className="w-[80%] outline-none relative z-20 bg-transparent input1 mt-3"
             />
@@ -151,10 +209,18 @@ export default function SearchBar() {
             className={`ripple-btn w-[9rem] h-[4rem] rounded-4xl relative z-2 mr-2 overflow-hidden ${
               focusedInput === "input2" ? "bg-white" : "hover:bg-[#bebebe]"
             }`}
-            ref={el =>{buttonReferences.current[1]=el}}
+            ref={(el) => {
+              buttonReferences.current[1] = el;
+            }}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
-            onClick={() => handleClick(buttonReferences.current[1], inputReferences.current[1], "input2")}
+            onClick={() =>
+              handleClick(
+                buttonReferences.current[1],
+                inputReferences.current[1],
+                "input2"
+              )
+            }
           >
             <p className="absolute text-[0.8em] font-medium top-3 left-6">
               Check in
@@ -162,8 +228,8 @@ export default function SearchBar() {
             <input
               type="text"
               placeholder="Add Dates"
-              ref={el => inputReferences.current[1] = el}
-              onBlur={handleInputBlur("input2")}
+              ref={(el) => (inputReferences.current[1] = el)}
+              // onBlur={(()=>{handleInputBlur("input2")})}
               className="w-[80%] ml-4 relative outline-none top-2 cursor-pointer"
             />
           </button>
@@ -179,17 +245,24 @@ export default function SearchBar() {
             }`}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
-            ref={el =>{buttonReferences.current[2]=el}}
-            onClick={() => handleClick(buttonReferences.current[2], inputReferences.current[2], "input3")}
+            ref={(el) => {
+              buttonReferences.current[2] = el;
+            }}
+            onClick={() =>
+              handleClick(
+                buttonReferences.current[2],
+                inputReferences.current[2],
+                "input3"
+              )
+            }
           >
             <p className="absolute text-[0.8em] font-medium top-3 left-6">
               Check out
             </p>
             <input
               type="text"
-              ref={el => inputReferences.current[2] = el}
+              ref={(el) => (inputReferences.current[2] = el)}
               placeholder="Add Dates"
-              onBlur={handleInputBlur("input3")}
               className="w-[80%] ml-5 outline-none relative top-2 cursor-pointer"
             />
           </button>
@@ -203,10 +276,18 @@ export default function SearchBar() {
             className={`input4 h-[4.1rem] ripple-btn overflow-hidden rounded-4xl relative z-2 flex-1 ${
               focusedInput === "input4" ? "bg-white" : "hover:bg-[#bebebe]"
             }`}
-            ref={el =>{buttonReferences.current[3]=el}}
+            ref={(el) => {
+              buttonReferences.current[3] = el;
+            }}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
-            onClick={() => handleClick(buttonReferences.current[3], inputReferences.current[3], "input4")}
+            onClick={() =>
+              handleClick(
+                buttonReferences.current[3],
+                inputReferences.current[3],
+                "input4"
+              )
+            }
           >
             <p className="absolute text-[0.8em] font-medium top-3 left-7">
               Who
@@ -214,9 +295,9 @@ export default function SearchBar() {
             <input
               type="text"
               placeholder="Add Guests"
-              onBlur={handleInputBlur("input4")}
+              onBlur={(()=>{handleInputBlur("input4")})}
               className="relative -bottom-[8px] -left-2 outline-none"
-              ref={el => inputReferences.current[3] = el}
+              ref={(el) => (inputReferences.current[3] = el)}
             />
             <div className="rounded-full inline-block h-12 w-12 py-[0.6rem] bg-[#FF385C] text-white -mr-6 hover:bg-[#CC2C46]">
               <SearchIcon />
@@ -224,8 +305,13 @@ export default function SearchBar() {
           </button>
         </div>
       </div>
-           
-      {focInput ?<Calendar02 position={position} />:""}
+      {focInput ? (
+        <div ref={calendarRef}>
+          <Calendar02 position={position} />
+        </div>
+      ) : (
+        ""
+      )}
     </>
   );
 }
