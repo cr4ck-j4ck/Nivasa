@@ -3,7 +3,9 @@ import "./searchBar.css";
 import { Calendar02 } from "./Calendar02";
 import SearchIcon from "@mui/icons-material/Search";
 
-export default function SearchBar() {
+export default function SearchBar({
+  scroll: isScrolled
+}) {
   const elementRef = useRef(null);
   const inputReferences = useRef([]);
   const buttonReferences = useRef([]);
@@ -11,20 +13,19 @@ export default function SearchBar() {
   const [focusedInput, setFocusedInput] = useState(null);
   const [indicatorStyle, setIndicatorStyle] = useState({ left: 0, width: 0 });
   const [position, updatePosition] = useState(0);
-  const [isScrolled, setIsScrolled] = useState(false);
   const calendarRef = useRef(null);
 
-  // Get position initially after DOM mounts
+  const dynamicLeftClass = `${Math.floor(position)}`;
   useEffect(() => {
     if (elementRef.current) {
       const rect = elementRef.current.getBoundingClientRect();
-      updatePosition(rect.x);
+      updatePosition(rect.x-150);
     }
   }, []);
 
   useEffect(() => {
     if (!calendarRef.current) return;
-    
+
     const handleClickOutside = (event) => {
       if (calendarRef.current && !calendarRef.current.contains(event.target)) {
         handleInputBlur("cal");
@@ -37,7 +38,6 @@ export default function SearchBar() {
       document.removeEventListener("click", handleClickOutside);
     };
   });
-
 
   // Update position on window resize
   useEffect(() => {
@@ -53,28 +53,13 @@ export default function SearchBar() {
       window.removeEventListener("resize", reportPosition);
     };
   }, []);
-  useEffect(() => {
-    let lastScrollTop = 0;
-    const handleScroll = () => {
-      let currentScroll = window.scrollY;
-      if (currentScroll > lastScrollTop) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
-      }
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
+
   const buttonRefs = {
     input1: buttonReferences.current[0],
     input2: buttonReferences.current[1],
     input3: buttonReferences.current[2],
     input4: buttonReferences.current[3],
   };
-
 
   // Update indicator position on focus
   const updateIndicatorPosition = (key) => {
@@ -115,12 +100,14 @@ export default function SearchBar() {
     }
 
     setTimeout(() => {
-      circle.remove();
+      if (button.contains(circle)) {
+        circle.remove();
+      }
       setFocusedInput(inputKey);
       inputRef?.focus();
     }, 300);
   };
-// understan this function
+  // understan this function
   // const handleInputBlur = (val) => (event) => {
   //   console.log("onCal ->");
   //   // if(val=="cal"){
@@ -133,33 +120,32 @@ export default function SearchBar() {
   //     }, 0);
   // };
 
- function handleInputBlur(val) {
-    if(val=="cal" || val=="input1" || val=="input4"){
+  function handleInputBlur(val) {
+    const blurInputs = ["cal", "input1", "input4"];
+    if (blurInputs.includes(val)) {
       setTimeout(() => {
         if (!elementRef.current.contains(document.activeElement)) {
           setFocusedInput(null);
         }
       }, 0);
     }
-  };
+  }
 
   const handleMouseEnter = (e) => {
     e.currentTarget.previousElementSibling.style.visibility = "hidden";
   };
-
   const handleMouseLeave = (e) => {
     e.currentTarget.previousElementSibling.style.visibility = "";
   };
   if (focusedInput == "input2" || focusedInput == "input3") focInput = true;
   return (
     <>
-      <div className="flex justify-center items-center h-24">
+      <div className={`flex justify-center items-center duration-500 ${isScrolled ? "h-0" : "h-24"}`}>
         <div
-          id="myElement"
           ref={elementRef}
-          className={`h-16 w-[54rem] rounded-4xl relative flex ${
+          className={`df h-16 w-[54rem] rounded-4xl relative flex ${
             focusedInput ? "bg-[#d6d6d6]" : "bg-white"
-          } `}
+          } ${isScrolled ? "moveTop" : "moveDown"}`}
         >
           {/* Animated White Box */}
           {focusedInput && (
@@ -194,7 +180,9 @@ export default function SearchBar() {
             <input
               ref={(el) => (inputReferences.current[0] = el)}
               type="text"
-              onBlur={(()=>{handleInputBlur("input1")})}
+              onBlur={() => {
+                handleInputBlur("input1");
+              }}
               placeholder="Search Destinations"
               className="w-[80%] outline-none relative z-20 bg-transparent input1 mt-3"
             />
@@ -206,7 +194,7 @@ export default function SearchBar() {
 
           {/* Button 2 */}
           <button
-            className={`ripple-btn w-[9rem] h-[4rem] rounded-4xl relative z-2 mr-2 overflow-hidden ${
+            className={`z-2 ripple-btn w-[9rem] h-[4rem] rounded-4xl relative z-2 mr-2 overflow-hidden ${
               focusedInput === "input2" ? "bg-white" : "hover:bg-[#bebebe]"
             }`}
             ref={(el) => {
@@ -229,7 +217,6 @@ export default function SearchBar() {
               type="text"
               placeholder="Add Dates"
               ref={(el) => (inputReferences.current[1] = el)}
-              // onBlur={(()=>{handleInputBlur("input2")})}
               className="w-[80%] ml-4 relative outline-none top-2 cursor-pointer"
             />
           </button>
@@ -295,7 +282,9 @@ export default function SearchBar() {
             <input
               type="text"
               placeholder="Add Guests"
-              onBlur={(()=>{handleInputBlur("input4")})}
+              onBlur={() => {
+                handleInputBlur("input4");
+              }}
               className="relative -bottom-[8px] -left-2 outline-none"
               ref={(el) => (inputReferences.current[3] = el)}
             />
@@ -306,8 +295,8 @@ export default function SearchBar() {
         </div>
       </div>
       {focInput ? (
-        <div ref={calendarRef}>
-          <Calendar02 position={position} />
+        <div ref={calendarRef} className="relative w-fit" style={{ left: `${dynamicLeftClass}px` }}>
+          <Calendar02 />
         </div>
       ) : (
         ""

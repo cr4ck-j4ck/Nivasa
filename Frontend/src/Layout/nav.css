@@ -1,0 +1,29 @@
+
+.mTop {
+    animation: mToTop 0.2s linear 1 forwards;
+    position: absolute;
+}
+
+.mDown{
+    animation: mToDown 0.2s linear 1 forwards;
+    position: absolute;
+}
+
+@keyframes mToTop {
+    from {
+        transform: translateY(0px);
+    }
+
+    to {
+        transform: translateY(-90px);
+    }
+}
+
+@keyframes mToDown {
+    from {
+        transform: translateY(-90px);
+    }
+    to {
+        transform: translateY(0px);
+    }
+}

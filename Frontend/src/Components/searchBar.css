@@ -2,6 +2,43 @@
   box-shadow: 0px 1px 7px 0px rgb(134, 134, 134);
 }
 
+.moveTop {
+  animation: toTop 0.3s linear 1 forwards;
+  position: absolute;
+}
+
+.moveDown {
+  animation: toDown 0.3s linear 1 forwards;
+  position: absolute;
+}
+
+@keyframes toTop {
+  from {
+    transform: translate(0px,0px);
+    height: 4rem;
+  }
+  
+  to {
+    width: 30rem;
+    transform: translate(-5rem,-30px);
+    height: 3rem;
+  }
+}
+
+@keyframes toDown {
+  from {
+    transform: translate(-5rem,-90px);
+    width: 30rem;
+    height: 3rem;
+  }
+
+  to {
+    width: 54rem;
+    transform: translateY(0px,0px);
+    height: 4rem;
+  }
+}
+
 .ripple-btn .ripple {
   position: absolute;
   background: white;
@@ -31,7 +68,7 @@ input {
   font-weight: 500;
 }
 
-button:hover +div{
+button:hover+div {
   visibility: hidden;
 }
 
@@ -87,6 +124,7 @@ th {
   display: flex;
   justify-content: space-between;
 }
+
 /* Ensure container is relative */
 #myElement {
   position: relative;
