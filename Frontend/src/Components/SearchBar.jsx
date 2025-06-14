@@ -194,7 +194,7 @@ export default function SearchBar({
 
           {/* Button 2 */}
           <button
-            className={`z-2 ripple-btn w-[9rem] h-[4rem] rounded-4xl relative z-2 mr-2 overflow-hidden ${
+            className={`z-2 ripple-btn w-[9rem] h-[4rem] rounded-4xl relative mr-2 overflow-hidden ${
               focusedInput === "input2" ? "bg-white" : "hover:bg-[#bebebe]"
             }`}
             ref={(el) => {

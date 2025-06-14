@@ -15,11 +15,9 @@ function Nav() {
     let lastScrollTop = 0;
     const handleScroll = () => {
       let currentScroll = window.scrollY;
-      console.log(currentScroll);
       if (currentScroll > lastScrollTop) {
         setIsScrolled(true);
       } else {
-        console.log("ho gaya false");
         setIsScrolled(false);
       }
     };
@@ -30,7 +28,7 @@ function Nav() {
   }, []);
 
   return (
-    <nav className={`duration-500 ${isScrolled ? "h-25" : "h-48"} bg-[#fbfbfb] z-1 sticky w-full top-0 shadow-[0px_1px_8px_rgb(100,100,100)]`}>
+    <nav className={`navbar h-[12rem] ${isScrolled ? "shrink" : ""} bg-[#fbfbfb]`}>
 
       <div className="justify-between flex">
         <div className="brand w-3xs">

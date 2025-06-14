@@ -13,7 +13,7 @@ export default function () {
   ];
   let arrOfRandomNum = [];
 
-  for (let i = 0; i < 2; i++) {
+  for (let i = 0; i < 4; i++) {
     let randomNum = Math.ceil(Math.random() * (7 - i));
     arrOfRandomNum[i] = cities.splice(randomNum, 1)[0];
   }

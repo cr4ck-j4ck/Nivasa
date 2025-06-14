@@ -19,10 +19,10 @@ export default function ListingRow({ city }) {
 
   return (
     <>
-      <h1 className="text-xl font-bold listingHead mb-4">
+      <h1 className="text-xl font-bold listingHead mb-5">
         Stay In {city} &gt;
       </h1>
-      <div className="cardsContainer relative top-10 mb-10 flex ">
+      <div className="cardsContainer relative mb-10 flex ">
         {data
           ? data.map((el, i) => (
               <ListingCard
