@@ -1,4 +1,4 @@
-import ListingRow from "./ListingRow";
+import ListingRow from "../Components/Listings/ListingRow";
 
 export default function () {
   let cities = [
@@ -18,7 +18,7 @@ export default function () {
     arrOfRandomNum[i] = cities.splice(randomNum, 1)[0];
   }
   return (
-    <div className="relative pt-10 pl-50">
+    <div className="relative pt-10 w-full md:max-w-[95vw] lg:max-w-[87vw] 3xl:max-w-[90vw] mx-auto" >
       {arrOfRandomNum.map((el, i) => (
         <ListingRow city={el} key={i} />
       ))}

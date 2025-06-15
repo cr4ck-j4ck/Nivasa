@@ -1,0 +1,6 @@
+.card{
+    width: calc(100%/7);
+    padding-right: 1rem;
+    box-sizing: border-box;
+    flex-shrink: 0;
+}

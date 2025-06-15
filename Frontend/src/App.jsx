@@ -1,6 +1,6 @@
 import "./App.css";
 import Nav from "./Layout/nav";
-import MainListing from "./Components/Listings/mainListing";
+import MainListing from "./Pages/mainListing";
 function App() {
   
   return (
