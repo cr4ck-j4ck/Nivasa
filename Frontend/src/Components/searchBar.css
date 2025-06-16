@@ -19,7 +19,7 @@
   }
   
   to {
-    width: 30rem;
+    width: 25rem;
     transform: translate(-5rem,-30px);
     height: 3rem;
   }
@@ -28,7 +28,7 @@
 @keyframes toDown {
   from {
     transform: translate(-5rem,-90px);
-    width: 30rem;
+    width: 25rem;
     height: 3rem;
   }
 
