@@ -3,9 +3,8 @@ import ListingCard from "./ListingCard";
 import React, { useState, useEffect, useRef } from "react";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
-import demoThumbnail from "/demoThumb.avif"
 export default function ListingRow({ city }) {
-  const [data, setData] = useState([1,2,3,4,5,6,7,8,9]);
+  const [data, setData] = useState(null);
   const [blurLeft, setBlurLeft] = useState(false);
   const [blurRight, setBlurRight] = useState(true);
   const cardContainerRef = useRef(null);
@@ -44,11 +43,11 @@ export default function ListingRow({ city }) {
     }
   }
 
-  // useEffect(() => {
-  //   getData().then((res) => {
-  //     setData(res);
-  //   });
-  // }, []);
+  useEffect(() => {
+    getData().then((res) => {
+      setData(res);
+    });
+  }, []);
 
   useEffect(() => {
     const func = (e) => {
@@ -107,8 +106,8 @@ export default function ListingRow({ city }) {
         {data
           ? data.map((el, i) => (
               <ListingCard
-                // src={el.gallery["Bedroom 1"][0]}
-                src={demoThumbnail}
+                src={el.gallery["Bedroom 1"][0]}
+                // src={demoThumbnail}
                 key={i}
                 city={"Pune"}
                 price={"10500"}

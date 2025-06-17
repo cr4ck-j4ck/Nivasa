@@ -3,7 +3,7 @@ import "./searchBar.css";
 import { Calendar02 } from "./Calendar02";
 import SearchIcon from "@mui/icons-material/Search";
 import HomeIcon from "../assets/home.avif";
-export default function SearchBar({ scroll: isScrolled , setIsScrolled}) {
+export default function SearchBar({ scroll: isScrolled, setIsScrolled }) {
   const elementRef = useRef(null);
   const inputReferences = useRef([]);
   const buttonReferences = useRef([]);
@@ -148,7 +148,9 @@ export default function SearchBar({ scroll: isScrolled , setIsScrolled}) {
           className={`df h-16 w-[54rem] rounded-4xl relative flex ${
             focusedInput ? "bg-[#d6d6d6]" : "bg-white"
           } ${isScrolled ? "moveTop" : "moveDown"}`}
-           onClick={isScrolled ? ()=>{setIsScrolled(false)} : ()=>{}}
+          onClick={() => {
+            if (isScrolled) setIsScrolled(false);
+          }}
         >
           {/* Animated White Box */}
           {focusedInput && !isScrolled && (
@@ -267,9 +269,7 @@ export default function SearchBar({ scroll: isScrolled , setIsScrolled}) {
                   )
                 }
               >
-                <p
-                  className={`absolute text-[0.8em] font-medium top-3 left-5`}
-                >
+                <p className={`absolute text-[0.8em] font-medium top-3 left-5`}>
                   Check in
                 </p>
                 <input
@@ -304,7 +304,11 @@ export default function SearchBar({ scroll: isScrolled , setIsScrolled}) {
               )
             }
           >
-            <p className={`absolute text-[0.8em] font-medium top-3 ${isScrolled ? "" :"left-7"}`}>
+            <p
+              className={`absolute text-[0.8em] font-medium top-3 ${
+                isScrolled ? "" : "left-7"
+              }`}
+            >
               {isScrolled ? "Add Guests" : "Who"}
             </p>
             <input
@@ -319,7 +323,9 @@ export default function SearchBar({ scroll: isScrolled , setIsScrolled}) {
 
             <div
               className={`rounded-full inline-block ${
-                isScrolled ? "h-8 w-8 absolute right-2 bottom-2 pt-1" : "h-12 w-12 -mr-6 py-[0.6rem]"
+                isScrolled
+                  ? "h-8 w-8 absolute right-2 bottom-2 pt-1"
+                  : "h-12 w-12 -mr-6 py-[0.6rem]"
               }  bg-[#FF385C] text-white  hover:bg-[#CC2C46]`}
             >
               <SearchIcon />
