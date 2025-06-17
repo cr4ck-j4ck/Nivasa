@@ -68,7 +68,7 @@ function Nav() {
           <h1 className="text-3xl font-bold ">Hello world!</h1>
         </div>
       </div>
-      <SearchBar scroll={isScrolled} />
+      <SearchBar scroll={isScrolled} setIsScrolled={setIsScrolled}  />
     </nav>
   );
 }

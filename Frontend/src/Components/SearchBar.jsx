@@ -3,7 +3,7 @@ import "./searchBar.css";
 import { Calendar02 } from "./Calendar02";
 import SearchIcon from "@mui/icons-material/Search";
 import HomeIcon from "../assets/home.avif";
-export default function SearchBar({ scroll: isScrolled }) {
+export default function SearchBar({ scroll: isScrolled , setIsScrolled}) {
   const elementRef = useRef(null);
   const inputReferences = useRef([]);
   const buttonReferences = useRef([]);
@@ -148,6 +148,7 @@ export default function SearchBar({ scroll: isScrolled }) {
           className={`df h-16 w-[54rem] rounded-4xl relative flex ${
             focusedInput ? "bg-[#d6d6d6]" : "bg-white"
           } ${isScrolled ? "moveTop" : "moveDown"}`}
+           onClick={isScrolled ? ()=>{setIsScrolled(false)} : ()=>{}}
         >
           {/* Animated White Box */}
           {focusedInput && !isScrolled && (
