@@ -9,7 +9,6 @@ module.exports = async function importData() {
     console.log('MongoDB connected.');
 
     const data = JSON.parse(fs.readFileSync('./SampleData/listingsData.json', 'utf8'));
-    console.log(data);
     await ListingModel.deleteMany({});
     await ListingModel.insertMany(data);
   } catch (err) {

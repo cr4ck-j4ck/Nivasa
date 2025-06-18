@@ -14,7 +14,7 @@ const propertySchema = new Schema({
   price: { type: Number, required: true },
   roomType: {
     type: String,
-    enum: ['Entire home/apt', 'Private room', 'Shared room'],
+    enum: ['Entire home/apt', 'Private room', 'Shared room', 'Entire studio'],
     required: true,
   },
   amenities: [String],
