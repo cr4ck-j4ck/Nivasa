@@ -5,12 +5,17 @@ import homeVideo from "../assets/house-twirl-selected.webm";
 import { useState, useEffect } from "react";
 import SearchBar from "../Components/SearchBar";
 import { Link } from "react-router-dom";
-function Nav() {
+import { useLocation } from "react-router-dom";
+
+
+function Nav({ position }) {
+  const location = useLocation();
   const [showVideo, setShowVideo] = useState(true);
   const [isScrolled, setIsScrolled] = useState(false);
   const handleVideoEnd = () => {
     setShowVideo(false);
   };
+  if(location.pathname !== "/" && !isScrolled) setIsScrolled(true);
   useEffect(() => {
     let lastScrollTop = 0;
     const handleScroll = () => {
@@ -28,8 +33,11 @@ function Nav() {
   }, []);
 
   return (
-    <nav className={`navbar h-[12rem] ${isScrolled ? "shrink" : ""} bg-[#fbfbfb]`}>
-
+    <nav
+      className={`navbar ${position} h-[12rem] ${
+        isScrolled ? "shrink" : ""
+      } bg-[#fbfbfb]`}
+    >
       <div className="justify-between flex ml-10">
         <Link to="/">
           <img
@@ -68,7 +76,7 @@ function Nav() {
           <h1 className="text-3xl font-bold ">Hello world!</h1>
         </div>
       </div>
-      <SearchBar scroll={isScrolled} setIsScrolled={setIsScrolled}  />
+      <SearchBar scroll={isScrolled} setIsScrolled={setIsScrolled} />
     </nav>
   );
 }

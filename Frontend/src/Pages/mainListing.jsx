@@ -1,4 +1,4 @@
-import ListingRow from "../Components/Listings/ListingRow";
+import ListingRow from "../Components/Listings/indexPage_Components/ListingRow";
 
 export default function () {
   let cities = [

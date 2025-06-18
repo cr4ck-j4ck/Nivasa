@@ -1,0 +1,35 @@
+@import url('https://fonts.googleapis.com/css2?family=LXGW+Marker+Gothic&display=swap');
+
+
+.listingHead{
+  font-family: "LXGW Marker Gothic", sans-serif;
+  font-weight: 900;
+  font-style: normal;
+}
+.listingRow{
+  margin: 2rem 0;
+  top: 3rem;
+}
+
+.cardContainer::-webkit-scrollbar {
+  display: none;
+}
+
+
+.cardContainer {
+  display: flex;
+  overflow-x: auto;
+  overflow-y: hidden;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.navArrow{
+  padding: 0rem 0.1rem 0.2rem;
+  height: 0.3rem;
+  border-radius: 50%;
+  margin: 0px 0.3rem;
+  border: 1px solid #EBEBEB;
+  color: black; 
+}
+

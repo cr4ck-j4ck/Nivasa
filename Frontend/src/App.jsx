@@ -1,14 +1,18 @@
 import "./App.css";
 import Nav from "./Layout/nav";
-import MainListing from "./Pages/mainListing";
 import Footer from "./Layout/footer";
-import AppRoutes from "@/Router/Routes"; 
+import AppRoutes from "@/Router/Routes";
+import { useLocation } from "react-router-dom";
 
 function App() {
-  
+  const location = useLocation();
+  const isMainListing = location.pathname === "/";
+  if (isMainListing) {
+    document.body.style.paddingTop = "12rem";
+  }
   return (
     <>
-      <Nav />
+      <Nav position={isMainListing ? "fixed top-0" : "relative"} />
       <AppRoutes></AppRoutes>
       <Footer></Footer>
     </>
