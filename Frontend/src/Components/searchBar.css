@@ -1,5 +1,8 @@
 .df {
   box-shadow: 0px 1px 7px 0px rgb(134, 134, 134);
+  max-width: 54rem;
+  width: 100%;
+  min-width: 20rem;
 }
 
 .moveTop {
@@ -28,12 +31,12 @@
 @keyframes toDown {
   from {
     transform: translate(-5rem,-90px);
-    width: 25rem;
     height: 3rem;
   }
 
   to {
-    width: 54rem;
+    width: 100%;
+    max-width: 54rem;
     transform: translateY(0px,0px);
     height: 4rem;
   }
@@ -138,4 +141,34 @@ th {
   position: absolute;
   height: 4.1rem;
   z-index: 1;
+}
+
+/* Add responsive styles */
+@media screen and (max-width: 56rem) {
+  .df {
+    width: 95%;
+    margin: 0 auto;
+  }
+  
+  .moveTop {
+    width: 25rem !important;
+  }
+  
+  .moveDown {
+    width: 95% !important;
+  }
+}
+
+@media screen and (max-width: 40rem) {
+  .df {
+    width: 90%;
+  }
+  
+  .moveTop {
+    width: 20rem !important;
+  }
+  
+  .moveDown {
+    width: 90% !important;
+  }
 }

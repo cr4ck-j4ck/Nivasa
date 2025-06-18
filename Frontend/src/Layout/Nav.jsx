@@ -30,7 +30,7 @@ function Nav() {
   return (
     <nav className={`navbar h-[12rem] ${isScrolled ? "shrink" : ""} bg-[#fbfbfb]`}>
 
-      <div className="justify-between flex">
+      <div className="justify-between flex ml-10">
         <Link to="/">
           <img
             src="/Nivasa-removebg-preview.png"
@@ -38,7 +38,7 @@ function Nav() {
             className="block mx-auto h-20 mt-3"
           />
         </Link>
-        <div className="w-sm relative flex -left-30">
+        <div className="w-sm relative flex left-20">
           <div className={`flex items-center ${isScrolled ? "mTop" : "mDown"}`}>
             <div className="flex items-center mr-5 cursor-pointer">
               {showVideo ? (

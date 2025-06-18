@@ -12,14 +12,34 @@ export default function SearchBar({ scroll: isScrolled, setIsScrolled }) {
   const [indicatorStyle, setIndicatorStyle] = useState({ left: 0, width: 0 });
   const [position, updatePosition] = useState(0);
   const calendarRef = useRef(null);
-
+  const buttonRefs = {
+    input1: buttonReferences.current[0],
+    input2: buttonReferences.current[1],
+    input3: buttonReferences.current[2],
+    input4: buttonReferences.current[3],
+  };
+  const inputRefs = {
+    input1: inputReferences.current[0],
+    input2: inputReferences.current[1],
+    input3: inputReferences.current[2],
+    input4: inputReferences.current[3],
+  };
   const dynamicLeftClass = `${Math.floor(position)}`;
+
   useEffect(() => {
     if (elementRef.current) {
       const rect = elementRef.current.getBoundingClientRect();
       updatePosition(rect.x - 150);
     }
   }, []);
+
+  useEffect(()=>{
+    if(focusedInput && isScrolled){
+      buttonRefs[focusedInput]?.blur();
+      inputRefs[focusedInput]?.blur();
+      setFocusedInput(null);
+    }
+  },[isScrolled]);
 
   useEffect(() => {
     if (!calendarRef.current) return;
@@ -52,13 +72,6 @@ export default function SearchBar({ scroll: isScrolled, setIsScrolled }) {
     };
   }, []);
 
-  const buttonRefs = {
-    input1: buttonReferences.current[0],
-    input2: buttonReferences.current[1],
-    input3: buttonReferences.current[2],
-    input4: buttonReferences.current[3],
-  };
-
   // Update indicator position on focus
   const updateIndicatorPosition = (key) => {
     const button = buttonRefs[key];
@@ -81,7 +94,6 @@ export default function SearchBar({ scroll: isScrolled, setIsScrolled }) {
   }, [focusedInput]);
 
   const handleClick = (button, inputRef, inputKey) => {
-    // const button = buttonRef.current;
     const circle = document.createElement("span");
     circle.classList.add("ripple");
 
@@ -141,11 +153,11 @@ export default function SearchBar({ scroll: isScrolled, setIsScrolled }) {
       <div
         className={`flex justify-center items-center duration-500 ${
           isScrolled ? "h-0" : "h-24"
-        }`}
+        } px-5`}
       >
         <div
           ref={elementRef}
-          className={`df h-16 w-[54rem] rounded-4xl relative flex ${
+          className={`df h-16 rounded-4xl relative flex ${
             focusedInput ? "bg-[#d6d6d6]" : "bg-white"
           } ${isScrolled ? "moveTop" : "moveDown"}`}
           onClick={() => {
@@ -177,7 +189,7 @@ export default function SearchBar({ scroll: isScrolled, setIsScrolled }) {
             }
             className={`z-2 ripple-btn relative bottom-[1px] rounded-4xl overflow-hidden mr-2 ${
               focusedInput === "input1" ? "bg-white" : "hover:bg-[#bebebe]"
-            } ${isScrolled ? "w-[10rem] h-12.5" : "w-[16.5rem] h-16.5"}`}
+            } ${isScrolled ? "w-[10rem] h-12.5" : "w-[30%] min-w-[12rem] h-16.5"}`}
           >
             <p
               className={`absolute z-20 top-3 text-[0.8em] font-medium ${
@@ -188,7 +200,7 @@ export default function SearchBar({ scroll: isScrolled, setIsScrolled }) {
                 <img
                   src={HomeIcon}
                   alt="homeImage"
-                  className="h-10 absolute -left-16 "
+                  className="h-10 absolute -left-16"
                 />
               )}
               {isScrolled ? "AnyWhere" : "Where"}
@@ -200,13 +212,13 @@ export default function SearchBar({ scroll: isScrolled, setIsScrolled }) {
                 handleInputBlur("input1");
               }}
               placeholder={`${!isScrolled ? "Where Destination" : ""}`}
-              className={`w-[80%] outline-none relative z-20 bg-transparent input1 mt-3`}
+              className={`w-[80%] outline-none relative z-20 bg-transparent input1 mt-3 `}
             />
           </button>
 
           <div
             className={`${
-              isScrolled ? "h-12 left-35" : "h-[4.1rem] left-60"
+              isScrolled ? "h-12 left-35" : "h-[4.1rem] left-[27%]"
             } absolute w-14 z-1 flex justify-center`}
           >
             <div className="relative h-[70%] w-px top-[15%] bg-[#ababab]"></div>
@@ -214,9 +226,9 @@ export default function SearchBar({ scroll: isScrolled, setIsScrolled }) {
 
           {/* Button 2 */}
           <button
-            className={`z-2 ripple-btn  rounded-4xl relative mr-2 overflow-hidden ${
+            className={`z-2 ripple-btn rounded-4xl relative mr-2 overflow-hidden ${
               focusedInput === "input2" ? "bg-white" : "hover:bg-[#bebebe]"
-            } ${isScrolled ? "w-[7rem]" : "w-[9rem]"}`}
+            } ${isScrolled ? "w-[7rem]" : "w-[20%] min-w-[8rem]"}`}
             ref={(el) => {
               buttonReferences.current[1] = el;
             }}
@@ -243,7 +255,7 @@ export default function SearchBar({ scroll: isScrolled, setIsScrolled }) {
 
           <div
             className={`absolute ${
-              isScrolled ? "left-[15rem] h-12" : "h-[4.1rem] left-[24.5rem]"
+              isScrolled ? "left-[14rem] h-12" : "h-[4.1rem] left-[48%]"
             } w-14 z-1 flex justify-center text-5xl bg-transparent`}
           >
             <div className="relative h-[70%] w-px top-[15%] bg-[#ababab]"></div>
@@ -253,9 +265,9 @@ export default function SearchBar({ scroll: isScrolled, setIsScrolled }) {
           {!isScrolled && (
             <>
               <button
-                className={`w-[9rem] ripple-btn overflow-hidden rounded-4xl relative z-2  ${
+                className={`w-[20%] min-w-[8rem] ripple-btn overflow-hidden rounded-4xl relative z-2 ${
                   focusedInput === "input3" ? "bg-white" : "hover:bg-[#bebebe]"
-                } `}
+                }`}
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
                 ref={(el) => {
@@ -269,26 +281,25 @@ export default function SearchBar({ scroll: isScrolled, setIsScrolled }) {
                   )
                 }
               >
-                <p className={`absolute text-[0.8em] font-medium top-3 left-5`}>
+                <p className="absolute text-[0.8em] font-medium top-3 left-5">
                   Check in
                 </p>
                 <input
                   type="text"
                   ref={(el) => (inputReferences.current[2] = el)}
                   placeholder="Add Dates"
-                  className="w-[80%] ml-5 outline-none relative top-2 cursor-pointer"
+                  className="w-[80%] ml-2 outline-none relative top-2 cursor-pointer"
                 />
               </button>
 
-              {/* Button 4 */}
-
-              <div className="divide absolute h-[4.1rem] w-14 left-[33.9rem] z-1 flex justify-center">
-                <div className="relative h-[70%] w-px top-[15%] bg-[#ababab]"></div>
+              <div className="divide absolute h-[4.1rem] w-14 left-[69%] z-1 flex justify-center">
+                <div className="relative h-[70%] top-[15%] bg-[#ababab]"></div>
               </div>
             </>
           )}
+
           <button
-            className={`input4 ripple-btn overflow-hidden rounded-4xl relative z-2 flex-1 ${
+            className={`input4 ripple-btn overflow-hidden rounded-4xl relative z-2 flex-1 min-w-[8rem] ${
               focusedInput === "input4" ? "bg-white" : "hover:bg-[#bebebe]"
             }`}
             ref={(el) => {
@@ -317,7 +328,7 @@ export default function SearchBar({ scroll: isScrolled, setIsScrolled }) {
               onBlur={() => {
                 handleInputBlur("input4");
               }}
-              className={`relative -bottom-[8px] -left-2 outline-none `}
+              className={`relative -bottom-[8px] left-1 outline-none w-[80%]`}
               ref={(el) => (inputReferences.current[3] = el)}
             />
 
@@ -325,8 +336,8 @@ export default function SearchBar({ scroll: isScrolled, setIsScrolled }) {
               className={`rounded-full inline-block ${
                 isScrolled
                   ? "h-8 w-8 absolute right-2 bottom-2 pt-1"
-                  : "h-12 w-12 -mr-6 py-[0.6rem]"
-              }  bg-[#FF385C] text-white  hover:bg-[#CC2C46]`}
+                  : "h-12 w-12 absolute right-2 bottom-2 py-2 px-3"
+              } bg-[#FF385C] text-white hover:bg-[#CC2C46]`}
             >
               <SearchIcon />
             </div>

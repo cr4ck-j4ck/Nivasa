@@ -18,7 +18,7 @@ export default function () {
     arrOfRandomNum[i] = cities.splice(randomNum, 1)[0];
   }
   return (
-    <div className="relative pt-10 w-full md:max-w-[95vw] lg:max-w-[87vw] 3xl:max-w-[90vw] mx-auto" >
+    <div className="relative pt-10 w-full sm:max-w-[85vw] md:max-w-[92vw] lg:max-w-[95vw] 3xl:max-w-[90vw] mx-auto " >
       {arrOfRandomNum.map((el, i) => (
         <ListingRow city={el} key={i} />
       ))}
