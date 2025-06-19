@@ -16,10 +16,23 @@ app.get("/", (req, res) => {
     res.send("Hii");
 });
 
+app.get("/listing/:id", wrapAsync(async (req, res) => {
+    const data = await Listingmodel.findById(req.params.id);
+    res.json(data);
+}));
 
-app.get("/listings/:city", async (req, res) => {
-    const dataObjects = await Listingmodel.find({"location.city":req.params.city}).limit(10);
-    res.json(dataObjects);
+
+app.get("/listingCard/:city", async (req, res) => {
+    try {
+        const dataObjects = await Listingmodel.find(
+            { "location.city": req.params.city },
+            { title: 1, price: 1, "gallery.Bedroom 1": 1, "location.city": 1 }
+        ).limit(10);
+        res.json(dataObjects);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: "Internal server error" });
+    }
 });
 
 app.listen(PORT, () => {

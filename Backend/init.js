@@ -1,7 +1,8 @@
 const fs = require('fs');
 const connectDB = require("./config/db");
 const ListingModel = require("./Models/ListingModel");
-module.exports = async function importData() {
+
+module.exports = async function initData() {
 
   try {
     console.log(connectDB);
