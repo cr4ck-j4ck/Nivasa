@@ -1,0 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+
+.description p {
+    font-family: "Work Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-style: italic;
+    line-height: 1.7;
+    text-align: justify;
+
+}
