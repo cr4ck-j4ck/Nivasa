@@ -15,6 +15,12 @@
   position: absolute;
 }
 
+.searchIncrease{
+  width: 6.5rem;
+  align-items: center;
+  justify-content: space-around;
+}
+
 @keyframes toTop {
   from {
     transform: translate(0px,0px);
