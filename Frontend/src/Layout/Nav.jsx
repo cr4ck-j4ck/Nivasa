@@ -15,7 +15,7 @@ function Nav({ position }) {
   const handleVideoEnd = () => {
     setShowVideo(false);
   };
-  if(location.pathname !== "/" && !isScrolled) setIsScrolled(true);
+  // useEffect();
   useEffect(() => {
     let lastScrollTop = 0;
     const handleScroll = () => {
