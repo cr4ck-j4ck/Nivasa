@@ -158,11 +158,8 @@ export default function SearchBar({ scroll: isScrolled, setIsScrolled }) {
             focusedInput ? "bg-[#d6d6d6]" : "bg-white"
           } ${isScrolled ? "moveTop" : "moveDown"}`}
           onClick={isScrolled ? () => {
-            console.log(isScrolled);
             if (isScrolled) {
-              console.log("hey");
               setIsScrolled(false);
-              console.log("");
             };
           } : ()=>{}}
         >

@@ -1,0 +1,8 @@
+.showMore{
+    background-color: rgb(232, 233, 233);
+    border-radius: 10px;
+    padding:0.7rem 1.5rem;
+}
+.showMore:hover{
+    background-color: rgb(200, 200, 200);    
+}
