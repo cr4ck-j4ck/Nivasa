@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Calendar } from "@/components/ui/calendar";
+import { Calendar } from "@/Components/ui/calendar";
 
 export function Calendar02() {
   const [date, setDate] = React.useState(new Date());
