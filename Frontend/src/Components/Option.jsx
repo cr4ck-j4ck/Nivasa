@@ -13,7 +13,7 @@ export default function ({ containerRef, classNames }) {
 
     if (canScrollLeft > 0) {
       container.scrollTo({
-        left: container.scrollLeft - canScrollLeft,
+        left: container.scrollLeft - container.clientWidth,
         behavior: "smooth",
       });
     }
@@ -25,10 +25,9 @@ export default function ({ containerRef, classNames }) {
     const canScrollRight = Math.floor(
       container.scrollWidth - (container.clientWidth + container.scrollLeft)
     );
-    console.log(canScrollRight);
     if (canScrollRight > 0) {
       container.scrollTo({
-        left: container.scrollLeft + canScrollRight,
+        left: container.scrollLeft + container.clientWidth,
         behavior: "smooth",
       });
     }
@@ -42,14 +41,9 @@ export default function ({ containerRef, classNames }) {
       if (canScrollRight > 0) {
         setBlurRight(true);
       }
-    }, 12);
+    }, 100);
     const func = (e) => {
       if (!container) return;
-      console.log(
-        container.scrollWidth,
-        container.clientWidth,
-        container.scrollLeft
-      );
 
       const canScrollRight = Math.floor(
         container.scrollWidth - (container.clientWidth + container.scrollLeft)

@@ -16,8 +16,8 @@ export default function () {
   }, []);
 
   return (
-    <div className="w-full sm:max-w-[85vw] md:max-w-[92vw] lg:max-w-[95vw] 3xl:max-w-[60vw] mx-auto pt-15">      
-      <h1 className="text-3xl showHead mb-6">{listingObj ? listingObj.title : <Skeleton/>}</h1>
+    <div className="w-full sm:max-w-[85vw] md:max-w-[92vw] lg:max-w-[95vw] 3xl:max-w-[60vw] pt-15 pl-3">
+      <h1 className="text-3xl showHead mb-6 pl-2 md:pl-10">{listingObj ? listingObj.title : <Skeleton/>}</h1>
       <Gallery {...(listingObj || null)} />
       {listingObj ? <Description listingObj={listingObj}/> : ""}
     </div>

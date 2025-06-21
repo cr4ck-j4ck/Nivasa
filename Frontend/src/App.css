@@ -7,3 +7,9 @@
     line-height: 1.7;
     text-align: justify;
 }
+
+.no-select {
+    user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+}

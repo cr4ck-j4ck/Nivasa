@@ -14,7 +14,7 @@ export default function () {
   let arrOfRandomNum = [];
 
   for (let i = 0; i < 4; i++) {
-    let randomNum = Math.ceil(Math.random() * (7 - i));
+    let randomNum = Math.floor(Math.random() * (8 - i));
     arrOfRandomNum[i] = cities.splice(randomNum, 1)[0];
   }
   return (

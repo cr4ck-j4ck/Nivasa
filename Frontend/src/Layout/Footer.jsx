@@ -3,7 +3,7 @@ import "./footer.css"; // Create this CSS file for custom styles
 
 export default function Footer() {
   return (
-    <footer className="footer bg-gray-100 text-gray-700 pt-8 pb-4 mt-10">
+    <footer className="footer bg-gray-100 text-gray-700 pt-8 pb-4 mt-50 w-full">
       <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-8">
         <div>
           <h3 className="font-bold mb-3">Explore</h3>

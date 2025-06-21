@@ -11,17 +11,13 @@ export default function ({ gallery }) {
   }
 
 
-  const hasSetImages = useRef(false);
-
   useEffect(() => {
-    if (gallery && !hasSetImages.current) {
+    if (gallery ) {
       const flatURLs = Object.values(gallery).flat();
       setImgArr(getRandomURLs(flatURLs));
-      hasSetImages.current = true;
     }
   }, [gallery]);
 
-  // 📦 Skeletons
   const skeletonMain = (
     <Skeleton height={482} width={640} borderRadius="2rem 0 0 2rem" />
   );
@@ -46,15 +42,15 @@ export default function ({ gallery }) {
   }
 
   return (
-    <div className="flex">
+    <div className="flex pr-10 pl-10 sm:h-[20rem] md:h-[27rem] lg:h-[30rem] 2xl:h-[50rem] xl:h-[40rem] no-select ">
         <img
           src={imgArr[0]}
           alt="Gallery Image 1"
-          className="w-[40rem] h-[30.1rem] rounded-l-4xl"
+          className="w-[60%] h-[90%]  rounded-l-4xl"
         />
-      <div className="grid grid-cols-2 grid-rows-2 gap-4 w-[30rem] h-[29.8rem] ml-2">
+      <div className="grid grid-cols-2 grid-rows-2 gap-2 w-[45%] h-[90%] ml-2">
         {imgArr.slice(1, 5).map((url, index) => (
-          <div key={index} className="h-[14.7rem] w-[15rem]">
+          <div key={index} className="h-[100%] w-[100%]">
             <img
               src={url}
               alt={`Gallery ${index + 2}`}
