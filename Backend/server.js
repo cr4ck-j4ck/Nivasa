@@ -30,7 +30,9 @@ app.get("/listingCard/:city", async (req, res) => {
             { "location.city": req.params.city },
             { title: 1, price: 1, "gallery.Bedroom 1": 1, "location.city": 1 }
         ).limit(10);
+    // setTimeout(() => {
         res.json(dataObjects);
+    // }, 1000);
     } catch (err) {
         console.error(err);
         res.status(500).json({ error: "Internal server error" });

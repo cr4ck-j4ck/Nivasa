@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { getListingData } from "@/Services/lisitngService";
 import "./showListing.css"
 import Skeleton from "react-loading-skeleton";
+import SeatReservationBox from './../Components/Listings/showPage_Components/reserve';
 
 export default function () {
   const { listingId } = useParams({});
@@ -16,10 +17,13 @@ export default function () {
   }, []);
 
   return (
-    <div className="w-full sm:max-w-[85vw] md:max-w-[92vw] lg:max-w-[95vw] 3xl:max-w-[60vw] pt-15 pl-3">
+    <div className="w-full sm:max-w-[85vw] md:max-w-[92vw] lg:max-w-[95vw] 3xl:max-w-[80vw] pt-15 pl-3">
       <h1 className="text-3xl showHead mb-6 pl-2 md:pl-10">{listingObj ? listingObj.title : <Skeleton/>}</h1>
       <Gallery {...(listingObj || null)} />
-      {listingObj ? <Description listingObj={listingObj}/> : ""}
+      <div className="flex">
+        {listingObj ? <Description listingObj={listingObj}/> : ""}
+        <SeatReservationBox/>
+      </div>
     </div>
   );
 }

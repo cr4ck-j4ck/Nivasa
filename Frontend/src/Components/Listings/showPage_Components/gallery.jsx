@@ -1,4 +1,4 @@
-import { useEffect, useState,useRef} from "react";
+import { useEffect, useState, useRef } from "react";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
@@ -10,44 +10,50 @@ export default function ({ gallery }) {
     return shuffled.slice(0, 5);
   }
 
-
   useEffect(() => {
-    if (gallery ) {
+    if (gallery) {
       const flatURLs = Object.values(gallery).flat();
       setImgArr(getRandomURLs(flatURLs));
     }
   }, [gallery]);
 
-  const skeletonMain = (
-    <Skeleton height={482} width={640} borderRadius="2rem 0 0 2rem" />
-  );
-  const skeletonSmall = <Skeleton height={236} width={240} />;
-
   if (!imgArr) {
     return (
-      <div className="flex">
-        <div>{skeletonMain}</div>
-        <div className="grid grid-cols-2 grid-rows-2 gap-4 w-[30rem] h-[29.8rem] ml-2">
-          <div>{skeletonSmall}</div>
-          <div>
-            <Skeleton height={236} width={240} borderRadius="0 2rem 0 0" />
-          </div>
-          <div>{skeletonSmall}</div>
-          <div>
-            <Skeleton height={236} width={240} borderRadius="0 0 2rem 0"/>
-          </div>
-        </div>
+      <div className="flex pr-10 pl-10 sm:h-[20rem] md:h-[27rem] lg:h-[30rem] xl:h-[40rem] 2xl:h-[45rem] no-select">
+      {/* Left big image skeleton */}
+      <div className="w-[60%] h-[90%] rounded-l-4xl overflow-hidden">
+        <Skeleton height="100%" width="100%" borderRadius="2rem 0 0 2rem" />
       </div>
+
+      {/* Right 2x2 grid skeletons */}
+      <div className="grid grid-cols-2 grid-rows-2 gap-2 w-[45%] h-[90%] ml-2">
+        {[0, 1, 2, 3].map((_, index) => (
+          <div key={index} className="h-full w-full overflow-hidden">
+            <Skeleton
+              height="100%"
+              width="100%"
+              borderRadius={
+                index === 1
+                  ? "0 2rem 0 0"
+                  : index === 3
+                  ? "0 0 2rem 0"
+                  : "0"
+              }
+            />
+          </div>
+        ))}
+      </div>
+    </div>
     );
   }
 
   return (
-    <div className="flex pr-10 pl-10 sm:h-[20rem] md:h-[27rem] lg:h-[30rem] 2xl:h-[50rem] xl:h-[40rem] no-select ">
-        <img
-          src={imgArr[0]}
-          alt="Gallery Image 1"
-          className="w-[60%] h-[90%]  rounded-l-4xl"
-        />
+    <div className="flex pr-10 pl-10 sm:h-[20rem] md:h-[27rem] lg:h-[30rem] xl:h-[40rem] 2xl:h-[45rem] no-select ">
+      <img
+        src={imgArr[0]}
+        alt="Gallery Image 1"
+        className="w-[60%] h-[90%]  rounded-l-4xl"
+      />
       <div className="grid grid-cols-2 grid-rows-2 gap-2 w-[45%] h-[90%] ml-2">
         {imgArr.slice(1, 5).map((url, index) => (
           <div key={index} className="h-[100%] w-[100%]">

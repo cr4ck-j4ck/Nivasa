@@ -2,7 +2,7 @@ const fs = require('fs');
 const connectDB = require("./config/db");
 const ListingModel = require("./Models/ListingModel");
 
-module.exports = async function initData() {
+async function initData() {
 
   try {
     console.log(connectDB);
@@ -15,4 +15,4 @@ module.exports = async function initData() {
   } catch (err) {
     console.error('Error:', err);
   }
-}
+}initData()

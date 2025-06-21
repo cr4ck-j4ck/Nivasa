@@ -11,6 +11,7 @@ export function Calendar02() {
       numberOfMonths={2}
       selected={date}
       onSelect={setDate}
+      fromDate={new Date()}
       className={`rounded-4xl border shadow-sm relative bla top-2 flex justify-center bg-white z-1`} 
     />
   );
