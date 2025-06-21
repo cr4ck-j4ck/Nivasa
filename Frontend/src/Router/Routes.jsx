@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "@/Pages/mainListing";
 // import ListingDetail from "@/pages/ListingDetail";
 // import SearchResults from "@/pages/SearchResults";
-import NotFound from "@/pages/NotFound";
+import NotFound from "@/Pages/NotFound";
 import ShowRoom from "@/Pages/showListing"
 
 export default function AppRoutes() {
