@@ -11,7 +11,7 @@
   top: 3rem;
 }
 
-.cardContainer::-webkit-scrollbar {
+.cardContainer::-webkit-scrollbar ,.bedroomImgs::-webkit-scrollbar {
   display: none;
 }
 

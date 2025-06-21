@@ -1,0 +1,100 @@
+import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
+import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
+import { useState, useEffect } from "react";
+
+export default function ({ containerRef, classNames }) {
+  const [blurLeft, setBlurLeft] = useState(false);
+  const [blurRight, setBlurRight] = useState(false);
+  function scrollLeft() {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const canScrollLeft = Math.ceil(container.scrollLeft);
+
+    if (canScrollLeft > 0) {
+      container.scrollTo({
+        left: container.scrollLeft - canScrollLeft,
+        behavior: "smooth",
+      });
+    }
+  }
+
+  function scrollRight() {
+    const container = containerRef.current;
+    if (!container) return;
+    const canScrollRight = Math.floor(
+      container.scrollWidth - (container.clientWidth + container.scrollLeft)
+    );
+    console.log(canScrollRight);
+    if (canScrollRight > 0) {
+      container.scrollTo({
+        left: container.scrollLeft + canScrollRight,
+        behavior: "smooth",
+      });
+    }
+  }
+  useEffect(() => {
+    const container = containerRef.current;
+    setTimeout(() => {
+      const canScrollRight = Math.floor(
+        container.scrollWidth - (container.clientWidth + container.scrollLeft)
+      );
+      if (canScrollRight > 0) {
+        setBlurRight(true);
+      }
+    }, 12);
+    const func = (e) => {
+      if (!container) return;
+      console.log(
+        container.scrollWidth,
+        container.clientWidth,
+        container.scrollLeft
+      );
+
+      const canScrollRight = Math.floor(
+        container.scrollWidth - (container.clientWidth + container.scrollLeft)
+      );
+      if (canScrollRight > 0) {
+        setBlurRight(true);
+      } else {
+        setBlurRight(false);
+      }
+      if (container.scrollLeft > 0) {
+        setBlurLeft(true);
+      } else {
+        setBlurLeft(false);
+      }
+    };
+
+    containerRef.current.addEventListener("scroll", func);
+    return () => {
+      if (containerRef.current) {
+        containerRef.current.removeEventListener("scroll", func);
+      }
+    };
+  }, []);
+  return (
+    <div className={`${classNames}`}>
+      <span
+        className={`leftArrow navArrow ${
+          blurLeft
+            ? "cursor-pointer bg-[#e8e8e8] opacity-100 hover:bg-[#d5d5d5] "
+            : "cursor-not-allowed opacity-20 "
+        }`}
+        onClick={scrollLeft}
+      >
+        <KeyboardArrowLeftIcon />
+      </span>
+      <span
+        className={`rightArrow navArrow ${
+          blurRight
+            ? "cursor-pointer bg-[#e8e8e8] hover:bg-[#d5d5d5] "
+            : "cursor-not-allowed opacity-20"
+        }`}
+        onClick={scrollRight}
+      >
+        <KeyboardArrowRightIcon />
+      </span>
+    </div>
+  );
+}
