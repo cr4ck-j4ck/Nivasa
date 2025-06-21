@@ -17,8 +17,10 @@ app.get("/", (req, res) => {
 });
 
 app.get("/listing/:id", wrapAsync(async (req, res) => {
-    const data = await Listingmodel.findById(req.params.id);
-    res.json(data);
+    const data = await Listingmodel.findById(req.params.id).populate("host");
+    // setTimeout(() => {
+        res.json(data);
+    // }, 1000);
 }));
 
 
