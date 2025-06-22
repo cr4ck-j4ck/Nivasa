@@ -8,7 +8,7 @@ const connectDB = require("./config/db");
 const app = express();
 const cors = require('cors');
 app.use(cors({
-  origin: ['https://nivasa-two.vercel.app', 'https://nivasa-two.vercel.app/'] // Or use '*'
+  origin: ['https://nivasa-two.vercel.app', 'https://nivasa-two.vercel.app/', 'https://nivasa-git-main-cr4ck-j4cks-projects.vercel.app/'] 
 }));
 const PORT = process.env.PORT || 3000;
 
