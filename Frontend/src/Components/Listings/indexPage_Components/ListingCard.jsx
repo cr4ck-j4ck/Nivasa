@@ -3,7 +3,7 @@ import "./listingCard.css";
 export default function ListingCard({ src, city, price, id }) {
   return (
     <div className="card rounded-2xl">
-      <a href={`/room/${id}`} target="_blank">
+      <a href={`/listing/${id}`} target="_blank">
         <div>
           {src ? (
             <img
