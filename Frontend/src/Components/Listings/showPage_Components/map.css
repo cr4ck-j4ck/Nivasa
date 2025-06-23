@@ -1,0 +1,26 @@
+.map-wrap {
+  position: relative;
+  width: 100%;
+  height: calc(100vh - 77px); /* calculate height of the screen minus the heading */
+}
+
+.map {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50px;
+  border: 2px solid black;
+  overflow: hidden;
+}
+
+.map .maplibregl-ctrl-top-right {
+  position: relative;
+  right:10px;
+  top: 30px;
+}
+
+.custom-marker{
+  width: 6rem;
+  height: 6rem;
+  background-size: contain;
+}

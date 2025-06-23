@@ -15,7 +15,7 @@ function Nav({ position }) {
   const handleVideoEnd = () => {
     setShowVideo(false);
   };
-  // useEffect();
+  
   useEffect(() => {
     let lastScrollTop = 0;
     const handleScroll = () => {
@@ -26,10 +26,15 @@ function Nav({ position }) {
         setIsScrolled(false);
       }
     };
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
+    if(location.pathname === "/"){
+      window.addEventListener("scroll", handleScroll);
+      return () => {
+        window.removeEventListener("scroll", handleScroll);
+      }
+    }else{
+      setIsScrolled(true);
+    }
+
   }, []);
 
   return (

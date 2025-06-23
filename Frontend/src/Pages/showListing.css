@@ -2,8 +2,23 @@
 
 
 
-.showHead{
+.showHead {
     font-family: "Poppins", sans-serif;
     font-weight: 600;
     color: rgb(79, 79, 79);
+}
+
+.reviewHead{
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    font-size: 6rem;
+}
+
+.bottom:after {
+    content: "";
+    width: 90%;
+    height: 1px;
+    position: absolute;
+    bottom: 10px;
+    background-color: rgb(221, 221, 221);
 }
