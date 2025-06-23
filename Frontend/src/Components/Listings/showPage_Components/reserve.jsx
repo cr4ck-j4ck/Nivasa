@@ -1,4 +1,6 @@
 import { useState } from "react";
+import downIcon from "@mui/icons-material/KeyboardArrowDown";
+import upIcon from "@mui/icons-material/KeyboardArrowUp";
 
 const SeatReservationBox = () => {
   const [showGuests, setShowGuests] = useState(false);
@@ -16,27 +18,35 @@ const SeatReservationBox = () => {
   };
 
   return (
-    <div className="w-full p-4 bg-white m-5 ml-10 max-w-xl h-fit shadow-lg rounded-lg">
+    <div
+      className="p-4 bg-white m-5 h-fit rounded-2xl"
+      style={{ boxShadow: "#b2b2b2 0px 0px 17px" }}
+    >
+      <h1 className="text-2xl ml-1 mt-2">Add dates for prices</h1>
       {/* Check-in & Check-out */}
-      <div className="flex gap-4 mb-4">
+      <div className="flex mt-5">
         <input
           type="date"
-          className="flex-1 border p-3 rounded-md"
+          className="flex-1 border p-3 rounded-tl-xl border-black "
           placeholder="Check-in"
         />
         <input
           type="date"
-          className="flex-1 border p-3 rounded-md"
+          className="flex-1 border p-3 rounded-tr-xl border-black border-l-0"
           placeholder="Check-out"
         />
+
       </div>
 
       <div className="relative w-full mb-4">
         <div
-          className="border p-3 rounded-md cursor-pointer bg-gray-100"
+          className="border p-3 cursor-pointer rounded-bl-xl rounded-br-xl border-black border-t-0"
           onClick={() => setShowGuests(!showGuests)}
         >
           Guests: {guests.adults + guests.children + guests.infants}
+          <div className="bg-red-400">
+            <upIcon/>
+          </div>
         </div>
 
         {showGuests && (

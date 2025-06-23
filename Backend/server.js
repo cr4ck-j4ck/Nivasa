@@ -8,7 +8,7 @@ const connectDB = require("./config/db");
 const app = express();
 const cors = require('cors');
 app.use(cors({
-  origin: ['https://nivasa-two.vercel.app', 'https://nivasa-two.vercel.app/', 'https://nivasa-git-main-cr4ck-j4cks-projects.vercel.app/'] 
+  origin: ['https://nivasa-two.vercel.app', 'https://nivasa-git-main-cr4ck-j4cks-projects.vercel.app','http://localhost:5173'] 
 }));
 const PORT = process.env.PORT || 3000;
 
@@ -19,7 +19,8 @@ app.get("/", (req, res) => {
 });
 
 app.get("/listing/:id", wrapAsync(async (req, res) => {
-    const data = await Listingmodel.findById(req.params.id).populate("host");
+
+     const data = await Listingmodel.findById(req.params.id).populate("host");
     // setTimeout(() => {
         res.json(data);
     // }, 1000);
