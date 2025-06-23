@@ -111,7 +111,7 @@ export default function () {
           </svg>
         </div>
       </div>
-      <div className="grid grid-cols-2 gap-10 xl:w-[90%] mx-auto bg-red-300">
+      <div className="grid grid-cols-2 gap-10 xl:w-[90%] mx-auto">
         {arr.map((el) => (
           <div className="reviewUserInfo max-w-[500px]">
             <div className="flex">
