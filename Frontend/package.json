@@ -12,6 +12,9 @@
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
+    "@maptiler/geocoding-control": "^2.1.6",
+    "@maptiler/leaflet-maptilersdk": "^4.1.0",
+    "@maptiler/sdk": "^3.3.0",
     "@mui/icons-material": "^7.1.1",
     "@mui/material": "^7.1.1",
     "@radix-ui/react-slot": "^1.2.3",
@@ -20,10 +23,13 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "date-fns": "^3.0.1",
+    "dotenv": "^16.5.0",
+    "leaflet": "^1.9.4",
     "lucide-react": "^0.513.0",
     "react": "^19.1.0",
     "react-day-picker": "^8.10.1",
     "react-dom": "^19.1.0",
+    "react-leaflet": "^5.0.0",
     "react-loading-skeleton": "^3.5.0",
     "react-router-dom": "^7.6.2",
     "tailwind-merge": "^3.3.0"

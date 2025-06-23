@@ -12,7 +12,7 @@ function App() {
   }
   return (
     <div className="min-h-screen flex flex-col items-center">
-      <Nav position={isMainListing ? "fixed top-0" : "relative"} />
+      <Nav position={isMainListing ? "fixed top-0" : ""} />
       <AppRoutes />
       <Footer />
     </div>

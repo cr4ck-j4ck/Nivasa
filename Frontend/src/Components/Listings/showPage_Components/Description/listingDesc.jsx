@@ -12,7 +12,7 @@ export default function () {
   const [bedroomImgs, setBedroomImgs] = useState([]);
   const bedroomContainerRef = useRef(null);
   const shortDesc = listingObj.description?.slice(0, 250);
-  console.log(listingObj.host.avatar);
+  // console.log(listingObj.host.avatar);
 
   useEffect(() => {
     const filteredImgs = [];
@@ -26,7 +26,7 @@ export default function () {
     setBedroomImgs(filteredImgs);
   }, []);
   return (
-    <div className="w-[60vw] max-w-4xl mt-6 relative px-4 md:px-10 bg-blue-500">
+    <div className="w-[100%] xl:w-[55vw] max-w-4xl relative shrink-1">
       <h3 className="text-2xl font-semibold">
         {" "}
         {listingObj.roomType} in{" "}
@@ -41,7 +41,7 @@ export default function () {
           </span>
         ))}{" "}
       </p>{" "}
-      <div className="hostProfile flex mt-10 border-b border-gray-300 h-20 w-full md:w-4/5">
+      <div className="hostProfile flex mt-10 border-b border-gray-300 h-20 w-full">
         {" "}
         <img
           src={listingObj.host.avatar}
@@ -52,9 +52,9 @@ export default function () {
           Hosted by {listingObj.host.fullName}
         </h3>{" "}
       </div>
-      <div className="description pb-10 border-b border-gray-300 w-[80%]">
+      <div className="description pb-10 border-b border-gray-300 w-full">
         <h4 className="text-2xl font-semibold mt-5 mb-2">About this Place</h4>
-        <p className="font-medium text-[#242424]">
+        <p className="font-medium text-[#242424] w-full]">
           {shortDesc}...
           <button
             onClick={() => setShowFullDesc(true)}
@@ -89,24 +89,14 @@ export default function () {
           ))}
         </div>
       </div>
-      <div className="pb-10 border-b border-gray-300 w-full max-w-2xl h-auto">
+      <div className="pb-10 w-full max-w-2xl h-auto">
         <div className="flex items-center justify-between flex-wrap mb-5">
           <h4 className="text-2xl font-semibold mt-5 mb-2">
             What This place offers
           </h4>
         </div>
         <div className="w-full grid grid-cols-2 grid-rows-4 gap-4 text-xl">
-          <Amenities amenity={listingObj.amenities}/>
-        </div>
-      </div>
-      <div className="pb-10 border-b border-gray-300 w-full max-w-2xl h-auto">
-        <div className="flex items-center justify-between flex-wrap mb-5">
-          <h4 className="text-2xl font-semibold mt-5 mb-2">
-            Select check-in date
-          </h4>
-        </div>
-        <div className="relative -left-15 ">
-          <Calendar02 />
+          <Amenities amenity={listingObj.amenities} />
         </div>
       </div>
       {showFullDesc && (
