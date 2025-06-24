@@ -4,6 +4,7 @@ import DownIcon from "@mui/icons-material/KeyboardArrowDown";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import "./reserve.css";
+import { Calendar02 } from '@/Components/Calendar02';
 
 const SeatReservationBox = () => {
   const [showGuests, setShowGuests] = useState(false);
@@ -26,8 +27,8 @@ const SeatReservationBox = () => {
       style={{ boxShadow: "#b2b2b2 0px 0px 17px" }}
     >
       <h1 className="text-xl ml-1 mt-2">Add dates for prices</h1>
-      <div className="flex mt-5">
-        <div className="border p-3 border-black rounded-tl-md cursor-pointer w-1/2">
+      <div className="md:flex mt-5">
+        <div className="border p-3 border-black md:rounded-tl-md cursor-pointer md:w-1/2">
           <p className="reservePara">CHECK-IN</p>
           <input
             type="text"
@@ -35,7 +36,7 @@ const SeatReservationBox = () => {
             className="cursor-pointer outline-none"
           />
         </div>
-        <div className="border p-3 rounded-tr-md border-black border-l-0 cursor-pointer w-1/2">
+        <div className="border p-3 md:rounded-tr-md border-black md:border-l-0 cursor-pointer md:w-1/2 ">
           <p className="reservePara">CHECK-IN</p>
           <input
             type="text"
@@ -57,33 +58,33 @@ const SeatReservationBox = () => {
         </div>
 
         {showGuests && (
-          <div className="absolute left-0 top-full mt-2 w-[18rem] bg-white border shadow-md rounded-md z-10 p-4">
+          <div className="absolute left-0 top-full mt-2 w-full bg-white border shadow-md rounded-md z-10 p-4">
             {["adults", "children", "infants"].map((type) => (
               <div
                 key={type}
-                className="flex items-center justify-between mb-6"
+                className="flex items-center justify-between mb-3"
               >
                 <span className="capitalize">{type}</span>
                 <div className="flex items-center gap-2">
                   <button
                     onClick={() => updateGuest(type, -1)}
-                    className="w-7 h-7 border-1 border-[#aaa] rounded-full flex items-center justify-center mr-2"
+                    className="w-7 h-7 bg-gray-200 rounded-full flex items-center justify-center"
                   >
-                    <RemoveIcon fontSize="" />
+                    −
                   </button>
                   <span>{guests[type]}</span>
                   <button
                     onClick={() => updateGuest(type, 1)}
-                    className="ml-2 w-7 h-7 border-1 border-[#aaa] rounded-full flex items-center justify-center"
+                    className="w-7 h-7 bg-gray-200 rounded-full flex items-center justify-center"
                   >
-                    <AddIcon fontSize="" />
+                    +
                   </button>
                 </div>
               </div>
             ))}
             <div className="text-right mt-2">
               <button
-                className="underline font-medium"
+                className="text-blue-600 font-medium"
                 onClick={() => setShowGuests(false)}
               >
                 Close
@@ -92,6 +93,7 @@ const SeatReservationBox = () => {
           </div>
         )}
       </div>
+      <Calendar02/>
 
       {/* Reserve Button */}
       <button className="w-full bg-[#F83159] text-white py-3 rounded-3xl hover:bg-[#cf2346]">

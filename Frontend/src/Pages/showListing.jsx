@@ -7,7 +7,7 @@ import "./showListing.css";
 import Skeleton from "react-loading-skeleton";
 import SeatReservationBox from "./../Components/Listings/showPage_Components/reserve";
 import ListingContext from "@/Context/context";
-import ShowReview from "@/Components/Listings/showPage_Components/Reviews/review"
+import ShowReview from "@/Components/Listings/showPage_Components/Reviews/review";
 import Map from "@/Components/Listings/showPage_Components/Map";
 
 export default function () {
@@ -26,16 +26,22 @@ export default function () {
           {listingObj ? listingObj.title : <Skeleton />}
         </h1>
         <Gallery />
-        <div className="flex bottom relative pb-5 xl:w-[90%] w-full xl:mx-auto">
-          {listingObj ? <Description /> : ""}
-          {listingObj ? <SeatReservationBox /> : ""}          
-        </div>
-        <div className="showReviews">
-          <ShowReview/>
-        </div>
-        <div className="showMap flex ">
-          <Map/>
-        </div>
+        {listingObj ? (
+          <>
+            <div className="flex bottom relative pb-5 xl:w-[90%] w-full xl:mx-auto">
+              <Description />
+              <SeatReservationBox />
+            </div>
+            <div className="showReviews">
+              <ShowReview />
+            </div>
+            <div className="showMap flex ">
+              <Map />
+            </div>
+          </>
+        ) : (
+          ""
+        )}
       </div>
     </ListingContext.Provider>
   );

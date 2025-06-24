@@ -26,7 +26,7 @@ export default function () {
     setBedroomImgs(filteredImgs);
   }, []);
   return (
-    <div className="w-[100%] xl:w-[55vw] max-w-4xl relative shrink-1">
+    <div className="min-w-[450px] w-[100%] xl:w-[55vw] max-w-4xl relative shrink-1">
       <h3 className="text-2xl font-semibold">
         {" "}
         {listingObj.roomType} in{" "}

@@ -217,8 +217,8 @@ export default function SearchBar({ scroll: isScrolled, setIsScrolled }) {
 
           <div
             className={`${
-              isScrolled ? "h-12 left-35" : "h-[4.1rem] left-[27%]"
-            } absolute w-14 z-1 flex justify-center`}
+              isScrolled ? "h-12 right-1" : "h-[4.1rem] right-1"
+            } relative z-1 flex justify-center`}
           >
             <div className="relative h-[70%] w-px top-[15%] bg-[#ababab]"></div>
           </div>
@@ -253,9 +253,9 @@ export default function SearchBar({ scroll: isScrolled, setIsScrolled }) {
           </button>
 
           <div
-            className={`absolute ${
-              isScrolled ? "left-[14rem] h-12" : "h-[4.1rem] left-[42%]"
-            } w-14 z-1 flex justify-center text-5xl bg-transparent`}
+            className={`relative ${
+              isScrolled ? "h-12" : "h-[4.1rem] right-1"
+            } z-1 flex justify-center text-5xl bg-transparent`}
           >
             <div className="relative h-[70%] w-px top-[15%] bg-[#ababab]"></div>
           </div>
@@ -291,14 +291,14 @@ export default function SearchBar({ scroll: isScrolled, setIsScrolled }) {
                 />
               </button>
 
-              <div className="divide absolute h-[4.1rem] w-14 left-[58.5%] z-1 flex justify-center ">
-                <div className="relative h-[70%] top-[15%] bg-[#c4c4c4] w-px"></div>
+              <div className="divide relative h-[4.1rem] left-1 z-1 flex justify-center ">
+                <div className="relative h-[70%] top-[15%] bg-[#a8a8a8] w-px"></div>
               </div>
             </>
           )}
 
           <button
-            className={`input4 ripple-btn overflow-hidden rounded-4xl relative z-2 flex-1 min-w-[8rem] ${
+            className={`input4 ripple-btn overflow-hidden ml-2 rounded-4xl relative z-2 flex-1 min-w-[8rem] ${
               focusedInput === "input4" ? "bg-white" : "hover:bg-[#bebebe]"
             }`}
             ref={(el) => {
@@ -316,7 +316,7 @@ export default function SearchBar({ scroll: isScrolled, setIsScrolled }) {
           >
             <p
               className={`absolute text-[0.8em] font-medium top-3 ${
-                isScrolled ? "" : "left-8.5"
+                isScrolled ? "" : "left-6.5"
               }`}
             >
               {isScrolled ? "Add Guests" : "Who"}
@@ -350,7 +350,7 @@ export default function SearchBar({ scroll: isScrolled, setIsScrolled }) {
           className="relative w-fit"
           style={{ left: `${dynamicLeftClass}px` }}
         >
-          <Calendar02 />
+          <Calendar02 customClass="bla"/>
         </div>
       ) : (
         ""

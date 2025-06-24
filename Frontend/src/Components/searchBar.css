@@ -15,7 +15,7 @@
   position: absolute;
 }
 
-.searchIncrease{
+.searchIncrease {
   width: 6.5rem;
   align-items: center;
   justify-content: space-around;
@@ -23,27 +23,27 @@
 
 @keyframes toTop {
   from {
-    transform: translate(0px,0px);
+    transform: translate(0px, 0px);
     height: 4rem;
   }
-  
+
   to {
     width: 25rem;
-    transform: translate(-5rem,-30px);
+    transform: translate(-5rem, -30px);
     height: 3rem;
   }
 }
 
 @keyframes toDown {
   from {
-    transform: translate(-5rem,-90px);
+    transform: translate(-5rem, -90px);
     height: 3rem;
   }
 
   to {
     width: 100%;
     max-width: 54rem;
-    transform: translateY(0px,0px);
+    transform: translateY(0px, 0px);
     height: 4rem;
   }
 }
@@ -106,64 +106,69 @@ button:hover+div {
 }
 
 
-@media(max-width:925px){
-  .bla{
+@media(max-width:925px) {
+  .bla {
     width: 90vw;
     padding: 1rem;
     padding-top: 2rem;
-    left:1rem;
+    left: 1rem;
     border-radius: 3rem;
     height: 28rem;
   }
-  .bla > div{
+
+  .bla>div {
     justify-content: space-around;
     width: 100%;
     padding: 2rem 0;
   }
-  .bla button{
+
+  .bla button {
     margin: 0.6vw;
     font-weight: 600;
   }
-  .rdp-head tr{
+
+  .bla .rdp-head tr {
     margin-left: 5px;
     margin-top: 1rem;
   }
-  .rdp-head tr th{
+
+  .bla .rdp-head tr th {
     /* background-color: red; */
     margin-right: 1.1vw;
     color: rgb(113, 113, 113);
     font-weight: 500;
   }
 }
-@media(min-width:925px){
+
+@media(min-width:925px) {
   .bla {
-  box-shadow: 0px 1px 15px rgb(149, 149, 149);
-  height: 33rem;
-  padding: 0px;
-  width: 54rem;
-}
+    box-shadow: 0px 1px 15px rgb(149, 149, 149);
+    height: 33rem;
+    padding: 0px;
+    width: 54rem;
+  }
 
-th {
-  margin: 0.6rem;
-  margin-right: 0.8rem;
-  font-weight: 600;
-}
+  .bla th {
+    margin: 0.6rem;
+    margin-right: 0.8rem;
+    font-weight: 600;
+  }
 
-.bla button {
-  font-weight: 700;
-  height: 3rem;
-  width: 3rem;
-  margin: 0.2rem;
-}
+  .bla button {
+    font-weight: 700;
+    height: 3rem;
+    width: 3rem;
+    margin: 0.2rem;
+  }
 
-.bla>div {
-  width: 88%;
-  height: fit-content;
-  position: relative;
-  top: 3rem;
-  display: flex;
-  justify-content: space-between;
-}
+  .bla>div {
+    width: 88%;
+    height: fit-content;
+    position: relative;
+    top: 3rem;
+    display: flex;
+    justify-content: space-between;
+  }
 }
 
 
@@ -174,11 +179,11 @@ th {
     width: 95%;
     margin: 0 auto;
   }
-  
+
   .moveTop {
     width: 25rem !important;
   }
-  
+
   .moveDown {
     width: 95% !important;
   }
@@ -188,11 +193,11 @@ th {
   .df {
     width: 90%;
   }
-  
+
   .moveTop {
     width: 20rem !important;
   }
-  
+
   .moveDown {
     width: 90% !important;
   }
