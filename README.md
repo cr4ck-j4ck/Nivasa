@@ -81,7 +81,7 @@ Make sure you have the following installed on your development machine:
     In the `Backend` directory, create a `.env` file and add the following variables. Replace the placeholder with your actual MongoDB connection string.
 
     ```
-    MONGO_URL=mongodb://127.0.0.1:27017/nivasa
+    MONGO_URI=mongodb://127.0.0.1:27017/nivasa
     ```
 
     If you want the backend server to run on a specific port, you can also add a `PORT` variable to your `.env` file, for example:
