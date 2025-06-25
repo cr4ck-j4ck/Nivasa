@@ -22,7 +22,7 @@ async function initData() {
       return { ...element, host: randomHost };
     });
     await listingModel.deleteMany({});
-    await listingModel.insertMany(data2);
+    await listingModel.insertMany(changedData2);
   } catch (err) {
     console.error('Error:', err);
   }
