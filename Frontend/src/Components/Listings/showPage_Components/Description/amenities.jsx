@@ -11,7 +11,7 @@ import WashingMachine from "@mui/icons-material/LocalLaundryService";
 import DeckIcon from "@mui/icons-material/Deck";
 import WindowIcon from "@mui/icons-material/Window";
 import DryCleaningIcon from "@mui/icons-material/DryCleaning";
-
+import PoolIcon from '@mui/icons-material/Pool';
 export default function ({ amenity }) {
   const amenityIcons = {
     parking: <LocalParkingIcon />,
@@ -26,6 +26,7 @@ export default function ({ amenity }) {
     elevator: <ElevatorIcon />,
     laundry: <DryCleaningIcon />,
     windows: <WindowIcon />,
+    pool: <PoolIcon />,
     closet: (
       <svg
         xmlns="http://www.w3.org/2000/svg"

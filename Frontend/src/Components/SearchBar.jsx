@@ -350,7 +350,7 @@ export default function SearchBar({ scroll: isScrolled, setIsScrolled }) {
           className="relative w-fit"
           style={{ left: `${dynamicLeftClass}px` }}
         >
-          <Calendar02 customClass="bla"/>
+          <Calendar02 customClass="bla rounded-4xl"/>
         </div>
       ) : (
         ""

@@ -6,3 +6,56 @@
     font-size: 0.7rem;
     margin-bottom: -5px;
 }
+
+.checkInCal {
+    width: 100%;
+    border: none;
+    box-shadow: none;
+    position: relative;
+    left: -1rem;
+}
+
+.checkInCal>div{
+    width: 100%;
+    justify-content: space-around;
+}
+.checkInCal>div>div {
+    margin: 0 0.5rem;
+}
+
+.checkInCal button{
+    margin: 0rem 0.3rem;
+    font-weight: 500;
+}
+.checkInCal [aria-live="polite"]{
+    font-size: 1rem;
+}
+.checkInCal .rdp-caption_start > div{
+    margin-bottom: 1rem;
+}
+.checkInCal .rdp-caption_end > div{
+    margin-bottom: 1rem;
+}
+.calRes{
+    box-shadow: -1px 1px 12px gray;
+    border-radius: 1rem;
+    padding: 1rem;
+    background-color: white;
+    width: 645px;
+    height: 460px;
+}
+
+.checkInCal .rdp-head th{
+    margin-right: 0.6rem;
+    padding-left: 0.7rem;
+    font-weight: 500;
+}
+
+.closeBtn{
+    background-color: black;
+    color: white;
+    width: 5rem;
+    padding: 0.4rem 1rem;
+    border-radius: 0.8rem;
+    letter-spacing: 1.5px;
+}

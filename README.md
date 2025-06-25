@@ -97,8 +97,8 @@ Make sure you have the following installed on your development machine:
     In the `Frontend` directory, create a `.env` file and add the following variables.
 
     ```
-    VITE_LISTING_API="http://localhost:3000/listing"
-    VITE_CITY_API="http://localhost:3000/listingCard"
+    VITE_LISTING_API="http://localhost:3000/listing/"
+    VITE_CITY_API="http://localhost:3000/listingCard/"
     VITE_MAPTILER_KEY=<YOUR_MAPTILER_API_KEY>
     ```
 

@@ -14,11 +14,12 @@
     font-size: 6rem;
 }
 
-.bottom:after {
+.bottomLine:after {
     content: "";
     width: 90%;
     height: 1px;
     position: absolute;
     bottom: 10px;
     background-color: rgb(221, 221, 221);
+    z-index: -1;
 }

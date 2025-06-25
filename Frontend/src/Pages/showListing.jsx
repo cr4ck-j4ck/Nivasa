@@ -28,7 +28,7 @@ export default function () {
         <Gallery />
         {listingObj ? (
           <>
-            <div className="flex bottom relative pb-5 xl:w-[90%] w-full xl:mx-auto">
+            <div className="flex bottomLine relative pb-5 xl:w-[90%] w-full xl:mx-auto">
               <Description />
               <SeatReservationBox />
             </div>

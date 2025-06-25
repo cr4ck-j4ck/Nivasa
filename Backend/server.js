@@ -17,6 +17,10 @@ connectDB();
 app.get("/", (req, res) => {
     res.send("Hii");
 });
+app.use((req,res,next)=>{
+    console.log("GOT request");
+    next();
+})
 
 app.get("/listing/:id", wrapAsync(async (req, res) => {
 
