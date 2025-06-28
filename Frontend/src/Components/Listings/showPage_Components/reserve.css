@@ -59,3 +59,8 @@
     border-radius: 0.8rem;
     letter-spacing: 1.5px;
 }
+
+.dateInputs input{
+    font-weight: 400;
+    color: rgb(0, 0, 0);
+}

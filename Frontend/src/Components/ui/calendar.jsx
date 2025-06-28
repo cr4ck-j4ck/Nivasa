@@ -1,14 +1,16 @@
-import * as React from "react"
-import { ChevronLeft, ChevronRight } from "lucide-react"
-import { DayPicker } from "react-day-picker"
+import * as React from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { DayPicker, Months } from "react-day-picker";
 
-import { cn } from "@/lib/utils"
-import { buttonVariants } from "@/Components/ui/button"
+import { cn } from "@/lib/utils";
+import { buttonVariants } from "@/Components/ui/button";
 
 function Calendar({
   className,
   classNames,
   showOutsideDays = true,
+  setBookingDates,
+  focusInput,
   ...props
 }) {
   return (
@@ -65,8 +67,26 @@ function Calendar({
           <ChevronRight className={cn("size-4", className)} {...props} />
         ),
       }}
-      {...props} />
+      {...props}
+      onDayClick={(e) => {
+        let date = String(e.getDate()).padStart(2, "0");
+        let month = String(e.getMonth() + 1).padStart(2, "0");
+        let year = e.getFullYear();
+        let fullDate = `${date}/${month}/${year}`;
+        console.log(fullDate);
+        if (focusInput === "input1") {
+          setBookingDates((el) => {
+            return { ...el, checkIn: fullDate };
+          });
+        }
+        if (focusInput === "input2") {
+          setBookingDates((el) => {
+            return { ...el, checkOut: fullDate };
+          });
+        }
+      }}
+    />
   );
 }
 
-export { Calendar }
+export { Calendar };

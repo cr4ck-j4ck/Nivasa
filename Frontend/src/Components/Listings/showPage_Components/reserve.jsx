@@ -9,6 +9,13 @@ import { Calendar02 } from "@/Components/Calendar02";
 const SeatReservationBox = () => {
   const [showGuests, setShowGuests] = useState(false);
   const [showCalendar, setShowCalendar] = useState(false);
+  const [focusInput, setFocusInput] = useState(null);
+  const [clearDate, setClearDate] = useState(null);
+  const [bookingDates, setBookingDates] = useState({
+    checkIn: null,
+    checkOut: null,
+  });
+  const [date, setDate] = useState(null);
   const inputRef = useRef([]);
   const calRef = useRef(null);
   const dateDiv = useRef(null);
@@ -17,15 +24,23 @@ const SeatReservationBox = () => {
     children: 0,
     infants: 0,
   });
+
   useEffect(() => {
     const func1 = (e) => {
       if (e.code == "Escape" && showCalendar) {
         setShowCalendar(false);
+        setFocusInput(null);
       }
     };
     const func2 = (e) => {
-      if (calRef && showCalendar && !dateDiv.current.contains(e.target) && !calRef.current.contains(e.target)) {
+      if (
+        calRef &&
+        showCalendar &&
+        !dateDiv.current.contains(e.target) &&
+        !calRef.current.contains(e.target)
+      ) {
         setShowCalendar(false);
+        setFocusInput(null);
       }
     };
 
@@ -42,44 +57,79 @@ const SeatReservationBox = () => {
       [type]: Math.max(0, prev[type] + change),
     }));
   };
+  function handleInputClick(input) {
+    if (input.id == "input2") {
+      console.dir(inputRef.current[0]);
+    }
+    // if (showCalendar && input) {
+    //   setFocusInput(input.id);
+    // }
+  }
 
+  function handleRowClick() {
+    if (!showCalendar) {
+      setFocusInput(
+        focusInput ? (focusInput === "input1" ? "input2" : "input1") : "input1"
+      );
+      setShowCalendar(true);
+    }
+  }
+  // if(focusInput)
   return (
     <div
       className="p-4 m-5 ml-10 rounded-2xl no-select sticky w-1/2 max-w-[355px]  top-35  mb-10 h-fit"
       style={{ boxShadow: "#b2b2b2 0px 0px 17px" }}
     >
-      <h1 className="text-xl ml-1 mt-2">Add dates for prices</h1>
+      <h1 className="text-xl ml-1 mt-2">Add dates for prices</h1> 
+
       <div
-        className="md:flex mt-5 z-10 relative"
+        className="md:flex mt-5 z-10 relative dateInputs"
         onClick={() => {
           setShowCalendar(true);
+          handleRowClick();
         }}
         ref={dateDiv}
       >
         <div
-          className={`border p-3 border-black md:rounded-tl-md cursor-pointer md:w-1/2 ${
+          className={`${
+            focusInput == "input1" ? "border-3" : "border"
+          } p-3 border-black md:rounded-tl-md cursor-pointer md:w-1/2 ${
             showCalendar ? "rounded-bl-md" : ""
           }`}
           ref={(el) => (inputRef.current[0] = el)}
+          id="input1"
+          onClick={() => {
+            handleInputClick(inputRef.current[0]);
+          }}
         >
           <p className="reservePara">CHECK-IN</p>
           <input
             type="text"
+            readOnly
+            value={bookingDates.checkIn || ""}
             placeholder={`${showCalendar ? "DD/MM/YYYY" : "Add Date"}`}
             className="cursor-pointer outline-none w-full min-w-[80px]"
           />
         </div>
         <div
-          className={`border p-3 md:rounded-tr-md border-black md:border-l-0 cursor-pointer md:w-1/2 ${
+          className={`${
+            focusInput == "input2" ? "border-3" : "border md:border-l-0"
+          } p-3 md:rounded-tr-md border-black cursor-pointer md:w-1/2 ${
             showCalendar ? "rounded-br-md" : ""
           }`}
           ref={(el) => (inputRef.current[1] = el)}
+          onClick={() => {
+            handleInputClick(inputRef.current[1]);
+          }}
+          id="input2"
         >
-          <p className="reservePara">CHECK-IN</p>
+          <p className="reservePara">CHECKOUT</p>
           <input
             type="text"
-            placeholder="Add dates"
+            placeholder={`${showCalendar ? "DD/MM/YYYY" : "Add Date"}`}
             className="cursor-pointer outline-none w-full min-w-[80px]"
+            readOnly
+            value={bookingDates.checkOut || ""}
           />
         </div>
       </div>
@@ -94,15 +144,29 @@ const SeatReservationBox = () => {
               Add your travel dates for exact pricing
             </p>
           </div>
-          {<Calendar02 customClass="checkInCal" />}
+
+          <Calendar02
+            customClass="checkInCal"
+            date={date}
+            setDate={setDate}
+            setBookingDates={setBookingDates}
+            focusInput={focusInput}
+          />
+
           <div className="flex w-full justify-end mt-5">
-            <p className="mr-5 mt-2 underline text-black font-semibold">
+            <p
+              className="mr-5 mt-2 underline text-black font-semibold cursor-pointer"
+              onClick={() => {
+                setDate(undefined);
+              }}
+            >
               Clear dates
             </p>
             <button
               className="mr-5 closeBtn font-semibold"
               onClick={() => {
                 setShowCalendar(false);
+                setFocusInput(null);
               }}
             >
               Close
