@@ -44,13 +44,13 @@ function Nav({ position }) {
       } bg-[#fbfbfb]`}
     >
       <div className="justify-between flex ml-10">
-        <Link to="/">
+        <a href="/" target="_blank">
           <img
             src="/Nivasa-removebg-preview.png"
             alt="nivasaImg"
             className="block mx-auto h-20 mt-3"
           />
-        </Link>
+        </a>
         <div className="w-sm relative flex left-20">
           <div className={`flex items-center ${isScrolled ? "mTop" : "mDown"}`}>
             <div className="flex items-center mr-5 cursor-pointer">
