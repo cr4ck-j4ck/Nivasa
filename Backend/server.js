@@ -15,12 +15,8 @@ const PORT = process.env.PORT || 3000;
 connectDB();
 
 app.get("/", (req, res) => {
-    res.send("Hii");
+    res.send("Hii from NeoVim");
 });
-app.use((req,res,next)=>{
-    console.log("GOT request");
-    next();
-})
 
 app.get("/listing/:id", wrapAsync(async (req, res) => {
 
@@ -28,7 +24,7 @@ app.get("/listing/:id", wrapAsync(async (req, res) => {
     // setTimeout(() => {
         res.json(data);
     // }, 1000);
-}));
+}));nv
 
 
 app.get("/listingCard/:city", async (req, res) => {
