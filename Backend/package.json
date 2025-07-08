@@ -4,7 +4,8 @@
   "description": "Backend of Project Nivasa",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon dist/server.js"
+    "dev": "nodemon dist/server.js",
+    "build": "tsc"
   },
   "repository": {
     "type": "git",
