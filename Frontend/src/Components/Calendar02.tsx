@@ -1,7 +1,20 @@
-import React, { useEffect } from "react";
 import { Calendar } from "@/Components/ui/calendar";
 
-export function Calendar02({customClass , date ,setDate,setBookingDates,focusInput}) {
+interface CalendarProps {
+  customClass: string;
+  date: Date;
+  setDate;
+  setBookingDates;
+  focusInput;
+}
+
+export function Calendar02({
+  customClass,
+  date,
+  setDate,
+  setBookingDates,
+  focusInput,
+}: CalendarProps) {
   return (
     <Calendar
       mode="single"

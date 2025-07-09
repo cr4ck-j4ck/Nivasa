@@ -3,16 +3,23 @@ import Nav from "./Layout/Nav";
 import Footer from "./Layout/Footer";
 import AppRoutes from "@/Router/Routes";
 import { useLocation } from "react-router-dom";
+import { useEffect } from "react";
 
-function App() {
+const App:React.FC = () => {
   const location = useLocation();
   const isMainListing = location.pathname === "/";
-  if (isMainListing) {
-    document.body.style.paddingTop = "12rem";
-  }
+  useEffect(() => {
+    if (isMainListing) {
+      document.body.style.paddingTop = "12rem";
+    } else {
+      document.body.style.paddingTop = "";
+    }
+  }, [isMainListing]);
   return (
     <div className="min-h-screen flex flex-col items-center">
-      <Nav position={isMainListing ? "fixed top-0" : ""} />
+      <Nav position={isMainListing ? "fixed top-0" : ""} >
+        <h1>fdsf</h1>
+      </Nav>
       <AppRoutes />
       <Footer />
     </div>
