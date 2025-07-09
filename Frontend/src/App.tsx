@@ -18,7 +18,6 @@ const App:React.FC = () => {
   return (
     <div className="min-h-screen flex flex-col items-center">
       <Nav position={isMainListing ? "fixed top-0" : ""} >
-        <h1>fdsf</h1>
       </Nav>
       <AppRoutes />
       <Footer />
