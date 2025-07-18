@@ -2,7 +2,7 @@ import { Calendar } from "@/Components/ui/calendar";
 
 interface CalendarProps {
   customClass: string;
-  date: Date;
+  date: number | null;
   setDate;
   setBookingDates;
   focusInput;
@@ -18,7 +18,7 @@ export function Calendar02({
   return (
     <Calendar
       mode="single"
-      defaultMonth={date}
+      // defaultMonth={date}
       numberOfMonths={2}
       selected={date}
       onSelect={setDate}

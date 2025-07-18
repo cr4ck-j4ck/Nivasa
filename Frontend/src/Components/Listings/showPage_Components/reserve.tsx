@@ -3,13 +3,9 @@ import UpIcon from "@mui/icons-material/KeyboardArrowUp";
 import DownIcon from "@mui/icons-material/KeyboardArrowDown";
 import "./reserve.css";
 import { Calendar02 } from "@/Components/Calendar02";
+import type { IBookingDates } from "@/@Types/interfaces";
 
 type Finput = "input1" | "input2" | null;
-
-interface IBookingDates {
-  checkIn: string |null;
-  checkOut: string |null;
-}
 
 interface Iguests{
     adults: number,
