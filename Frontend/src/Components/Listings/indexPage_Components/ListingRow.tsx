@@ -1,22 +1,33 @@
 import "./listingRow.css";
 import ListingCard from "./ListingCard";
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 const cityAPI = import.meta.env.VITE_CITY_API;
 import axios from "axios";
 import Option from "@/Components/Option";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
-export default function ListingRow({ city}:{city:string}) {
-  const [data, setData] = useState(null);
-  const cardContainerRef = useRef(null);
+interface IlistingData {
+  location: {
+    city: string
+  };
+  _id: string;
+  title: string;
+  price: number;
+  gallery: Record<string, string[]>
+}
+
+export default function ListingRow({ city }: { city: string }) {
+  const [data, setData] = useState<IlistingData[] | null>(null);
+  const cardContainerRef = useRef<HTMLDivElement>(null);
   async function getData() {
     const jsonData = await axios.get(cityAPI + city);
-    console.log("here",cityAPI);
+    console.log("here", cityAPI);
     return jsonData.data;
   }
   useEffect(() => {
     getData().then((res) => {
+      console.log("dekhle bhai data--", res)
       setData(res);
     });
   }, []);
@@ -38,15 +49,15 @@ export default function ListingRow({ city}:{city:string}) {
       <div className="cardContainer relative mb-10 flex" ref={cardContainerRef}>
         {data
           ? data.map((el, i) => (
-              <ListingCard
-                src={el.gallery["Bedroom 1"][0]}
-                // src={demoThumbnail}
-                key={i}
-                city={el.location.city}
-                price={el.price}
-                id={el._id}
-              />
-            ))
+            <ListingCard
+              src={el.gallery["Bedroom 1"][0]}
+              // src={demoThumbnail}
+              key={i}
+              city={el.location.city}
+              price={el.price}
+              id={el._id}
+            />
+          ))
           : skeletonCards}
       </div>
     </div>
