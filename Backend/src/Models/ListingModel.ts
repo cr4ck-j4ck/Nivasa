@@ -64,4 +64,5 @@ const propertySchema = new Schema<IListing>(
 );
 
 
-export const ListingModel: Model<IListing> = mongoose.model<IListing>("Listing", propertySchema);
+const ListingModel: Model<IListing> = mongoose.model<IListing>("Listing", propertySchema);
+export default ListingModel;

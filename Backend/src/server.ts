@@ -1,6 +1,6 @@
 require("dotenv").config();
 import express, { NextFunction, Request, Response } from "express";
-import { ListingModel } from "./Models/ListingModel";
+import ListingModel from "./Models/ListingModel";
 import wrapAsync from "./utils/wrapAsync";
 const UsersModel = require("./Models/UsersModel");
 import { connectDB } from "./config/db";
