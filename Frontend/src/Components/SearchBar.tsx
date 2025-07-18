@@ -3,42 +3,99 @@ import "./searchBar.css";
 import { Calendar02 } from "./Calendar02";
 import SearchIcon from "@mui/icons-material/Search";
 import HomeIcon from "../assets/home.avif";
-export default function SearchBar({ scroll: isScrolled, setIsScrolled }) {
-  const elementRef = useRef(null);
-  const inputReferences = useRef([]);
-  const buttonReferences = useRef([]);
-  let focInput = false;
-  const [focusedInput, setFocusedInput] = useState(null);
-  const [indicatorStyle, setIndicatorStyle] = useState({ left: 0, width: 0 });
-  const [position, updatePosition] = useState(0);
-  const calendarRef = useRef(null);
-  const buttonRefs = {
-    input1: buttonReferences.current[0],
-    input2: buttonReferences.current[1],
-    input3: buttonReferences.current[2],
-    input4: buttonReferences.current[3],
-  };
-  const inputRefs = {
-    input1: inputReferences.current[0],
-    input2: inputReferences.current[1],
-    input3: inputReferences.current[2],
-    input4: inputReferences.current[3],
-  };
-  const dynamicLeftClass = `${Math.floor(position)}`;
 
-  useEffect(()=>{
-    if(focusedInput && isScrolled){
+// ✅ CHANGE 1: Define interface for component props
+// Best Practice: Always define interfaces for props to ensure type safety
+interface SearchBarProps {
+  scroll: boolean;
+  setIsScrolled: (isScrolled: boolean) => void;
+}
+
+// ✅ CHANGE 2: Define type for input keys
+// Best Practice: Use union types for known string literals instead of generic strings
+type InputKey = "input1" | "input2" | "input3" | "input4";
+
+// ✅ CHANGE 3: Define interface for indicator style
+// Best Practice: Define interfaces for complex objects to ensure consistency
+interface IndicatorStyle {
+  left: number;
+  width: number;
+}
+
+// ✅ CHANGE 4: Define interface for button/input references
+// Best Practice: Type your ref objects to ensure they contain the expected elements
+interface InputRefs {
+  input1: HTMLInputElement | null;
+  input2: HTMLInputElement | null;
+  input3: HTMLInputElement | null;
+  input4: HTMLInputElement | null;
+}
+
+interface ButtonRefs {
+  input1: HTMLButtonElement | null;
+  input2: HTMLButtonElement | null;
+  input3: HTMLButtonElement | null;
+  input4: HTMLButtonElement | null;
+}
+
+// ✅ CHANGE 5: Add proper typing to the component function
+// Best Practice: Use React.FC or explicit typing for functional components
+export default function SearchBar({ scroll: isScrolled, setIsScrolled }: SearchBarProps) {
+  // ✅ CHANGE 6: Type the useRef hooks properly
+  // Best Practice: Always specify the type for useRef to get proper IntelliSense
+  const elementRef = useRef<HTMLDivElement>(null);
+  const inputReferences = useRef<(HTMLInputElement | null)[]>([]);
+  const buttonReferences = useRef<(HTMLButtonElement | null)[]>([]);
+  
+  let focInput: boolean = false; // ✅ CHANGE 7: Explicit boolean typing
+  
+  // ✅ CHANGE 8: Use union type for state that can be null or specific strings
+  // Best Practice: Be explicit about what values state can contain
+  const [focusedInput, setFocusedInput] = useState<InputKey | null>(null);
+  
+  // ✅ CHANGE 9: Use the interface we defined for indicator style
+  const [indicatorStyle, setIndicatorStyle] = useState<IndicatorStyle>({ left: 0, width: 0 });
+  
+  // ✅ CHANGE 10: Explicit number typing for position
+  const [position, updatePosition] = useState<number>(0);
+  
+  // ✅ CHANGE 11: Type the calendar ref properly
+  const calendarRef = useRef<HTMLDivElement>(null);
+  
+  // ✅ CHANGE 12: Create properly typed ref objects
+  // Best Practice: Use type assertions only when you're sure about the type
+  const buttonRefs: ButtonRefs = {
+    input1: buttonReferences.current[0] || null,
+    input2: buttonReferences.current[1] || null,
+    input3: buttonReferences.current[2] || null,
+    input4: buttonReferences.current[3] || null,
+  };
+  
+  const inputRefs: InputRefs = {
+    input1: inputReferences.current[0] || null,
+    input2: inputReferences.current[1] || null,
+    input3: inputReferences.current[2] || null,
+    input4: inputReferences.current[3] || null,
+  };
+  
+  const dynamicLeftClass: string = `${Math.floor(position)}`;
+
+  // ✅ CHANGE 13: Add dependency array typing (implicit, but good practice)
+  useEffect(() => {
+    if (focusedInput && isScrolled) {
       buttonRefs[focusedInput]?.blur();
       inputRefs[focusedInput]?.blur();
       setFocusedInput(null);
     }
-  },[isScrolled]);
+  }, [isScrolled]); // Dependencies are properly typed by TypeScript
 
   useEffect(() => {
     if (!calendarRef.current) return;
 
-    const handleClickOutside = (event) => {
-      if (calendarRef.current && !calendarRef.current.contains(event.target)) {
+    // ✅ CHANGE 14: Type the event parameter
+    // Best Practice: Always type event handlers properly
+    const handleClickOutside = (event: MouseEvent) => {
+      if (calendarRef.current && !calendarRef.current.contains(event.target as Node)) {
         handleInputBlur("cal");
       }
     };
@@ -48,15 +105,16 @@ export default function SearchBar({ scroll: isScrolled, setIsScrolled }) {
     return () => {
       document.removeEventListener("click", handleClickOutside);
     };
-  });
+  }); // Note: Missing dependency array is intentional based on original code
 
   // Update position on window resize
   useEffect(() => {
     if (elementRef.current) {
       const rect = elementRef.current.getBoundingClientRect();
-      updatePosition(rect.x+50);
+      updatePosition(rect.x + 50);
     }
-    const reportPosition = () => {
+    
+    const reportPosition = (): void => {
       if (elementRef.current) {
         const rect = elementRef.current.getBoundingClientRect();
         updatePosition(rect.x);
@@ -69,8 +127,9 @@ export default function SearchBar({ scroll: isScrolled, setIsScrolled }) {
     };
   }, []);
 
-  // Update indicator position on focus
-  const updateIndicatorPosition = (key) => {
+  // ✅ CHANGE 15: Type the function parameters
+  // Best Practice: Always type function parameters, especially in complex functions
+  const updateIndicatorPosition = (key: InputKey): void => {
     const button = buttonRefs[key];
     const container = elementRef.current;
 
@@ -90,7 +149,13 @@ export default function SearchBar({ scroll: isScrolled, setIsScrolled }) {
     }
   }, [focusedInput]);
 
-  const handleClick = (button, inputRef, inputKey) => {
+  // ✅ CHANGE 16: Type all function parameters properly
+  // Best Practice: Be explicit about HTML element types
+  const handleClick = (
+    button: HTMLButtonElement,
+    inputRef: HTMLInputElement | null,
+    inputKey: InputKey
+  ): void => {
     const circle = document.createElement("span");
     circle.classList.add("ripple");
 
@@ -114,37 +179,38 @@ export default function SearchBar({ scroll: isScrolled, setIsScrolled }) {
       inputRef?.focus();
     }, 300);
   };
-  // understan this function
-  // const handleInputBlur = (val) => (event) => {
-  //   console.log("onCal ->");
-  //   // if(val=="cal"){
 
-  //   // }
-  //     setTimeout(() => {
-  //       if (!elementRef.current.contains(document.activeElement)) {
-  //         setFocusedInput(null);
-  //       }
-  //     }, 0);
-  // };
-
-  function handleInputBlur(val) {
-    const blurInputs = ["cal", "input1", "input4"];
+  // ✅ CHANGE 17: Type the blur handler function
+  // Best Practice: Create union types for known string values
+  function handleInputBlur(val: "cal" | "input1" | "input4"): void {
+    const blurInputs: ("cal" | "input1" | "input4")[] = ["cal", "input1", "input4"];
     if (blurInputs.includes(val)) {
       setTimeout(() => {
-        if (!elementRef.current.contains(document.activeElement)) {
+        if (!elementRef.current?.contains(document.activeElement)) {
           setFocusedInput(null);
         }
       }, 0);
     }
   }
 
-  const handleMouseEnter = (e) => {
-    e.currentTarget.previousElementSibling.style.visibility = "hidden";
+  // ✅ CHANGE 18: Type mouse event handlers
+  // Best Practice: Use React's built-in event types
+  const handleMouseEnter = (e: React.MouseEvent<HTMLButtonElement>): void => {
+    const previousElement = e.currentTarget.previousElementSibling as HTMLElement;
+    if (previousElement) {
+      previousElement.style.visibility = "hidden";
+    }
   };
-  const handleMouseLeave = (e) => {
-    e.currentTarget.previousElementSibling.style.visibility = "";
+  
+  const handleMouseLeave = (e: React.MouseEvent<HTMLButtonElement>): void => {
+    const previousElement = e.currentTarget.previousElementSibling as HTMLElement;
+    if (previousElement) {
+      previousElement.style.visibility = "";
+    }
   };
-  if (focusedInput == "input2" || focusedInput == "input3") focInput = true;
+  
+  if (focusedInput === "input2" || focusedInput === "input3") focInput = true;
+  
   return (
     <>
       <div
@@ -160,8 +226,8 @@ export default function SearchBar({ scroll: isScrolled, setIsScrolled }) {
           onClick={isScrolled ? () => {
             if (isScrolled) {
               setIsScrolled(false);
-            };
-          } : ()=>{}}
+            }
+          } : () => {}}
         >
           {/* Animated White Box */}
           {focusedInput && !isScrolled && (
@@ -181,7 +247,7 @@ export default function SearchBar({ scroll: isScrolled, setIsScrolled }) {
             }}
             onClick={() =>
               handleClick(
-                buttonReferences.current[0],
+                buttonReferences.current[0]!,
                 inputReferences.current[0],
                 "input1"
               )
@@ -205,7 +271,7 @@ export default function SearchBar({ scroll: isScrolled, setIsScrolled }) {
               {isScrolled ? "AnyWhere" : "Where"}
             </p>
             <input
-              ref={(el) => (inputReferences.current[0] = el)}
+              ref={(el) => {(inputReferences.current[0] = el)}}
               type="text"
               onBlur={() => {
                 handleInputBlur("input1");
@@ -235,7 +301,7 @@ export default function SearchBar({ scroll: isScrolled, setIsScrolled }) {
             onMouseLeave={handleMouseLeave}
             onClick={() =>
               handleClick(
-                buttonReferences.current[1],
+                buttonReferences.current[1]!,
                 inputReferences.current[1],
                 "input2"
               )
@@ -247,7 +313,7 @@ export default function SearchBar({ scroll: isScrolled, setIsScrolled }) {
             <input
               type="text"
               placeholder={`${isScrolled ? "" : "Add Dates"}`}
-              ref={(el) => (inputReferences.current[1] = el)}
+              ref={(el) => {(inputReferences.current[1] = el)}}
               className="w-[80%] ml-4 relative outline-none top-2 cursor-pointer"
             />
           </button>
@@ -274,7 +340,7 @@ export default function SearchBar({ scroll: isScrolled, setIsScrolled }) {
                 }}
                 onClick={() =>
                   handleClick(
-                    buttonReferences.current[2],
+                    buttonReferences.current[2]!,
                     inputReferences.current[2],
                     "input3"
                   )
@@ -285,7 +351,7 @@ export default function SearchBar({ scroll: isScrolled, setIsScrolled }) {
                 </p>
                 <input
                   type="text"
-                  ref={(el) => (inputReferences.current[2] = el)}
+                  ref={(el) => {(inputReferences.current[2] = el)}}
                   placeholder="Add Dates"
                   className="w-[80%] ml-2 outline-none relative top-2 cursor-pointer"
                 />
@@ -308,7 +374,7 @@ export default function SearchBar({ scroll: isScrolled, setIsScrolled }) {
             onMouseLeave={handleMouseLeave}
             onClick={() =>
               handleClick(
-                buttonReferences.current[3],
+                buttonReferences.current[3]!,
                 inputReferences.current[3],
                 "input4"
               )
@@ -328,7 +394,7 @@ export default function SearchBar({ scroll: isScrolled, setIsScrolled }) {
                 handleInputBlur("input4");
               }}
               className={`relative -bottom-[8px] left-1 outline-none w-[80%]`}
-              ref={(el) => (inputReferences.current[3] = el)}
+              ref={(el) => {(inputReferences.current[3] = el)}}
             />
 
             <div
@@ -352,9 +418,7 @@ export default function SearchBar({ scroll: isScrolled, setIsScrolled }) {
         >
           <Calendar02 customClass="bla rounded-4xl"/>
         </div>
-      ) : (
-        ""
-      )}
+      ) : null}
     </>
   );
 }

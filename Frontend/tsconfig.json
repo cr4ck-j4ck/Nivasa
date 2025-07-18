@@ -32,6 +32,6 @@
       "@/*": ["src/*"]
     }
   },
-  "include": ["src", "src/Main.tsx", "src/vite-env.d.ts", "src/App.tsx"],
+  "include": ["src", "src/main.tsx", "src/vite-env.d.ts", "src/App.tsx"],
   "exclude": ["node_modules", "dist"]
 }

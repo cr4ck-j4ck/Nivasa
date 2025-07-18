@@ -1,11 +1,18 @@
+import React from "react";
 import { Calendar } from "@/Components/ui/calendar";
 
-interface CalendarProps {
-  customClass: string;
-  date: number | null;
-  setDate;
-  setBookingDates;
-  focusInput;
+// 👇 Define prop types for Calendar02
+interface Calendar02Props {
+  customClass?: string;
+  date?: Date | undefined;
+  setDate?: (date: Date | undefined) => void;
+  setBookingDates?: React.Dispatch<
+    React.SetStateAction<{
+      checkIn: string | null;
+      checkOut: string | null;
+    }>
+  >;
+  focusInput?: "input1" | "input2" | null;
 }
 
 export function Calendar02({
@@ -14,11 +21,11 @@ export function Calendar02({
   setDate,
   setBookingDates,
   focusInput,
-}: CalendarProps) {
+}: Calendar02Props) {
   return (
     <Calendar
       mode="single"
-      // defaultMonth={date}
+      defaultMonth={date}
       numberOfMonths={2}
       selected={date}
       onSelect={setDate}

@@ -7,6 +7,7 @@ import { connectDB } from "./config/db";
 import ExpressError from "./utils/expressError";
 const app = express();
 import cors from "cors";
+console.log("hello bois ??");
 app.use(
   cors({
     origin: [
@@ -19,6 +20,7 @@ app.use(
 const PORT = process.env.PORT || 3000;
 
 connectDB();
+
 
 app.get("/", (req: Request, res: Response) => {
   console.log("Ha chal raha hai");

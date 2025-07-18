@@ -1,23 +1,29 @@
 import * as React from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { DayPicker, DayPickerProps } from "react-day-picker";
+import { DayPicker } from "react-day-picker";
+import type {
+  DayPickerSingleProps,
+  DayPickerRangeProps,
+} from "react-day-picker";
+
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/Components/ui/button";
 
-interface BookingDates {
-  checkIn: string;
-  checkOut: string;
-}
-
-interface CalendarProps extends DayPickerProps {
+// 👇 Union type to support both single and range modes
+type CalendarProps = (
+  | DayPickerSingleProps
+  | DayPickerRangeProps
+) & {
   className?: string;
-  classNames?: Partial<Record<string, string>>;
-  showOutsideDays?: boolean;
-  setBookingDates: React.Dispatch<React.SetStateAction<BookingDates>>;
-  focusInput: "input1" | "input2";
-}
-
-interface IconProps extends React.SVGProps<SVGSVGElement> {}
+  classNames?: Record<string, string>;
+  setBookingDates?: React.Dispatch<
+    React.SetStateAction<{
+      checkIn: string | null;
+      checkOut: string | null;
+    }>
+  >;
+  focusInput?: "input1" | "input2" | null;
+};
 
 function Calendar({
   className,
@@ -50,7 +56,8 @@ function Calendar({
         row: "flex w-full mt-2",
         cell: cn(
           "relative p-0 text-center text-sm focus-within:relative focus-within:z-20 [&:has([aria-selected])]:bg-accent [&:has([aria-selected].day-range-end)]:rounded-r-md",
-          props.mode === "range"
+          // 🛠️ Fix: mode is now inferred from DayPicker props
+          "mode" in props && props.mode === "range"
             ? "[&:has(>.day-range-end)]:rounded-r-md [&:has(>.day-range-start)]:rounded-l-md first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md"
             : "[&:has([aria-selected])]:rounded-md"
         ),
@@ -74,4 +81,37 @@ function Calendar({
         ...classNames,
       }}
       components={{
-        IconLeft: ({ className, ...props }
+        IconLeft: ({ className, ...props }: React.ComponentProps<"svg">) => (
+          <ChevronLeft className={cn("size-4", className)} {...props} />
+        ),
+        IconRight: ({ className, ...props }: React.ComponentProps<"svg">) => (
+          <ChevronRight className={cn("size-4", className)} {...props} />
+        ),
+      }}
+      {...props}
+      onDayClick={(e) => {
+        const date = String(e.getDate()).padStart(2, "0");
+        const month = String(e.getMonth() + 1).padStart(2, "0");
+        const year = e.getFullYear();
+        const fullDate = `${date}/${month}/${year}`;
+
+        console.log(fullDate);
+
+        if (focusInput === "input1" && setBookingDates) {
+          setBookingDates((el) => ({
+            ...el,
+            checkIn: fullDate,
+          }))
+        }
+        if (focusInput === "input2" && setBookingDates) {
+          setBookingDates((el) => ({
+            ...el,
+            checkOut: fullDate,
+          }))
+        }
+      }}
+    />
+  );
+}
+
+export { Calendar };

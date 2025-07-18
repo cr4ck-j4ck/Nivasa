@@ -3,80 +3,81 @@ import UpIcon from "@mui/icons-material/KeyboardArrowUp";
 import DownIcon from "@mui/icons-material/KeyboardArrowDown";
 import "./reserve.css";
 import { Calendar02 } from "@/Components/Calendar02";
-import type { IBookingDates } from "@/@Types/interfaces";
-
-type Finput = "input1" | "input2" | null;
-
-interface Iguests{
-    adults: number,
-    children: number,
-    infants: number,
-}
-type IupdateGuests = (type : "adults" | "children" | "infants" , change : number)=>void;
 
 const SeatReservationBox = () => {
-  const [showGuests, setShowGuests] = useState(false);
-  const [showCalendar, setShowCalendar] = useState(false);
-  const [focusInput, setFocusInput] = useState<Finput | null>(null);
-  // const [clearDate, setClearDate] = useState<Date| null>(null);
-  const [date, setDate] = useState<number | null>(null);
-  const [bookingDates, setBookingDates] = useState<IBookingDates>({
+  const [showGuests, setShowGuests] = useState<boolean>(false);
+  const [showCalendar, setShowCalendar] = useState<boolean>(false);
+  const [focusInput, setFocusInput] = useState<"input1" | "input2" | null>(
+    null
+  );
+  const [clearDate, setClearDate] = useState<null>(null); // Not used yet
+  const [bookingDates, setBookingDates] = useState<{
+    checkIn: string | null;
+    checkOut: string | null;
+  }>({
     checkIn: null,
     checkOut: null,
   });
-  const inputRef = useRef<Array<HTMLDivElement|null>>([]);
-  const calRef = useRef<HTMLDivElement>(null);
-  const dateDiv = useRef<HTMLDivElement>(null);
-  const [guests, setGuests] = useState<Iguests>({
+
+  const [date, setDate] = useState<Date | undefined>(undefined);
+
+  const inputRef = useRef<HTMLDivElement[]>([]);
+  const calRef = useRef<HTMLDivElement | null>(null);
+  const dateDiv = useRef<HTMLDivElement | null>(null);
+
+  const [guests, setGuests] = useState<{
+    adults: number;
+    children: number;
+    infants: number;
+  }>({
     adults: 1,
     children: 0,
     infants: 0,
   });
 
   useEffect(() => {
-    const handleEscape = (e:KeyboardEvent) => {      
-      if (e.code == "Escape" && showCalendar) {
+    const func1 = (e: KeyboardEvent) => {
+      if (e.code === "Escape" && showCalendar) {
         setShowCalendar(false);
         setFocusInput(null);
       }
     };
-    const handleClickOutside = (e:MouseEvent) => {
+    const func2 = (e: MouseEvent) => {
       if (
-        calRef &&
+        calRef.current &&
+        dateDiv.current &&
         showCalendar &&
-        !(dateDiv.current?.contains(e.target as Node)) &&
-        !(calRef.current?.contains(e.target as Node))
+        !dateDiv.current.contains(e.target as Node) &&
+        !calRef.current.contains(e.target as Node)
       ) {
         setShowCalendar(false);
         setFocusInput(null);
       }
     };
 
-    document.addEventListener("keydown", handleEscape);
-    document.addEventListener("click", handleClickOutside);
+    document.addEventListener("keydown", func1);
+    document.addEventListener("click", func2);
+
     return () => {
-      document.removeEventListener("keydown", handleEscape);
-      document.removeEventListener("click", handleClickOutside);
+      document.removeEventListener("keydown", func1);
+      document.removeEventListener("click", func2);
     };
   }, [showCalendar]);
 
-  const updateGuest:IupdateGuests= (type, change) => {
+  const updateGuest = (type: keyof typeof guests, change: number) => {
     setGuests((prev) => ({
       ...prev,
       [type]: Math.max(0, prev[type] + change),
     }));
   };
 
-  const handleInputClick = (input:HTMLDivElement| null) => {
-    if (input?.id == "input2") {
+  function handleInputClick(input: HTMLDivElement) {
+    if (input.id === "input2") {
       console.dir(inputRef.current[0]);
     }
-    // if (showCalendar && input) {
-    //   setFocusInput(input.id);
-    // }
   }
 
-  const handleRowClick= ()=> {
+  function handleRowClick() {
     if (!showCalendar) {
       setFocusInput(
         focusInput ? (focusInput === "input1" ? "input2" : "input1") : "input1"
@@ -84,7 +85,7 @@ const SeatReservationBox = () => {
       setShowCalendar(true);
     }
   }
-  // if(focusInput)
+
   return (
     <div
       className="p-4 m-5 ml-10 rounded-2xl no-select sticky w-1/2 max-w-[355px]  top-35  mb-10 h-fit"
@@ -92,6 +93,7 @@ const SeatReservationBox = () => {
     >
       <h1 className="text-xl ml-1 mt-2">Add dates for prices</h1>
 
+      {/* 📅 Date Inputs */}
       <div
         className="md:flex mt-5 z-10 relative dateInputs"
         onClick={() => {
@@ -100,13 +102,14 @@ const SeatReservationBox = () => {
         }}
         ref={dateDiv}
       >
+        {/* Check-in */}
         <div
           className={`${
-            focusInput == "input1" ? "border-3" : "border"
+            focusInput === "input1" ? "border-3" : "border"
           } p-3 border-black md:rounded-tl-md cursor-pointer md:w-1/2 ${
             showCalendar ? "rounded-bl-md" : ""
           }`}
-          ref={(el) => {inputRef.current[0] = el}}
+          ref={(el) => {(inputRef.current[0] = el!)}}
           id="input1"
           onClick={() => {
             handleInputClick(inputRef.current[0]);
@@ -121,13 +124,15 @@ const SeatReservationBox = () => {
             className="cursor-pointer outline-none w-full min-w-[80px]"
           />
         </div>
+
+        {/* Check-out */}
         <div
           className={`${
-            focusInput == "input2" ? "border-3" : "border md:border-l-0"
+            focusInput === "input2" ? "border-3" : "border md:border-l-0"
           } p-3 md:rounded-tr-md border-black cursor-pointer md:w-1/2 ${
             showCalendar ? "rounded-br-md" : ""
           }`}
-          ref={(el) => {inputRef.current[1] = el}}
+          ref={(el) => {(inputRef.current[1] = el!)}}
           onClick={() => {
             handleInputClick(inputRef.current[1]);
           }}
@@ -143,7 +148,9 @@ const SeatReservationBox = () => {
           />
         </div>
       </div>
-      {showCalendar ? (
+
+      {/* 📆 Calendar */}
+      {showCalendar && (
         <div
           className="absolute top-14 right-0 calRes z-2 w-[50rem] h-fit"
           ref={calRef}
@@ -167,7 +174,7 @@ const SeatReservationBox = () => {
             <p
               className="mr-5 mt-2 underline text-black font-semibold cursor-pointer"
               onClick={() => {
-                setDate(null);
+                setDate(undefined);
               }}
             >
               Clear dates
@@ -183,9 +190,9 @@ const SeatReservationBox = () => {
             </button>
           </div>
         </div>
-      ) : (
-        ""
       )}
+
+      {/* 👨‍👩‍👧‍👦 Guests Dropdown */}
       <div className="relative mb-4 z-1">
         <div
           className="border p-3 cursor-pointer rounded-bl-md rounded-br-md border-black border-t-0 flex"
@@ -199,7 +206,7 @@ const SeatReservationBox = () => {
 
         {showGuests && (
           <div className="absolute right-0 top-full mt-2 w-full min-w-[220px] bg-white border shadow-md rounded-md z-10 p-4">
-            {["adults", "children", "infants"].map((type) => (
+            {(["adults", "children", "infants"] as const).map((type) => (
               <div
                 key={type}
                 className="flex items-center justify-between mb-3"
@@ -207,14 +214,14 @@ const SeatReservationBox = () => {
                 <span className="capitalize">{type}</span>
                 <div className="flex items-center gap-2">
                   <button
-                    onClick={() => updateGuest(type as keyof Iguests, -1)}
+                    onClick={() => updateGuest(type, -1)}
                     className="w-7 h-7 bg-gray-200 rounded-full flex items-center justify-center"
                   >
                     −
                   </button>
-                  <span>{guests[type as keyof Iguests]}</span>
+                  <span>{guests[type]}</span>
                   <button
-                    onClick={() => updateGuest(type as keyof Iguests, 1)}
+                    onClick={() => updateGuest(type, 1)}
                     className="w-7 h-7 bg-gray-200 rounded-full flex items-center justify-center"
                   >
                     +
@@ -234,7 +241,7 @@ const SeatReservationBox = () => {
         )}
       </div>
 
-      {/* Reserve Button */}
+      {/* ✅ Reserve Button */}
       <button className="w-full bg-[#F83159] text-white py-3 rounded-3xl hover:bg-[#cf2346]">
         Reserve
       </button>

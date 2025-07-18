@@ -7,11 +7,12 @@ import Option from "@/Components/Option";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
-export default function ListingRow({ city }) {
+export default function ListingRow({ city}:{city:string}) {
   const [data, setData] = useState(null);
   const cardContainerRef = useRef(null);
   async function getData() {
     const jsonData = await axios.get(cityAPI + city);
+    console.log("here",cityAPI);
     return jsonData.data;
   }
   useEffect(() => {
