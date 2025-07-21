@@ -1,16 +1,16 @@
-import { useEffect, useRef, useState, useContext } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./listingDesc.css";
 import Option from "@/Components/Option";
 import Amenities from "./amenities";
-import ListingContext from "@/Context/context";
 import type { IlistingObj, Ihost } from "@/@Types/interfaces";
+import { useListingStore } from "@/Store/listing";
 
 interface IfullListing extends Omit<IlistingObj, "host"> {
   host: Ihost;
 }
 
 const ListingDesc = (): React.JSX.Element | null  => {
-  const listingObj = useContext(ListingContext) as IfullListing | null;
+  const listingObj = useListingStore(state => state.listingObj) as IfullListing | null;
   const [showFullDesc, setShowFullDesc] = useState(false);
   const [bedroomImgs, setBedroomImgs] = useState<string[] | undefined[]>([]);
   const bedroomContainerRef = useRef<HTMLDivElement | null>(null);

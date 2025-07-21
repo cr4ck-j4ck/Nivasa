@@ -1,9 +1,10 @@
 import React from "react";
 import { Calendar } from "@/Components/ui/calendar";
+import type { TFocInput } from "./Listings/showPage_Components/reserve";
 
 // 👇 Define prop types for Calendar02
 interface Calendar02Props {
-  customClass?: string;
+  className?: string;
   date?: Date | undefined;
   setDate?: (date: Date | undefined) => void;
   setBookingDates?: React.Dispatch<
@@ -12,15 +13,19 @@ interface Calendar02Props {
       checkOut: string | null;
     }>
   >;
-  focusInput?: "input1" | "input2" | null;
+  focusInput?: TFocInput;
+  setFocusInput?:React.Dispatch<React.SetStateAction<TFocInput>>;
+  setShowCalendar?:React.Dispatch<React.SetStateAction<boolean>>
 }
 
 export function Calendar02({
-  customClass,
+  className,
   date,
   setDate,
   setBookingDates,
   focusInput,
+  setFocusInput,
+  setShowCalendar
 }: Calendar02Props) {
   return (
     <Calendar
@@ -30,9 +35,11 @@ export function Calendar02({
       selected={date}
       onSelect={setDate}
       fromDate={new Date()}
-      className={`${customClass} border shadow-sm relative top-2 flex justify-center bg-white z-2`}
+      className={`${className} border shadow-sm relative top-2 flex justify-center bg-white z-2`}
       setBookingDates={setBookingDates}
       focusInput={focusInput}
+      setFocusInput={setFocusInput}
+      setShowCalendar={setShowCalendar}
     />
   );
 }

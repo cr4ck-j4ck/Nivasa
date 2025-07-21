@@ -8,6 +8,9 @@ import type {
 
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/Components/ui/button";
+import type { TFocInput } from "../Listings/showPage_Components/reserve";
+
+
 
 // 👇 Union type to support both single and range modes
 type CalendarProps = (
@@ -22,7 +25,9 @@ type CalendarProps = (
       checkOut: string | null;
     }>
   >;
-  focusInput?: "input1" | "input2" | null;
+  focusInput?: TFocInput;
+  setFocusInput?: React.Dispatch<React.SetStateAction<TFocInput>>;
+  setShowCalendar?:React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 function Calendar({
@@ -31,6 +36,8 @@ function Calendar({
   showOutsideDays = true,
   setBookingDates,
   focusInput,
+  setFocusInput,
+  setShowCalendar,
   ...props
 }: CalendarProps) {
   return (
@@ -97,17 +104,20 @@ function Calendar({
 
         console.log(fullDate);
 
-        if (focusInput === "input1" && setBookingDates) {
+        if (focusInput === "input1" && setBookingDates && setFocusInput) {
           setBookingDates((el) => ({
             ...el,
             checkIn: fullDate,
           }))
+          setFocusInput("input2");
         }
-        if (focusInput === "input2" && setBookingDates) {
+        if (focusInput === "input2" && setBookingDates && setFocusInput && setShowCalendar) {
           setBookingDates((el) => ({
             ...el,
             checkOut: fullDate,
           }))
+          setFocusInput(null);
+          setShowCalendar(false);
         }
       }}
     />

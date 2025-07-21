@@ -1,31 +1,29 @@
 import { useParams } from "react-router-dom";
-import Gallery from "@/Components/Listings/showPage_Components/Gallery/gallery";
+import Gallery from "@/Components/Listings/showPage_Components/Gallery/gallery"
 import Description from "@/Components/Listings/showPage_Components/Description/listingDesc";
 import { useEffect, useState } from "react";
 import { getListingData } from "@/Services/lisitngService";
 import "./showListing.css";
 import Skeleton from "react-loading-skeleton";
 import SeatReservationBox from "../Components/Listings/showPage_Components/reserve";
-import ListingContext from "@/Context/context";
 import ShowReview from "@/Components/Listings/showPage_Components/Reviews/review";
 import Map from "@/Components/Listings/showPage_Components/Map";
-import type { IlistingObj } from "@/@Types/interfaces";
+import { useListingStore, type IlistingState } from "@/Store/listing";
+import { useShallow } from 'zustand/react/shallow'
 
 export default function () {
   const { listingId } = useParams();
-  const [listingObj, setlistingObj] = useState<IlistingObj | null>(null);
-
+  const { setListingObj, listingObj } = useListingStore(useShallow((state:IlistingState) => ({setListingObj : state.setListingObj,listingObj:state.listingObj})));
   useEffect(() => {
     if (listingId) {
       getListingData(listingId).then((data) => {
-        setlistingObj(data.data);
+        setListingObj(data.data);
       });
     }
-  }, []);
+  }, [listingId]);
 
 
   return (
-    <ListingContext.Provider value={listingObj}>
       <div className="w-full sm:max-w-[97vw] md:max-w-[92vw] lg:max-w-[95vw] 3xl:max-w-[80vw] pl-3 top-[3rem] relative ">
         <h1 className="text-3xl showHead mb-6 pl-2 md:pl-10">
           {listingObj ? listingObj.title : <Skeleton />}
@@ -48,6 +46,5 @@ export default function () {
           ""
         )}
       </div>
-    </ListingContext.Provider>
   );
 }

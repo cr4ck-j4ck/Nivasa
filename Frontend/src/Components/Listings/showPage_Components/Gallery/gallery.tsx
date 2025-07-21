@@ -1,13 +1,14 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-import { useContext } from "react";
-import ListingContext from "@/Context/context";
-export default function () {
-  const listing = useContext(ListingContext);
-  const [imgArr, setImgArr] = useState(null);
+import { useListingStore } from "@/Store/listing";
+
+const Gallery=  () : React.JSX.Element => {
+  const listing = useListingStore(state => state.listingObj)
+  const [imgArr, setImgArr] = useState<string[] | null>(null);
   const gallery = listing ? listing.gallery : null;
-  function getRandomURLs(urls) {
+
+  function getRandomURLs(urls:string[]) {
     const shuffled = [...urls].sort(() => 0.5 - Math.random());
     return shuffled.slice(0, 5);
   }
@@ -72,3 +73,4 @@ export default function () {
     </div>
   );
 }
+export default Gallery;

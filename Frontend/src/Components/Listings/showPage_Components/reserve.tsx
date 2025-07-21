@@ -4,13 +4,14 @@ import DownIcon from "@mui/icons-material/KeyboardArrowDown";
 import "./reserve.css";
 import { Calendar02 } from "@/Components/Calendar02";
 
+export type TFocInput = "input1" | "input2" | null;
+
 const SeatReservationBox = () => {
   const [showGuests, setShowGuests] = useState<boolean>(false);
   const [showCalendar, setShowCalendar] = useState<boolean>(false);
-  const [focusInput, setFocusInput] = useState<"input1" | "input2" | null>(
+  const [focusInput, setFocusInput] = useState<TFocInput>(
     null
   );
-  const [clearDate, setClearDate] = useState<null>(null); // Not used yet
   const [bookingDates, setBookingDates] = useState<{
     checkIn: string | null;
     checkOut: string | null;
@@ -104,12 +105,10 @@ const SeatReservationBox = () => {
       >
         {/* Check-in */}
         <div
-          className={`${
-            focusInput === "input1" ? "border-3" : "border"
-          } p-3 border-black md:rounded-tl-md cursor-pointer md:w-1/2 ${
-            showCalendar ? "rounded-bl-md" : ""
-          }`}
-          ref={(el) => {(inputRef.current[0] = el!)}}
+          className={`${focusInput === "input1" ? "border-3" : "border"
+            } p-3 border-black md:rounded-tl-md cursor-pointer md:w-1/2 ${showCalendar ? "rounded-bl-md" : ""
+            }`}
+          ref={(el) => { (inputRef.current[0] = el!) }}
           id="input1"
           onClick={() => {
             handleInputClick(inputRef.current[0]);
@@ -127,12 +126,10 @@ const SeatReservationBox = () => {
 
         {/* Check-out */}
         <div
-          className={`${
-            focusInput === "input2" ? "border-3" : "border md:border-l-0"
-          } p-3 md:rounded-tr-md border-black cursor-pointer md:w-1/2 ${
-            showCalendar ? "rounded-br-md" : ""
-          }`}
-          ref={(el) => {(inputRef.current[1] = el!)}}
+          className={`${focusInput === "input2" ? "border-3" : "border md:border-l-0"
+            } p-3 md:rounded-tr-md border-black cursor-pointer md:w-1/2 ${showCalendar ? "rounded-br-md" : ""
+            }`}
+          ref={(el) => { (inputRef.current[1] = el!) }}
           onClick={() => {
             handleInputClick(inputRef.current[1]);
           }}
@@ -152,7 +149,7 @@ const SeatReservationBox = () => {
       {/* 📆 Calendar */}
       {showCalendar && (
         <div
-          className="absolute top-14 right-0 calRes z-2 w-[50rem] h-fit"
+          className="absolute top-14 right-0 calRes z-2 w-[50rem]"
           ref={calRef}
         >
           <div className="ml-3 mb-4">
@@ -163,11 +160,13 @@ const SeatReservationBox = () => {
           </div>
 
           <Calendar02
-            customClass="checkInCal"
+            className="checkInCal"
             date={date}
             setDate={setDate}
             setBookingDates={setBookingDates}
             focusInput={focusInput}
+            setFocusInput={setFocusInput}
+            setShowCalendar={setShowCalendar}
           />
 
           <div className="flex w-full justify-end mt-5">
@@ -175,6 +174,11 @@ const SeatReservationBox = () => {
               className="mr-5 mt-2 underline text-black font-semibold cursor-pointer"
               onClick={() => {
                 setDate(undefined);
+                setBookingDates({
+                  checkIn: null,
+                  checkOut: null
+                })
+                setFocusInput("input1");
               }}
             >
               Clear dates

@@ -7,7 +7,7 @@ import { connectDB } from "./config/db";
 import ExpressError from "./utils/expressError";
 const app = express();
 import cors from "cors";
-console.log("hello bois ??");
+
 app.use(
   cors({
     origin: [
@@ -22,15 +22,14 @@ const PORT = process.env.PORT || 3000;
 connectDB();
 
 
-app.get("/", (req: Request, res: Response) => {
+app.get("/", (req, res) => {
   console.log("Ha chal raha hai");
   res.send("Hii from NeoVim");
-
 });
 
 app.get(
   "/listing/:id",
-  wrapAsync(async (req: Request, res: Response) => {
+  wrapAsync(async (req, res) => {
     const data = await ListingModel.findById(req.params.id).populate("host");
     // setTimeout(() => {
     res.json(data);
@@ -40,7 +39,7 @@ app.get(
 
 app.get(
   "/listingCard/:city",
-  wrapAsync(async (req: Request, res: Response) => {
+  wrapAsync(async (req, res) => {
     const dataObjects = await ListingModel.find(
       { "location.city": req.params.city },
       { title: 1, price: 1, "gallery.Bedroom 1": 1, "location.city": 1 }

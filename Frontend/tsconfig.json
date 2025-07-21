@@ -9,7 +9,7 @@
     "useDefineForClassFields": true,
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": false,
-    "skipLibCheck": false,
+    "skipLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "strict": true,
@@ -32,6 +32,6 @@
       "@/*": ["src/*"]
     }
   },
-  "include": ["src", "src/main.tsx", "src/vite-env.d.ts", "src/App.tsx"],
+  "include": ["src","src/vite-env.d.ts"],
   "exclude": ["node_modules", "dist"]
 }
