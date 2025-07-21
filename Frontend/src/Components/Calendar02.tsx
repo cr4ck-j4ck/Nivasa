@@ -1,14 +1,23 @@
 import { Calendar } from "@/Components/ui/calendar";
 import reserveStore from "@/Store/Reserve";
+import { useEffect, useState } from "react";
 import { useShallow } from "zustand/react/shallow";
 
 export function Calendar02({
   className
 }: { className?: string}) {
-  const {date , setDate} = reserveStore(useShallow(state => ({
+  const [fromD , setFromD] = useState(new Date())
+  const {date , setDate, focusInput , bookingDates} = reserveStore(useShallow(state => ({
     date : state.date,
-    setDate: state.setDate
-  })))
+    setDate: state.setDate,
+    focusInput : state.focusInput,
+    bookingDates: state.bookingDates
+  }))) 
+  useEffect(()=>{
+    if(focusInput == "input2" && bookingDates.checkIn){
+      setFromD(bookingDates.checkIn);
+    }
+  },[focusInput])
   return (
     <Calendar
       mode="single"
@@ -16,7 +25,7 @@ export function Calendar02({
       numberOfMonths={2}
       selected={date}
       onSelect={setDate}
-      fromDate={new Date()}
+      fromDate={fromD}
       className={`${className} border shadow-sm relative top-2 flex justify-center bg-white z-2`}
     />
   );

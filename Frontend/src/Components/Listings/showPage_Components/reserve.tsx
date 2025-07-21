@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type ReactEventHandler } from "react";
 import UpIcon from "@mui/icons-material/KeyboardArrowUp";
 import DownIcon from "@mui/icons-material/KeyboardArrowDown";
 import "./reserve.css";
@@ -9,7 +9,8 @@ import { useShallow } from "zustand/react/shallow";
 
 const SeatReservationBox = () => {
   const [showGuests, setShowGuests] = useState<boolean>(false);
-  const { focusInput, bookingDates, showCalendar, setShowCalendar, setFocusInput,setBookingDates , date, setDate} = reserveStore(useShallow(state => ({
+  const [blurSecondInput, setBlurSecondInput] = useState(false);
+  const { focusInput, bookingDates, showCalendar, setShowCalendar, setFocusInput, setBookingDates, date, setDate } = reserveStore(useShallow(state => ({
     setShowCalendar: state.setShowCalendar,
     setFocusInput: state.setFocusInput,
     showCalendar: state.showCalendar,
@@ -21,7 +22,7 @@ const SeatReservationBox = () => {
   })))
 
 
-  const inputRef = useRef<HTMLDivElement[]>([]);
+  const inputRef = useRef<(HTMLDivElement | null)[]>([]);
   const calRef = useRef<HTMLDivElement | null>(null);
   const dateDiv = useRef<HTMLDivElement | null>(null);
 
@@ -29,11 +30,19 @@ const SeatReservationBox = () => {
     adults: number;
     children: number;
     infants: number;
+    pets: number;
   }>({
     adults: 1,
     children: 0,
     infants: 0,
+    pets: 0,
   });
+
+  useEffect(() => {
+    if (focusInput && showCalendar) {
+      setBlurSecondInput(bookingDates.checkIn ? false : true)
+    }
+  }, [focusInput, showCalendar])
 
   useEffect(() => {
     const func1 = (e: KeyboardEvent) => {
@@ -71,18 +80,26 @@ const SeatReservationBox = () => {
     }));
   };
 
-  function handleInputClick(input: HTMLDivElement) {
-    if (input.id === "input2") {
-      console.dir(inputRef.current[0]);
-    }
+  const guestCategories = [
+    { id: 'adults', title: 'Adults', description: 'Ages 13 or above' },
+    { id: 'children', title: 'Children', description: 'Ages 2–12' },
+    { id: 'infants', title: 'Infants', description: 'Under 2' },
+    { id: 'pets', title: 'Pets', description: 'Bringing a service animal?', isLink: true },
+  ];
+
+  function formatDate(date?: Date | null): string {
+    if (!date) return "";
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`;
   }
 
-  function handleRowClick() {
-    if (!showCalendar) {
-      setFocusInput(
-        focusInput ? (focusInput === "input1" ? "input2" : "input1") : "input1"
-      );
-      setShowCalendar(true);
+  function handleRowClick(e: React.MouseEvent<HTMLDivElement>) {
+    if (inputRef.current[0]?.contains(e.target as Node)) {
+      setFocusInput("input1");
+    } else {
+      setFocusInput(bookingDates.checkIn ? "input2" : "input1")
     }
   }
 
@@ -96,9 +113,9 @@ const SeatReservationBox = () => {
       {/* 📅 Date Inputs */}
       <div
         className="md:flex mt-5 z-10 relative dateInputs"
-        onClick={() => {
+        onClick={(e) => {
           setShowCalendar(true);
-          handleRowClick();
+          handleRowClick(e);
         }}
         ref={dateDiv}
       >
@@ -109,15 +126,12 @@ const SeatReservationBox = () => {
             }`}
           ref={(el) => { (inputRef.current[0] = el!) }}
           id="input1"
-          onClick={() => {
-            handleInputClick(inputRef.current[0]);
-          }}
         >
           <p className="reservePara">CHECK-IN</p>
           <input
             type="text"
             readOnly
-            value={bookingDates.checkIn || ""}
+            value={formatDate(bookingDates.checkIn)}
             placeholder={`${showCalendar ? "DD/MM/YYYY" : "Add Date"}`}
             className="cursor-pointer outline-none w-full min-w-[80px]"
           />
@@ -126,12 +140,9 @@ const SeatReservationBox = () => {
         {/* Check-out */}
         <div
           className={`${focusInput === "input2" ? "border-3" : "border md:border-l-0"
-            } p-3 md:rounded-tr-md border-black cursor-pointer md:w-1/2 ${showCalendar ? "rounded-br-md" : ""
+            } p-3 md:rounded-tr-md border-black ${blurSecondInput ? "bg-black/20 opacity-55" : ""} cursor-pointer md:w-1/2 ${showCalendar ? "rounded-br-md" : ""
             }`}
           ref={(el) => { (inputRef.current[1] = el!) }}
-          onClick={() => {
-            handleInputClick(inputRef.current[1]);
-          }}
           id="input2"
         >
           <p className="reservePara">CHECKOUT</p>
@@ -140,7 +151,7 @@ const SeatReservationBox = () => {
             placeholder={`${showCalendar ? "DD/MM/YYYY" : "Add Date"}`}
             className="cursor-pointer outline-none w-full min-w-[80px]"
             readOnly
-            value={bookingDates.checkOut || ""}
+            value={formatDate(bookingDates.checkOut)}
           />
         </div>
       </div>
@@ -172,6 +183,7 @@ const SeatReservationBox = () => {
                   checkOut: null
                 })
                 setFocusInput("input1");
+                setBlurSecondInput(true)
               }}
             >
               Clear dates
@@ -181,6 +193,7 @@ const SeatReservationBox = () => {
               onClick={() => {
                 setShowCalendar(false);
                 setFocusInput(null);
+                setBlurSecondInput(false);
               }}
             >
               Close
@@ -202,33 +215,45 @@ const SeatReservationBox = () => {
         </div>
 
         {showGuests && (
-          <div className="absolute right-0 top-full mt-2 w-full min-w-[220px] bg-white border shadow-md rounded-md z-10 p-4">
-            {(["adults", "children", "infants"] as const).map((type) => (
-              <div
-                key={type}
-                className="flex items-center justify-between mb-3"
-              >
-                <span className="capitalize">{type}</span>
-                <div className="flex items-center gap-2">
-                  <button
-                    onClick={() => updateGuest(type, -1)}
-                    className="w-7 h-7 bg-gray-200 rounded-full flex items-center justify-center"
-                  >
-                    −
-                  </button>
-                  <span>{guests[type]}</span>
-                  <button
-                    onClick={() => updateGuest(type, 1)}
-                    className="w-7 h-7 bg-gray-200 rounded-full flex items-center justify-center"
-                  >
-                    +
-                  </button>
+          <div className="absolute right-0 top-full mt-2 w-[340px] bg-white border shadow-lg rounded-xl z-10 p-6">
+            {guestCategories.map((category, index) => (
+              <>
+                <div
+                  key={category.id}
+                  className="flex items-center justify-between"
+                >
+                  <div>
+                    <p className="font-semibold">{category.title}</p>
+                    <p className={`text-sm ${category.isLink ? 'underline' : 'text-gray-600'}`}>{category.description}</p>
+                  </div>
+                  <div className="flex items-center gap-4">
+                    <button
+                      onClick={() => updateGuest(category.id as keyof typeof guests, -1)}
+                      disabled={
+                        category.id === 'adults'
+                          ? guests.adults <= 1
+                          : guests[category.id as keyof typeof guests] === 0
+                      }
+                      className="w-8 h-8 border border-gray-400 rounded-full flex items-center justify-center text-gray-600 disabled:opacity-40 disabled:cursor-not-allowed hover:border-black"
+                    >
+                      −
+                    </button>
+                    <span className="w-5 text-center text-lg">{guests[category.id as keyof typeof guests]}</span>
+                    <button
+                      onClick={() => updateGuest(category.id as keyof typeof guests, 1)}
+                      className="w-8 h-8 border border-gray-400 rounded-full flex items-center justify-center text-gray-600 hover:border-black"
+                    >
+                      +
+                    </button>
+                  </div>
                 </div>
-              </div>
+                {index < guestCategories.length - 1 && <hr className="my-4" />}
+              </>
             ))}
-            <div className="text-right mt-2">
+            <p className="text-sm text-gray-600 mt-6">This place has a maximum of 4 guests, not including infants. Pets aren't allowed.</p>
+            <div className="flex justify-end mt-4">
               <button
-                className="text-blue-600 font-medium"
+                className="font-semibold underline text-lg"
                 onClick={() => setShowGuests(false)}
               >
                 Close

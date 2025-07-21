@@ -93,20 +93,21 @@ function Calendar({
       }}
       {...props}
       onDayClick={(e) => {
-        const day = String(e.getDate()).padStart(2, "0");
-        const month = String(e.getMonth() + 1).padStart(2, "0");
-        const year = e.getFullYear();
-        const fullDate = `${day}/${month}/${year}`;
+        console.log(e);
+        // const day = String(e.getDate()).padStart(2, "0");
+        // const month = String(e.getMonth() + 1).padStart(2, "0");
+        // const year = e.getFullYear();
+        // const fullDate = `${day}/${month}/${year}`;
 
         if (focusInput === "input1") {
           setBookingDates({
-            checkIn: fullDate,
+            checkIn: e,
           });
           setFocusInput("input2");
         }
         if (focusInput === "input2") {
           setBookingDates({
-            checkOut: fullDate,
+            checkOut: e,
           });
           setFocusInput(null);
           setShowCalendar(false);

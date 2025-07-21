@@ -1,53 +1,85 @@
 import "./map.css";
-import React, { useRef, useEffect } from "react";
+import React from "react";
+import { useRef, useEffect } from "react";
 import * as maptilersdk from "@maptiler/sdk";
 import "@maptiler/sdk/dist/maptiler-sdk.css";
 import "./map.css";
 import Nivasa from "/Nivasa-removebg-preview.png";
 
-export default function Map() {
-  const mapContainer = useRef(null);
-  const map = useRef(null);
-  22.735;
-  const tokyo = { lng: 75.877783, lat: 22.735499 };
-  const zoom = 14;
-  maptilersdk.config.apiKey = "gK4Q7BnveK2c58RGmTDU";
+
+interface Coordinates {
+  lng: number;
+  lat: number;
+}
+
+
+interface MapMouseEvent {
+  lngLat: maptilersdk.LngLat;
+  point: maptilersdk.Point;
+  originalEvent: MouseEvent;
+}
+
+export default function Map(): React.JSX.Element {
+
+  const mapContainer = useRef<HTMLDivElement>(null);
+  const map = useRef<maptilersdk.Map | null>(null);
+  const tokyo: Coordinates = { lng: 75.877783, lat: 22.735499 };
+  const zoom: number = 14;
+  maptilersdk.config.apiKey = import.meta.env.VITE_MAPTILER_KEY;
   useEffect(() => {
     if (map.current) return;
-
     map.current = new maptilersdk.Map({
-      container: mapContainer.current,
+      container: mapContainer.current as HTMLDivElement,
       style: maptilersdk.MapStyle.STREETS,
       center: [tokyo.lng, tokyo.lat],
       zoom: zoom,
-      scrollWheelZoom: false,
+      scrollZoom: false,
     });
+    if (!map.current) return;
     map.current.scrollZoom.disable();
-    map.current.on("dblclick", (e) => {
-      map.current.zoomIn({ around: e.lngLat });
-    });
-
-    map.current.getCanvas().addEventListener("contextmenu", (e) => {
-      e.preventDefault(); // prevent default right-click menu
-    });
-
-    map.current.getCanvas().addEventListener("dblclick", (e) => {
-      if (e.button === 2) {
-        // Right double-click → zoom out
-        map.current.zoomOut({
-          around: map.current.unproject([e.clientX, e.clientY]),
-        });
+    map.current.on("dblclick", (e: MapMouseEvent) => {
+      if (map.current) {
+        map.current.zoomIn({ around: e.lngLat });
       }
     });
+    const canvas: HTMLCanvasElement | null = map.current.getCanvas();
+    
+    if (canvas) {
+      canvas.addEventListener("contextmenu", (e: MouseEvent) => {
+        e.preventDefault();
+      });
 
-    const markerEl = document.createElement("div");
+      canvas.addEventListener("dblclick", (e: MouseEvent) => {
+        if (e.button === 2 && map.current) {
+          map.current.zoomOut({
+            around: map.current.unproject([e.clientX, e.clientY]),
+          });
+        }
+      });
+
+      canvas.addEventListener("contextmenu", (e: MouseEvent) => {
+        e.preventDefault();
+        if (map.current) {
+          const rect = canvas.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          map.current.zoomOut({
+            around: map.current.unproject([x, y]),
+          });
+        }
+      });
+    }
+
+    const markerEl: HTMLDivElement = document.createElement("div");
     markerEl.className = "custom-marker";
     markerEl.style.backgroundImage = `url(${Nivasa})`;
 
-    new maptilersdk.Marker({ element: markerEl })
-      .setLngLat([tokyo.lng, tokyo.lat])
-      .addTo(map.current);
-  }, [tokyo.lng, tokyo.lat, zoom]);
+    if (map.current) {
+      new maptilersdk.Marker({ element: markerEl })
+        .setLngLat([tokyo.lng, tokyo.lat])
+        .addTo(map.current);
+    }
+  }, [tokyo.lng, tokyo.lat, zoom]); // Dependencies are implicitly typed
 
   return (
     <div className="map-wrap mt-10 max-w-[70rem] max-h-[40rem] mx-auto">

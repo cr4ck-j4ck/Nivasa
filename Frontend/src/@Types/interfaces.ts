@@ -150,8 +150,8 @@ export interface Ihost {
 }
 
 export interface IBookingDates {
-  checkIn: string |null;
-  checkOut: string |null;
+  checkIn: Date |null;
+  checkOut: Date |null;
 }
 
 export type TFocInput = "input1" | "input2" | null;
