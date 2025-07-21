@@ -8,7 +8,8 @@ import type {
 
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/Components/ui/button";
-import type { TFocInput } from "../Listings/showPage_Components/reserve";
+import reserveStore from "@/Store/Reserve";
+import { useShallow } from "zustand/react/shallow";
 
 
 
@@ -19,27 +20,22 @@ type CalendarProps = (
 ) & {
   className?: string;
   classNames?: Record<string, string>;
-  setBookingDates?: React.Dispatch<
-    React.SetStateAction<{
-      checkIn: string | null;
-      checkOut: string | null;
-    }>
-  >;
-  focusInput?: TFocInput;
-  setFocusInput?: React.Dispatch<React.SetStateAction<TFocInput>>;
-  setShowCalendar?:React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 function Calendar({
   className,
   classNames,
   showOutsideDays = true,
-  setBookingDates,
-  focusInput,
-  setFocusInput,
-  setShowCalendar,
   ...props
 }: CalendarProps) {
+
+  const { setBookingDates, setFocusInput, focusInput, setShowCalendar } = reserveStore(useShallow(state => ({
+    setBookingDates: state.setBookingDates,
+    setFocusInput: state.setFocusInput,
+    focusInput: state.focusInput,
+    setShowCalendar: state.setShowCalendar
+  })))
+
   return (
     <DayPicker
       showOutsideDays={showOutsideDays}
@@ -97,25 +93,21 @@ function Calendar({
       }}
       {...props}
       onDayClick={(e) => {
-        const date = String(e.getDate()).padStart(2, "0");
+        const day = String(e.getDate()).padStart(2, "0");
         const month = String(e.getMonth() + 1).padStart(2, "0");
         const year = e.getFullYear();
-        const fullDate = `${date}/${month}/${year}`;
+        const fullDate = `${day}/${month}/${year}`;
 
-        console.log(fullDate);
-
-        if (focusInput === "input1" && setBookingDates && setFocusInput) {
-          setBookingDates((el) => ({
-            ...el,
+        if (focusInput === "input1") {
+          setBookingDates({
             checkIn: fullDate,
-          }))
+          });
           setFocusInput("input2");
         }
-        if (focusInput === "input2" && setBookingDates && setFocusInput && setShowCalendar) {
-          setBookingDates((el) => ({
-            ...el,
+        if (focusInput === "input2") {
+          setBookingDates({
             checkOut: fullDate,
-          }))
+          });
           setFocusInput(null);
           setShowCalendar(false);
         }

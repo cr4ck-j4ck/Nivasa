@@ -3,24 +3,23 @@ import UpIcon from "@mui/icons-material/KeyboardArrowUp";
 import DownIcon from "@mui/icons-material/KeyboardArrowDown";
 import "./reserve.css";
 import { Calendar02 } from "@/Components/Calendar02";
+import reserveStore from "@/Store/Reserve";
+import { useShallow } from "zustand/react/shallow";
 
-export type TFocInput = "input1" | "input2" | null;
 
 const SeatReservationBox = () => {
   const [showGuests, setShowGuests] = useState<boolean>(false);
-  const [showCalendar, setShowCalendar] = useState<boolean>(false);
-  const [focusInput, setFocusInput] = useState<TFocInput>(
-    null
-  );
-  const [bookingDates, setBookingDates] = useState<{
-    checkIn: string | null;
-    checkOut: string | null;
-  }>({
-    checkIn: null,
-    checkOut: null,
-  });
+  const { focusInput, bookingDates, showCalendar, setShowCalendar, setFocusInput,setBookingDates , date, setDate} = reserveStore(useShallow(state => ({
+    setShowCalendar: state.setShowCalendar,
+    setFocusInput: state.setFocusInput,
+    showCalendar: state.showCalendar,
+    focusInput: state.focusInput,
+    bookingDates: state.bookingDates,
+    setBookingDates: state.setBookingDates,
+    date: state.date,
+    setDate: state.setDate
+  })))
 
-  const [date, setDate] = useState<Date | undefined>(undefined);
 
   const inputRef = useRef<HTMLDivElement[]>([]);
   const calRef = useRef<HTMLDivElement | null>(null);
@@ -161,12 +160,6 @@ const SeatReservationBox = () => {
 
           <Calendar02
             className="checkInCal"
-            date={date}
-            setDate={setDate}
-            setBookingDates={setBookingDates}
-            focusInput={focusInput}
-            setFocusInput={setFocusInput}
-            setShowCalendar={setShowCalendar}
           />
 
           <div className="flex w-full justify-end mt-5">

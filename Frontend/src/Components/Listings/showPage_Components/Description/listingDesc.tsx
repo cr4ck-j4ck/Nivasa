@@ -3,7 +3,7 @@ import "./listingDesc.css";
 import Option from "@/Components/Option";
 import Amenities from "./amenities";
 import type { IlistingObj, Ihost } from "@/@Types/interfaces";
-import { useListingStore } from "@/Store/listing";
+import { useListingStore } from "@/Store/Listing";
 
 interface IfullListing extends Omit<IlistingObj, "host"> {
   host: Ihost;

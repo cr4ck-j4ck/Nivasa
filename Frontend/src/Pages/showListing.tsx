@@ -8,7 +8,7 @@ import Skeleton from "react-loading-skeleton";
 import SeatReservationBox from "../Components/Listings/showPage_Components/reserve";
 import ShowReview from "@/Components/Listings/showPage_Components/Reviews/review";
 import Map from "@/Components/Listings/showPage_Components/Map";
-import { useListingStore, type IlistingState } from "@/Store/listing";
+import { useListingStore, type IlistingState } from "@/Store/Listing";
 import { useShallow } from 'zustand/react/shallow'
 
 export default function () {

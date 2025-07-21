@@ -154,3 +154,4 @@ export interface IBookingDates {
   checkOut: string |null;
 }
 
+export type TFocInput = "input1" | "input2" | null;

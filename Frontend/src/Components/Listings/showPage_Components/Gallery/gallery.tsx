@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-import { useListingStore } from "@/Store/listing";
+import { useListingStore } from "@/Store/Listing";
 
 const Gallery=  () : React.JSX.Element => {
   const listing = useListingStore(state => state.listingObj)
