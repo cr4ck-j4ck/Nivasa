@@ -1,3 +1,4 @@
+// @ts-nocheck
 import "./map.css";
 import React from "react";
 import { useRef, useEffect } from "react";
@@ -6,12 +7,10 @@ import "@maptiler/sdk/dist/maptiler-sdk.css";
 import "./map.css";
 import Nivasa from "/Nivasa-removebg-preview.png";
 
-
 interface Coordinates {
   lng: number;
   lat: number;
 }
-
 
 interface MapMouseEvent {
   lngLat: maptilersdk.LngLat;
@@ -23,7 +22,7 @@ export default function Map(): React.JSX.Element {
 
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<maptilersdk.Map | null>(null);
-  const tokyo: Coordinates = { lng: 75.877783, lat: 22.735499 };
+  const address: Coordinates = { lng: 75.877783, lat: 22.735499 };
   const zoom: number = 14;
   maptilersdk.config.apiKey = import.meta.env.VITE_MAPTILER_KEY;
   useEffect(() => {
@@ -31,7 +30,7 @@ export default function Map(): React.JSX.Element {
     map.current = new maptilersdk.Map({
       container: mapContainer.current as HTMLDivElement,
       style: maptilersdk.MapStyle.STREETS,
-      center: [tokyo.lng, tokyo.lat],
+      center: [address.lng, address.lat],
       zoom: zoom,
       scrollZoom: false,
     });
@@ -43,7 +42,7 @@ export default function Map(): React.JSX.Element {
       }
     });
     const canvas: HTMLCanvasElement | null = map.current.getCanvas();
-    
+
     if (canvas) {
       canvas.addEventListener("contextmenu", (e: MouseEvent) => {
         e.preventDefault();
@@ -76,14 +75,14 @@ export default function Map(): React.JSX.Element {
 
     if (map.current) {
       new maptilersdk.Marker({ element: markerEl })
-        .setLngLat([tokyo.lng, tokyo.lat])
+        .setLngLat([address.lng, address.lat])
         .addTo(map.current);
     }
-  }, [tokyo.lng, tokyo.lat, zoom]); // Dependencies are implicitly typed
+  }, [address.lng, address.lat, zoom]);
 
   return (
-    <div className="map-wrap mt-10 max-w-[70rem] max-h-[40rem] mx-auto">
-      <div ref={mapContainer} className="map max-h-[40rem] max-w-[70rem]" />
+    <div className="map-wrap mt-5 max-w-full max-h-[40rem] mx-auto">
+      <div ref={mapContainer} className="map max-h-[40rem] max-w-full" />
     </div>
   );
 }

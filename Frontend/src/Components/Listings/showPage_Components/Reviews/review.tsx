@@ -3,7 +3,7 @@ import rightLeaf from "@/assets/rightLeaf.avif";
 import "./review.css";
 import StarIcon from "@mui/icons-material/Star";
 
-export default function () {
+const Review = ():React.JSX.Element => {
   const arr = [1, 2, 3, 4, 5, 6];
   return (
     <div className="review mt-10">
@@ -112,7 +112,7 @@ export default function () {
         </div>
       </div>
       <div className="grid grid-cols-2 gap-10 xl:w-[90%] mx-auto">
-        {arr.map((el) => (
+        {arr.map(() => (
           <div className="reviewUserInfo max-w-[500px]">
             <div className="flex">
               <img
@@ -141,3 +141,5 @@ export default function () {
     </div>
   );
 }
+
+export default Review

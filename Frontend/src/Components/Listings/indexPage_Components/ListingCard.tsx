@@ -1,6 +1,13 @@
 import "./listingCard.css";
 
-export default function ListingCard({ src, city, price, id }) {
+interface IlistingCard{
+  src: string;
+  city: string;
+  price:number;
+  id:string;
+}
+
+export default function ListingCard({ src, city, price, id }:IlistingCard) {
   return (
     <div className="card rounded-2xl">
       <a href={`/room/${id}`} target="_blank">

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type ReactEventHandler } from "react";
+import { useEffect, useRef, useState } from "react";
 import UpIcon from "@mui/icons-material/KeyboardArrowUp";
 import DownIcon from "@mui/icons-material/KeyboardArrowDown";
 import "./reserve.css";
@@ -10,7 +10,7 @@ import { useShallow } from "zustand/react/shallow";
 const SeatReservationBox = () => {
   const [showGuests, setShowGuests] = useState<boolean>(false);
   const [blurSecondInput, setBlurSecondInput] = useState(false);
-  const { focusInput, bookingDates, showCalendar, setShowCalendar, setFocusInput, setBookingDates, date, setDate } = reserveStore(useShallow(state => ({
+  const { focusInput, bookingDates, showCalendar, setShowCalendar, setFocusInput, setBookingDates, setDate } = reserveStore(useShallow(state => ({
     setShowCalendar: state.setShowCalendar,
     setFocusInput: state.setFocusInput,
     showCalendar: state.showCalendar,
