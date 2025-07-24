@@ -2,14 +2,11 @@ import { useEffect, useRef, useState } from "react";
 import "./listingDesc.css";
 import Option from "@/Components/Option";
 import Amenities from "./amenities";
-import type { IlistingObj, Ihost } from "@/@Types/interfaces";
-import { useListingStore } from "@/Store/Listing";
+import type { IfullListing } from "@/@Types/interfaces";
+import { useListingStore } from "@/Store/ListingStore";
 
-interface IfullListing extends Omit<IlistingObj, "host"> {
-  host: Ihost;
-}
 
-const ListingDesc = (): React.JSX.Element | null  => {
+const ListingDesc = (): React.JSX.Element | null => {
   const listingObj = useListingStore(state => state.listingObj) as IfullListing | null;
   const [showFullDesc, setShowFullDesc] = useState(false);
   const [bedroomImgs, setBedroomImgs] = useState<string[] | undefined[]>([]);
@@ -28,6 +25,7 @@ const ListingDesc = (): React.JSX.Element | null  => {
     setBedroomImgs(filteredImgs);
   }, [listingObj?.gallery]);
   if (!listingObj) return null;
+
   return (
     <div className="min-w-[450px] w-[100%] xl:w-[55vw] max-w-4xl relative shrink-1">
       <h3 className="text-2xl font-semibold">

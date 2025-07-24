@@ -128,6 +128,10 @@ export interface IlistingObj {
   createdAt: Date;
 }
 
+export interface IfullListing extends Omit<IlistingObj, "host"> {
+  host: Ihost;
+}
+
 interface Iverification {
   emailVerified: boolean;
   phoneVerified: boolean;

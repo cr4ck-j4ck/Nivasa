@@ -10,9 +10,7 @@ interface SearchBarProps {
   setIsScrolled: (isScrolled: boolean) => void;
 }
 
-
 type InputKey = "input1" | "input2" | "input3" | "input4";
-
 
 interface IndicatorStyle {
   left: number;
@@ -32,7 +30,6 @@ interface ButtonRefs {
   input3: HTMLButtonElement | null;
   input4: HTMLButtonElement | null;
 }
-
 
 export default function SearchBar({ scroll: isScrolled, setIsScrolled }: SearchBarProps) {
 
@@ -185,7 +182,7 @@ export default function SearchBar({ scroll: isScrolled, setIsScrolled }: SearchB
     <>
       <div
         className={`flex justify-center items-center duration-500 ${
-          isScrolled ? "h-0" : "h-24"
+          isScrolled ? "h-0 pb-7" : "h-24"
         } px-5`}
       >
         <div

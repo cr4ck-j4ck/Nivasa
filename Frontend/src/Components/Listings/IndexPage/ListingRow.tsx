@@ -1,8 +1,7 @@
 import "./listingRow.css";
 import ListingCard from "./ListingCard";
 import { useState, useEffect, useRef } from "react";
-const cityAPI = import.meta.env.VITE_CITY_API;
-import axios from "axios";
+import { getListingByCity } from "@/Services/listingService";
 import Option from "@/Components/Option";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
@@ -20,14 +19,9 @@ interface IlistingData {
 export default function ListingRow({ city }: { city: string }) {
   const [data, setData] = useState<IlistingData[] | null>(null);
   const cardContainerRef = useRef<HTMLDivElement>(null);
-  async function getData() {
-    const jsonData = await axios.get(cityAPI + city);
-    console.log("here", cityAPI);
-    return jsonData.data;
-  }
+  
   useEffect(() => {
-    getData().then((res) => {
-      console.log("dekhle bhai data--", res)
+    getListingByCity(city).then((res) => {
       setData(res);
     });
   }, []);

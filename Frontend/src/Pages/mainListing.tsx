@@ -1,7 +1,7 @@
-import ListingRow from "../Components/Listings/indexPage_Components/ListingRow";
+import ListingRow from "../Components/Listings/IndexPage/ListingRow";
 
-export default function () {
-  let cities = [
+const MainListing = (): React.JSX.Element => {
+  const cities = [
     "Mumbai",
     "Delhi",
     "Pune",
@@ -11,10 +11,10 @@ export default function () {
     "Bengaluru",
     "Bhopal",
   ];
-  let arrOfRandomNum :string[] = [];
+  const arrOfRandomNum :string[] = [];
 
   for (let i = 0; i < 4; i++) {
-    let randomNum = Math.floor(Math.random() * (8 - i));
+    const randomNum = Math.floor(Math.random() * (8 - i));
     arrOfRandomNum[i] = cities.splice(randomNum, 1)[0];
   }
   return (
@@ -25,3 +25,5 @@ export default function () {
     </div>
   );
 }
+
+export default MainListing;

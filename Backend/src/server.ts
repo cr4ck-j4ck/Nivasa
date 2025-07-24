@@ -33,7 +33,7 @@ app.get(
     const data = await ListingModel.findById(req.params.id).populate("host");
     // setTimeout(() => {
     res.json(data);
-    // }, 1000);
+    // }, 2000);
   })
 );
 

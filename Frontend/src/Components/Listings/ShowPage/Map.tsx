@@ -6,7 +6,8 @@ import * as maptilersdk from "@maptiler/sdk";
 import "@maptiler/sdk/dist/maptiler-sdk.css";
 import "./map.css";
 import Nivasa from "/Nivasa-removebg-preview.png";
-
+import { useListingStore } from "@/Store/ListingStore";
+import { useShallow } from "zustand/react/shallow";
 interface Coordinates {
   lng: number;
   lat: number;
@@ -19,10 +20,10 @@ interface MapMouseEvent {
 }
 
 export default function Map(): React.JSX.Element {
-
+  const {lat , lng} = useListingStore(useShallow(state => ({lat: state.listingObj?.location.latitude , lng:state.listingObj?.location.longitude})))
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<maptilersdk.Map | null>(null);
-  const address: Coordinates = { lng: 75.877783, lat: 22.735499 };
+  const address: Coordinates = { lng,lat };
   const zoom: number = 14;
   maptilersdk.config.apiKey = import.meta.env.VITE_MAPTILER_KEY;
   useEffect(() => {

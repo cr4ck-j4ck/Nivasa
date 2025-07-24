@@ -1,9 +1,9 @@
 import "./App.css";
 import Nav from "./Layout/Nav";
-import Footer from "./Layout/Footer";
 import AppRoutes from "@/Router/Routes";
 import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
+import Footer from "./Layout/Footer";
 
 const App:React.FC = () => {
   const location = useLocation();
@@ -16,11 +16,11 @@ const App:React.FC = () => {
     }
   }, [isMainListing]);
   return (
-    <div className="min-h-screen flex flex-col items-center">
+    <div className="min-h-screen flex flex-col items-center relative w-[100vw] h-[100vh]">
       <Nav position={isMainListing ? "fixed top-0" : ""} >
       </Nav>
-      <AppRoutes />
-      <Footer />
+        <AppRoutes />
+      <Footer/>
     </div>
   );
 }
