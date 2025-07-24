@@ -7,7 +7,7 @@ export async function getListingData(id: string) {
   return getData;
 }
 
-export async function getListingByCity(city) {
+export async function getListingByCity(city:string) {
   const jsonData = await axios.get(listingCityAPI + city);
   return jsonData.data;
 }
