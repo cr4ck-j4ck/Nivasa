@@ -4,10 +4,12 @@ import AppRoutes from "@/Router/Routes";
 import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import Footer from "./Layout/Footer";
-
-const App:React.FC = () => {
+import Login from "./Components/Login";
+import { useGlobalStore } from "./Store/Global";
+const App: React.FC = () => {
   const location = useLocation();
   const isMainListing = location.pathname === "/";
+  const showLogin = useGlobalStore(state => state.showLogin)
   useEffect(() => {
     if (isMainListing) {
       document.body.style.paddingTop = "12rem";
@@ -17,12 +19,12 @@ const App:React.FC = () => {
   }, [isMainListing]);
   return (
     <div className="min-h-screen flex flex-col items-center relative w-[100vw] h-[100vh]">
-      <Nav position={isMainListing ? "fixed top-0" : ""} >
-      </Nav>
-        <AppRoutes />
-      <Footer/>
+      <Nav position={isMainListing ? "fixed top-0" : ""}></Nav>
+      <AppRoutes />
+      <Footer />
+      {showLogin ? <Login/> : ""}
     </div>
   );
-}
+};
 
 export default App;

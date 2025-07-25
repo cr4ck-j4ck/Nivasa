@@ -5,16 +5,18 @@ import homeVideo from "../assets/house-twirl-selected.webm";
 import { useState, useEffect } from "react";
 import SearchBar from "../Components/SearchBar";
 import { useLocation } from "react-router-dom";
-
+import { useGlobalStore } from "@/Store/Global";
 
 interface INavprops {
   position: string;
 }
 
-const Nav:React.FC<INavprops> = ({ position }) => {
+const Nav: React.FC<INavprops> = ({ position }) => {
   const location = useLocation();
   const [showVideo, setShowVideo] = useState(true);
   const [isScrolled, setIsScrolled] = useState(false);
+  const setShowLogin = useGlobalStore((state) => state.setShowLogin);
+  const showLogin = useGlobalStore((state) => state.showLogin);
 
   const handleVideoEnd = (): void => {
     setShowVideo(false);
@@ -33,6 +35,19 @@ const Nav:React.FC<INavprops> = ({ position }) => {
       setIsScrolled(true);
     }
   }, [location.pathname]);
+
+  useEffect(() => {
+    if (showLogin) {
+      document.body.style.overflowY = "hidden"; // Disable scroll
+    } else {
+      document.body.style.overflowY = "auto"; // Re-enable scroll
+    }
+
+    // Clean up in case component unmounts
+    return () => {
+      document.body.style.overflowY= "auto";
+    };
+  }, [showLogin]);
 
   return (
     <nav
@@ -75,7 +90,9 @@ const Nav:React.FC<INavprops> = ({ position }) => {
           </div>
         </div>
         <div className="right-options">
-          <h1 className="text-3xl font-bold ">Hello world!</h1>
+          <div className="login text-xl" onClick={() => setShowLogin(true)}>
+            Login
+          </div>
         </div>
       </div>
       <SearchBar scroll={isScrolled} setIsScrolled={setIsScrolled} />

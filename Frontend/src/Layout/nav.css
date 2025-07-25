@@ -38,3 +38,12 @@
 .navbar.shrink {
     height: 7rem; /* Chhoti height */
 }
+
+.login{
+    background-color: red;
+    margin: 1rem;
+    padding: 1rem 2rem;    
+    border-radius: 40px;
+    color: white;
+    cursor: pointer;
+}
