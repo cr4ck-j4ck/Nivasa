@@ -4,7 +4,7 @@ import AppRoutes from "@/Router/Routes";
 import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import Footer from "./Layout/Footer";
-import Login from "./Forms/Booking Forms/Login";
+import Login from "./Forms/Booking Forms/Login_Signup";
 import { useGlobalStore } from "./Store/Global";
 const App: React.FC = () => {
   const location = useLocation();

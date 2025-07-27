@@ -6,7 +6,7 @@ const UsersModel = require("./Models/UsersModel");
 import { connectDB } from "./config/db";
 import ExpressError from "./utils/expressError";
 import session from "express-session";
-import MongoStore from "connect-mongo"
+import MongoStore from "connect-mongo";
 import mongoose from "mongoose";
 
 const app = express();
@@ -19,7 +19,7 @@ app.use(
       "https://nivasa-git-main-cr4ck-j4cks-projects.vercel.app",
       "http://localhost:5173",
     ],
-    credentials:true
+    credentials: true,
   })
 );
 
@@ -27,27 +27,29 @@ connectDB();
 
 app.use(
   session({
-    name:"SSID",
-    secret: 'your_secret_key',
+    name: "SSID",
+    secret: "your_secret_key",
     resave: false,
     saveUninitialized: false,
     store: MongoStore.create({
       client: mongoose.connection.getClient(),
-      collectionName: 'sessions',
+      collectionName: "sessions",
       ttl: 14 * 24 * 60 * 60,
-      autoRemove: 'native',
+      autoRemove: "native",
     }),
     cookie: {
-      httpOnly:true,
+      httpOnly: true,
       maxAge: 1000 * 60 * 60 * 24,
       secure: false,
-      sameSite:"lax"
+      sameSite: "lax",
     },
   })
 );
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 
 const PORT = process.env.PORT || 3000;
-
 
 app.get("/", (req, res) => {
   console.log("Ha chal raha hai");
@@ -67,7 +69,6 @@ app.get(
 app.get(
   "/listingCard/:city",
   wrapAsync(async (req, res) => {
-    
     const dataObjects = await ListingModel.find(
       { "location.city": req.params.city },
       { title: 1, price: 1, "gallery.Bedroom 1": 1, "location.city": 1 }
@@ -75,6 +76,14 @@ app.get(
     // setTimeout(() => {
     res.json(dataObjects);
     // }, 1000);
+  })
+);
+
+app.post(
+  "/users/signup",
+  wrapAsync(async (req, res) => {
+    console.log(req.body);
+    res.send("ma chuda na ");
   })
 );
 

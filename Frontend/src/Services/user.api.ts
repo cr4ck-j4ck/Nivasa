@@ -1,5 +1,9 @@
 import axios from "axios";
+import { type TAuthForm } from "@/Forms/Booking Forms/loginSignup.schema";
+
 const BackendAPI = import.meta.env.VITE_BACKEND_API;
-export default async function createUserAccount(form: Iform) {
-  const res = axios.post(`${BackendAPI}/user`, {}, { withCredentials: true });
+
+export async function createUser(formData: TAuthForm) {
+  const res = await axios.post(`${BackendAPI}/users/signup`, { formData });
+  console.log("yeh dekh response aaya backend se :",res);
 }
