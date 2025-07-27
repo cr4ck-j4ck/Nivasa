@@ -159,3 +159,9 @@ export interface IBookingDates {
 }
 
 export type TFocInput = "input1" | "input2" | null;
+
+export interface Iform{
+  username:string;
+  fullName:string;
+  
+}

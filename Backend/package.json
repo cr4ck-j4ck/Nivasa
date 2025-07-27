@@ -20,12 +20,15 @@
   },
   "homepage": "https://github.com/cr4ck-j4ck/Nivasa#readme",
   "dependencies": {
+    "@types/express-session": "^1.18.2",
+    "connect-mongo": "^5.1.0",
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",
     "ejs": "^3.1.10",
     "ejs-mate": "^4.0.0",
     "express": "^5.1.0",
-    "mongoose": "^8.15.1"
+    "express-session": "^1.18.2",
+    "mongoose": "^8.16.4"
   },
   "devDependencies": {
     "@types/cors": "^2.8.19",

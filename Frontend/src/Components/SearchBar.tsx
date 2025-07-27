@@ -224,7 +224,7 @@ export default function SearchBar({ scroll: isScrolled, setIsScrolled }: SearchB
             } ${isScrolled ? "w-[10rem] h-12.5" : "w-[30%] min-w-[12rem] h-16.5"}`}
           >
             <p
-              className={`absolute z-20 top-3 text-[0.8em] font-medium ${
+              className={`absolute z-20 font-bold top-3 text-[0.8em] ${
                 isScrolled ? "left-20 flex items-center" : "left-[1.7rem]"
               }`}
             >
@@ -274,7 +274,7 @@ export default function SearchBar({ scroll: isScrolled, setIsScrolled }: SearchB
               )
             }
           >
-            <p className="absolute text-[0.8em] font-medium top-3 left-6">
+            <p className="absolute text-[0.8em] font-bold top-3 left-6">
               {`${isScrolled ? "Anytime" : "Check in"}`}
             </p>
             <input
@@ -313,7 +313,7 @@ export default function SearchBar({ scroll: isScrolled, setIsScrolled }: SearchB
                   )
                 }
               >
-                <p className="absolute text-[0.8em] font-medium top-3 left-5">
+                <p className="absolute text-[0.8em] font-bold top-3 left-5">
                   Check in
                 </p>
                 <input
@@ -348,8 +348,8 @@ export default function SearchBar({ scroll: isScrolled, setIsScrolled }: SearchB
             }
           >
             <p
-              className={`absolute text-[0.8em] font-medium top-3 ${
-                isScrolled ? "" : "left-6.5"
+              className={`absolute text-[0.8em] font-bold top-3 ${
+                isScrolled ? "" : "left-9"
               }`}
             >
               {isScrolled ? "Add Guests" : "Who"}

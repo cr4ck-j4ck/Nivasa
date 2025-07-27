@@ -1,30 +1,61 @@
-import {  useState } from "react";
+import { useState } from "react";
 import { FaGoogle, FaFacebookF } from "react-icons/fa";
-
-export default function Login() {
+import { useGlobalStore } from "@/Store/Global";
+export default function AuthForm() {
+  const [isSignup, setIsSignup] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
+  const setShowLogin = useGlobalStore((state)=>(state.setShowLogin));
+  const handleToggle = () => {
+    setIsSignup((prev) => !prev);
+    setEmail("");
+    setPassword("");
+    setName("");
+  };
+
   return (
-    <div className={`outerLoginDiv absolute w-full h-full flex justify-center`}>
-      <div className="loginDiv flex items-center justify-center transition-colors duration-500">
+    <div className={`outerLoginDiv absolute w-full h-full flex justify-center items-center bg-red-500`} onClick={()=> setShowLogin(false)}>
+      <div className="loginDiv flex transition-colors duration-500 h-fit" onClick={(e)=> e.stopPropagation()}>
         <div className="w-full max-w-5xl shadow-xl bg-white dark:bg-gray-900 rounded-xl overflow-hidden flex flex-col md:flex-row transition-all duration-300">
           {/* Left Side - Image */}
           <div className="hidden md:block md:w-1/2 relative">
             <img
-              src="https://cf.bstatic.com/xdata/images/hotel/max1024x768/444725757.jpg?k=2a388a66ddbef10811ab9fdf9c69eabe22be8af74b080e29b7d8e37db2c4655f&o=&hp=1" // Replace with your image path
-              alt="Login background"
+              src="https://cf.bstatic.com/xdata/images/hotel/max1024x768/444725757.jpg?k=2a388a66ddbef10811ab9fdf9c69eabe22be8af74b080e29b7d8e37db2c4655f&o=&hp=1"
+              alt="Auth background"
               className="w-full h-full object-cover"
             />
           </div>
 
-          {/* Right Side - Login Form */}
+          {/* Right Side - Form */}
           <div className="w-full md:w-1/2 p-10">
             <h2 className="text-3xl font-bold text-gray-800 dark:text-white mb-4">
-              Welcome Back 👋
+              {isSignup ? "Create an Account 🚀" : "Welcome Back 👋"}
             </h2>
             <p className="text-sm text-gray-600 dark:text-gray-300 mb-8">
-              Login to your account to continue
+              {isSignup ? "Sign up to get started" : "Login to your account to continue"}
             </p>
+
+            {isSignup && (
+              <div className="relative z-0 w-full mb-6 group">
+                <input
+                  type="text"
+                  name="name"
+                  id="name"
+                  className="peer block w-full appearance-none border-0 border-b-2 border-gray-300 dark:border-gray-600 bg-transparent px-0 py-2.5 text-sm text-gray-900 dark:text-white focus:border-blue-600 focus:outline-none focus:ring-0"
+                  placeholder=" "
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  required
+                />
+                <label
+                  htmlFor="name"
+                  className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-6 peer-focus:scale-75"
+                >
+                  Full Name
+                </label>
+              </div>
+            )}
 
             {/* Email */}
             <div className="relative z-0 w-full mb-6 group">
@@ -40,7 +71,7 @@ export default function Login() {
               />
               <label
                 htmlFor="email"
-                className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-6 peer-focus:scale-75"
+                className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-1 -z-10 origin-[0] peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-6 peer-focus:scale-75"
               >
                 Email address
               </label>
@@ -66,23 +97,25 @@ export default function Login() {
               </label>
             </div>
 
-            <div className="flex justify-between items-center mb-6">
-              <label className="text-sm text-gray-600 dark:text-gray-300">
-                <input type="checkbox" className="mr-2" /> Remember me
-              </label>
-              <a
-                href="#"
-                className="text-sm text-blue-600 hover:underline dark:text-blue-400"
-              >
-                Forgot password?
-              </a>
-            </div>
+            {!isSignup && (
+              <div className="flex justify-between items-center mb-6">
+                <label className="text-sm text-gray-600 dark:text-gray-300">
+                  <input type="checkbox" className="mr-2" /> Remember me
+                </label>
+                <a
+                  href="#"
+                  className="text-sm text-blue-600 hover:underline dark:text-blue-400"
+                >
+                  Forgot password?
+                </a>
+              </div>
+            )}
 
             <button
               type="submit"
               className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-md transition-all duration-300"
             >
-              Sign In
+              {isSignup ? "Sign Up" : "Sign In"}
             </button>
 
             {/* Or divider */}
@@ -109,17 +142,17 @@ export default function Login() {
             </div>
 
             <p className="text-sm text-center text-gray-600 dark:text-gray-400 mt-6">
-              Don’t have an account?{" "}
-              <a
-                href="#"
+              {isSignup ? "Already have an account?" : "Don’t have an account?"}{" "}
+              <button
+                onClick={handleToggle}
                 className="text-blue-600 hover:underline dark:text-blue-400"
               >
-                Sign up
-              </a>
+                {isSignup ? "Login" : "Sign up"}
+              </button>
             </p>
+          </div>
         </div>
       </div>
-    </div>
     </div>
   );
 }

@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import Gallery from "@/Components/Listings/ShowPage/Gallery/gallery";
 import Description from "@/Components/Listings/ShowPage/Description/listingDesc";
 import React, { useEffect } from "react";
-import { getListingData } from "@/Services/listingService";
+import { getListingData } from "@/Services/listing.api";
 import "./showListing.css";
 import Skeleton from "react-loading-skeleton";
 import SeatReservationBox from "../Components/Listings/ShowPage/reserve";

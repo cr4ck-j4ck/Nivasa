@@ -39,11 +39,28 @@
     height: 7rem; /* Chhoti height */
 }
 
-.login{
-    background-color: red;
-    margin: 1rem;
-    padding: 1rem 2rem;    
-    border-radius: 40px;
-    color: white;
-    cursor: pointer;
+.login {
+  background-color: #f32e52;
+  padding: 0.6rem 1.5rem;
+  min-width: 6rem;
+  border-radius: 999px;
+  color: white;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  position: relative;
+  right: 5rem;
+  top: 0.5rem;
+  text-align: center;
+  border: none;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.login:hover {
+  background-color: #d82847;
+  transform: scale(1.05);
+}
+
+.login:active {
+  transform: scale(0.98);
 }

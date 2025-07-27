@@ -45,7 +45,7 @@ const Nav: React.FC<INavprops> = ({ position }) => {
 
     // Clean up in case component unmounts
     return () => {
-      document.body.style.overflowY= "auto";
+      document.body.style.overflowY = "auto";
     };
   }, [showLogin]);
 
@@ -90,8 +90,11 @@ const Nav: React.FC<INavprops> = ({ position }) => {
           </div>
         </div>
         <div className="right-options">
-          <div className="login text-xl" onClick={() => setShowLogin(true)}>
-            Login
+          <div
+            className="login"
+            onClick={() => setShowLogin(true)}
+          >
+            Login / Signup
           </div>
         </div>
       </div>

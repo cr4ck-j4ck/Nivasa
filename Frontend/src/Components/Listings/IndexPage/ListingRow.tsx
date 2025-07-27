@@ -1,7 +1,7 @@
 import "./listingRow.css";
 import ListingCard from "./ListingCard";
 import { useState, useEffect, useRef } from "react";
-import { getListingByCity } from "@/Services/listingService";
+import { getListingByCity } from "@/Services/listing.api";
 import Option from "@/Components/Option";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";

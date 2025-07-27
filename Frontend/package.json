@@ -24,6 +24,7 @@
     "clsx": "^2.1.1",
     "date-fns": "^3.0.1",
     "dotenv": "^16.5.0",
+    "framer-motion": "^12.23.9",
     "leaflet": "^1.9.4",
     "lucide-react": "^0.513.0",
     "react": "^19.1.0",
