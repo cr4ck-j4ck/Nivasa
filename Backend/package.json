@@ -20,20 +20,26 @@
   },
   "homepage": "https://github.com/cr4ck-j4ck/Nivasa#readme",
   "dependencies": {
-    "@types/express-session": "^1.18.2",
     "connect-mongo": "^5.1.0",
     "cors": "^2.8.5",
-    "dotenv": "^16.5.0",
+    "dotenv": "^16.6.1",
     "ejs": "^3.1.10",
     "ejs-mate": "^4.0.0",
     "express": "^5.1.0",
     "express-session": "^1.18.2",
-    "mongoose": "^8.16.4"
+    "mongoose": "^8.16.5",
+    "passport": "^0.7.0",
+    "passport-google-oauth20": "^2.0.0",
+    "zod": "^4.0.10"
   },
   "devDependencies": {
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.3",
+    "@types/express-session": "^1.18.2",
+    "@types/mongoose": "^5.11.96",
     "@types/node": "^24.0.10",
+    "@types/passport": "^1.0.17",
+    "@types/passport-google-oauth20": "^2.0.16",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.8.3"
   }

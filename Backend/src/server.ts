@@ -1,16 +1,18 @@
 require("dotenv").config();
 import express, { NextFunction, Request, Response } from "express";
 import ListingModel from "./Models/ListingModel";
-import wrapAsync from "./utils/wrapAsync";
+import asyncWrapper from "./utils/wrapAsync";
 const UsersModel = require("./Models/UsersModel");
 import { connectDB } from "./config/db";
 import ExpressError from "./utils/expressError";
 import session from "express-session";
 import MongoStore from "connect-mongo";
 import mongoose from "mongoose";
-
+import passport from "passport";
+import "./auth"
 const app = express();
 import cors from "cors";
+import { signupSchema } from "./Schemas/user.Zodschema";
 
 app.use(
   cors({
@@ -56,9 +58,21 @@ app.get("/", (req, res) => {
   res.send("Hii from NeoVim");
 });
 
+// Google OAuth routes
+app.get('/google',
+  passport.authenticate('google', { scope: ['profile', 'email'] })
+);
+
+app.get('/google/callback',
+  passport.authenticate('google', { failureRedirect: `${process.env.CLIENT_URL}/login?error=auth_failed` }),
+  (req, res) => {
+    res.redirect(`${process.env.CLIENT_URL}`);
+  }
+);
+
 app.get(
   "/listing/:id",
-  wrapAsync(async (req, res) => {
+  asyncWrapper(async (req, res) => {
     const data = await ListingModel.findById(req.params.id).populate("host");
     // setTimeout(() => {
     res.json(data);
@@ -68,7 +82,7 @@ app.get(
 
 app.get(
   "/listingCard/:city",
-  wrapAsync(async (req, res) => {
+  asyncWrapper(async (req, res) => {
     const dataObjects = await ListingModel.find(
       { "location.city": req.params.city },
       { title: 1, price: 1, "gallery.Bedroom 1": 1, "location.city": 1 }
@@ -79,10 +93,11 @@ app.get(
   })
 );
 
+
 app.post(
   "/users/signup",
-  wrapAsync(async (req, res) => {
-    console.log(req.body);
+  asyncWrapper(async (req, res) => {
+    const resultOfParsing = signupSchema.safeParse(req.body.formData);
     res.send("ma chuda na ");
   })
 );

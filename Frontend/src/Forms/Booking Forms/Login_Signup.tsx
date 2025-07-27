@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { FaGoogle } from "react-icons/fa";
-import { FaMeta } from "react-icons/fa6";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createAuthSchema, type TAuthForm } from "./loginSignup.schema";
@@ -11,20 +10,24 @@ import { useGlobalStore } from "@/Store/Global";
 export default function AuthForm() {
   const [isSignup, setIsSignup] = useState(false);
   const setShowLogin = useGlobalStore((state) => state.setShowLogin);
-  
+  const [isLoading, setIsLoading] = useState(false);
+
   const handleToggle = () => {
     setIsSignup((prev) => !prev);
-    // Reset form when toggling
     reset();
+  };
+  const handleGoogleSignIn = () => {
+    setIsLoading(true);
+    window.location.href = `${import.meta.env.VITE_BACKEND_API}/google`;
   };
 
   // Use the dynamic schema function
   const schema = createAuthSchema(isSignup);
-  
-  const handleFormSubmit = (data: TAuthForm) => {    
+
+  const handleFormSubmit = (data: TAuthForm) => {
     console.log(data);
     console.log(schema.parse(data));
-    createUser(data)
+    createUser(data);
   };
 
   const {
@@ -46,7 +49,11 @@ export default function AuthForm() {
         onClick={(e) => e.stopPropagation()}
       >
         <div className="w-full max-w-5xl shadow-xl bg-white dark:bg-gray-900 rounded-xl overflow-hidden flex flex-col md:flex-row transition-all duration-300">
-          <form action="" onSubmit={handleSubmit(handleFormSubmit)} className="flex">
+          <form
+            action=""
+            onSubmit={handleSubmit(handleFormSubmit)}
+            className="flex"
+          >
             {/* Left Side - Image */}
             <div className="hidden md:block md:w-1/2 relative">
               <img
@@ -81,7 +88,9 @@ export default function AuthForm() {
                     Full Name
                   </label>
                   {errors.fullName && (
-                    <p className="text-red-500 text-sm">{errors.fullName.message}</p>
+                    <p className="text-red-500 text-sm">
+                      {errors.fullName.message}
+                    </p>
                   )}
                 </div>
               )}
@@ -118,7 +127,9 @@ export default function AuthForm() {
                   Password
                 </label>
                 {errors.password && (
-                  <p className="text-red-500 text-sm">{errors.password.message}</p>
+                  <p className="text-red-500 text-sm">
+                    {errors.password.message}
+                  </p>
                 )}
               </div>
 
@@ -152,23 +163,21 @@ export default function AuthForm() {
 
               {/* Social Buttons */}
               <div className="flex gap-4">
-                <button className="flex-1 flex items-center justify-center gap-2 border border-gray-300 dark:border-gray-600 py-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition-all">
+                <button
+                  className="flex-1 flex items-center justify-center gap-2 border border-gray-300 dark:border-gray-600 py-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition-all"
+                  onClick={handleGoogleSignIn}
+                  disabled={isLoading}
+                >
                   <FaGoogle className="text-red-500" />
                   <span className="text-sm font-medium text-gray-700 dark:text-gray-200">
                     Google
-                  </span>
-                </button>
-                <button className="flex-1 flex items-center justify-center gap-2 border border-gray-300 dark:border-gray-600 py-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition-all">
-                  <FaMeta className="text-blue-600" />
-                  <span className="text-sm font-medium text-gray-700 dark:text-gray-200">
-                    Facebook
                   </span>
                 </button>
               </div>
 
               <p className="text-sm text-center text-gray-600 dark:text-gray-400 mt-6">
                 {isSignup
-                  ? "Already have an account?"
+                  ? "Already have an account ?"
                   : "Don't have an account?"}{" "}
                 <button
                   type="button"
