@@ -1,0 +1,35 @@
+.sidebar {
+  width: 220px;
+  background: #f4f4f4;
+  padding: 20px 15px;
+  border-right: 1px solid #ddd;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s ease;
+}
+
+.open {
+  width: 220px;
+}
+
+.toggleBtn {
+  margin-bottom: 20px;
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.menuList {
+  list-style: none;
+  padding: 0;
+}
+
+.menuList li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 0;
+  font-size: 16px;
+  cursor: pointer;
+}

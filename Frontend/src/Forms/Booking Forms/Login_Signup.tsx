@@ -18,7 +18,7 @@ export default function AuthForm() {
   };
   const handleGoogleSignIn = () => {
     setIsLoading(true);
-    window.location.href = `${import.meta.env.VITE_BACKEND_API}/google`;
+    window.location.href = `${import.meta.env.VITE_BACKEND_API}/auth/google`;
   };
 
   // Use the dynamic schema function
