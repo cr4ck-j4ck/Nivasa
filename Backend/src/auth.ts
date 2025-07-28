@@ -1,25 +1,27 @@
 import passport from "passport";
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
-import UserModel, { type IUser } from "./Models/UsersModel";
+import User from "./Models/UsersModel";
+
+
 passport.use(
   new GoogleStrategy(
     {
       clientID: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-      callbackURL: "/google/callback",
+      callbackURL: "/auth/google/callback",
       scope: ['profile', 'email']  
     },
     async (accessToken, refreshToken, profile, done) => {
       try {
         // Check if user already exists with this Google ID
-        let existingUser = await UserModel.findOne({ googleId: profile.id });
+        let existingUser = await User.findOne({ googleId: profile.id });
 
         if (existingUser) {
           return done(null, existingUser);
         }
 
         // Check if user exists with same email (from regular signup)
-        existingUser = await UserModel.findOne({
+        existingUser = await User.findOne({
           email: profile.emails?.[0]?.value,
         });
         
@@ -33,7 +35,7 @@ passport.use(
         }
         console.log(profile);
         // Create new user
-        const newUser = await UserModel.create({
+        const newUser = await User.create({
           googleId: profile.id,
           fullName: profile.displayName,
           email: profile.emails?.[0]?.value,
@@ -50,16 +52,3 @@ passport.use(
   )
 );
 
-// Save user to session
-passport.serializeUser((user, done) => {
-  console.log(user);
-  done(null, user);
-});
-
-// Load user from session
-passport.deserializeUser((obj: any, done) => {
-  console.log(obj);
-  done(null, obj);
-});
-
-export default passport;
