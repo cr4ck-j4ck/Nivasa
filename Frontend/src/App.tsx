@@ -8,6 +8,7 @@ import Login from "./Forms/User Forms/Login_Signup";
 import { useGlobalStore } from "./Store/Global";
 import UserStore from "./Store/UserStore";
 import { getUser } from "./Services/user.api";
+import { useShallow } from "zustand/react/shallow";
 
 const App: React.FC = () => {
   const location = useLocation();
@@ -22,20 +23,39 @@ const App: React.FC = () => {
     }
   }, [isMainListing]);
 
-  const setUser = UserStore((state) => state.setUser);
-  const user = UserStore((state) => state.user);
-  useEffect(() => {    
-    if(!user){
-      getUser(setUser);
+  const { setUser, user, setIsGettingUser } = UserStore(
+    useShallow((state) => ({
+      user: state.user,
+      setUser: state.setUser,
+      setIsGettingUser: state.setIsGettingUser,
+    }))
+  );
+
+  useEffect(() => {
+    if (!user) {
+      setIsGettingUser("pending");
+      getUser()
+        .then((res) => {
+          if (res) {
+            console.log("aa gaya res",res);
+            setUser(res);
+          }
+        }).catch(err => {
+          console.log("error dekh :",err);
+          setIsGettingUser("error")
+        })
+        .finally(() => {
+          setIsGettingUser("fullfilled"); // Always stop loading even if user is null
+        });
     }
-  },[user]);
+  }, []);
 
   return (
     <div className="min-h-screen flex flex-col items-center relative w-[100vw] h-[100vh]">
       <Nav position={isMainListing ? "fixed top-0" : ""}></Nav>
       <AppRoutes />
       <Footer />
-      {showLogin ? <Login /> : ""}
+      {showLogin && <Login />}
     </div>
   );
 };

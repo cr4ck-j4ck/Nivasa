@@ -9,9 +9,13 @@ router.route("/user").get(asyncWrapper(createUser));
 
 router.get("/auth/status", verifyToken, (req, res) => {
   if (req.user) {
-    res.json(req.user);
+    setTimeout(() => {
+        res.json(req.user);
+    }, 3200);
   } else {
-    res.json("chala ja yaha se kuch dikkat aa gayi bakcend per");
+    setTimeout(()=>{
+      res.status(401).send("User Not Found")
+    },3200)
   }
 });
 
