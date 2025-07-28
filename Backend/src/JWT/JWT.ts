@@ -1,14 +1,11 @@
-
+import { Request,Response,NextFunction } from "express";
 import jwt from "jsonwebtoken"
 import User from "../Models/UsersModel";
-
-
 
 // JWT Middleware
 export const verifyToken = async (req: any, res: any, next: any) => {
   try {
     const token = req.cookies.token || req.headers.authorization?.replace('Bearer ', '');
-    
     if (!token) {
       return res.status(401).json({
         success: false,
@@ -28,8 +25,10 @@ export const verifyToken = async (req: any, res: any, next: any) => {
     }
 
     req.user = user;
+    req.user.isLoggedin = true;
     next();
   } catch (error:unknown) {
+    console.log(error);
     if (error instanceof(Error) && error.name === 'TokenExpiredError') {
       return res.status(401).json({
         success: false,

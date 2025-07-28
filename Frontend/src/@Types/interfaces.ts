@@ -4,103 +4,101 @@ interface Iavailability {
 }
 
 type TamenitiesStr =
-    'WiFi'
-  | 'Kitchen'
-  | 'Air conditioning'
-  | 'Washer'
-  | 'Dryer'
-  | 'Heating'
-  | 'Coffee maker'
-  | 'Smart TV'
-  | 'Parking'
-  | 'Elevator'
-  | 'Hot water'
-  | 'Washing machine'
-  | 'Geyser'
-  | 'Basic cooking essentials'
-  | 'Balcony'
-  | 'Free parking on premises'
-  | 'Workplace friendly'
-  | 'Essentials'
-  | 'Gym'
-  | 'Pool (shared)'
-  | 'Security cameras'
-  | 'Coffee Maker'
-  | 'Terrace'
-  | 'Panoramic Windows'
-  | 'Dishwasher'
-  | 'Closet Storage'
-  | 'Laundry Area'
-  | 'Dining Table'
-  | 'Exterior Space'
-  | 'WC'
-  | 'Patio'
-  | 'Front Garden'
-  | 'Garage'
-  | 'Garbage Bin Room'
-  | 'Scenic Views'
-  | 'Multiple Bedrooms'
-  | 'Air Conditioning'
-  | 'Balcony View'
-  | 'Private Pool'
-  | 'Dedicated Worktable'
-  | 'Lawn Area'
-  | 'Garden Space'
-  | 'Kitchenette'
-  | 'Workspace'
-  | 'Heritage View'
-  | 'RO Water Connection'
-  | 'Spacious Living Area'
-  | 'Spacious Living Room'
-  | 'Fully Functional Kitchen'
-  | 'Well-Ventilated Balcony'
-  | '24x7 Security with CCTV'
-  | 'Elevator Access'
-  | 'Dedicated Workspace'
-  | 'Secure Building'
-  | 'Cinema Room'
-  | 'Games Room'
-  | 'Library'
-  | 'Private Garden'
-  | 'Full Kitchen'
-  | 'Office Workspace'
-  | 'Fairy Lighting'
-  | 'Back Garden'
-  | 'Private Balcony'
-  | 'Spacious Parking'
+  | "WiFi"
+  | "Kitchen"
+  | "Air conditioning"
+  | "Washer"
+  | "Dryer"
+  | "Heating"
+  | "Coffee maker"
+  | "Smart TV"
+  | "Parking"
+  | "Elevator"
+  | "Hot water"
+  | "Washing machine"
+  | "Geyser"
+  | "Basic cooking essentials"
+  | "Balcony"
+  | "Free parking on premises"
+  | "Workplace friendly"
+  | "Essentials"
+  | "Gym"
+  | "Pool (shared)"
+  | "Security cameras"
+  | "Coffee Maker"
+  | "Terrace"
+  | "Panoramic Windows"
+  | "Dishwasher"
+  | "Closet Storage"
+  | "Laundry Area"
+  | "Dining Table"
+  | "Exterior Space"
+  | "WC"
+  | "Patio"
+  | "Front Garden"
+  | "Garage"
+  | "Garbage Bin Room"
+  | "Scenic Views"
+  | "Multiple Bedrooms"
+  | "Air Conditioning"
+  | "Balcony View"
+  | "Private Pool"
+  | "Dedicated Worktable"
+  | "Lawn Area"
+  | "Garden Space"
+  | "Kitchenette"
+  | "Workspace"
+  | "Heritage View"
+  | "RO Water Connection"
+  | "Spacious Living Area"
+  | "Spacious Living Room"
+  | "Fully Functional Kitchen"
+  | "Well-Ventilated Balcony"
+  | "24x7 Security with CCTV"
+  | "Elevator Access"
+  | "Dedicated Workspace"
+  | "Secure Building"
+  | "Cinema Room"
+  | "Games Room"
+  | "Library"
+  | "Private Garden"
+  | "Full Kitchen"
+  | "Office Workspace"
+  | "Fairy Lighting"
+  | "Back Garden"
+  | "Private Balcony"
+  | "Spacious Parking"
   | "Children's Playroom"
-  | 'Modern Living Room'
-  | 'High-Speed WiFi'
-  | 'Central Air Conditioning'
-  | 'Balcony with City View'
-  | 'Private Rooftop Lounge'
-  | 'Gym & Spa Access'
-  | 'Dedicated Work Space'
-  | '24/7 Security'
-  | 'Luxury Furnishings'
-  | 'Private Parking'
-  | 'Balcony with Scenic Views'
-  | 'Laundry Room'
-  | 'Private Balconies'
-  | 'Garden Area'
-  | 'Balcony with Scenic View'
-  | 'Complimentary Breakfast'
-  | 'Golf Course Access'
-  | 'Private Balcony with Scenic View'
-  | 'Swimming Pool & Clubhouse'
-  | 'Elegant Dining Space'
+  | "Modern Living Room"
+  | "High-Speed WiFi"
+  | "Central Air Conditioning"
+  | "Balcony with City View"
+  | "Private Rooftop Lounge"
+  | "Gym & Spa Access"
+  | "Dedicated Work Space"
+  | "24/7 Security"
+  | "Luxury Furnishings"
+  | "Private Parking"
+  | "Balcony with Scenic Views"
+  | "Laundry Room"
+  | "Private Balconies"
+  | "Garden Area"
+  | "Balcony with Scenic View"
+  | "Complimentary Breakfast"
+  | "Golf Course Access"
+  | "Private Balcony with Scenic View"
+  | "Swimming Pool & Clubhouse"
+  | "Elegant Dining Space"
   | "Children's Playroom"
-  | '55-inch Smart TV with Netflix & Prime'
-  | 'Private Terrace'
-  | 'Parking in Premises'
-  | 'Fully Equipped Kitchenette'
-  | 'Wine Cellar'
-  | 'Private Chef'
-  | 'Dedicated Study Space';
-
+  | "55-inch Smart TV with Netflix & Prime"
+  | "Private Terrace"
+  | "Parking in Premises"
+  | "Fully Equipped Kitchenette"
+  | "Wine Cellar"
+  | "Private Chef"
+  | "Dedicated Study Space";
 
 export type Tamenities = TamenitiesStr[];
-
 
 interface Icapacity {
   guests: number;
@@ -138,7 +136,7 @@ interface Iverification {
   idVerified: boolean;
 }
 
-export interface Ihost {
+export interface Iuser {
   fullName: string;
   email: string;
   password: string;
@@ -149,19 +147,21 @@ export interface Ihost {
   location: string;
   verification: Iverification;
   savedListings: string[];
-  hostedListings: string[];
   bookings: string[];
 }
 
+export interface Ihost extends Iuser {
+  hostedListings: string[];
+}
+
 export interface IBookingDates {
-  checkIn: Date |null;
-  checkOut: Date |null;
+  checkIn: Date | null;
+  checkOut: Date | null;
 }
 
 export type TFocInput = "input1" | "input2" | null;
 
-export interface Iform{
-  username:string;
-  fullName:string;
-  
+export interface Iform {
+  username: string;
+  fullName: string;
 }
