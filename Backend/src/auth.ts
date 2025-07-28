@@ -33,7 +33,6 @@ passport.use(
           await existingUser.save();
           return done(null, existingUser);
         }
-        console.log(profile);
         // Create new user
         const newUser = await User.create({
           googleId: profile.id,
@@ -42,8 +41,7 @@ passport.use(
           avatar: profile.photos?.[0]?.value,
           provider: "google"
         });
-        console.log(newUser);
-        return done(null, profile);
+        return done(null, newUser);
       } catch (error) {
         console.error("Google OAuth error:", error);
         return done(error, undefined);

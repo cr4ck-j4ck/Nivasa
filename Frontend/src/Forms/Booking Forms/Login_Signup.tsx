@@ -41,7 +41,7 @@ export default function AuthForm() {
 
   return (
     <div
-      className={`outerLoginDiv absolute w-full h-full flex justify-center items-center bg-red-500`}
+      className={`outerLoginDiv absolute w-full h-full flex justify-center items-center z-20 bg-red-500`}
       onClick={() => setShowLogin(false)}
     >
       <div
