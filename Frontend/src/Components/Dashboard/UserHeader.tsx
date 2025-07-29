@@ -41,7 +41,7 @@ const UserHeader = () => {
               </div>
               <div className="flex items-center gap-1">
                 <Calendar className="w-4 h-4" />
-                {userData.joinDate}
+                {userData.createdAt}
               </div>
             </div>
           </div>

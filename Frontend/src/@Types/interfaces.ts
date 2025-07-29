@@ -137,6 +137,7 @@ interface Iverification {
 }
 
 export interface Iuser {
+  superhost:boolean;
   fullName: string;
   email: string;
   password: string;
@@ -146,8 +147,10 @@ export interface Iuser {
   bio: string;
   location: string;
   verification: Iverification;
+  verified:boolean;
   savedListings: string[];
   bookings: string[];
+  createdAt:string;
 }
 
 export interface Ihost extends Iuser {
