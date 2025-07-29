@@ -191,7 +191,7 @@ export default function ProfileDashboard() {
                     initial="hidden"
                     animate="visible"
                   >
-                    {`👋 Welcome back, ${user?.fullName}!`
+                    {`👋 Welcome back, ${user?.firstName} ${user?.lastName}!`
                       .split("")
                       .map((char, index) => (
                         <motion.span key={index} variants={child}>

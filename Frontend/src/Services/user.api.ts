@@ -1,13 +1,13 @@
 import axios, { AxiosError } from "axios";
-import { type TAuthForm } from "@/Forms/User Forms/loginSignup.schema";
 import { type Iuser } from "@/@Types/interfaces";
 const BackendAPI = import.meta.env.VITE_BACKEND_API;
+import {type FormData } from "@/Components/Auth/AuthForm";
 
 export async function createUser(
-  formData: TAuthForm
+  formData: FormData
 ): Promise<Iuser | undefined> {
   try {
-    const res = await axios.post(`${BackendAPI}/users/signup`, { formData });
+    const res = await axios.post(`${BackendAPI}/users/signup`, { formData },{withCredentials:true});
     return res.data;
   } catch (err) {
     if (err instanceof AxiosError && err.response?.data.message) {
@@ -17,7 +17,7 @@ export async function createUser(
 }
 
 export async function loginUser(
-  formData: TAuthForm
+  formData: FormData
 ): Promise<Iuser | undefined> {
   try {
     const res = await axios.post(

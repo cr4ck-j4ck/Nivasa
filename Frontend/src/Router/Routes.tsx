@@ -14,14 +14,10 @@ export default function AppRoutes() {
       <Route path="/" element={<Home />} />
       <Route path="/room/:listingId" element={<ShowListing />} />
       <Route path="*" element={<NotFound />} />
-        <Route path="/profile" element={
-          <PrivateRoutes>
-            <ProfilePage />
-          </PrivateRoutes>
-          } />
+      <Route path="/profile" element={<PrivateRoutes><ProfilePage /></PrivateRoutes>} />
       <Route path="/dashboard"  element={<PrivateRoutes><ProfileDashboard/></PrivateRoutes>}/>
       <Route path="/loading" element={<LoadingUser/>}/>
-      <Route path="/AuthPage" element={<AuthPage/>}/>
+      <Route path="/auth" element={<AuthPage/>}/>
     </Routes>
   );
 }

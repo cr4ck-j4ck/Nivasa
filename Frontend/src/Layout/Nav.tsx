@@ -6,7 +6,6 @@ import { User } from "lucide-react";
 import { useState, useEffect } from "react";
 import SearchBar from "../Components/SearchBar";
 import { useLocation } from "react-router-dom";
-import { useGlobalStore } from "@/Store/Global";
 import UserStore from "@/Store/UserStore";
 import { useNavigate } from "react-router-dom";
 interface INavprops {
@@ -17,8 +16,6 @@ const Nav: React.FC<INavprops> = ({ position }) => {
   const location = useLocation();
   const [showVideo, setShowVideo] = useState(true);
   const [isScrolled, setIsScrolled] = useState(false);
-  const setShowLogin = useGlobalStore((state) => state.setShowLogin);
-  const showLogin = useGlobalStore((state) => state.showLogin);
   const isGettingUser = UserStore((state) => state.isGettingUser);
   const user = UserStore((state) => state.user);
   const navigate = useNavigate();
@@ -29,7 +26,7 @@ const Nav: React.FC<INavprops> = ({ position }) => {
     if (user) {
       navigate("/dashboard");
     } else {
-      setShowLogin(true);
+      navigate("/auth")
     }
   };
   useEffect(() => {
@@ -46,18 +43,6 @@ const Nav: React.FC<INavprops> = ({ position }) => {
     }
   }, [location.pathname]);
 
-  useEffect(() => {
-    if (showLogin) {
-      document.body.style.overflowY = "hidden"; // Disable scroll
-    } else {
-      document.body.style.overflowY = "auto"; // Re-enable scroll
-    }
-
-    // Clean up in case component unmounts
-    return () => {
-      document.body.style.overflowY = "auto";
-    };
-  }, [showLogin]);
 
   return (
     <nav

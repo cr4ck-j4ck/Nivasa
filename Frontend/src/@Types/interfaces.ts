@@ -138,7 +138,8 @@ interface Iverification {
 
 export interface Iuser {
   superhost:boolean;
-  fullName: string;
+  firstName: string;
+  lastName: string;
   email: string;
   password: string;
   phoneNumber: number;

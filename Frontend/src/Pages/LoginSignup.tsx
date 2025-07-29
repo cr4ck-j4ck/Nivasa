@@ -1,25 +1,39 @@
-import React, { useState } from 'react';
-import FloatingBackground from '@/Components/Auth/FloatingBackground';
-import AuthForm from '@/Components/Auth/AuthForm';
-import SocialLogin from '@/Components/Auth/SocialLogin';
-import TrustIndicators from '@/Components/Auth/TrustIndicators';
-import { type FormData } from '@/Components/Auth/AuthForm';
-
+import React, { useState } from "react";
+import FloatingBackground from "@/Components/Auth/FloatingBackground";
+import AuthForm from "@/Components/Auth/AuthForm";
+import SocialLogin from "@/Components/Auth/SocialLogin";
+import TrustIndicators from "@/Components/Auth/TrustIndicators";
+import { type FormData } from "@/Components/Auth/AuthForm";
+import { createUser, loginUser } from "@/Services/user.api";
+import UserStore from "@/Store/UserStore";
+import { useNavigate } from "react-router-dom";
 
 // Main Auth Page Component
 const AuthPage: React.FC = () => {
   const [isLogin, setIsLogin] = useState<boolean>(true);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-
+  const setUser = UserStore((state) => state.setUser);
+  const navigate = useNavigate();
   const handleAuth = async (data: FormData): Promise<void> => {
     setIsLoading(true);
     try {
       // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      console.log(isLogin ? 'Login' : 'Sign up', data);
+      if (isLogin) {
+        const response = await loginUser(data);
+        if (response) {
+          setUser(response);
+          navigate("/dashboard");
+        }
+      }else{
+        const response = await createUser(data);
+        if(response){
+          setUser(response);
+          navigate("/dashboard")
+        }
+      }
       // Handle successful authentication here
     } catch (error) {
-      console.error('Auth error:', error);
+      console.error("Auth error:", error);
       // Handle authentication error here
     } finally {
       setIsLoading(false);
@@ -44,7 +58,9 @@ const AuthPage: React.FC = () => {
             Welcome to Nivasa
           </h1>
           <p className="text-gray-600">
-            {isLogin ? 'Sign in to your account' : 'Create your account and start exploring'}
+            {isLogin
+              ? "Sign in to your account"
+              : "Create your account and start exploring"}
           </p>
         </div>
 
@@ -55,9 +71,9 @@ const AuthPage: React.FC = () => {
             <button
               onClick={() => setIsLogin(true)}
               className={`flex-1 py-3 px-4 rounded-lg font-medium transition-all duration-300 ${
-                isLogin 
-                  ? 'bg-white text-rose-600 shadow-sm' 
-                  : 'text-gray-600 hover:text-gray-800'
+                isLogin
+                  ? "bg-white text-rose-600 shadow-sm"
+                  : "text-gray-600 hover:text-gray-800"
               }`}
             >
               Sign In
@@ -65,19 +81,19 @@ const AuthPage: React.FC = () => {
             <button
               onClick={() => setIsLogin(false)}
               className={`flex-1 py-3 px-4 rounded-lg font-medium transition-all duration-300 ${
-                !isLogin 
-                  ? 'bg-white text-rose-600 shadow-sm' 
-                  : 'text-gray-600 hover:text-gray-800'
+                !isLogin
+                  ? "bg-white text-rose-600 shadow-sm"
+                  : "text-gray-600 hover:text-gray-800"
               }`}
             >
               Sign Up
             </button>
           </div>
 
-          <AuthForm 
-            isLogin={isLogin} 
-            onSubmit={handleAuth} 
-            isLoading={isLoading} 
+          <AuthForm
+            isLogin={isLogin}
+            onSubmit={handleAuth}
+            isLoading={isLoading}
           />
 
           {/* Divider */}
@@ -94,11 +110,11 @@ const AuthPage: React.FC = () => {
         {/* Bottom Text */}
         <div className="text-center mt-6 text-sm text-gray-600">
           {isLogin ? "Don't have an account? " : "Already have an account? "}
-          <button 
+          <button
             onClick={toggleAuthMode}
             className="text-rose-600 hover:text-rose-700 font-medium hover:underline transition-colors"
           >
-            {isLogin ? 'Sign up' : 'Sign in'}
+            {isLogin ? "Sign up" : "Sign in"}
           </button>
         </div>
       </div>

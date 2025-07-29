@@ -4,7 +4,8 @@ import mongoose, { Document, Model, Schema } from "mongoose";
 export interface IUser extends Document {
   googleId: string;
   provider: string;
-  fullName: string;
+  firstName: string;
+  lastName: string;
   email: string;
   password: string;
   phoneNumber?: string;
@@ -27,7 +28,8 @@ export interface IUser extends Document {
 const userSchema = new Schema<IUser>(
   {
     googleId: { type: String, sparse: true },
-    fullName: { type: String, required: true, trim: true },
+    firstName: { type: String, required: true, trim: true },
+    lastName: { type: String, trim: true },
     provider: {
       type: String,
       enum: ["google", "email"],

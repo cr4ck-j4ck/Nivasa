@@ -5,8 +5,30 @@ import UserModel, { type IUser } from "../Models/UsersModel";
 
 export async function createUser(req: Request, res: Response) {
   const resultOfParsing = signupSchema.safeParse(req.body.formData);
-  console.log(resultOfParsing);
-  res.send("ma chuda na ");
+  if(resultOfParsing.success){
+    const newUser = await UserModel.create(resultOfParsing.data);
+    console.log(newUser);
+    const token = generateToken(newUser.id);
+    const refreshToken = generateRefreshToken(newUser.id);
+       // Set tokens as HTTP-only cookies
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    });
+
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      maxAge: 15 * 24 * 60 * 60 * 1000, // 15 days
+    });
+    res.json(newUser);
+  }else{
+    console.log("parsing ho rahi hai",resultOfParsing);
+    res.send("parse nahi hua");
+  }  
 }
 
 export async function loginUser(req: Request, res: Response) {

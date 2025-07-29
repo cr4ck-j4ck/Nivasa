@@ -31,7 +31,7 @@ const UserHeader = () => {
         <div className="flex items-start justify-between mb-4">
           <div>
             <div className="flex items-center gap-3 mb-2">
-              <h1 className="text-3xl font-bold text-gray-900">{userData.fullName}</h1>
+              <h1 className="text-3xl font-bold text-gray-900">{userData.firstName} {userData.lastName}</h1>
               {userData.verified && <CheckCircle className="w-6 h-6 text-blue-500" />}
             </div>
             <div className="flex items-center gap-4 text-gray-600 mb-3">
