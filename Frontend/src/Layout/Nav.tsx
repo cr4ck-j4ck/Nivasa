@@ -99,7 +99,7 @@ const Nav: React.FC<INavprops> = ({ position }) => {
             </div>
           </div>
         </div>
-        {isGettingUser === "fullfilled" ? (
+        {isGettingUser === "fullfilled" || isGettingUser === "idle" ? (
           <div className="right-options">
             <div
               className={`login flex justify-evenly ${user ? "w-45" : "w-50"}`}

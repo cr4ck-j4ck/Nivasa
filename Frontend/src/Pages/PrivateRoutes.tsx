@@ -9,7 +9,7 @@ const PrivateRoutes = ({ children }: IprivateProps): React.JSX.Element => {
   const user = UserStore((state) => state.user);
   const isGettingUser = UserStore((state) => state.isGettingUser);
   if (user) {
-    return <div className="w-full mt-10">{children}</div>;
+    return <div className="w-full mt-10 bg-gray-50 flex justify-center">{children}</div>;
   }
 
   if (isGettingUser === "error") {

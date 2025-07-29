@@ -1,16 +1,23 @@
 import axios, { AxiosError } from "axios";
 import { type TAuthForm } from "@/Forms/User Forms/loginSignup.schema";
-
+import {type  Iuser } from "@/@Types/interfaces";
 const BackendAPI = import.meta.env.VITE_BACKEND_API;
 
-export async function createUser(formData: TAuthForm) {
+export async function createUser(formData: TAuthForm):Promise<Iuser> {
   const res = await axios.post(`${BackendAPI}/users/signup`, { formData });
   console.log("yeh dekh response aaya backend se :", res);
+  return res.data;
 }
 
-export async function loginuser(formData: TAuthForm) {
-  const res = await axios.post(`${BackendAPI}/users/login`, { formData });
-  console.log("yeh dekh response aaya backend se :", res);
+export async function loginUser(formData: TAuthForm):Promise<Iuser | undefined> {
+  try {
+    const res = await axios.post(`${BackendAPI}/users/login`, { formData }, {withCredentials:true});
+    return res.data;
+  } catch (err) {
+    if (err instanceof AxiosError && err.response?.data.message) {
+      throw new Error(err.response.data.message);
+    }
+  }
 }
 
 export const getUser = async () => {
@@ -21,7 +28,7 @@ export const getUser = async () => {
     return res.data;
   } catch (err) {
     if (err instanceof AxiosError && err.response?.status === 401) {
-      throw new Error(err.response.data.message); 
+      throw new Error(err.response.data.message);
     }
     return null;
   }

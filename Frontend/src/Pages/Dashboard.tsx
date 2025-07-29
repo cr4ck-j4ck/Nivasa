@@ -22,7 +22,7 @@ import {
 import { Card, CardContent } from "@/Components/ui/card";
 import { Button } from "@/Components/ui/button";
 import { Badge } from "@/Components/ui/badge";
-
+import UserStore from "@/Store/UserStore";
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
@@ -32,7 +32,7 @@ const containerVariants = {
     },
   },
 };
-
+  
 /*
 Type '{ y: number; opacity: number; transition: { duration: number; ease: string; }; }' is not assignable to type 'Variants'.
   Property 'y' is incompatible with index signature.
@@ -63,6 +63,7 @@ const cardHoverVariants = {
 };
 
 export default function ProfileDashboard() {
+  const user = UserStore(state => state.user)
   const [activeCard, setActiveCard] = useState<string | null>(null);
 
   const dashboardSections = [
@@ -177,8 +178,8 @@ export default function ProfileDashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 w-full sm:max-w-[97vw] md:max-w-[92vw] lg:max-w-[95vw] 3xl:max-w-[80vw]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div className="min-h-fit w-full sm:max-w-[97vw] md:max-w-[92vw] lg:max-w-[95vw] 3xl:max-w-[80vw]">
+      <div className="mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Welcome Banner */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
@@ -186,7 +187,7 @@ export default function ProfileDashboard() {
           transition={{ duration: 0.6 }}
           className="mb-8"
         >
-          <Card className="bg-gradient-to-r from-rose-300 via-pink to-orange-300 text-[#c61919] border-0 shadow-xl">
+          <Card className="bg-gradient-to-r from-rose-300 via-pink to-orange-300 text-black border-0 shadow-xl">
             <CardContent className="p-8">
               <div className="flex items-center justify-between">
                 <div>
@@ -196,11 +197,13 @@ export default function ProfileDashboard() {
                     initial="hidden"
                     animate="visible"
                   >
-                    {"👋 Welcome back, Pratyush Verma!".split("").map((char, index) => (
-                      <motion.span key={index} variants={child}>
-                        {char}
-                      </motion.span>
-                    ))}
+                    {`👋 Welcome back, ${user?.fullName}!`
+                      .split("")
+                      .map((char, index) => (
+                        <motion.span key={index} variants={child}>
+                          {char}
+                        </motion.span>
+                      ))}
                   </motion.h1>
 
                   <motion.p
@@ -226,7 +229,8 @@ export default function ProfileDashboard() {
                   className="hidden md:block"
                 >
                   <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center">
-                    <User className="w-10 h-10 text-white" />
+                    {/* <User className="w-10 h-10 text-white" /> */}
+                    <img src={user?.avatar} alt="" className="rounded-full"/>
                   </div>
                 </motion.div>
               </div>
@@ -248,7 +252,7 @@ export default function ProfileDashboard() {
             <Zap className="w-6 h-6 mr-2 text-yellow-500" />
             Quick Actions
           </motion.h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
             {quickActions.map((action) => (
               <motion.div
                 key={action.id}

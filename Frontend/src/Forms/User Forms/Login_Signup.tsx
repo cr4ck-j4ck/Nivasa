@@ -3,7 +3,8 @@ import { FaGoogle } from "react-icons/fa";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createAuthSchema, type TAuthForm } from "./loginSignup.schema";
-import { createUser } from "@/Services/user.api";
+import { createUser, loginUser } from "@/Services/user.api";
+import UserStore from "@/Store/UserStore";
 
 import { useGlobalStore } from "@/Store/Global";
 
@@ -11,6 +12,7 @@ export default function AuthForm() {
   const [isSignup, setIsSignup] = useState(false);
   const setShowLogin = useGlobalStore((state) => state.setShowLogin);
   const [isLoading, setIsLoading] = useState(false);
+  const setUser = UserStore((state) => state.setUser);
 
   const handleToggle = () => {
     setIsSignup((prev) => !prev);
@@ -24,13 +26,19 @@ export default function AuthForm() {
   // Use the dynamic schema function
   const schema = createAuthSchema(isSignup);
 
-  const handleFormSubmit = (data: TAuthForm) => {
-    if(isSignup && schema.safeParse(data).success){
-      createUser(data)  
-    }else{
-      logn
+  const handleFormSubmit = async (data: TAuthForm) => {
+    try {
+      if (isSignup && schema.safeParse(data).success) {
+        const response = await createUser(data);
+        if(response) setUser(response)
+      } else {
+        const response = await loginUser(data);
+        console.log("login karne ka response :",response);
+        if(response) setUser(response);
+      }
+    } catch(err) {
+      console.log("error",err);
     }
-    
   };
 
   const {

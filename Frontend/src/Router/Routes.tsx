@@ -19,8 +19,8 @@ export default function AppRoutes() {
             <ProfilePage />
           </PrivateRoutes>
           } />
+      <Route path="/dashboard"  element={<PrivateRoutes><ProfileDashboard/></PrivateRoutes>}/>
       <Route path="/loading" element={<LoadingUser/>}/>
-      <Route path="/dashboard" element={<ProfileDashboard/>}/>
     </Routes>
   );
 }
