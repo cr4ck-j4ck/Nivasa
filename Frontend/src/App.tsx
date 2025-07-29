@@ -37,7 +37,6 @@ const App: React.FC = () => {
       getUser()
         .then((res) => {
           if (res) {
-            console.log("aa gaya res",res);
             setUser(res);
           }
         }).catch(err => {

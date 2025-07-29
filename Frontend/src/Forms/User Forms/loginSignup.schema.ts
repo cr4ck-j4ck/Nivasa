@@ -5,13 +5,12 @@ export const createAuthSchema = (isSignup: boolean) => {
     return z.object({
       fullName: z.string().min(2, "Full Name is required"),
       email: z.email({ message: "Invalid email", pattern: z.regexes.html5Email }),
-      password: z.string().min(6, "Password must be at least 6 characters"),
+      password: z.string().min(6, "Password must be at least 6 character.. Samjha!!"),
     });
   } else {
     return z.object({
-      fullName: z.string().optional(),
       email: z.email({ message: "Invalid email", pattern: z.regexes.html5Email }),
-      password: z.string().min(6, "Password must be at least 6 characters"),
+      password: z.string().min(6, "Password must be at least 6 characters.. Samjha!!"),
     });
   }
 };

@@ -25,9 +25,12 @@ export default function AuthForm() {
   const schema = createAuthSchema(isSignup);
 
   const handleFormSubmit = (data: TAuthForm) => {
-    console.log(data);
-    console.log(schema.parse(data));
-    createUser(data);
+    if(isSignup && schema.safeParse(data).success){
+      createUser(data)  
+    }else{
+      logn
+    }
+    
   };
 
   const {

@@ -8,6 +8,11 @@ export async function createUser(formData: TAuthForm) {
   console.log("yeh dekh response aaya backend se :", res);
 }
 
+export async function loginuser(formData: TAuthForm) {
+  const res = await axios.post(`${BackendAPI}/users/login`, { formData });
+  console.log("yeh dekh response aaya backend se :", res);
+}
+
 export const getUser = async () => {
   try {
     const res = await axios.get(`${BackendAPI}/auth/status`, {

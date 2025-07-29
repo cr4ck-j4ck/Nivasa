@@ -2,11 +2,13 @@ import "./nav.css";
 import homeImage from "../assets/home.avif";
 import balloon from "../assets/hot_air_balloon.avif";
 import homeVideo from "../assets/house-twirl-selected.webm";
+import { User } from "lucide-react";
 import { useState, useEffect } from "react";
 import SearchBar from "../Components/SearchBar";
 import { useLocation } from "react-router-dom";
 import { useGlobalStore } from "@/Store/Global";
-
+import UserStore from "@/Store/UserStore";
+import { useNavigate } from "react-router-dom";
 interface INavprops {
   position: string;
 }
@@ -17,11 +19,19 @@ const Nav: React.FC<INavprops> = ({ position }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const setShowLogin = useGlobalStore((state) => state.setShowLogin);
   const showLogin = useGlobalStore((state) => state.showLogin);
-
+  const isGettingUser = UserStore((state) => state.isGettingUser);
+  const user = UserStore((state) => state.user);
+  const navigate = useNavigate();
   const handleVideoEnd = (): void => {
     setShowVideo(false);
   };
-
+  const handleClick = () => {
+    if (user) {
+      navigate("/dashboard");
+    } else {
+      setShowLogin(true);
+    }
+  };
   useEffect(() => {
     const lastScrollTop = 0;
     const handleScroll = (): void => {
@@ -89,14 +99,29 @@ const Nav: React.FC<INavprops> = ({ position }) => {
             </div>
           </div>
         </div>
-        <div className="right-options">
-          <div
-            className="login"
-            onClick={() => setShowLogin(true)}
-          >
-            Login / Signup
+        {isGettingUser === "fullfilled" ? (
+          <div className="right-options">
+            <div
+              className={`login flex justify-evenly ${user ? "w-45" : "w-50"}`}
+              onClick={handleClick}
+            >
+              {user ? "Dashboard" : "Login / Signup"} <User />
+            </div>
           </div>
-        </div>
+        ) : (
+          <div className="flex justify-center space-x-2 m-10 mr-20">
+            {[0, 1, 2, 3, 4].map((i) => (
+              <div
+                key={i}
+                className="w-2 h-2 bg-rose-400 rounded-full animate-pulse"
+                style={{
+                  animationDelay: `${i * 0.3}s`,
+                  animationDuration: "1s",
+                }}
+              />
+            ))}
+          </div>
+        )}
       </div>
       <SearchBar scroll={isScrolled} setIsScrolled={setIsScrolled} />
     </nav>

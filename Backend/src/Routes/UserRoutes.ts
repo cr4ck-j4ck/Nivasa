@@ -5,7 +5,7 @@ import { verifyToken } from "../JWT/JWT";
 
 const router = express.Router();
 
-router.route("/user").get(asyncWrapper(createUser));
+router.route("/users/signup").get(asyncWrapper(createUser));
 
 router.get("/auth/status", verifyToken, (req, res) => {
   if (req.user) {
