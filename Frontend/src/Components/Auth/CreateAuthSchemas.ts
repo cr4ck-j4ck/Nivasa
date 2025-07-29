@@ -30,10 +30,10 @@ export const createAuthSchema = (isSignup: boolean) => {
 
 // Type for the form data
 export type TAuthForm = {
-  firstName?:string;
-  lastName?:string;
-  phone?:string;
-  birthDate:string;
+  firstName?: string;
+  lastName?: string;
+  phone?: string;
+  birthDate: string;
   email: string;
   password: string;
 };

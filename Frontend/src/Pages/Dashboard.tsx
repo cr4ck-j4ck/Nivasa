@@ -32,12 +32,6 @@ const containerVariants = {
     },
   },
 };
-  
-/*
-Type '{ y: number; opacity: number; transition: { duration: number; ease: string; }; }' is not assignable to type 'Variants'.
-  Property 'y' is incompatible with index signature.
-    Type 'number' is not assignable to type 'Variant'.ts(2322)
-*/
 
 const itemVariants = {
   hidden: { y: 20, opacity: 0, transition: { duration: 0, ease: "f" } },
@@ -63,7 +57,7 @@ const cardHoverVariants = {
 };
 
 export default function ProfileDashboard() {
-  const user = UserStore(state => state.user)
+  const user = UserStore((state) => state.user);
   const [activeCard, setActiveCard] = useState<string | null>(null);
 
   const dashboardSections = [
@@ -229,8 +223,11 @@ export default function ProfileDashboard() {
                   className="hidden md:block"
                 >
                   <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center">
-                    {/* <User className="w-10 h-10 text-white" /> */}
-                    <img src={user?.avatar} alt="" className="rounded-full"/>
+                    {user?.avatar ? (
+                      <img src={user?.avatar} alt="" className="rounded-full" />
+                    ) : (
+                      <User className="w-10 h-10 text-white" />
+                    )}
                   </div>
                 </motion.div>
               </div>

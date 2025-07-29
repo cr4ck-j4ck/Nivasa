@@ -4,8 +4,6 @@ import AppRoutes from "@/Router/Routes";
 import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import Footer from "./Layout/Footer";
-import Login from "./Forms/User Forms/Login_Signup";
-import { useGlobalStore } from "./Store/Global";
 import UserStore from "./Store/UserStore";
 import { getUser } from "./Services/user.api";
 import { useShallow } from "zustand/react/shallow";
@@ -13,7 +11,6 @@ import { useShallow } from "zustand/react/shallow";
 const App: React.FC = () => {
   const location = useLocation();
   const isMainListing = location.pathname === "/";
-  const showLogin = useGlobalStore((state) => state.showLogin);
 
   useEffect(() => {
     if (isMainListing) {
@@ -54,7 +51,6 @@ const App: React.FC = () => {
       <Nav position={isMainListing ? "fixed top-0" : ""}></Nav>
       <AppRoutes />
       <Footer />
-      {showLogin && <Login />}
     </div>
   );
 };

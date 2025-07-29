@@ -1,17 +1,30 @@
 import axios, { AxiosError } from "axios";
 import { type TAuthForm } from "@/Forms/User Forms/loginSignup.schema";
-import {type  Iuser } from "@/@Types/interfaces";
+import { type Iuser } from "@/@Types/interfaces";
 const BackendAPI = import.meta.env.VITE_BACKEND_API;
 
-export async function createUser(formData: TAuthForm):Promise<Iuser> {
-  const res = await axios.post(`${BackendAPI}/users/signup`, { formData });
-  console.log("yeh dekh response aaya backend se :", res);
-  return res.data;
+export async function createUser(
+  formData: TAuthForm
+): Promise<Iuser | undefined> {
+  try {
+    const res = await axios.post(`${BackendAPI}/users/signup`, { formData });
+    return res.data;
+  } catch (err) {
+    if (err instanceof AxiosError && err.response?.data.message) {
+      throw new Error(err.response.data.message);
+    }
+  }
 }
 
-export async function loginUser(formData: TAuthForm):Promise<Iuser | undefined> {
+export async function loginUser(
+  formData: TAuthForm
+): Promise<Iuser | undefined> {
   try {
-    const res = await axios.post(`${BackendAPI}/users/login`, { formData }, {withCredentials:true});
+    const res = await axios.post(
+      `${BackendAPI}/users/login`,
+      { formData },
+      { withCredentials: true }
+    );
     return res.data;
   } catch (err) {
     if (err instanceof AxiosError && err.response?.data.message) {

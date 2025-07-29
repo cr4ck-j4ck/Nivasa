@@ -3,16 +3,16 @@ import Home from "@/Pages/mainListing";
 import NotFound from "@/Pages/NotFound";
 import ShowListing from "@/Pages/showListing";
 import ProfilePage from "@/Pages/ProfilePage";
-import AuthForm from "@/Forms/User Forms/Login_Signup";
 import PrivateRoutes from "@/Pages/PrivateRoutes";
 import LoadingUser from "@/Pages/UserLoading";
 import ProfileDashboard from "@/Pages/Dashboard";
+import AuthPage from "@/Pages/LoginSignup";
+
 export default function AppRoutes() {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/room/:listingId" element={<ShowListing />} />
-      <Route path="/login" element={<AuthForm />} />
       <Route path="*" element={<NotFound />} />
         <Route path="/profile" element={
           <PrivateRoutes>
@@ -21,6 +21,7 @@ export default function AppRoutes() {
           } />
       <Route path="/dashboard"  element={<PrivateRoutes><ProfileDashboard/></PrivateRoutes>}/>
       <Route path="/loading" element={<LoadingUser/>}/>
+      <Route path="/AuthPage" element={<AuthPage/>}/>
     </Routes>
   );
 }
