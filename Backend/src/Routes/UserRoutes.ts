@@ -5,7 +5,7 @@ import { verifyToken } from "../JWT/JWT";
 
 const router = express.Router();
 
-router.route("/users/signup").post(asyncWrapper(createUser));
+router.post("/users/signup",asyncWrapper(createUser));
 
 router.route("/users/login").post(asyncWrapper(loginUser));
 
