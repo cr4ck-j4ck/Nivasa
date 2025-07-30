@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import FloatingBackground from "@/Components/Auth/FloatingBackground";
 import AuthForm from "@/Components/Auth/AuthForm";
 import SocialLogin from "@/Components/Auth/SocialLogin";
@@ -7,12 +7,17 @@ import { type FormData } from "@/Components/Auth/AuthForm";
 import { createUser, loginUser } from "@/Services/user.api";
 import UserStore from "@/Store/UserStore";
 import { useNavigate } from "react-router-dom";
+import globalStore from "@/Store/Global";
 
 // Main Auth Page Component
 const AuthPage: React.FC = () => {
   const [isLogin, setIsLogin] = useState<boolean>(true);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const setUser = UserStore((state) => state.setUser);
+  const setErrorFromBackend = globalStore(state => state.setErrorFromBackend)
+  useEffect(()=>{
+    setErrorFromBackend({emailError:null,passwordError:null})
+  },[])
   const navigate = useNavigate();
   const handleAuth = async (data: FormData): Promise<void> => {
     setIsLoading(true);
@@ -33,7 +38,14 @@ const AuthPage: React.FC = () => {
       }
       // Handle successful authentication here
     } catch (error) {
-      console.error("Auth error:", error);
+      console.log(error)
+      if(error instanceof Error){
+        if(error.message.includes("password")){
+            setErrorFromBackend({passwordError:"Wrong Password!"})
+        }else if(error.message.includes("Email")){
+          setErrorFromBackend({emailError:"User doesn't exists!. Check your email!!"})
+        }
+      }
       // Handle authentication error here
     } finally {
       setIsLoading(false);

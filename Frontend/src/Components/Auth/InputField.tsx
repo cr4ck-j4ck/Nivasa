@@ -1,6 +1,8 @@
 import { useState } from "react";
 import {X ,EyeOff, Eye, type LucideIcon } from "lucide-react";
 import PasswordStrengthIndicator from "./PasswordIndicator";
+import globalStore from "@/Store/Global";
+import { useShallow } from "zustand/react/shallow";
 
 interface InputFieldProps {
   icon: LucideIcon;
@@ -31,7 +33,12 @@ const InputField: React.FC<InputFieldProps> = ({
 }) => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const fieldValue = watch ? watch(name) : '';
-
+  const { emailError , passwordError} = globalStore(useShallow(state => ({emailError:state.emailError,passwordError:state.passwordError})))
+  if(type == "email" && emailError){
+    error=emailError;
+  }else if(type == "password" && passwordError){
+    error=passwordError;
+  }
   return (
     <div className="relative">
       <div className="relative">
@@ -56,7 +63,7 @@ const InputField: React.FC<InputFieldProps> = ({
           </button>
         )}
       </div>
-      {error && (
+      { error && (
         <div className="flex items-center gap-1 mt-2 text-red-500 text-sm animate-fadeIn">
           <X className="w-4 h-4" />
           {error}

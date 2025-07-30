@@ -11,6 +11,7 @@ export interface FormData {
   birthDate?: string;
 }
 
+
 interface AuthFormProps {
   isLogin: boolean;
   onSubmit: (data: FormData) => Promise<void>;
