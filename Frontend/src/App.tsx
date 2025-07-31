@@ -37,6 +37,7 @@ const App: React.FC = () => {
             setUser(res);
           }
         }).catch(err => {
+          console.log(err)
           setIsGettingUser("error")
         })
         .finally(() => {

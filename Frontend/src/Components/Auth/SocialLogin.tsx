@@ -15,7 +15,9 @@ const SocialLogin: React.FC = () => {
   ];
 
   const handleSocialLogin = (provider: string): void => {
-    console.log(`Logging in with ${provider}`);
+    if(provider == "Google"){
+      window.location.href = `${import.meta.env.VITE_BACKEND_API}/auth/google`;
+    }
   };
 
   return (
