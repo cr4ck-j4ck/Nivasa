@@ -32,7 +32,7 @@ export const createAuthSchema = (isSignup: boolean) => {
 export type TAuthForm = {
   firstName?: string;
   lastName?: string;
-  phone?: string;
+  phoneNumber?: string;
   birthDate: string;
   email: string;
   password: string;

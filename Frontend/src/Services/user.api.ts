@@ -7,7 +7,6 @@ export async function createUser(
   formData: FormData
 ): Promise<Iuser | undefined> {
   try {
-    console.log("call initated from createUser frontend",`${BackendAPI}/users/signup`);
     const res = await axios.post(`${BackendAPI}/users/signup`, { formData },{withCredentials:true});
     return res.data;
   } catch (err) {

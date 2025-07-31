@@ -7,7 +7,7 @@ export interface FormData {
   lastName?: string;
   email: string;
   password: string;
-  phone?: string;
+  phoneNumber?: string;
   birthDate?: string;
 }
 
@@ -62,9 +62,9 @@ const AuthForm: React.FC<AuthFormProps> = ({
           <InputField
             icon={Phone}
             type="tel"
-            name="phone"
+            name="phoneNumber"
             placeholder="Phone number"
-            error={errors.phone}
+            error={errors.phoneNumber}
             register={register}
           />
           <InputField

@@ -34,11 +34,9 @@ const App: React.FC = () => {
       getUser()
         .then((res) => {
           if (res) {
-            console.log("user Set kar raha hu ", res);
             setUser(res);
           }
         }).catch(err => {
-          console.log("error dekh :",err);
           setIsGettingUser("error")
         })
         .finally(() => {

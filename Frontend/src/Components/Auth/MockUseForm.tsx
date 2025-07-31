@@ -64,7 +64,7 @@ const MockUseForm = (config?: UseFormConfig): UseFormReturn => {
       case 'lastName':
         if (!value) return `${name === 'firstName' ? 'First' : 'Last'} name is required`;
         break;
-      case 'phone':
+      case 'phoneNumber':
         if (!value) return 'Phone number is required';
         if (value.length < 10) return 'Phone number must be at least 10 digits';
         break;
@@ -78,7 +78,6 @@ const MockUseForm = (config?: UseFormConfig): UseFormReturn => {
   const handleSubmit = (onSubmit: (data: FormData) => Promise<void>) => async (e?: React.FormEvent) => {
     e?.preventDefault();
     setIsSubmitting(true);
-    
     // Validate all fields
     const newErrors: FormErrors = {};
     Object.keys(formData).forEach(key => {
