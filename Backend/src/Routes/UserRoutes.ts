@@ -11,9 +11,9 @@ router.route("/users/login").post(asyncWrapper(loginUser));
 
 router.get("/auth/status", verifyToken, (req, res) => {
   if (req.user) {
-    // setTimeout(() => {
+    setTimeout(() => {
     res.json(req.user);
-    // }, 3200);
+    }, 3200);
   } else {
     res.status(401).send("User Not Found");
   }

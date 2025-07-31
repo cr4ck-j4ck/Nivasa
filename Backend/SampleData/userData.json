@@ -1,6 +1,7 @@
 [
   {
-    "fullName": "Dream Hared",
+    "firstName": "Dream",
+    "lastName": "Dream Hared",
     "email": "dream.hared@example.com",
     "password": "dream1234",
     "phoneNumber": "9876543101",
@@ -18,7 +19,8 @@
     "bookings": []
   },
   {
-    "fullName": "Manjeet Sharma",
+    "firstName": "Manjeet",
+    "lastName": "Sharma",
     "email": "manjeet.sharma@example.com",
     "password": "manjeet@321",
     "phoneNumber": "9812345678",
@@ -36,7 +38,8 @@
     "bookings": []
   },
   {
-    "fullName": "Yash Bharadwaj",
+    "firstName": "Yash",
+    "lastName": "Bharadwaj",
     "email": "yash.bharadwaj@example.com",
     "password": "yashpass456",
     "phoneNumber": "9988776655",
@@ -54,7 +57,8 @@
     "bookings": []
   },
   {
-    "fullName": "Prince Bundela",
+    "firstName": "Prince",
+    "lastName": "Bundela",
     "email": "prince.bundela@example.com",
     "password": "prince007",
     "phoneNumber": "9876501234",
@@ -72,7 +76,8 @@
     "bookings": []
   },
   {
-    "fullName": "AnshulK",
+    "firstName": "Anshul",
+    "lastName": "kanswal",
     "email": "anshul.k@example.com",
     "password": "anshulk456",
     "phoneNumber": "9123456780",
@@ -90,7 +95,8 @@
     "bookings": []
   },
   {
-    "fullName": "Arya Sharma",
+    "firstName": "Arya",
+    "LastName": "Sharma",
     "email": "arya.sharma@example.com",
     "password": "arya123456",
     "phoneNumber": "9001234567",
@@ -108,7 +114,8 @@
     "bookings": []
   },
   {
-    "fullName": "Samarth K Magar",
+    "firstName": "Samarth K",
+    "lastName": "Magar",
     "email": "samarth.magar@example.com",
     "password": "samarthk@789",
     "phoneNumber": "9111223344",
@@ -126,7 +133,8 @@
     "bookings": []
   },
   {
-    "fullName": "Pratyush Verma",
+    "firstName": "Pratyush",
+    "lastName": "Verma",
     "email": "pratyush.verma@example.com",
     "password": "pratyush@123",
     "phoneNumber": "9090909090",

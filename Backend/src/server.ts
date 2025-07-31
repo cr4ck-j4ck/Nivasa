@@ -13,8 +13,7 @@ import cors from "cors";
 app.use(
   cors({
     origin: [
-      "https://nivasa-two.vercel.app",
-      "https://nivasa-git-main-cr4ck-j4cks-projects.vercel.app",
+      "https://www.nivasa.site",
       "http://localhost:5173",
     ],
     credentials: true,
