@@ -12,7 +12,7 @@ const HostProfile = () => {
           src={listingObj.host.avatar} // Replace with actual host image URL
           alt="Host"
         />
-        <h2 className="text-xl font-semibold mt-4">{listingObj.host.fullName}</h2>
+        <h2 className="text-xl font-semibold mt-4">{listingObj.host.firstName} {listingObj.host.lastName}</h2>
         <p className="text-gray-500 text-sm mt-1">Host</p>
         <div className="flex items-center justify-center space-x-2 mt-2">
           <span className="text-sm text-gray-600">3 Reviews</span>

@@ -14,7 +14,7 @@ const UserHeader = () => {
         <div className="relative">
           <img
             src={userData.avatar}
-            alt={userData.fullName}
+          alt={userData.firstName}
             className="w-32 h-32 rounded-full border-4 border-white shadow-lg"
           />
           {userData.superhost && (

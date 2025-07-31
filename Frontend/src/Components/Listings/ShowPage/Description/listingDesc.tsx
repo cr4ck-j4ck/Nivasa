@@ -50,7 +50,7 @@ const ListingDesc = (): React.JSX.Element | null => {
           className="h-15 rounded-full mr-5 w-15"
         />{" "}
         <h3 className="text-lg font-semibold mt-5">
-          Hosted by {listingObj.host.fullName}
+          Hosted by {listingObj.host.firstName} {listingObj.host.lastName}
         </h3>{" "}
       </div>
       <div className="description pb-10 border-b border-gray-300 w-full">
