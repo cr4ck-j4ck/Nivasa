@@ -10,7 +10,7 @@ export const signupSchema = z.object({
   password: z
     .string()
     .min(6, "Password must be at least 6 character.. Samjha!!"),
-  phone: z.string().min(1, "Phone number is required"),
+  phoneNumber: z.string().min(1, "Phone number is required"),
   birthDate: z.string().min(1, "Birth date is required"),
 });
 

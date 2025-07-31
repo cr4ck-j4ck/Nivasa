@@ -14,11 +14,13 @@ export async function createUser(req: Request, res: Response) {
       resultOfParsing.password,
       SALT_ROUNDS
     );
+    console.log(req.body.formData)
     const newUser = (
-      await UserModel.create({ ...resultOfParsing, password: hashedPassword })
+      await UserModel.create({ ...req.body.formData, password: hashedPassword })
     ).toObject();
-    const token = generateToken(newUser.id);
-    const refreshToken = generateRefreshToken(newUser.id);
+    console.log(newUser)
+    const token = generateToken(newUser._id as string);
+    const refreshToken = generateRefreshToken(newUser._id as string);
     //  Set tokens as HTTP-only cookies
     res.cookie("token", token, {
       httpOnly: true,
@@ -59,15 +61,10 @@ export async function loginUser(req: Request, res: Response) {
         resultOfParsing.password,
         existingUser.password
       );
+      console.log("----",existingUser._id)
       if (passwordIsCorrect) {
-        const token = generateToken(existingUser.id);
-        const refreshToken = generateRefreshToken(existingUser.id);
-        res.cookie("token", token, {
-          httpOnly: true,
-          secure: process.env.NODE_ENV === "production",
-          sameSite: "strict",
-          maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-        });
+        const token = generateToken(existingUser._id as string);
+        const refreshToken = generateRefreshToken(existingUser._id as string);
         res.cookie("token", token, {
           httpOnly: true,
           secure: process.env.NODE_ENV === "production",
@@ -80,11 +77,9 @@ export async function loginUser(req: Request, res: Response) {
           sameSite: "strict",
           maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
         });
-        console.log(existingUser)
         const { password, ...responseObject } = existingUser;
         res.json(responseObject);
       } else {
-        console.log("hey");
         res.status(401).send("Wrong password!!");
       }
     } else {
