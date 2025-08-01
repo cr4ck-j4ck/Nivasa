@@ -3,8 +3,6 @@ import {
   Home,
   Star,
   Heart,
-  User,
-  Globe,
   Github,
   Linkedin,
   Instagram,
@@ -174,7 +172,7 @@ const UnderConstructionPage = () => {
                 </div>
 
                 {/* Floating Status Badge */}
-                <div className="absolute -bottom-2 -right-2 bg-green-500 text-white px-3 py-1 rounded-full text-xs font-medium shadow-lg animate-pulse">
+                <div className="absolute -bottom-2 -right-2 z-2 bg-green-500 text-white px-3 py-1 rounded-full text-xs font-medium shadow-lg animate-pulse">
                   Available for hire
                 </div>
               </div>
@@ -277,7 +275,7 @@ const UnderConstructionPage = () => {
           </div>
 
           {/* Features/Skills Grid */}
-          <div className="grid md:grid-cols-3 gap-8 mb-16">
+          <div className="grid md:grid-cols-3 gap-8 mb-16 max-w-7xl mx-auto">
             {features.map((feature, index) => (
               <div
                 key={index}
