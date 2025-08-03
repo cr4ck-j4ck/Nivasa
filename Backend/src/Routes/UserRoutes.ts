@@ -1,19 +1,21 @@
-import express from "express";
+import express, { RequestHandler } from "express";
 import asyncWrapper from "../utils/wrapAsync";
-import { createUser, loginUser } from "../Controllers/UserController";
+import { createUser, loginUser, verifyConnection, verifyEmailToken } from "../Controllers/UserController";
 import { verifyToken } from "../JWT/JWT";
 
 const router = express.Router();
 
-router.post("/users/signup", asyncWrapper(createUser));
+router.post("/user/signup", createUser);
 
-router.route("/users/login").post(asyncWrapper(loginUser));
+router.post("/user/login",loginUser);
 
-router.get("/auth/status", verifyToken, (req, res) => {
+router.get("/user/sse/:id",verifyConnection)
+
+router.get("/user/verifyEmail-token",verifyEmailToken)
+
+router.get("/auth/status",verifyToken , (req, res) => {
   if (req.user) {
-    setTimeout(() => {
     res.json(req.user);
-    }, 3200);
   } else {
     res.status(401).send("User Not Found");
   }

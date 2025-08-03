@@ -14,7 +14,6 @@ export const verifyToken = async (req: any, res: any, next: any) => {
     }
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET!) as any;
-    console.log(decoded);
     const user = await User.findById(decoded.userId);
     
     if (!user) {
@@ -43,9 +42,11 @@ export const verifyToken = async (req: any, res: any, next: any) => {
   }
 };
 
-export const generateToken = (userId: string) => {
+export const generateToken = (userId:  object) => {
+  console.log(userId)
+  console.log(typeof userId)
   return jwt.sign(
-    { userId },
+    userId ,
     process.env.JWT_SECRET!,
     { expiresIn: "7d" } // Token expires in 7 days
   );
