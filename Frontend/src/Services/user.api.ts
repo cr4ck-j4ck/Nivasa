@@ -7,13 +7,13 @@ export async function createUser(
   formData: FormData
 ): Promise<Iuser | undefined> {
   try {
-    const res = await axios.post(`${BackendAPI}/users/signup`, { formData },{withCredentials:true});
+    const res = await axios.post(`${BackendAPI}/user/signup`, { formData },{withCredentials:true});
     return res.data;
   } catch (err) {
     if (err instanceof AxiosError && err.response?.data.message) {
       throw new Error(err.response.data.message);
     }else{
-      console.log(err);
+      throw new Error("Some Error Occured on Backend.")
     }
   }
 }
@@ -23,7 +23,7 @@ export async function loginUser(
 ): Promise<Iuser | undefined> {
   try {
     const res = await axios.post(
-      `${BackendAPI}/users/login`,
+      `${BackendAPI}/user/login`,
       { formData },
       { withCredentials: true }
     );
@@ -40,11 +40,14 @@ export const getUser = async () => {
     const res = await axios.get(`${BackendAPI}/auth/status`, {
       withCredentials: true,
     });
+    console.log("hey",res.data)
     return res.data;
   } catch (err) {
     if (err instanceof AxiosError && err.response?.status === 401) {
       throw new Error(err.response.data);
+    }else{
+      throw new Error("Error Occurred ")
     }
-    return null;
+    
   }
 };

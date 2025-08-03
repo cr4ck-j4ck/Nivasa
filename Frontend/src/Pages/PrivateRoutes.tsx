@@ -15,7 +15,7 @@ const PrivateRoutes = ({ children }: IprivateProps): React.JSX.Element => {
   if (isGettingUser === "error") {
     return <Navigate to="/auth" replace />; // Redirect if no user or error
   }
-
+  
   return <LoadingUser />;
 };
 
