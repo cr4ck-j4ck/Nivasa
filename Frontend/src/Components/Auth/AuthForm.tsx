@@ -106,6 +106,7 @@ const AuthForm: React.FC<AuthFormProps> = ({
         showPasswordToggle={true}
         register={register}
         watch={watch}
+        isLogin={isLogin}
       />
 
       {/* Terms for Sign Up */}

@@ -18,6 +18,7 @@ interface InputFieldProps {
   };
   name: string;
   watch?: (field: string) => string;
+  isLogin?:boolean;
 }
 
 // Input Field Component
@@ -30,6 +31,7 @@ const InputField: React.FC<InputFieldProps> = ({
   register,
   name,
   watch,
+  isLogin,
 }) => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const fieldValue = watch ? watch(name) : "";
@@ -78,7 +80,7 @@ const InputField: React.FC<InputFieldProps> = ({
           {error}
         </div>
       )}
-      {name === "password" && fieldValue && (
+      {name === "password" && !isLogin && fieldValue && (
         <PasswordStrengthIndicator password={fieldValue} />
       )}
     </div>
