@@ -2,6 +2,8 @@ import { Link } from "react-router-dom";
 
 export default function NotFound() {
   return (
+<>
+<title>404 - Nivasa</title>
     <div style={{
       minHeight: "70vh",
       display: "flex",
@@ -29,5 +31,6 @@ export default function NotFound() {
         Go Home
       </Link>
     </div>
+</>
   );
 }

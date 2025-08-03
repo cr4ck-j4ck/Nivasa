@@ -11,6 +11,8 @@ const ProfilePage = () => {
   const [activeTab, setActiveTab] = useState("overview");
 
   return (
+    <>
+    <title>Nivasa - Host Dashboard</title>
     <div className="w-full sm:max-w-[97vw] md:max-w-[90vw] lg:max-w-[75vw] 3xl:max-w-[80vw] mx-auto p-6 bg-white">
       {/* Header, Stats, Bio */}
       <UserHeader></UserHeader>
@@ -53,6 +55,7 @@ const ProfilePage = () => {
         {activeTab === "verification" && <VerificationTab />}
       </div>
     </div>
+    </>
   );
 };
 

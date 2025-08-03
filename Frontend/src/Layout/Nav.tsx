@@ -56,6 +56,7 @@ const Nav: React.FC<INavprops> = ({ position }) => {
             src="/Nivasa-removebg-preview.png"
             alt="nivasaImg"
             className="block mx-auto h-20 mt-3"
+            style={{background:"transparent"}}
           />
         </a>
         <div className="w-sm relative flex left-20">
