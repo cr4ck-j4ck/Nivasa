@@ -61,6 +61,7 @@ export const getUser = async () => {
 };
 
 export const setupVerificationListener = (userId: string , onVerfied : ()=> void ) => {
+  console.log("bhai maine toh apna kaam kiya re devaa!")
   const eventSource = new EventSource(
     `${BackendAPI}/user/verification-stream/${userId}`
   );
