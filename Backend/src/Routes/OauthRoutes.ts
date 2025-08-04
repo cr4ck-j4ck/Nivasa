@@ -9,7 +9,7 @@ const SuccessOauthHandler = (req: Request, res: Response) => {
     const user = req.user as any;
 
     // Generate JWT tokens
-    const token = generateToken(user._id);
+    const token = generateToken(user._id,"7d");
     const refreshToken = generateRefreshToken(user._id);
 
     // Set tokens as HTTP-only cookies

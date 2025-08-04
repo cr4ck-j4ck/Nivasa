@@ -1,4 +1,3 @@
-import { Request,Response,NextFunction } from "express";
 import jwt from "jsonwebtoken"
 import User from "../Models/UsersModel";
 
@@ -42,13 +41,13 @@ export const verifyToken = async (req: any, res: any, next: any) => {
   }
 };
 
-export const generateToken = (userId:  object) => {
+export const generateToken = (userId:  object ,expireTime : "10min" | "7d") => {
   console.log(userId)
   console.log(typeof userId)
   return jwt.sign(
     userId ,
     process.env.JWT_SECRET!,
-    { expiresIn: "7d" } // Token expires in 7 days
+    { expiresIn: expireTime } 
   );
 };
 
