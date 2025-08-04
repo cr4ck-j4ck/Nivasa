@@ -1,29 +1,30 @@
 @import url('https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Kaushan+Script&display=swap');
 
 .description p {
-    font-family: "Work Sans", sans-serif;
-    font-optical-sizing: auto;
-    font-style: italic;
-    line-height: 1.7;
-    text-align: justify;
+  font-family: "Work Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-style: italic;
+  line-height: 1.7;
+  text-align: justify;
 }
 
 .no-select {
-    user-select: none;
-    -webkit-user-select: none;
-    -ms-user-select: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
 }
 
 
 .outerLoginDiv {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    backdrop-filter: blur(12px);
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 10;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  backdrop-filter: blur(12px);
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 10;
 }
 
 @keyframes bounce-in {
@@ -31,10 +32,12 @@
     opacity: 0;
     transform: translateY(-1rem) scale(0.9);
   }
+
   60% {
     opacity: 1;
     transform: translateY(4px) scale(1.05);
   }
+
   100% {
     transform: translateY(0) scale(1);
   }
@@ -42,4 +45,14 @@
 
 .animate-bounce-in {
   animation: bounce-in 0.4s ease-out forwards;
+}
+
+.lostHead {
+  font-size: 30rem;
+  font-family: "Kaushan Script", cursive;
+  position: absolute;
+  left: 30%;
+  z-index: -10;
+  color: rgba(255, 0, 0, 0.243);
+
 }

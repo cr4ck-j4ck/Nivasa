@@ -1,6 +1,5 @@
 import { Routes, Route } from "react-router-dom";
 import Home from "@/Pages/mainListing";
-import NotFound from "@/Pages/NotFound";
 import ShowListing from "@/Pages/showListing";
 import ProfilePage from "@/Pages/ProfilePage";
 import PrivateRoutes from "@/Pages/PrivateRoutes";
@@ -14,12 +13,11 @@ export default function AppRoutes() {
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/room/:listingId" element={<ShowListing />} />
-      <Route path="*" element={<NotFound />} />
       <Route path="/profile" element={<PrivateRoutes><ProfilePage /></PrivateRoutes>} />
       <Route path="/dashboard"  element={<PrivateRoutes><ProfileDashboard/></PrivateRoutes>}/>
       <Route path="/loading" element={<LoadingUser/>}/>
       <Route path="/auth" element={<AuthPage/>}/>
-      <Route path="/settings" element={<UnderConstruction/>}/>
+      <Route path="*" element={<UnderConstruction/>}/>
     </Routes>
   );
 }

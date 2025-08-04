@@ -154,6 +154,7 @@ const UnderConstructionPage = () => {
         <div className="min-w-full mx-auto">
           {/* Banner Area */}
           <div className="text-center mb-16">
+            <p className="lostHead">404</p>
             <div className="relative mb-8">
               {/* Developer Profile Circle */}
               <div className="relative inline-block">
