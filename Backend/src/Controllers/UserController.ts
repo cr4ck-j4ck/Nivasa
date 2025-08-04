@@ -22,10 +22,10 @@ export const createUser: RequestHandler = async (req, res) => {
     const payloadJWT = { ...resultOfParsing, password: hashedPassword };
     const uniqueUserID = uuidv4();
     const verificationToken = generateToken({ userData: payloadJWT }, "10min");
-    // const sentMailResponse = await sendMail(
-    //   resultOfParsing.email,
-    //   `http://${process.env.BACKEND_URL}/user/verifyEmail-token?Vtoken=${verificationToken}`
-    // );
+    const sentMailResponse = await sendMail(
+      resultOfParsing.email,
+      `http://${process.env.BACKEND_URL}/user/verifyEmail-token?Vtoken=${verificationToken}`
+    );
     console.log("Sent Mail response");
     clients.set(uniqueUserID, res);
     res.json({ uuid: uniqueUserID });
