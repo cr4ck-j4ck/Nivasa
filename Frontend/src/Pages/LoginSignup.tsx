@@ -5,10 +5,13 @@ import SocialLogin from "@/Components/Auth/SocialLogin";
 import TrustIndicators from "@/Components/Auth/TrustIndicators";
 import { type FormData } from "@/Components/Auth/AuthForm";
 import { createUser, loginUser } from "@/Services/user.api";
+import { useSearchParams } from "react-router-dom";
 import UserStore from "@/Store/UserStore";
 import { useNavigate } from "react-router-dom";
 import globalStore from "@/Store/Global";
-import EmailSent from "@/Components/EmailSent";
+// import EmailSent from "@/Components/EmailSent";
+import CustomAlert from "@/Components/CustomAlert";
+
 
 // Main Auth Page Component
 const AuthPage: React.FC = () => {
@@ -17,6 +20,8 @@ const AuthPage: React.FC = () => {
   const setUser = UserStore((state) => state.setUser);
   const setErrorFromBackend = globalStore((state) => state.setErrorFromBackend);
   const [isEmailSent, SetIsEmailSent] = useState(false);
+  const [searchParams,setSearchParams] = useSearchParams();
+  const errMsg = searchParams.get("errMsg");
   useEffect(() => {
     setErrorFromBackend({ emailError: null, passwordError: null });
   }, []);
@@ -53,13 +58,18 @@ const AuthPage: React.FC = () => {
       setIsLoading(false);
     }
   };
-
+  
   const toggleAuthMode = (): void => {
     setIsLogin(!isLogin);
   };
-
+  
   return (
     <>
+    {errMsg ? <CustomAlert title="Email Sent" message={errMsg == "jwt expired" ? `Oops! Your link has expired.
+No worries, just sign up again to get a new one.`: `Uh-oh, this link's not feeling quite right...
+Maybe it got tampered, just sign up again`} variant="error" setFunc={()=> {searchParams.delete("errMsg"); setSearchParams() }} /> :"" }
+    {isEmailSent ? <CustomAlert title="Email Sent" message="Verification link sent to your email. Check your inbox or spam." variant="success" setFunc={()=> SetIsEmailSent(false)} /> : ""}
+
       <title>Login-Signup</title>
       <div className="min-h-fit w-full bg-gradient-to-br from-rose-50 via-orange-50 to-pink-50 flex items-center justify-center p-6 relative overflow-hidden">
         <FloatingBackground />
@@ -111,7 +121,6 @@ const AuthPage: React.FC = () => {
               onSubmit={handleAuth}
               isLoading={isLoading}
             />
-            {isEmailSent ? <EmailSent /> : ""}
 
             {/* Divider */}
             <div className="flex items-center my-8">
