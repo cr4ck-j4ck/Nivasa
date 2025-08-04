@@ -7,7 +7,10 @@ import { ZodError } from "zod";
 import { RequestHandler } from "express-serve-static-core";
 import sendMail from "./gmail";
 import { v4 as uuidv4 } from "uuid";
+import { Response } from "express";
 const SALT_ROUNDS = 12;
+
+const clients = new Map<string, Response>(); // key = userId, value = res object
 
 export const createUser: RequestHandler = async (req, res) => {
   try {
@@ -17,14 +20,15 @@ export const createUser: RequestHandler = async (req, res) => {
       SALT_ROUNDS
     );
     const payloadJWT = { ...resultOfParsing, password: hashedPassword };
+    const uniqueUserID = uuidv4();
     const verificationToken = generateToken({ userData: payloadJWT }, "10min");
-    const sentMailResponse = await sendMail(
-      resultOfParsing.email,
-      `http://${process.env.BACKEND_URL}/user/verifyEmail-token?Vtoken=${verificationToken}`
-    );
-    console.log("Sent Mail response", sentMailResponse);
-    
-    res.json(sentMailResponse);
+    // const sentMailResponse = await sendMail(
+    //   resultOfParsing.email,
+    //   `http://${process.env.BACKEND_URL}/user/verifyEmail-token?Vtoken=${verificationToken}`
+    // );
+    console.log("Sent Mail response");
+    clients.set(uniqueUserID, res);
+    res.json({ uuid: uniqueUserID });
   } catch (err) {
     if (err instanceof ZodError) {
       const errorMessage = JSON.parse(err.message)[0].message;
@@ -86,25 +90,20 @@ export const loginUser: RequestHandler = async (req, res) => {
   }
 };
 
-const clients = new Map(); // key = userId, value = res object
-
-export const verifyConnection: RequestHandler = async (req, res) => {
+export const verifcationStream: RequestHandler = async (req, res) => {
   try {
     const { id } = req.params;
-
-    // 🔐 Required SSE headers
-    res.setHeader("Content-Type", "text/event-stream");
-    res.setHeader("Cache-Control", "no-cache");
-    res.setHeader("Connection", "keep-alive");
-
-    res.flushHeaders(); // Force headers immediately
+    res.writeHead(200, {
+      "Content-Type": "text/event-stream",
+      "Cache-Control": "no-cache",
+      Connection: "keep-alive",
+      "Access-Control-Allow-Origin": "*",
+    });
 
     clients.set(id, res);
-
-    // 🧹 Clean up when client disconnects
+    console.log(clients)
     req.on("close", () => {
       clients.delete(id);
-      res.end();
     });
   } catch (err) {
     console.log(err);
@@ -117,6 +116,7 @@ type customJWTPayload = JwtPayload & {
     lastName: string;
   };
 };
+
 export const verifyEmailToken: RequestHandler = async (req, res) => {
   const Vtoken = req.query.Vtoken;
   if (!Vtoken) return;
@@ -151,9 +151,9 @@ export const verifyEmailToken: RequestHandler = async (req, res) => {
     });
     res.redirect(`${process.env.CLIENT_URL}/dashboard`);
   } catch (err) {
-    if(err instanceof JsonWebTokenError){
-      console.log(err.message)
-      res.redirect(`${process.env.CLIENT_URL}/auth/?errMsg=${err.message}`)
+    if (err instanceof JsonWebTokenError) {
+      console.log(err.message);
+      res.redirect(`${process.env.CLIENT_URL}/auth/?errMsg=${err.message}`);
 
       return;
     }
