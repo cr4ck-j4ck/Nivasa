@@ -42,8 +42,6 @@ export const verifyToken = async (req: any, res: any, next: any) => {
 };
 
 export const generateToken = (userId:  object ,expireTime : "10min" | "7d") => {
-  console.log(userId)
-  console.log(typeof userId)
   return jwt.sign(
     userId ,
     process.env.JWT_SECRET!,
