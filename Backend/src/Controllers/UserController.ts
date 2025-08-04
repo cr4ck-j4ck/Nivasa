@@ -19,17 +19,13 @@ export const createUser: RequestHandler = async (req, res) => {
       resultOfParsing.password,
       SALT_ROUNDS
     );
+    const payloadJWT = { ...resultOfParsing, password: hashedPassword };
     const uniqueUserID = uuidv4();
-    const payloadJWT = {
-      ...resultOfParsing,
-      password: hashedPassword,
-      uuid: uniqueUserID,
-    };
     const verificationToken = generateToken({ userData: payloadJWT }, "10min");
-    const sentMailResponse = await sendMail(
-      resultOfParsing.email,
-      `http://${process.env.BACKEND_URL}/user/verifyEmail-token?Vtoken=${verificationToken}`
-    );
+    // const sentMailResponse = await sendMail(
+    //   resultOfParsing.email,
+    //   `http://${process.env.BACKEND_URL}/user/verifyEmail-token?Vtoken=${verificationToken}`
+    // );
     console.log("Sent Mail response");
     clients.set(uniqueUserID, res);
     res.json({ uuid: uniqueUserID });
@@ -105,10 +101,8 @@ export const verifcationStream: RequestHandler = async (req, res) => {
     });
 
     clients.set(id, res);
+    console.log(clients)
     req.on("close", () => {
-      console.log(
-        "Ended Due to Client Closed the Tab or there is an error from the client side"
-      );
       clients.delete(id);
     });
   } catch (err) {
@@ -120,7 +114,6 @@ type customJWTPayload = JwtPayload & {
     email: string;
     firstName: string;
     lastName: string;
-    uuid: string;
   };
 };
 
@@ -132,48 +125,31 @@ export const verifyEmailToken: RequestHandler = async (req, res) => {
       Vtoken as string,
       process.env.JWT_SECRET!
     ) as customJWTPayload;
-    const clientRes = clients.get(verifyResult.userData.uuid);
-    if (clientRes) {
-      const existingUser = await UserModel.findOne({
-        email: verifyResult.userData.email,
-      });
-      if (existingUser) {
-        console.log("bhai kya hua ??")
-        console.log(existingUser);
-        res.send("Verification link is already used");
-        return;
-      }
-      const newUser = (
-        await UserModel.create(verifyResult.userData)
-      ).toObject();
-      const token = generateToken({ userId: newUser._id }, "7d");
-      const refreshToken = generateRefreshToken(newUser._id as string);
-      res.cookie("token", token, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "strict",
-        maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-      });
-      res.cookie("refreshToken", refreshToken, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "strict",
-        maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
-      });
-      console.log("verfied Bhai dekh hua kya ");
-      const streamRes = {
-        verified: true,
-        userData: verifyResult.userData,
-      };
-      clientRes?.write(`data: ${JSON.stringify(streamRes)}\n\n`);
-      clientRes.end();
-      clients.delete(verifyResult.userData.uuid);
-      res.redirect(`${process.env.CLIENT_URL}/dashboard`);
-    } else {
-      res.redirect(
-        `${process.env.CLIENT_URL}/auth/?errMsg=${"Email is Already Verified!"}`
-      );
+    console.log(verifyResult);
+    const existingUser = await UserModel.findOne({
+      email: verifyResult.userData.email,
+    });
+    if (existingUser) {
+      console.log(existingUser);
+      res.send("Verification link is already used");
+      return;
     }
+    const newUser = (await UserModel.create(verifyResult.userData)).toObject();
+    const token = generateToken({ userId: newUser._id }, "7d");
+    const refreshToken = generateRefreshToken(newUser._id as string);
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    });
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
+    });
+    res.redirect(`${process.env.CLIENT_URL}/dashboard`);
   } catch (err) {
     if (err instanceof JsonWebTokenError) {
       console.log(err.message);
