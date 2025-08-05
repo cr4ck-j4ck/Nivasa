@@ -12,6 +12,7 @@ passport.use(
       scope: ['profile', 'email']  
     },
     async (accessToken, refreshToken, profile, done) => {
+      console.log(profile)
       try {
         // Check if user already exists with this Google ID
         let existingUser = await User.findOne({ googleId: profile.id });

@@ -9,21 +9,21 @@ const SuccessOauthHandler = (req: Request, res: Response) => {
     const user = req.user as any;
 
     // Generate JWT tokens
-    const token = generateToken(user._id,"7d");
+    const token = generateToken({userId : user._id},"7d");
     const refreshToken = generateRefreshToken(user._id);
 
     // Set tokens as HTTP-only cookies
     res.cookie("token", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: "none",
+      sameSite: process.env.NODE_ENV === "production" ? "none":"lax",
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     });
 
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: "none",
+      sameSite: process.env.NODE_ENV === "production" ? "none":"lax",
       maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
     });
 

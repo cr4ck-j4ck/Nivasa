@@ -65,13 +65,13 @@ export const loginUser: RequestHandler = async (req, res) => {
         res.cookie("token", token, {
           httpOnly: true,
           secure: process.env.NODE_ENV === "production",
-          sameSite: "none",
+          sameSite: process.env.NODE_ENV === "production" ? "none":"lax",
           maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
         });
         res.cookie("refreshToken", refreshToken, {
           httpOnly: true,
           secure: process.env.NODE_ENV === "production",
-          sameSite: "none",
+          sameSite: process.env.NODE_ENV === "production" ? "none":"lax",
           maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
         });
         const { password, ...responseObject } = existingUser;
@@ -151,13 +151,13 @@ export const verifyEmailToken: RequestHandler = async (req, res) => {
       res.cookie("token", token, {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
-        sameSite: "none",
+        sameSite: process.env.NODE_ENV === "production" ? "none":"lax",
         maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
       });
       res.cookie("refreshToken", refreshToken, {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
-        sameSite: "none",
+        sameSite: process.env.NODE_ENV === "production" ? "none":"lax",
         maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
       });
       console.log("verfied Bhai dekh hua kya ");
