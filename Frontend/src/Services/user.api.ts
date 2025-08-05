@@ -1,4 +1,4 @@
-import axios, { AxiosError } from "axios";
+import axios, {  AxiosError } from "axios";
 import { type Iuser } from "@/@Types/interfaces";
 const BackendAPI = import.meta.env.VITE_BACKEND_API;
 import { type FormData } from "@/Components/Auth/AuthForm";
@@ -19,8 +19,11 @@ export async function createUser(
     );
     return res.data;
   } catch (err) {
+
     if (err instanceof AxiosError && err.response?.data.message) {
       throw new Error(err.response.data.message);
+    } else if (err instanceof AxiosError) {
+      throw new Error(err.response?.data);
     } else {
       throw new Error("Some Error Occured on Backend.");
     }
@@ -60,8 +63,11 @@ export const getUser = async () => {
   }
 };
 
-export const setupVerificationListener = (userId: string , onVerfied : ()=> void ) => {
-  console.log("bhai maine toh apna kaam kiya re devaa!")
+export const setupVerificationListener = (
+  userId: string,
+  onVerfied: () => void
+) => {
+  console.log("bhai maine toh apna kaam kiya re devaa!");
   const eventSource = new EventSource(
     `${BackendAPI}/user/verification-stream/${userId}`
   );
@@ -76,7 +82,7 @@ export const setupVerificationListener = (userId: string , onVerfied : ()=> void
   };
 
   eventSource.onerror = () => {
-    console.log("Bhai Client side se hi close kardiya...")
+    console.log("Bhai Client side se hi close kardiya...");
     eventSource.close();
   };
 };

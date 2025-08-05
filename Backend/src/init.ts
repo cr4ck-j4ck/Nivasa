@@ -33,7 +33,6 @@ require("dotenv").config();
 
 async function initData() {
   try {
-    console.log(connectDB);
     await connectDB();
     console.log("MongoDB connected.");
     const data1 = JSON.parse(

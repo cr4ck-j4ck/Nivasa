@@ -15,32 +15,37 @@ const clients = new Map<string, Response>(); // key = userId, value = res object
 export const createUser: RequestHandler = async (req, res) => {
   try {
     const resultOfParsing = signupSchema.parse(req.body.formData);
-    const hashedPassword = await bcrypt.hash(
-      resultOfParsing.password,
-      SALT_ROUNDS
-    );
-    const uniqueUserID = uuidv4();
-    const payloadJWT = {
-      ...resultOfParsing,
-      password: hashedPassword,
-      uuid: uniqueUserID,
-    };
-    const verificationToken = generateToken({ userData: payloadJWT }, "10min");
-    const sentMailResponse = await sendMail(
-      resultOfParsing.email,
-      `http://${process.env.BACKEND_URL}/user/verifyEmail-token?Vtoken=${verificationToken}`
-    );
-    console.log("Sent Mail response");
-    clients.set(uniqueUserID, res);
-    res.json({ uuid: uniqueUserID });
+    const existingUser = UserModel.findOne({ email: resultOfParsing.email });
+    if (!existingUser) {
+      const hashedPassword = await bcrypt.hash(
+        resultOfParsing.password,
+        SALT_ROUNDS
+      );
+      const uniqueUserID = uuidv4();
+      const payloadJWT = {
+        ...resultOfParsing,
+        password: hashedPassword,
+        uuid: uniqueUserID,
+      };
+      const verificationToken = generateToken(
+        { userData: payloadJWT },
+        "10min"
+      );
+      const sentMailResponse = await sendMail(
+        resultOfParsing.email,
+        `http://${process.env.BACKEND_URL}/user/verifyEmail-token?Vtoken=${verificationToken}`
+      );
+      clients.set(uniqueUserID, res);
+      res.json({ uuid: uniqueUserID });
+    }else{
+      res.status(409).send("User Already Exists");
+    }
   } catch (err) {
     if (err instanceof ZodError) {
       const errorMessage = JSON.parse(err.message)[0].message;
-      console.log(errorMessage);
       res.status(400).send(errorMessage);
       return;
     }
-    console.log(err);
     res.status(400).send("Some Issue Occurred on Catch !!");
   }
 };
@@ -58,20 +63,19 @@ export const loginUser: RequestHandler = async (req, res) => {
         resultOfParsing.password,
         existingUser.password
       );
-      console.log("----", existingUser._id);
       if (passwordIsCorrect) {
         const token = generateToken({ userId: existingUser._id }, "7d");
         const refreshToken = generateRefreshToken(existingUser._id as string);
         res.cookie("token", token, {
           httpOnly: true,
           secure: process.env.NODE_ENV === "production",
-          sameSite: process.env.NODE_ENV === "production" ? "none":"lax",
+          sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
           maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
         });
         res.cookie("refreshToken", refreshToken, {
           httpOnly: true,
           secure: process.env.NODE_ENV === "production",
-          sameSite: process.env.NODE_ENV === "production" ? "none":"lax",
+          sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
           maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
         });
         const { password, ...responseObject } = existingUser;
@@ -85,7 +89,6 @@ export const loginUser: RequestHandler = async (req, res) => {
   } catch (err) {
     if (err instanceof ZodError) {
       const errorMessage = JSON.parse(err.message)[0].message;
-      console.log(errorMessage);
       res.status(400).send(errorMessage);
       return;
     } else {
@@ -103,13 +106,11 @@ export const verifcationStream: RequestHandler = async (req, res) => {
       Connection: "keep-alive",
       "Access-Control-Allow-Origin": "*",
     });
-    console.log("request toh aayi hai bawa")
-    res.write(`data : ${JSON.stringify("Ha bhai cheetey chal raha hai na ")}\n\n`)
+    res.write(
+      `data : ${JSON.stringify("Ha bhai cheetey chal raha hai na ")}\n\n`
+    );
     clients.set(id, res);
     req.on("close", () => {
-      console.log(
-        "Ended Due to Client Closed the Tab or there is an error from the client side"
-      );
       clients.delete(id);
     });
   } catch (err) {
@@ -139,7 +140,6 @@ export const verifyEmailToken: RequestHandler = async (req, res) => {
         email: verifyResult.userData.email,
       });
       if (existingUser) {
-        console.log("bhai kya hua ??")
         res.send("Verification link is already used");
         return;
       }
@@ -151,16 +151,15 @@ export const verifyEmailToken: RequestHandler = async (req, res) => {
       res.cookie("token", token, {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
-        sameSite: process.env.NODE_ENV === "production" ? "none":"lax",
+        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
         maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
       });
       res.cookie("refreshToken", refreshToken, {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
-        sameSite: process.env.NODE_ENV === "production" ? "none":"lax",
+        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
         maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
       });
-      console.log("verfied Bhai dekh hua kya ");
       const streamRes = {
         verified: true,
         userData: verifyResult.userData,
@@ -176,7 +175,6 @@ export const verifyEmailToken: RequestHandler = async (req, res) => {
     }
   } catch (err) {
     if (err instanceof JsonWebTokenError) {
-      console.log(err.message);
       res.redirect(`${process.env.CLIENT_URL}/auth/?errMsg=${err.message}`);
 
       return;

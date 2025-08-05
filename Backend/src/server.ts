@@ -31,8 +31,7 @@ const PORT = process.env.PORT || 3000;
 
 
 app.get("/", (req, res) => {
-  console.log("Ha chal raha hai");
-  res.send("Hii from NeoVim");
+  res.send("Hii from Nivasa");
 });
 
 // Google OAuth routes

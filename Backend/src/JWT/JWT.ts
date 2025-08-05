@@ -26,7 +26,6 @@ export const verifyToken = async (req: any, res: any, next: any) => {
     req.user.isLoggedin = true;
     next();
   } catch (error:unknown) {
-    console.log(error);
     if (error instanceof(Error) && error.name === 'TokenExpiredError') {
       return res.status(401).json({
         success: false,
@@ -42,8 +41,6 @@ export const verifyToken = async (req: any, res: any, next: any) => {
 };
 
 export const generateToken = (userId:  object ,expireTime : "10min" | "7d") => {
-  console.log(userId)
-  console.log(typeof userId)
   return jwt.sign(
     userId ,
     process.env.JWT_SECRET!,

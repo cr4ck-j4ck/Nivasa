@@ -56,9 +56,16 @@ const AuthPage: React.FC = () => {
       if (error instanceof Error) {
         if (error.message.includes("password")) {
           setErrorFromBackend({ passwordError: "Wrong Password!" });
-        } else if (error.message.includes("Email")) {
+        } 
+        else if (error.message.includes("user doesn't exists. Wrong Email")) {
           setErrorFromBackend({
             emailError: "User doesn't exists!. Check your email!!",
+          });
+        }
+        else if (error.message.includes("User Already Exists")) {
+          console.log("Ha bhai cheetey")
+          setErrorFromBackend({
+            emailError: "Oops! You're already in our system.",
           });
         }
       }
