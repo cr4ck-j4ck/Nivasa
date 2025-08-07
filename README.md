@@ -137,24 +137,130 @@ The project is organized into two main directories:
 *   `Backend/`: Contains the Express.js server and API logic.
 
 ```
-Nivasa/
-├── Backend/
-│   ├── config/
-│   ├── Models/
-│   ├── SampleData/
-│   ├── utils/
-│   ├── init.js         # Database initialization
-│   └── server.js       # Main backend server file
-└── Frontend/
-    ├── public/
-    ├── src/
-    │   ├── Components/
-    │   ├── Context/
-    │   ├── Layout/
-    │   ├── Pages/
-    │   ├── Services/
-    │   └── App.jsx       # Main application component
-    └── index.html
+Nivasa
+├── .git
+├── Backend
+│   ├── .env
+│   ├── .gitignore
+│   ├── SampleData
+
+│   ├── dist
+│   ├── gmailMessage.html
+│   ├── listings-randomized.json
+│   ├── node_modules
+│   ├── package-lock.json
+│   ├── package.json
+│   ├── src
+│   │   ├── Controllers
+│   │   │   ├── ListingControl.ts
+│   │   │   ├── UserController.ts
+│   │   │   └── gmail.ts
+│   │   ├── JWT
+│   │   │   └── JWT.ts
+│   │   ├── Models
+│   │   │   ├── BookingModel.ts
+│   │   │   ├── ListingModel.ts
+│   │   │   └── UsersModel.ts
+│   │   ├── Routes
+│   │   │   ├── ListingRoutes.ts
+│   │   │   ├── OauthRoutes.ts
+│   │   │   └── UserRoutes.ts
+│   │   ├── Schemas
+│   │   │   └── user.Zodschema.ts
+│   │   ├── auth.ts
+│   │   ├── config
+│   │   │   └── db.ts
+│   │   ├── init.ts
+│   │   ├── server.ts
+│   │   ├── test.ts
+│   │   └── utils
+│   │       ├── expressError.ts
+│   │       └── wrapAsync.ts
+│   └── tsconfig.json
+├── Frontend
+│   ├── .env
+│   ├── .gitignore
+│   ├── README.md
+│   ├── components.json
+│   ├── dist
+│   ├── eslint.config.mjs
+│   ├── index.html
+│   ├── my-types.d.ts
+│   ├── node_modules
+│   ├── package-lock.json
+│   ├── package.json
+│   ├── public
+│   │   ├── Nivasa-Text.png
+│   │   ├── Nivasa-removebg-preview.png
+│   │   ├── Nivasa_Banner-2.png
+│   │   └── Nivasa_Banner.png
+│   ├── src
+│   │   ├── @Types
+│   │   │   └── interfaces.ts
+│   │   ├── App.css
+│   │   ├── App.tsx
+│   │   ├── Components
+│   │   │   ├── Auth
+│   │   │   ├── Calendar02.tsx
+│   │   │   ├── CustomAlert.tsx
+│   │   │   ├── Dashboard
+│   │   │   │   ├── Data
+│   │   │   ├── Listings
+│   │   │   │   ├── IndexPage
+│   │   │   │   └── ShowPage
+│   │   │   │       ├── Description
+│   │   │   │       ├── Gallery
+│   │   │   │       ├── Map.tsx
+│   │   │   │       ├── Reviews
+│   │   │   │       ├── map.css
+│   │   │   ├── Option.tsx
+│   │   │   ├── SearchBar.tsx
+│   │   │   ├── mailVerified.tsx
+│   │   │   ├── searchBar.css
+│   │   │   └── ui
+│   │   ├── Context
+│   │   │   └── context.tsx
+│   │   ├── Forms
+│   │   ├── Layout
+│   │   ├── Pages
+│   │   │   ├── HostDashboard.tsx
+│   │   │   ├── LoginSignup.tsx
+│   │   │   ├── PrivateRoutes.tsx
+│   │   │   ├── ProfilePage.tsx
+│   │   │   ├── UnderConstruction.tsx
+│   │   │   ├── UserLoading.tsx
+│   │   │   ├── mainListing.tsx
+│   │   │   ├── showListing.css
+│   │   │   └── showListing.tsx
+│   │   ├── Router
+│   │   │   └── Routes.tsx
+│   │   ├── Services
+│   │   │   ├── listing.api.ts
+│   │   │   └── user.api.ts
+│   │   ├── Store
+│   │   │   ├── Global.ts
+│   │   │   ├── ListingStore.ts
+│   │   │   ├── Reserve.ts
+│   │   │   └── UserStore.ts
+│   │   ├── assets
+│   │   │   ├── bell.avif
+│   │   │   ├── home.avif
+│   │   │   ├── hot_air_balloon.avif
+│   │   │   ├── house-twirl-selected.webm
+│   │   │   ├── leftleaf.avif
+│   │   │   ├── react.svg
+│   │   │   └── rightLeaf.avif
+│   │   ├── index.css
+│   │   ├── lib
+│   │   │   └── utils.ts
+│   │   ├── main.tsx
+│   │   └── vite-env.d.ts
+│   ├── tsconfig.app.json
+│   ├── tsconfig.json
+│   ├── tsconfig.node.json
+│   ├── vercel.json
+│   └── vite.config.ts
+└── README.md
 ```
 
 ## License
