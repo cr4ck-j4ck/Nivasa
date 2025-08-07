@@ -97,14 +97,16 @@ Make sure you have the following installed on your development machine:
     In the `Frontend` directory, create a `.env` file and add the following variables.
 
     ```
-    VITE_LISTING_API="http://localhost:3000/listing/"
-    VITE_CITY_API="http://localhost:3000/listingCard/"
-    VITE_MAPTILER_KEY=<YOUR_MAPTILER_API_KEY>
+    VITE_CITY_API=http://localhost:3000/listingCard
+    VITE_LISTING_API=http://localhost:3000/listing
+    VITE_MAPTILER_KEY=gK4Q7BnveK2c58RGmTDU
+    VITE_BACKEND_API=http://localhost:3000
+    
     ```
 
     - `VITE_LISTING_API`: This variable should point to the API endpoint for fetching individual listing data.
     - `VITE_CITY_API`: This variable should point to the API endpoint for fetching listings based on a city.
-    - `VITE_MAPTILER_KEY`: This variable holds your API key from [MapTiler](https://www.maptiler.com/). It is required to display maps and use geocoding features in the application. You can get a free key from the MapTiler website.
+    - `VITE_MAPTILER_KEY`: This variable holds your API key from [MapTiler](https://www.maptiler.com/). It is required to display maps and use geocoding features in the application.         You can get a free key from the MapTiler website.
 
     These variables are prefixed with `VITE_` to be exposed to the frontend client-side code, as is standard with Vite projects.
 
