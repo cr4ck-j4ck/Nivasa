@@ -1,10 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=LXGW+Marker+Gothic&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap');
 
 .listingHead{
-  font-family: "LXGW Marker Gothic", sans-serif;
+  font-family: "Manrope", sans-serif;
   font-weight: 900;
-  font-style: normal;
+  color: rgb(61, 61, 61);
+  font-size: 1.3rem;
 }
 .listingRow{
   margin: 2rem 0;

@@ -16,6 +16,37 @@ interface IlistingData {
   gallery: Record<string, string[]>
 }
 
+const listingHeadLines =[
+  `Fall in love, right here in`,
+  `Check in, get swept away in`,
+  `One night, or forever, in`,
+  `Lose yourself in the charm of`,
+  `The bed's waiting for you in`,
+  `Stay here, catch feelings in`,
+  `Love at first check-in in`,
+  `We'll keep the lights low in`,
+  `Your next obsession starts in`,
+
+  `Once you enter, you're mine in`,
+  `Where the nights never end in`,
+  `Lose yourself completely in`,
+  `The city holds its secrets in`,
+  `A stay you'll never recover from in`,
+  `Come in, don't look back in`,
+  `Check in… and never leave`,
+  `Dark nights, warm hearts in`,
+
+  `Come for the bed, stay for the chemistry in`,
+  `Stays you'll fall for… hard in`,
+  `One night? Or forever, in`,
+  `Your type, but in a house in`,
+  `Rooms that make hearts race in`,
+  `Stay here, catch feelings in`,
+  `The longer you stay, the harder you fall in`,
+  `We're totally your vibe in`,
+  `Commitment issues? Not with these stays in`
+];
+
 export default function ListingRow({ city }: { city: string }) {
   const [data, setData] = useState<IlistingData[] | null>(null);
   const cardContainerRef = useRef<HTMLDivElement>(null);
@@ -24,7 +55,7 @@ export default function ListingRow({ city }: { city: string }) {
     getListingByCity(city).then((res) => {
       setData(res);
     });
-  }, []);
+  }, [city]);
 
   const skeletonCards = Array.from({ length: 7 }).map((_, i) => (
     <div key={i} className="card rounded-2xl mr-4 w-[16vw]">
@@ -36,8 +67,8 @@ export default function ListingRow({ city }: { city: string }) {
 
   return (
     <div className="listingRow">
-      <div className="text-xl font-bold listingHead mb-5 flex justify-between">
-        <h1>Stay In {city} &gt;</h1>
+      <div className="text-xl listingHead ml-1 mb-5 flex justify-between">
+        <h1>{listingHeadLines[Math.floor(Math.random() * listingHeadLines.length)]} {city} &gt;</h1>
         {cardContainerRef && <Option containerRef={cardContainerRef} />}
       </div>
       <div className="cardContainer relative mb-10 flex" ref={cardContainerRef}>
