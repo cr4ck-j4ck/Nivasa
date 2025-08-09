@@ -58,7 +58,7 @@ export default function ListingRow({ city }: { city: string }) {
   }, [city]);
 
   const skeletonCards = Array.from({ length: 7 }).map((_, i) => (
-    <div key={i} className="card rounded-2xl mr-4 w-[16vw]">
+    <div key={i} className="card rounded-2xl mr-4 w-full">
       <Skeleton height="11.3vw" className="rounded-2xl" />
       <Skeleton height={20} width="80%" style={{ margin: "0.5rem 0" }} />
       <Skeleton height={14} width="60%" />

@@ -17,7 +17,7 @@ const MainListing = (): React.JSX.Element => {
     arrOfRandomNum[i] = cities.splice(randomNum, 1)[0];
   }
   return (
-    <div className="relative pt-10 max-w-[95vw] md:max-w-[92vw] lg:max-w-[95vw] 3xl:max-w-[90vw] mx-auto" >
+    <div className="relative pt-10 max-w-[95vw] md:max-w-[92vw] lg:max-w-[95vw] 3xl:max-w-[90vw] mx-auto w-full" >
       {arrOfRandomNum.map((el, i) => (
         <ListingRow city={el} key={i} />
       ))}
