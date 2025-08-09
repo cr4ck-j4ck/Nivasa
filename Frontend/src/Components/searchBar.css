@@ -204,3 +204,30 @@ button:hover+div {
     width: 90% !important;
   }
 }
+.searchPlaceholder{
+  display: none;
+}
+@media(max-width:740px){
+  .df{
+    max-height: 3rem;
+  }
+  .animatedBox{
+    display: none;
+  }
+  button.ripple-btn{
+    display: none;
+  }
+  .divider{
+    display: none;
+  }
+  .searchPlaceholder{
+    display: flex;
+    align-items: center;
+    font-size: 1rem;
+    font-weight: 600;
+    width: 11rem;
+    justify-content: space-around;
+    position: relative;
+    z-index: 1;
+  }
+}

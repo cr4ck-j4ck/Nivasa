@@ -26,7 +26,7 @@ const Nav: React.FC<INavprops> = ({ position }) => {
     if (user) {
       navigate("/dashboard");
     } else {
-      navigate("/auth")
+      navigate("/auth");
     }
   };
   useEffect(() => {
@@ -43,25 +43,24 @@ const Nav: React.FC<INavprops> = ({ position }) => {
     }
   }, [location.pathname]);
 
-
   return (
     <nav
-      className={`navbar ${position} h-[12rem] ${
+      className={`navbar ${position} ${
         isScrolled ? "shrink" : ""
       } bg-[#fbfbfb]`}
     >
-      <div className="justify-between flex ml-10">
+      <div className="justify-between flex ml-10 brandImg">
         <a href="/" target="_blank">
           <img
             src="/Nivasa-removebg-preview.png"
             alt="nivasaImg"
-            className="block mx-auto h-20 mt-3"
-            style={{background:"transparent"}}
+            className="block mx-auto h-20 min-w-20 relative ml-4 mt-3"
+            style={{ background: "transparent" }}
           />
         </a>
-        <div className="w-sm relative flex left-20">
+        <div className="w-sm relative flex centerNavBox">
           <div className={`flex items-center ${isScrolled ? "mTop" : "mDown"}`}>
-            <div className="flex items-center mr-5 cursor-pointer">
+            <div className="flex items-center cursor-pointer">
               {showVideo ? (
                 <video
                   src={homeVideo}
@@ -86,12 +85,12 @@ const Nav: React.FC<INavprops> = ({ position }) => {
           </div>
         </div>
         {isGettingUser === "fullfilled" || isGettingUser === "idle" ? (
-          <div className="right-options">
+          <div className="right-options AuthDiv ">
             <div
-              className={`login flex justify-evenly ${user ? "w-45" : "w-50"}`}
+              className={`login flex justify-evenly items-center ${user ? "w-45" : "w-50"}`}
               onClick={handleClick}
             >
-              {user ? "Dashboard" : "Login / Signup"} <User />
+            {(user ? "Dashboard" : "Login / Signup")}<User size={30}/>
             </div>
           </div>
         ) : (

@@ -67,7 +67,7 @@ export default function ListingRow({ city }: { city: string }) {
 
   return (
     <div className="listingRow">
-      <div className="text-xl listingHead ml-1 mb-5 flex justify-between">
+    <div className="text-xl listingHead ml-1 mb-5 flex justify-between">
         <h1>{listingHeadLines[Math.floor(Math.random() * listingHeadLines.length)]} {city} &gt;</h1>
         {cardContainerRef && <Option containerRef={cardContainerRef} />}
       </div>

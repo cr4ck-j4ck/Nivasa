@@ -56,3 +56,20 @@
   color: rgba(255, 0, 0, 0.243);
 
 }
+
+
+/* ------------------------  Mobile Bottom Navigation CSS  ------------------------------------ */
+
+@media(min-width:740px) {
+  .mobileBottomNavigation {
+    display: none;
+  }
+  .marginTopClass{
+    margin-top: 10rem;
+  }
+}
+@media(max-width:740px) {
+  .marginTopClass{
+    margin-top: 3rem;
+  }
+}

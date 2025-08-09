@@ -75,7 +75,7 @@ export default function Option({ containerRef, classNames }: Ioptions) {
     };
   }, []);
   return (
-    <div className={`${classNames}`}>
+    <div className={`${classNames} forMobile`}>
       <span
         className={`leftArrow navArrow ${blurLeft
           ? "cursor-pointer bg-[#e8e8e8] opacity-100 hover:bg-[#d5d5d5] "

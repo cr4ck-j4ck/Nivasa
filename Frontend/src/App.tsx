@@ -7,19 +7,12 @@ import Footer from "./Layout/Footer";
 import UserStore from "./Store/UserStore";
 import { getUser } from "./Services/user.api";
 import { useShallow } from "zustand/react/shallow";
+import MobileBottomNavigation from "./Pages/MobileFooter";
 
 const App: React.FC = () => {
   const location = useLocation();
-  const isMainListing = location.pathname === "/";
   const [isFooter, setIsFooter] = useState(true);
 
-  useEffect(() => {
-    if (isMainListing) {
-      document.body.style.paddingTop = "12rem";
-    } else {
-      document.body.style.paddingTop = "";
-    }
-  }, [isMainListing]);
 
   const { setUser, user, setIsGettingUser } = UserStore(
     useShallow((state) => ({
@@ -53,10 +46,11 @@ const App: React.FC = () => {
     }
   }, []);
   return (
-    <div className="min-h-screen flex flex-col items-center relative w-[100vw] h-[100vh]">
-      <Nav position={isMainListing ? "fixed top-0" : ""}></Nav>
+    <div className={`min-h-screen ${location.pathname === "/" ? "marginTopClass":"marginTopForMobile"} flex flex-col items-center relative w-[100vw] h-[100vh]`}>
+      <Nav position={location.pathname === "/" ? "fixed top-0" : ""}></Nav>
       <AppRoutes />
       {isFooter && <Footer />}
+    <MobileBottomNavigation/>
     </div>
   );
 };

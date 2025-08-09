@@ -3,7 +3,7 @@ import "./searchBar.css";
 import { Calendar02 } from "./Calendar02";
 import SearchIcon from "@mui/icons-material/Search";
 import HomeIcon from "../assets/home.avif";
-
+import { Search } from 'lucide-react';
 
 interface SearchBarProps {
   scroll: boolean;
@@ -199,7 +199,7 @@ export default function SearchBar({ scroll: isScrolled, setIsScrolled }: SearchB
           {/* Animated White Box */}
           {focusedInput && !isScrolled && (
             <div
-              className="absolute h-[4.1rem] rounded-4xl bg-white z-1 transition-all duration-200 ease-in-out"
+              className="animatedBox absolute h-[4.1rem] rounded-4xl bg-white z-1 transition-all duration-200 ease-in-out"
               style={{
                 left: `${indicatorStyle.left}px`,
                 width: `${indicatorStyle.width}px`,
@@ -251,7 +251,7 @@ export default function SearchBar({ scroll: isScrolled, setIsScrolled }: SearchB
           <div
             className={`${
               isScrolled ? "h-12 right-1" : "h-[4.1rem] right-1"
-            } relative z-1 flex justify-center`}
+            } relative z-1 flex justify-center divider`}
           >
             <div className="relative h-[70%] w-px top-[15%] bg-[#ababab]"></div>
           </div>
@@ -288,7 +288,7 @@ export default function SearchBar({ scroll: isScrolled, setIsScrolled }: SearchB
           <div
             className={`relative ${
               isScrolled ? "h-12" : "h-[4.1rem] right-1"
-            } z-1 flex justify-center text-5xl bg-transparent`}
+            } z-1 flex justify-center text-5xl bg-transparent divider`}
           >
             <div className="relative h-[70%] w-px top-[15%] bg-[#ababab]"></div>
           </div>
@@ -325,7 +325,7 @@ export default function SearchBar({ scroll: isScrolled, setIsScrolled }: SearchB
               </button>
 
               <div className="divide relative h-[4.1rem] left-1 z-1 flex justify-center ">
-                <div className="relative h-[70%] top-[15%] bg-[#a8a8a8] w-px"></div>
+                <div className="relative h-[70%] top-[15%] bg-[#a8a8a8] w-px divider"></div>
               </div>
             </>
           )}
@@ -376,6 +376,7 @@ export default function SearchBar({ scroll: isScrolled, setIsScrolled }: SearchB
             </div>
           </button>
         </div>
+        <div className="searchPlaceholder"><Search></Search> Start your Search</div>
       </div>
       {focInput ? (
         <div

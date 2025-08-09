@@ -33,3 +33,12 @@
   color: black; 
 }
 
+
+@media(max-width:740px){
+  .listingHead{
+    font-size: 1rem;
+  }
+  .forMobile{
+    display: none;
+  }
+}
