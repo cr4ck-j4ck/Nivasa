@@ -21,6 +21,7 @@ export interface IUser extends Document {
   savedListings: mongoose.Types.ObjectId[] | null;
   hostedListings: mongoose.Types.ObjectId[] | null;
   bookings: mongoose.Types.ObjectId[] | null;
+  wishlist: mongoose.Types.ObjectId[] | null;
   createdAt?: Date;
 }
 
@@ -63,6 +64,7 @@ const userSchema = new Schema<IUser>(
     hostedListings: [{ type: Schema.Types.ObjectId, ref: "Listing" }],
     bookings: [{ type: Schema.Types.ObjectId, ref: "Booking" }],
     createdAt: { type: Date, default: Date.now },
+    wishlist: [ {type: Schema.Types.ObjectId, ref:"Listing" } ]
   },
   { timestamps: true, versionKey: false }
 );

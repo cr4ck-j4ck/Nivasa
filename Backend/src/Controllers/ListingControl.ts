@@ -13,6 +13,6 @@ export async function viewListingViaCity(req: Request, res: Response) {
   ).limit(10);
   // setTimeout(() => {
   res.json(dataObjects);
-  // }, 1000);
+  // }, 10000);
 }
 
