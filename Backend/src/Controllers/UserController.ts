@@ -15,7 +15,7 @@ const clients = new Map<string, Response>(); // key = userId, value = res object
 export const createUser: RequestHandler = async (req, res) => {
   try {
     const resultOfParsing = signupSchema.parse(req.body.formData);
-    const existingUser = UserModel.findOne({ email: resultOfParsing.email });
+    const existingUser = await UserModel.findOne({ email: resultOfParsing.email });
     if (!existingUser) {
       const hashedPassword = await bcrypt.hash(
         resultOfParsing.password,
@@ -41,6 +41,7 @@ export const createUser: RequestHandler = async (req, res) => {
       res.status(409).send("User Already Exists");
     }
   } catch (err) {
+    console.log(err)
     if (err instanceof ZodError) {
       const errorMessage = JSON.parse(err.message)[0].message;
       res.status(400).send(errorMessage);

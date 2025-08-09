@@ -26,7 +26,6 @@ const SuccessOauthHandler = (req: Request, res: Response) => {
       sameSite: process.env.NODE_ENV === "production" ? "none":"lax",
       maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
     });
-
     // Redirect to frontend with success
     res.redirect(`${process.env.CLIENT_URL}/dashboard?auth=success`);
   } catch (error) {
