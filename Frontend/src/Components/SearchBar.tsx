@@ -3,7 +3,7 @@ import "./searchBar.css";
 import { Calendar02 } from "./Calendar02";
 import SearchIcon from "@mui/icons-material/Search";
 import HomeIcon from "../assets/home.avif";
-import { Search } from 'lucide-react';
+import { Search } from "lucide-react";
 
 interface SearchBarProps {
   scroll: boolean;
@@ -31,17 +31,21 @@ interface ButtonRefs {
   input4: HTMLButtonElement | null;
 }
 
-export default function SearchBar({ scroll: isScrolled, setIsScrolled }: SearchBarProps) {
-
+export default function SearchBar({
+  scroll: isScrolled,
+  setIsScrolled,
+}: SearchBarProps) {
   const elementRef = useRef<HTMLDivElement>(null);
   const inputReferences = useRef<(HTMLInputElement | null)[]>([]);
   const buttonReferences = useRef<(HTMLButtonElement | null)[]>([]);
-  
-  let focInput: boolean = false; 
-  
+
+  let focInput: boolean = false;
 
   const [focusedInput, setFocusedInput] = useState<InputKey | null>(null);
-  const [indicatorStyle, setIndicatorStyle] = useState<IndicatorStyle>({ left: 0, width: 0 });
+  const [indicatorStyle, setIndicatorStyle] = useState<IndicatorStyle>({
+    left: 0,
+    width: 0,
+  });
   const [position, updatePosition] = useState<number>(0);
   const calendarRef = useRef<HTMLDivElement>(null);
   const buttonRefs: ButtonRefs = {
@@ -49,13 +53,13 @@ export default function SearchBar({ scroll: isScrolled, setIsScrolled }: SearchB
     input2: buttonReferences.current[1] || null,
     input3: buttonReferences.current[2] || null,
     input4: buttonReferences.current[3] || null,
-  };  
+  };
   const inputRefs: InputRefs = {
     input1: inputReferences.current[0] || null,
     input2: inputReferences.current[1] || null,
     input3: inputReferences.current[2] || null,
     input4: inputReferences.current[3] || null,
-  };  
+  };
   const dynamicLeftClass: string = `${Math.floor(position)}`;
   useEffect(() => {
     if (focusedInput && isScrolled) {
@@ -69,7 +73,10 @@ export default function SearchBar({ scroll: isScrolled, setIsScrolled }: SearchB
     if (!calendarRef.current) return;
 
     const handleClickOutside = (event: MouseEvent) => {
-      if (calendarRef.current && !calendarRef.current.contains(event.target as Node)) {
+      if (
+        calendarRef.current &&
+        !calendarRef.current.contains(event.target as Node)
+      ) {
         handleInputBlur("cal");
       }
     };
@@ -81,13 +88,12 @@ export default function SearchBar({ scroll: isScrolled, setIsScrolled }: SearchB
     };
   });
 
-
   useEffect(() => {
     if (elementRef.current) {
       const rect = elementRef.current.getBoundingClientRect();
-      updatePosition(rect.x + 50);
+      updatePosition(rect.x + 80);
     }
-    
+
     const reportPosition = (): void => {
       if (elementRef.current) {
         const rect = elementRef.current.getBoundingClientRect();
@@ -100,7 +106,6 @@ export default function SearchBar({ scroll: isScrolled, setIsScrolled }: SearchB
       window.removeEventListener("resize", reportPosition);
     };
   }, []);
-
 
   const updateIndicatorPosition = (key: InputKey): void => {
     const button = buttonRefs[key];
@@ -127,9 +132,9 @@ export default function SearchBar({ scroll: isScrolled, setIsScrolled }: SearchB
     inputRef: HTMLInputElement | null,
     inputKey: InputKey
   ): void => {
-    const circle = document.createElement("span");
+    if(focusedInput !== inputKey){
+      const circle = document.createElement("span");
     circle.classList.add("ripple");
-
     const rect = button.getBoundingClientRect();
     const size = Math.max(rect.width, rect.height);
 
@@ -146,13 +151,21 @@ export default function SearchBar({ scroll: isScrolled, setIsScrolled }: SearchB
       if (button.contains(circle)) {
         circle.remove();
       }
-      setFocusedInput(inputKey);
       inputRef?.focus();
-    }, 300);
+    }, 500);
+    setTimeout(() => {
+      setFocusedInput(inputKey);
+      
+    }, 100);
+    }
   };
 
   function handleInputBlur(val: "cal" | "input1" | "input4"): void {
-    const blurInputs: ("cal" | "input1" | "input4")[] = ["cal", "input1", "input4"];
+    const blurInputs: ("cal" | "input1" | "input4")[] = [
+      "cal",
+      "input1",
+      "input4",
+    ];
     if (blurInputs.includes(val)) {
       setTimeout(() => {
         if (!elementRef.current?.contains(document.activeElement)) {
@@ -163,38 +176,42 @@ export default function SearchBar({ scroll: isScrolled, setIsScrolled }: SearchB
   }
 
   const handleMouseEnter = (e: React.MouseEvent<HTMLButtonElement>): void => {
-    const previousElement = e.currentTarget.previousElementSibling as HTMLElement;
+    const previousElement = e.currentTarget
+      .previousElementSibling as HTMLElement;
     if (previousElement) {
       previousElement.style.visibility = "hidden";
     }
   };
-  
+
   const handleMouseLeave = (e: React.MouseEvent<HTMLButtonElement>): void => {
-    const previousElement = e.currentTarget.previousElementSibling as HTMLElement;
+    const previousElement = e.currentTarget
+      .previousElementSibling as HTMLElement;
     if (previousElement) {
       previousElement.style.visibility = "";
     }
   };
-  
+
   if (focusedInput === "input2" || focusedInput === "input3") focInput = true;
-  
+
   return (
     <>
       <div
-        className={`flex justify-center items-center duration-500 ${
-          isScrolled ? "h-0 pb-7" : "h-24"
-        } px-5`}
+        className={`flex justify-center items-center duration-500 h-24  px-5`}
       >
         <div
           ref={elementRef}
-          className={`df h-16 rounded-4xl relative flex ${
+          className={`df h-16 rounded-4xl absolute flex ${
             focusedInput ? "bg-[#d6d6d6]" : "bg-white"
           } ${isScrolled ? "moveTop" : "moveDown"}`}
-          onClick={isScrolled ? () => {
-            if (isScrolled) {
-              setIsScrolled(false);
-            }
-          } : () => {}}
+          onClick={
+            isScrolled
+              ? () => {
+                  if (isScrolled) {
+                    setIsScrolled(false);
+                  }
+                }
+              : () => {}
+          }
         >
           {/* Animated White Box */}
           {focusedInput && !isScrolled && (
@@ -221,7 +238,9 @@ export default function SearchBar({ scroll: isScrolled, setIsScrolled }: SearchB
             }
             className={`z-2 ripple-btn relative bottom-[1px] rounded-4xl overflow-hidden mr-2 ${
               focusedInput === "input1" ? "bg-white" : "hover:bg-[#bebebe]"
-            } ${isScrolled ? "w-[10rem] h-12.5" : "w-[30%] min-w-[12rem] h-16.5"}`}
+            } ${
+              isScrolled ? "w-[10rem] h-12.5" : "w-[30%] min-w-[12rem] h-16.5"
+            }`}
           >
             <p
               className={`absolute z-20 font-bold top-3 text-[0.8em] ${
@@ -238,7 +257,9 @@ export default function SearchBar({ scroll: isScrolled, setIsScrolled }: SearchB
               {isScrolled ? "AnyWhere" : "Where"}
             </p>
             <input
-              ref={(el) => {(inputReferences.current[0] = el)}}
+              ref={(el) => {
+                inputReferences.current[0] = el;
+              }}
               type="text"
               onBlur={() => {
                 handleInputBlur("input1");
@@ -274,13 +295,15 @@ export default function SearchBar({ scroll: isScrolled, setIsScrolled }: SearchB
               )
             }
           >
-            <p className="absolute text-[0.8em] font-bold top-3 left-6">
+            <p className="absolute text-[0.8em] font-bold z-50 top-3 left-6">
               {`${isScrolled ? "Anytime" : "Check in"}`}
             </p>
             <input
               type="text"
               placeholder={`${isScrolled ? "" : "Add Dates"}`}
-              ref={(el) => {(inputReferences.current[1] = el)}}
+              ref={(el) => {
+                inputReferences.current[1] = el;
+              }}
               className="w-[80%] ml-4 relative outline-none top-2 cursor-pointer"
             />
           </button>
@@ -313,12 +336,14 @@ export default function SearchBar({ scroll: isScrolled, setIsScrolled }: SearchB
                   )
                 }
               >
-                <p className="absolute text-[0.8em] font-bold top-3 left-5">
-                  Check in
+                <p className="absolute z-50 text-[0.8em] font-bold top-3 left-5">
+                  Check Out
                 </p>
                 <input
                   type="text"
-                  ref={(el) => {(inputReferences.current[2] = el)}}
+                  ref={(el) => {
+                    inputReferences.current[2] = el;
+                  }}
                   placeholder="Add Dates"
                   className="w-[80%] ml-2 outline-none relative top-2 cursor-pointer"
                 />
@@ -329,7 +354,7 @@ export default function SearchBar({ scroll: isScrolled, setIsScrolled }: SearchB
               </div>
             </>
           )}
-
+          {/* Button 4 */}
           <button
             className={`input4 ripple-btn overflow-hidden ml-2 rounded-4xl relative z-2 flex-1 min-w-[8rem] ${
               focusedInput === "input4" ? "bg-white" : "hover:bg-[#bebebe]"
@@ -346,9 +371,10 @@ export default function SearchBar({ scroll: isScrolled, setIsScrolled }: SearchB
                 "input4"
               )
             }
+            
           >
             <p
-              className={`absolute text-[0.8em] font-bold top-3 ${
+              className={`absolute text-[0.8em] font-bold z-50 top-3 ${
                 isScrolled ? "" : "left-9"
               }`}
             >
@@ -361,7 +387,9 @@ export default function SearchBar({ scroll: isScrolled, setIsScrolled }: SearchB
                 handleInputBlur("input4");
               }}
               className={`relative -bottom-[8px] left-1 outline-none w-[80%]`}
-              ref={(el) => {(inputReferences.current[3] = el)}}
+              ref={(el) => {
+                inputReferences.current[3] = el;
+              }}
             />
 
             <div
@@ -369,14 +397,18 @@ export default function SearchBar({ scroll: isScrolled, setIsScrolled }: SearchB
                 isScrolled
                   ? "h-8 w-8 absolute right-2 bottom-2 pt-1 px-1"
                   : "h-12 w-12 absolute right-2 bottom-2 py-3 px-3"
-              } bg-[#d93553] text-white hover:bg-[#fe3b5f] ${focusedInput ? "searchIncrease" : ""} duration-300`}
+              } bg-[#d93553] z-20 text-white hover:bg-[#fe3b5f] ${
+                focusedInput ? "searchIncrease" : ""
+              } duration-300`}
             >
               <SearchIcon />
               {focusedInput && <p className="pb-1 font-bold">Search</p>}
             </div>
           </button>
         </div>
-        <div className="searchPlaceholder"><Search></Search> Start your Search</div>
+        <div className="searchPlaceholder">
+          <Search></Search> Start your Search
+        </div>
       </div>
       {focInput ? (
         <div
@@ -384,7 +416,7 @@ export default function SearchBar({ scroll: isScrolled, setIsScrolled }: SearchB
           className="relative w-fit"
           style={{ left: `${dynamicLeftClass}px` }}
         >
-          <Calendar02 className="bla rounded-4xl"/>
+          <Calendar02 className="bla rounded-4xl" />
         </div>
       ) : null}
     </>

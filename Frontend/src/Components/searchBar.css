@@ -2,19 +2,12 @@
   box-shadow: 0px 1px 7px 0px rgb(134, 134, 134);
   max-width: 54rem;
   width: 100%;
+  margin-top: -1rem;
   min-width: 20rem;
 }
+
 .bg-dots {
   background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23000000' fill-opacity='0.1'%3E%3Ccircle cx='7' cy='7' r='1'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-}
-.moveTop {
-  animation: toTop 0.3s linear 1 forwards;
-  position: absolute;
-}
-
-.moveDown {
-  animation: toDown 0.3s linear 1 forwards;
-  position: absolute;
 }
 
 .searchIncrease {
@@ -31,7 +24,7 @@
 
   to {
     width: 25rem;
-    transform: translate(-5rem, -30px);
+    transform: translate(-5rem, -80px);
     height: 3rem;
   }
 }
@@ -45,7 +38,7 @@
   to {
     width: 100%;
     max-width: 54rem;
-    transform: translateY(0px, 0px);
+    transform: translateY(-15px);
     height: 4rem;
   }
 }
@@ -148,6 +141,7 @@ button:hover+div {
     height: 33rem;
     padding: 0px;
     width: 54rem;
+    top: -0.5rem;
   }
 
   .bla th {
@@ -173,54 +167,29 @@ button:hover+div {
   }
 }
 
+.df {
+  width: 95%;
+  margin: 0 auto;
+}
 
-
-/* Add responsive styles */
-@media screen and (max-width: 56rem) {
+@media(max-width:740px) {
   .df {
-    width: 95%;
-    margin: 0 auto;
-  }
-
-  .moveTop {
-    width: 25rem !important;
-  }
-
-  .moveDown {
-    width: 95% !important;
-  }
-}
-
-@media screen and (max-width: 40rem) {
-  .df {
-    width: 90%;
-  }
-
-  .moveTop {
-    width: 20rem !important;
-  }
-
-  .moveDown {
-    width: 90% !important;
-  }
-}
-.searchPlaceholder{
-  display: none;
-}
-@media(max-width:740px){
-  .df{
     max-height: 3rem;
   }
-  .animatedBox{
+
+  .animatedBox {
     display: none;
   }
-  button.ripple-btn{
+
+  button.ripple-btn {
     display: none;
   }
-  .divider{
+
+  .divider {
     display: none;
   }
-  .searchPlaceholder{
+
+  .searchPlaceholder {
     display: flex;
     align-items: center;
     font-size: 1rem;
@@ -229,5 +198,23 @@ button:hover+div {
     justify-content: space-around;
     position: relative;
     z-index: 1;
+  }
+
+  
+}
+
+@media(min-width:740px) {
+  .moveTop {
+    animation: toTop 0.3s linear 1 forwards;
+    position: absolute;
+  }
+
+  .moveDown {
+    animation: toDown 0.3s linear 1 forwards;
+    position: absolute;
+  }
+
+  .searchPlaceholder {
+    display: none;
   }
 }

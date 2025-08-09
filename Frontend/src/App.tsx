@@ -37,6 +37,7 @@ const App: React.FC = () => {
           }
         })
         .catch((err) => {
+          console.log("ha bhai error dekh")
           console.log(err)
           setIsGettingUser("error");
         })

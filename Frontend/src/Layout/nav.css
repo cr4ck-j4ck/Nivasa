@@ -1,10 +1,9 @@
-
 .mTop {
     animation: mToTop 0.2s linear 1 forwards;
     position: absolute;
 }
 
-.mDown{
+.mDown {
     animation: mToDown 0.2s linear 1 forwards;
     position: absolute;
 }
@@ -23,75 +22,88 @@
     from {
         transform: translateY(-90px);
     }
+
     to {
         transform: translateY(0px);
     }
 }
+
 .navbar {
     width: 100vw;
-    transition: height 0.3s ease; /* Smooth height transition */
+    transition: height 0.3s ease;
+    /* Smooth height transition */
     box-shadow: 0px 0px 10px 0px rgb(199, 199, 199);
     z-index: 1;
-
+    height: 11rem;
 }
 
-/* Navbar height reduce hone par */
-.navbar.shrink {
-    height: 7rem; /* Chhoti height */
+@media(min-width:740px) {
+    .navbar.shrink {
+        height: 7rem;
+        /* Chhoti height */
+    }
 }
 
 .login {
-  background-color: #f32e52;
-  padding: 0.6rem 1.5rem;
-  border-radius: 999px;
-  color: white;
-  font-weight: 600;
-  font-size: 0.95rem;
-  cursor: pointer;
-  position: relative;
-  right: 2rem;
-  top: 1.5rem;
-  text-align: center;
-  border: none;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+    background-color: #f32e52;
+    padding: 0.6rem 1.5rem;
+    border-radius: 999px;
+    color: white;
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    position: relative;
+    right: 2rem;
+    top: 1.5rem;
+    text-align: center;
+    border: none;
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .login:hover {
-  background-color: #d82847;
-  transform: scale(1.05);
+    background-color: #d82847;
+    transform: scale(1.05);
 }
 
 .login:active {
-  transform: scale(0.98);
+    transform: scale(0.98);
 }
 
-.centerNavBox{
+.centerNavBox {
     left: 5%;
 }
-.rightAuth{
+
+.rightAuth {
     background-color: black;
 }
-@media(max-width:740px){
-    .centerNavBox{
+
+@media(max-width:740px) {
+    .centerNavBox {
         display: none;
     }
-    .brandImg{
+
+    .brandImg {
         display: none;
     }
-    .loginSignupText{
+
+    .loginSignupText {
         display: none;
     }
-    .loginSignupDiv{
+
+    .loginSignupDiv {
         width: fit-content;
         height: 4rem;
         margin-top: -0.7rem;
         margin-right: -1.5rem;
         padding-top: 1rem;
     }
-    .navbar{
-        height: 5rem;
+
+    .navbar {
+        height: 6rem;
+        box-shadow: 0px 6px 20px rgb(139, 139, 139);
     }
-    .AuthDiv{
+
+    .AuthDiv {
         display: none;
     }
 }

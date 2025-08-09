@@ -12,6 +12,7 @@ export async function createUser(
   formData: FormData
 ): Promise<IcreateUser | undefined> {
   try {
+    console.log(formData)
     const res = await axios.post(
       `${BackendAPI}/user/signup`,
       { formData },
@@ -19,7 +20,7 @@ export async function createUser(
     );
     return res.data;
   } catch (err) {
-
+    console.log(err)
     if (err instanceof AxiosError && err.response?.data.message) {
       throw new Error(err.response.data.message);
     } else if (err instanceof AxiosError) {

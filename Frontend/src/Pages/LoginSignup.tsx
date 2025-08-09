@@ -81,7 +81,8 @@ const AuthPage: React.FC = () => {
 No worries, just sign up again to get a new one.`;
     } else if (errMsg == "Email is Already Verified!") {
       mailErrMsg = "Email is already verified Buddy No need to charm it twice 😉";
-    } else {
+    }
+    else {
       mailErrMsg = `Uh-oh, this link's not feeling quite right...
 Maybe it got tampered, just sign up again`;
     }
