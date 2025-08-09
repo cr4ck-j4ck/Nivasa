@@ -15,6 +15,7 @@ app.use(
     origin: [
       "https://www.nivasa.site",
       "http://localhost:5173",
+      "http://192.168.1.34:5173"
     ],
     credentials: true,
   })
@@ -47,6 +48,6 @@ app.use(
   }
 );
 
-app.listen(PORT, () => {
+app.listen(3000,"0.0.0.0",() => {
   console.log(`started Listening on port ${PORT}`);
 });

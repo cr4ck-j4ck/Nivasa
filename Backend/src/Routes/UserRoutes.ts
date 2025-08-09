@@ -15,7 +15,7 @@ router.get("/user/verifyEmail-token",verifyEmailToken)
 
 router.get("/auth/status",verifyToken , (req, res) => {
   if (req.user) {
-    res.json(req.user);
+      res.json(req.user);
   } else {
     res.status(401).send("User Not Found");
   }

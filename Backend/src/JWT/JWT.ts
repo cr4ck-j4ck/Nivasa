@@ -6,10 +6,13 @@ export const verifyToken = async (req: any, res: any, next: any) => {
   try {
     const token = req.cookies.token || req.headers.authorization?.replace('Bearer ', '');
     if (!token) {
-      return res.status(401).json({
+      setTimeout(() => {
+        return res.status(401).json({
         success: false,
         message: 'Access token required',
       });
+      }, 5000);
+      return;
     }
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET!) as any;
