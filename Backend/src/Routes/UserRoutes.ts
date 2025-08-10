@@ -3,6 +3,7 @@ import asyncWrapper from "../utils/wrapAsync";
 import {
   addToWhislist,
   createUser,
+  getWishList,
   loginUser,
   verifcationStream,
   verifyEmailToken,
@@ -28,5 +29,7 @@ router.get("/auth/status", verifyToken, (req, res) => {
 });
 
 router.post("/user/wishlist", verifyToken, addToWhislist);
+
+router.get("/user/getWishlist", verifyToken, getWishList);
 
 export default router;

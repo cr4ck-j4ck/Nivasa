@@ -60,9 +60,9 @@ const userSchema = new Schema<IUser>(
       phoneVerified: { type: Boolean, default: false },
       idVerified: { type: Boolean, default: false },
     },
-    savedListings: [{ type: Schema.Types.ObjectId, ref: "Listing" }],
-    hostedListings: [{ type: Schema.Types.ObjectId, ref: "Listing" }],
-    bookings: [{ type: Schema.Types.ObjectId, ref: "Booking" }],
+    savedListings: [{ type: Schema.Types.ObjectId, ref: "Listing", default:[] }],
+    hostedListings: [{ type: Schema.Types.ObjectId, ref: "Listing", default:[] }],
+    bookings: [{ type: Schema.Types.ObjectId, ref: "Booking", default:[]}],
     createdAt: { type: Date, default: Date.now },
     wishlist: [ {type: Schema.Types.ObjectId, ref:"Listing" } ]
   },

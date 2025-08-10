@@ -188,27 +188,43 @@ export const verifyEmailToken: RequestHandler = async (req, res) => {
 };
 
 export const addToWhislist: RequestHandler = async (req, res) => {
-  const { listingId , userId} = req.body;
-  if (listingId) {
-    const existingListing = await ListingModel.findById(listingId);
-    if(existingListing){
-      const userId = req.user?.id;
-        if(userId){
-          const existingUser = await UserModel.findById(userId);
-          if(existingUser){
-            existingUser.wishlist?.push(existingListing.id);
-            await existingUser.save();
-            res.send("Added To Wishlist");
-          }else{
-            res.status(400).send("User Doesn't exists!!")
-          }
-        }else{
-          res.status(404).send("Please provide ListingID!!")          
+  try {
+    const { listingId } = req.body;
+    if (listingId) {
+      const existingListing = await ListingModel.findById(listingId);
+      if (existingListing) {
+        const userId = req.user?.id;
+        if (userId) {
+          const resultFromDB = await UserModel.findByIdAndUpdate(userId, {
+            $addToSet: { wishlist: listingId },
+          });
+          res.send("Added To Wishlist");
+        } else {
+          res.status(404).send("Please provide ListingID!!");
         }
-    }else{
-      res.status(404).send("Listing Doesn't Exists!!")
+      } else {
+        res.status(404).send("Listing Doesn't Exists!!");
+      }
+    } else {
+      res.status(404).send("Please provide Listing ID!!");
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(503).send("Some error occured on DB");
+  }
+};
+
+export const getWishList: RequestHandler = async (req, res) => {
+  const existingUser = await UserModel.findById(req.user?._id).populate(
+    "wishlist"
+  );
+  if (existingUser) {
+    if (existingUser.wishlist?.length) {
+      res.send(existingUser.wishlist);
+    } else {
+      res.send("Oops! You don't have any Wishlist");
     }
   } else {
-    res.status(404).send("Please provide Listing ID!!");
+    res.status(404).send("User Doesn't exists!!");
   }
 };
