@@ -1,5 +1,5 @@
 import axios, { AxiosError } from "axios";
-import { type Iuser } from "@/@Types/interfaces";
+import type { Iuser, IlistingObj } from "@/@Types/interfaces";
 const BackendAPI = import.meta.env.VITE_BACKEND_API;
 import { type FormData } from "@/Components/Auth/AuthForm";
 
@@ -12,7 +12,6 @@ export async function createUser(
   formData: FormData
 ): Promise<IcreateUser | undefined> {
   try {
-    console.log(formData);
     const res = await axios.post(
       `${BackendAPI}/user/signup`,
       { formData },
@@ -53,7 +52,6 @@ export const getUser = async () => {
     const res = await axios.get(`${BackendAPI}/auth/status`, {
       withCredentials: true,
     });
-    console.log("hey", res.data);
     return res.data;
   } catch (err) {
     if (err instanceof AxiosError && err.response?.status === 401) {
@@ -74,7 +72,6 @@ export const setupVerificationListener = (
 
   eventSource.onmessage = (event) => {
     const data = JSON.parse(event.data);
-    console.log(data);
     if (data.verified) {
       onVerfied();
       eventSource.close();
@@ -82,7 +79,6 @@ export const setupVerificationListener = (
   };
 
   eventSource.onerror = () => {
-    console.log("Bhai Client side se hi close kardiya...");
     eventSource.close();
   };
 };
@@ -94,5 +90,13 @@ export const addToWhislist = async (listingId: string) => {
     { withCredentials: true }
   );
   console.log(res);
-  return 
+  return;
+};
+
+export const getWishlist = async (): Promise<IlistingObj[]> => {
+  const res = await axios.get(`${BackendAPI}/user/getWishlist`, {
+    withCredentials: true,
+  });
+  console.log(res.data);
+  return res.data;
 };

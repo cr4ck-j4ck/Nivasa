@@ -13,6 +13,7 @@ interface IlistingData {
   _id: string;
   title: string;
   price: number;
+  isLiked:boolean;
   gallery: Record<string, string[]>
 }
 
@@ -53,6 +54,7 @@ export default function ListingRow({ city }: { city: string }) {
   
   useEffect(() => {
     getListingByCity(city).then((res) => {
+      console.dir(res)
       setData(res);
     });
   }, [city]);
@@ -81,6 +83,9 @@ export default function ListingRow({ city }: { city: string }) {
               city={el.location.city}
               price={el.price}
               id={el._id}
+              index={i}
+              customClass="card"
+              isLiked={el.isLiked}
             />
           ))
           : skeletonCards}

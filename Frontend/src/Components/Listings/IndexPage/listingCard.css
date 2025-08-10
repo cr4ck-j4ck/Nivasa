@@ -85,3 +85,16 @@
     height: 12vw;
   }
 }
+
+/* ------------------------ WishList Card ------------------------ */
+
+.wishlistCard{
+  max-width: 18rem;
+
+  min-width: 14rem;
+  margin-right: 1rem;
+  background-color: rgb(241, 119, 119);
+}
+
+
+
