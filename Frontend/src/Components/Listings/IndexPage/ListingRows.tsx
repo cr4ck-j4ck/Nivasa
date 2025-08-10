@@ -1,7 +1,6 @@
 // ListingRowSection.tsx
 import ListingRow from "./ListingRow";
 import React from "react";
-
 const cities = [
   "Mumbai",
   "Delhi",
@@ -16,7 +15,7 @@ const cities = [
 const getRandomCities = (): string[] => {
   const tempCities = [...cities];
   const selectedCities: string[] = [];
-  for (let i = 0; i < 6; i++) {
+  for (let i = 0; i < 2; i++) {
     const randomNum = Math.floor(Math.random() * (tempCities.length - i));
     selectedCities[i] = tempCities.splice(randomNum, 1)[0];
   }
@@ -25,7 +24,6 @@ const getRandomCities = (): string[] => {
 
 const ListingRowSection = React.memo(() => {
   const randomCities = React.useMemo(() => getRandomCities(), []);
-
   return (
     <>
       {randomCities.map((city, i) => (

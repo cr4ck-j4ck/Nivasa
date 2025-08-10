@@ -8,16 +8,16 @@ import "react-loading-skeleton/dist/skeleton.css";
 
 interface IlistingData {
   location: {
-    city: string
+    city: string;
   };
   _id: string;
   title: string;
   price: number;
-  isLiked:boolean;
-  gallery: Record<string, string[]>
+  isLiked: boolean;
+  gallery: Record<string, string[]>;
 }
 
-const listingHeadLines =[
+const listingHeadLines = [
   `Fall in love, right here in`,
   `Check in, get swept away in`,
   `One night, or forever, in`,
@@ -45,19 +45,19 @@ const listingHeadLines =[
   `Stay here, catch feelings in`,
   `The longer you stay, the harder you fall in`,
   `We're totally your vibe in`,
-  `Commitment issues? Not with these stays in`
+  `Commitment issues? Not with these stays in`,
 ];
 
-export default function ListingRow({ city }: { city: string }) {
+function ListingRow({ city }: { city: string }) {
   const [data, setData] = useState<IlistingData[] | null>(null);
   const cardContainerRef = useRef<HTMLDivElement>(null);
-  
+
   useEffect(() => {
     getListingByCity(city).then((res) => {
-      console.dir(res)
+      console.dir(res);
       setData(res);
     });
-  }, [city]);
+  }, []);
 
   const skeletonCards = Array.from({ length: 7 }).map((_, i) => (
     <div key={i} className="card rounded-2xl mr-4 w-full">
@@ -69,27 +69,30 @@ export default function ListingRow({ city }: { city: string }) {
 
   return (
     <div className="listingRow">
-    <div className="text-xl listingHead ml-1 mb-5 flex justify-between">
-        <h1>{listingHeadLines[Math.floor(Math.random() * listingHeadLines.length)]} {city} &gt;</h1>
+      <div className="text-xl listingHead ml-1 mb-5 flex justify-between">
+        {data ? (<h1>{listingHeadLines[Math.floor(Math.random() * listingHeadLines.length)]} {city} &gt;</h1>) : (<Skeleton/>)}
+        {cardContainerRef && <Option containerRef={cardContainerRef} />}
         {cardContainerRef && <Option containerRef={cardContainerRef} />}
       </div>
       <div className="cardContainer relative mb-10 flex" ref={cardContainerRef}>
         {data
           ? data.map((el, i) => (
-            <ListingCard
-              src={el.gallery["Bedroom 1"][0]}
-              // src={demoThumbnail}
-              key={i}
-              city={el.location.city}
-              price={el.price}
-              id={el._id}
-              index={i}
-              customClass="card"
-              isLiked={el.isLiked}
-            />
-          ))
+              <ListingCard
+                src={el.gallery["Bedroom 1"][0]}
+                key={i}
+                city={el.location.city}
+                price={el.price}
+                id={el._id}
+                index={i}
+                customClass="card"
+                isLiked={el.isLiked}
+              />
+            ))
           : skeletonCards}
       </div>
     </div>
   );
 }
+
+ListingRow.whyDidYouRender = true;
+export default ListingRow;

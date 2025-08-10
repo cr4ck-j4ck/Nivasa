@@ -4,7 +4,7 @@ import { Heart } from "lucide-react";
 import { useState } from "react";
 import UserStore from "@/Store/UserStore";
 import { useNavigate } from "react-router-dom";
-import { addToWhislist } from "@/Services/user.api";
+import { addToWhislist ,removeFromWishlist } from "@/Services/user.api";
 import globalStore from "@/Store/Global";
 
 interface IlistingCard {
@@ -15,7 +15,7 @@ interface IlistingCard {
   index?: number; // 🆕 Added index prop
   customClass:string,
   hideLike?:boolean
-  isLiked:boolean
+  isLiked?:boolean
 }
 
 const wishlistSavedMessages = [
@@ -39,8 +39,12 @@ export default function ListingCard({ src, city, isLiked=false,price, id, index 
       setLiked((prev) => !prev);
       if (!liked) {
         const response = await addToWhislist(id);
+        console.log(response)
         setMainPageMsg(wishlistSavedMessages[Math.floor(Math.random() * wishlistSavedMessages.length)]);
       } else {
+        const response = await removeFromWishlist(id);
+        console.log(response)
+        setMainPageMsg("Listing Removed from wishlist Succesfully!!")
       }
       setAnimate(true);
       setTimeout(() => setAnimate(false), 300);

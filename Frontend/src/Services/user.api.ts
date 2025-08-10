@@ -93,6 +93,15 @@ export const addToWhislist = async (listingId: string) => {
   return;
 };
 
+export const removeFromWishlist = async (listingId: string) => {
+  const res = await axios.delete(
+    `${BackendAPI}/user/wishlist/${listingId}`,
+    { withCredentials: true }
+  );
+  console.log(res);
+  return;
+};
+
 export const getWishlist = async (): Promise<IlistingObj[]> => {
   const res = await axios.get(`${BackendAPI}/user/getWishlist`, {
     withCredentials: true,
