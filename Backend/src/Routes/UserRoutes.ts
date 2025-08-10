@@ -7,6 +7,7 @@ import {
   loginUser,
   verifcationStream,
   verifyEmailToken,
+  removeFromWishlist
 } from "../Controllers/UserController";
 import { verifyToken } from "../JWT/JWT";
 
@@ -28,7 +29,8 @@ router.get("/auth/status", verifyToken, (req, res) => {
   }
 });
 
-router.post("/user/wishlist", verifyToken, addToWhislist);
+router.get("/user/wishlist", verifyToken, addToWhislist);
+router.delete("/user/wishlist/:id",verifyToken,removeFromWishlist)
 
 router.get("/user/getWishlist", verifyToken, getWishList);
 

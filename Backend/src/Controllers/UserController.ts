@@ -195,7 +195,7 @@ export const addToWhislist: RequestHandler = async (req, res) => {
       if (existingListing) {
         const userId = req.user?.id;
         if (userId) {
-          const resultFromDB = await UserModel.findByIdAndUpdate(userId, {
+          await UserModel.findByIdAndUpdate(userId, {
             $addToSet: { wishlist: listingId },
           });
           res.send("Added To Wishlist");
@@ -204,6 +204,30 @@ export const addToWhislist: RequestHandler = async (req, res) => {
         }
       } else {
         res.status(404).send("Listing Doesn't Exists!!");
+      }
+    } else {
+      res.status(404).send("Please provide Listing ID!!");
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(503).send("Some error occured on DB");
+  }
+};
+
+export const removeFromWishlist: RequestHandler = async (req, res) => {
+  try {
+    const { id: listingId } = req.params;
+    if (listingId) {
+      const userId = req.user?.id;
+      if (userId) {
+        await UserModel.findByIdAndUpdate(
+          userId,
+          { $pull: { wishlist: listingId } },
+          { new: true }
+        );
+        res.send("removed From Wishlist");
+      } else {
+        res.status(404).send("Please provide ListingID!!");
       }
     } else {
       res.status(404).send("Please provide Listing ID!!");
