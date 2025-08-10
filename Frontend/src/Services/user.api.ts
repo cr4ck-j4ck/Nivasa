@@ -1,4 +1,4 @@
-import axios, {  AxiosError } from "axios";
+import axios, { AxiosError } from "axios";
 import { type Iuser } from "@/@Types/interfaces";
 const BackendAPI = import.meta.env.VITE_BACKEND_API;
 import { type FormData } from "@/Components/Auth/AuthForm";
@@ -12,7 +12,7 @@ export async function createUser(
   formData: FormData
 ): Promise<IcreateUser | undefined> {
   try {
-    console.log(formData)
+    console.log(formData);
     const res = await axios.post(
       `${BackendAPI}/user/signup`,
       { formData },
@@ -20,7 +20,7 @@ export async function createUser(
     );
     return res.data;
   } catch (err) {
-    console.log(err)
+    console.log(err);
     if (err instanceof AxiosError && err.response?.data.message) {
       throw new Error(err.response.data.message);
     } else if (err instanceof AxiosError) {
@@ -68,7 +68,6 @@ export const setupVerificationListener = (
   userId: string,
   onVerfied: () => void
 ) => {
-  console.log("bhai maine toh apna kaam kiya re devaa!");
   const eventSource = new EventSource(
     `${BackendAPI}/user/verification-stream/${userId}`
   );
@@ -86,4 +85,14 @@ export const setupVerificationListener = (
     console.log("Bhai Client side se hi close kardiya...");
     eventSource.close();
   };
+};
+
+export const addToWhislist = async (listingId: string) => {
+  const res = await axios.post(
+    `${BackendAPI}/user/wishlist`,
+    { listingId },
+    { withCredentials: true }
+  );
+  console.log(res);
+  return 
 };

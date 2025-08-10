@@ -1,28 +1,25 @@
-import ListingRow from "../Components/Listings/IndexPage/ListingRow";
-const MainListing = (): React.JSX.Element => {
-  const cities = [
-    "Mumbai",
-    "Delhi",
-    "Pune",
-    "Gurugram",
-    "Paris",
-    "Indore",
-    "Bengaluru",
-    "Bhopal",
-  ];
-  const arrOfRandomNum :string[] = [];
+import CustomAlert from "@/Components/CustomAlert";
+import globalStore from "@/Store/Global";
+import ListingRowSection from "@/Components/Listings/IndexPage/ListingRows"; // Adjust the path accordingly
 
-  for (let i = 0; i < 4; i++) {
-    const randomNum = Math.floor(Math.random() * (8 - i));
-    arrOfRandomNum[i] = cities.splice(randomNum, 1)[0];
-  }
+const MainListing = (): React.JSX.Element => {
+  const mainPageMsg = globalStore((state) => state.mainPageMsg);
+  const setMainPageMsg = globalStore((state) => state.setMainPageMsg);
+
   return (
-    <div className="relative pt-10 max-w-[95vw] md:max-w-[92vw] lg:max-w-[95vw] 3xl:max-w-[90vw] mx-auto w-full" >
-      {arrOfRandomNum.map((el, i) => (
-        <ListingRow city={el} key={i} />
-      ))}
+    <div className="relative pt-10 max-w-[95vw] md:max-w-[92vw] lg:max-w-[95vw] 3xl:max-w-[90vw] mx-auto w-full">
+      {mainPageMsg && (
+        <CustomAlert
+          title="Wishlist"
+          message={mainPageMsg}
+          variant="success"
+          setFunc={() => setMainPageMsg(null)}
+        />
+      )}
+
+      <ListingRowSection />
     </div>
   );
-}
+};
 
 export default MainListing;

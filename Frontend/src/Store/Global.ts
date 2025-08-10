@@ -6,6 +6,8 @@ export interface IglobalStore{
     emailError:string | null;
     passwordError:string | null;
     setErrorFromBackend:(toUpdate : TerrorObj)=>void;
+    mainPageMsg:string |null;
+    setMainPageMsg:(toUpdate : string|null)=>void;
 }
 
 const globalStore = create<IglobalStore>(set => ({
@@ -14,6 +16,10 @@ const globalStore = create<IglobalStore>(set => ({
     setErrorFromBackend(toUpdate) {
         set(toUpdate)
     },
+    mainPageMsg:null,
+    setMainPageMsg(toUpdate){
+        set({mainPageMsg:toUpdate})
+    }
 }))
 
 export default globalStore;

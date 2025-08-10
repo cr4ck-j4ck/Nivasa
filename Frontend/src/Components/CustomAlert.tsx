@@ -6,7 +6,7 @@ type AlertVariant = "error" | "success" | "info" | "warning";
 interface AlertProps {
   title?: string;
   message: string;
-  setFunc:()=>void;
+  setFunc?:()=>void;
   variant?: AlertVariant;
   duration?: number; // in ms
 }
@@ -57,7 +57,7 @@ const CustomAlert: React.FC<AlertProps> = ({
   useEffect(() => {
     const timeout = setTimeout(() => {
       setAnimateOut(true);
-      setFunc();
+      setFunc?.();
       setTimeout(() => setVisible(false), 300); // wait for animation
     }, duration);
 

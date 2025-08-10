@@ -81,6 +81,8 @@ const AuthPage: React.FC = () => {
 No worries, just sign up again to get a new one.`;
     } else if (errMsg == "Email is Already Verified!") {
       mailErrMsg = "Email is already verified Buddy No need to charm it twice 😉";
+    }else if(errMsg == "login for wishlist"){
+      mailErrMsg = "Oops! You've got great taste 😍 but you'll need to log in to save those faves."
     }
     else {
       mailErrMsg = `Uh-oh, this link's not feeling quite right...
