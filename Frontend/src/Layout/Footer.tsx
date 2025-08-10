@@ -2,7 +2,7 @@ import "./footer.css";
 
 export default function Footer() {
   return (
-    <footer className="bg-gray-100 text-gray-700 pt-8 w-full mt-50 relative top-10">
+    <footer className="bg-gray-100 text-gray-700 pt-8 w-full mt-50 absolute -bottom-80 h-fit ">
       <div className="container mx-auto px-4 grid grid-cols-2 md:grid-cols-4 gap-8">
         <div>
           <h3 className="font-bold mb-3">Explore</h3>

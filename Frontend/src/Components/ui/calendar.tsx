@@ -93,7 +93,6 @@ function Calendar({
       }}
       {...props}
       onDayClick={(e) => {
-        console.log(e);
         // const day = String(e.getDate()).padStart(2, "0");
         // const month = String(e.getMonth() + 1).padStart(2, "0");
         // const year = e.getFullYear();

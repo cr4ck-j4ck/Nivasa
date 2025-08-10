@@ -113,6 +113,8 @@ interface Ilocation {
   longitude: 72.8467;
 }
 export interface IlistingObj {
+  _id:string,
+  id:string,
   host: string;
   title: string;
   description: string;

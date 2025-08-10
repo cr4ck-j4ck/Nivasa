@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { motion, easeOut } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 
 import {
   Calendar,
@@ -59,7 +60,7 @@ const cardHoverVariants = {
 export default function ProfileDashboard() {
   const user = UserStore((state) => state.user);
   const [activeCard, setActiveCard] = useState<string | null>(null);
-
+  const navigate = useNavigate();
   const dashboardSections = [
     {
       id: "bookings",
@@ -80,6 +81,7 @@ export default function ProfileDashboard() {
       count: 12,
       badge: "Favorites",
       badgeColor: "bg-red-100 text-red-800",
+      path:"/wishlist"
     },
     {
       id: "messages",
@@ -302,7 +304,9 @@ export default function ProfileDashboard() {
                   <motion.div variants={cardHoverVariants}>
                     <Card
                       className="cursor-pointer transition-all duration-300 hover:shadow-xl border-0 shadow-md bg-white"
-                      onClick={() => console.log(`${section.title} clicked`)}
+                      onClick={() => {
+                        if (section.path) navigate(section.path); // ✅ Redirect on click
+                      }}
                     >
                       <CardContent className="p-6">
                         <div className="flex items-start justify-between mb-4">

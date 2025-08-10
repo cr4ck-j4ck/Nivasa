@@ -19,7 +19,6 @@ export default function EmailVerificationSuccess({
 }: EmailVerificationSuccessProps) {
   const [countdown, setCountdown] = useState(redirectDelay);
   const [isComplete, setIsComplete] = useState(false);
-  console.log(onRedirect)
   useEffect(() => {
     const timer = setInterval(() => {
       setCountdown((prev) => {
@@ -29,8 +28,6 @@ export default function EmailVerificationSuccess({
           // Simulate redirect
           setTimeout(() => {
             onRedirect?.();
-            console.log("kyo nahi hua call ??")
-            console.log("Redirecting to dashboard...");
           }, 500);
           return 0;
         }
@@ -276,7 +273,6 @@ export default function EmailVerificationSuccess({
                 <Button
                   onClick={() => {
                     onRedirect?.();
-                    console.log("Manual redirect to login");
                   }}
                   className="w-full h-12 bg-gradient-to-r from-pink-500 to-red-500 hover:from-pink-600 hover:to-red-600 text-white font-medium text-lg shadow-lg transition-all duration-200"
                   disabled={isComplete}

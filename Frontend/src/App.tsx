@@ -37,7 +37,6 @@ const App: React.FC = () => {
           }
         })
         .catch((err) => {
-          console.log("ha bhai error dekh")
           console.log(err)
           setIsGettingUser("error");
         })
@@ -47,7 +46,7 @@ const App: React.FC = () => {
     }
   }, []);
   return (
-    <div className={`min-h-screen ${location.pathname === "/" ? "marginTopClass":"marginTopForMobile"} flex flex-col items-center relative w-[100vw] h-[100vh]`}>
+    <div className={`min-h-screen ${location.pathname === "/" ? "marginTopClass":"marginTopForMobile"} flex flex-col items-center relative w-[100vw] h-fit`}>
       <Nav position={location.pathname === "/" ? "fixed top-0" : ""}></Nav>
       <AppRoutes />
       {isFooter && <Footer />}

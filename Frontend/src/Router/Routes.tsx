@@ -7,16 +7,18 @@ import LoadingUser from "@/Pages/UserLoading";
 import ProfileDashboard from "@/Pages/HostDashboard";
 import AuthPage from "@/Pages/LoginSignup";
 import UnderConstruction from "@/Pages/UnderConstruction";
+import Wishlist from "@/Pages/Wishlist";
 
 export default function AppRoutes() {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/room/:listingId" element={<ShowListing />} />
-      <Route path="/profile" element={<PrivateRoutes><ProfilePage /></PrivateRoutes>} />
+      <Route path="/hostProfile" element={<PrivateRoutes><ProfilePage /></PrivateRoutes>} />
       <Route path="/dashboard"  element={<PrivateRoutes><ProfileDashboard/></PrivateRoutes>}/>
       <Route path="/loading" element={<LoadingUser/>}/>
       <Route path="/auth" element={<AuthPage/>}/>
+      <Route path="/wishlist" element={<Wishlist/>}/>
       <Route path="*" element={<UnderConstruction/>}/>
     </Routes>
   );
