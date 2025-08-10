@@ -1,24 +1,32 @@
 import express, { RequestHandler } from "express";
 import asyncWrapper from "../utils/wrapAsync";
-import { createUser, loginUser, verifcationStream, verifyEmailToken } from "../Controllers/UserController";
+import {
+  addToWhislist,
+  createUser,
+  loginUser,
+  verifcationStream,
+  verifyEmailToken,
+} from "../Controllers/UserController";
 import { verifyToken } from "../JWT/JWT";
 
 const router = express.Router();
 
 router.post("/user/signup", createUser);
 
-router.post("/user/login",loginUser);
+router.post("/user/login", loginUser);
 
-router.get("/user/verification-stream/:id",verifcationStream)
+router.get("/user/verification-stream/:id", verifcationStream);
 
-router.get("/user/verifyEmail-token",verifyEmailToken)
+router.get("/user/verifyEmail-token", verifyEmailToken);
 
-router.get("/auth/status",verifyToken , (req, res) => {
+router.get("/auth/status", verifyToken, (req, res) => {
   if (req.user) {
-      res.json(req.user);
+    res.json(req.user);
   } else {
     res.status(401).send("User Not Found");
   }
 });
+
+router.post("/user/wishlist", verifyToken, addToWhislist);
 
 export default router;

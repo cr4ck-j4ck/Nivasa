@@ -6,8 +6,8 @@ import passport from "passport";
 
 const SuccessOauthHandler = (req: Request, res: Response) => {
   try {
-    const user = req.user as any;
-
+    const user = req.user;
+    if(!user) return;
     // Generate JWT tokens
     const token = generateToken({userId : user._id},"7d");
     const refreshToken = generateRefreshToken(user._id);

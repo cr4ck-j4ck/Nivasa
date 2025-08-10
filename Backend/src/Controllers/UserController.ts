@@ -8,6 +8,7 @@ import { RequestHandler } from "express-serve-static-core";
 import sendMail from "./gmail";
 import { v4 as uuidv4 } from "uuid";
 import { Response } from "express";
+import ListingModel from "../Models/ListingModel";
 const SALT_ROUNDS = 12;
 
 const clients = new Map<string, Response>(); // key = userId, value = res object
@@ -15,7 +16,9 @@ const clients = new Map<string, Response>(); // key = userId, value = res object
 export const createUser: RequestHandler = async (req, res) => {
   try {
     const resultOfParsing = signupSchema.parse(req.body.formData);
-    const existingUser = await UserModel.findOne({ email: resultOfParsing.email });
+    const existingUser = await UserModel.findOne({
+      email: resultOfParsing.email,
+    });
     if (!existingUser) {
       const hashedPassword = await bcrypt.hash(
         resultOfParsing.password,
@@ -37,11 +40,11 @@ export const createUser: RequestHandler = async (req, res) => {
       );
       clients.set(uniqueUserID, res);
       res.json({ uuid: uniqueUserID });
-    }else{
+    } else {
       res.status(409).send("User Already Exists");
     }
   } catch (err) {
-    console.log(err)
+    console.log(err);
     if (err instanceof ZodError) {
       const errorMessage = JSON.parse(err.message)[0].message;
       res.status(400).send(errorMessage);
@@ -181,5 +184,31 @@ export const verifyEmailToken: RequestHandler = async (req, res) => {
       return;
     }
     res.send("error occurred from the backend");
+  }
+};
+
+export const addToWhislist: RequestHandler = async (req, res) => {
+  const { listingId , userId} = req.body;
+  if (listingId) {
+    const existingListing = await ListingModel.findById(listingId);
+    if(existingListing){
+      const userId = req.user?.id;
+        if(userId){
+          const existingUser = await UserModel.findById(userId);
+          if(existingUser){
+            existingUser.wishlist?.push(existingListing.id);
+            await existingUser.save();
+            res.send("Added To Wishlist");
+          }else{
+            res.status(400).send("User Doesn't exists!!")
+          }
+        }else{
+          res.status(404).send("Please provide ListingID!!")          
+        }
+    }else{
+      res.status(404).send("Listing Doesn't Exists!!")
+    }
+  } else {
+    res.status(404).send("Please provide Listing ID!!");
   }
 };
