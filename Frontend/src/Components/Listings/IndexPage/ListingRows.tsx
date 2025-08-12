@@ -15,7 +15,7 @@ const cities = [
 const getRandomCities = (): string[] => {
   const tempCities = [...cities];
   const selectedCities: string[] = [];
-  for (let i = 0; i < 2; i++) {
+  for (let i = 0; i < 6; i++) {
     const randomNum = Math.floor(Math.random() * (tempCities.length - i));
     selectedCities[i] = tempCities.splice(randomNum, 1)[0];
   }

@@ -72,7 +72,6 @@ function ListingRow({ city }: { city: string }) {
       <div className="text-xl listingHead ml-1 mb-5 flex justify-between">
         {data ? (<h1>{listingHeadLines[Math.floor(Math.random() * listingHeadLines.length)]} {city} &gt;</h1>) : (<Skeleton/>)}
         {cardContainerRef && <Option containerRef={cardContainerRef} />}
-        {cardContainerRef && <Option containerRef={cardContainerRef} />}
       </div>
       <div className="cardContainer relative mb-10 flex" ref={cardContainerRef}>
         {data
@@ -93,6 +92,4 @@ function ListingRow({ city }: { city: string }) {
     </div>
   );
 }
-
-ListingRow.whyDidYouRender = true;
 export default ListingRow;
