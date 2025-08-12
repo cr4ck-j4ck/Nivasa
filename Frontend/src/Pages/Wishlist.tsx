@@ -25,7 +25,7 @@ const EnhancedWishlist: React.FC = () => {
             index={i}
             city={el.location.city}
             price={el.price}
-            hideLike={true}
+            isLiked={true}
             src={el.gallery["Bedroom 1"][0]}
             customClass="wishlistCard"
           />

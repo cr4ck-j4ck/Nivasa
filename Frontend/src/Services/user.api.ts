@@ -84,21 +84,19 @@ export const setupVerificationListener = (
 };
 
 export const addToWhislist = async (listingId: string) => {
-  const res = await axios.post(
+  await axios.post(
     `${BackendAPI}/user/wishlist`,
     { listingId },
     { withCredentials: true }
   );
-  console.log(res);
   return;
 };
 
 export const removeFromWishlist = async (listingId: string) => {
-  const res = await axios.delete(
+  await axios.delete(
     `${BackendAPI}/user/wishlist/${listingId}`,
     { withCredentials: true }
   );
-  console.log(res);
   return;
 };
 
@@ -106,6 +104,5 @@ export const getWishlist = async (): Promise<IlistingObj[]> => {
   const res = await axios.get(`${BackendAPI}/user/getWishlist`, {
     withCredentials: true,
   });
-  console.log(res.data);
   return res.data;
 };

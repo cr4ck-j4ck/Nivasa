@@ -44,7 +44,6 @@ const AuthPage: React.FC = () => {
       } else {
         const response = await createUser(data);
         if (response?.uuid) {
-          console.log(response.uuid);
           SetIsEmailSent(true);
           setupVerificationListener(response.uuid, () => {
             setMailVerified(true);
@@ -63,7 +62,6 @@ const AuthPage: React.FC = () => {
           });
         }
         else if (error.message.includes("User Already Exists")) {
-          console.log("Ha bhai cheetey")
           setErrorFromBackend({
             emailError: "Oops! You're already in our system.",
           });

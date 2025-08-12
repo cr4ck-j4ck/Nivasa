@@ -54,7 +54,6 @@ function ListingRow({ city }: { city: string }) {
 
   useEffect(() => {
     getListingByCity(city).then((res) => {
-      console.dir(res);
       setData(res);
     });
   }, []);
