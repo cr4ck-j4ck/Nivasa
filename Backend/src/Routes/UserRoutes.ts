@@ -1,5 +1,4 @@
 import express, { RequestHandler } from "express";
-import asyncWrapper from "../utils/wrapAsync";
 import {
   addToWhislist,
   createUser,
