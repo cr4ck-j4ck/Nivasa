@@ -1,7 +1,8 @@
 .map-wrap {
   position: relative;
   width: 100%;
-  height: calc(100vh - 77px); /* calculate height of the screen minus the heading */
+  height: calc(100vh - 77px);
+  /* calculate height of the screen minus the heading */
 }
 
 .map {
@@ -15,12 +16,34 @@
 
 .map .maplibregl-ctrl-top-right {
   position: relative;
-  right:10px;
+  right: 10px;
   top: 30px;
 }
 
-.custom-marker{
+.custom-marker {
   width: 6rem;
   height: 6rem;
   background-size: contain;
+}
+
+/* Override MapTiler geocoding search box */
+.maplibregl-ctrl-geocoder {
+  border-radius: 9999px !important;
+  padding: 4px 8px !important;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15) !important;
+  font-size: 15px !important;
+  background-color: white !important;
+}
+
+.maplibregl-ctrl-geocoder input {
+  border-radius: 9999px !important;
+  outline: none !important;
+  padding: 8px 12px !important;
+}
+.svelte-bz0zu3{
+  border: none !important;
+}
+.mapboxgl-ctrl-geocoder{
+  left: 100% !important;
+
 }
