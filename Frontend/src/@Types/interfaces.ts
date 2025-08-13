@@ -121,6 +121,7 @@ export interface IlistingObj {
   location: Ilocation;
   price: number;
   roomType: string;
+  isLiked:boolean;
   amenities: Tamenities;
   availability: Iavailability;
   capacity: Icapacity;

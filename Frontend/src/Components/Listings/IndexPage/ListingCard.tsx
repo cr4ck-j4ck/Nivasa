@@ -54,7 +54,7 @@ export default function ListingCard({
           ]
         );
       } else {
-        const response = await removeFromWishlist(id);
+        await removeFromWishlist(id);
         setMainPageMsg("Listing Removed from wishlist Succesfully!!");
       }
       setAnimate(true);
