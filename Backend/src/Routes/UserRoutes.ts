@@ -28,7 +28,7 @@ router.get("/auth/status", verifyToken, (req, res) => {
   }
 });
 
-router.get("/user/wishlist", verifyToken, addToWhislist);
+router.post("/user/wishlist", verifyToken, addToWhislist);
 router.delete("/user/wishlist/:id",verifyToken,removeFromWishlist)
 
 router.get("/user/getWishlist", verifyToken, getWishList);
