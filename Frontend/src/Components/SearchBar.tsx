@@ -4,7 +4,6 @@ import { Calendar02 } from "./Calendar02";
 import SearchIcon from "@mui/icons-material/Search";
 import HomeIcon from "../assets/home.avif";
 import { Search } from "lucide-react";
-import { useLocation } from "react-router-dom";
 
 interface SearchBarProps {
   scroll: boolean;
@@ -36,7 +35,6 @@ export default function SearchBar({
   scroll: isScrolled,
   setIsScrolled,
 }: SearchBarProps) {
-  const location = useLocation();
   const elementRef = useRef<HTMLDivElement>(null);
   const inputReferences = useRef<(HTMLInputElement | null)[]>([]);
   const buttonReferences = useRef<(HTMLButtonElement | null)[]>([]);
@@ -197,7 +195,7 @@ export default function SearchBar({
   return (
     <>
       <div
-        className={`flex justify-center items-center duration-500 h-24  px-5 ${location.pathname.length == 1 ? "" : "hidden"}`}
+        className={`flex justify-center items-center duration-500 h-24  px-5`}
       >
         <div
           ref={elementRef}

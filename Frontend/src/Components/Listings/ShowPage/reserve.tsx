@@ -105,7 +105,7 @@ const SeatReservationBox = () => {
 
   return (
     <div
-      className="p-4 m-5 ml-10 rounded-2xl no-select sticky w-1/2 max-w-[355px]  top-35  mb-10 h-fit"
+      className="p-4 m-5 ml-10 rounded-2xl no-select sticky w-1/2 max-w-[355px] top-10  mb-10 h-fit"
       style={{ boxShadow: "#b2b2b2 0px 0px 17px" }}
     >
       <h1 className="text-xl ml-1 mt-2">Add dates for prices</h1>

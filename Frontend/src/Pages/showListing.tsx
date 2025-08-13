@@ -3,7 +3,7 @@ import Gallery from "@/Components/Listings/ShowPage/Gallery/gallery";
 import Description from "@/Components/Listings/ShowPage/Description/listingDesc";
 import React, { useEffect, useState } from "react";
 import { getListingData } from "@/Services/listing.api";
-import "./showListing.css";
+import "./Pages.css";
 import Skeleton from "react-loading-skeleton";
 import { Heart } from "lucide-react";
 import SeatReservationBox from "../Components/Listings/ShowPage/reserve";
@@ -13,9 +13,10 @@ import { useListingStore, type IlistingState } from "@/Store/ListingStore";
 import { useShallow } from "zustand/react/shallow";
 import HostProfile from "@/Components/Listings/ShowPage/Description/HostProfile";
 import { addToWhislist, removeFromWishlist } from "@/Services/user.api";
+import Nav from "@/Layout/Nav";
 
 const ShowListing = (): React.JSX.Element => {
-  const { listingId } = useParams();
+const { listingId } = useParams();
   const [isSaved, setIsSaved] = useState(false);
   const [animate, setAnimate] = useState(false);
   const toggleSave = () => {
@@ -55,15 +56,16 @@ const ShowListing = (): React.JSX.Element => {
 
   return (
     <>
+    <Nav></Nav>
       <title>{listingObj?.title ?? "Loading listing..."}</title>
       <div className="w-full sm:max-w-[97vw] md:max-w-[92vw] lg:max-w-[95vw] 3xl:max-w-[80vw] pl-3 top-[3rem] relative">
         <header className="flex justify-between items-center">
-          <h1 className="text-3xl showHead mb-6 pl-2 md:pl-10">
+          <h1 className="text-3xl showHead mb-6 pl-2 md:pl-10 z-50">
             {listingObj ? listingObj.title : <Skeleton />}
           </h1>
           <button
             onClick={toggleSave}
-            className="saveListingButton mr-10 bg-gray-100 w-24 px-4 h-10 items-center mb-4 rounded-2xl flex justify-evenly hover:bg-gray-200 hover:scale-105 duration-300"
+            className="saveListingButton mr-10 bg-gray-100 w-24 px-4 h-10 items-center mb-4 rounded-2xl flex justify-evenly hover:bg-gray-200 hover:scale-105 duration-300 relative  z-50"
           >
             <Heart
               className={`mr-2 cursor-pointer transition duration-300 ${
