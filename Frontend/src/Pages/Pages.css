@@ -1,0 +1,53 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap');
+
+/* Show Listing CSS */
+
+.showHead {
+    font-family: "Poppins", sans-serif;
+    font-weight: 600;
+    color: rgb(79, 79, 79);
+}
+
+.reviewHead {
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    font-size: 6rem;
+}
+
+.bottomLine:after {
+    content: "";
+    width: 90%;
+    height: 1px;
+    position: absolute;
+    bottom: 10px;
+    background-color: rgb(221, 221, 221);
+    z-index: -1;
+}
+
+
+/* Become Host CSS */
+
+
+.becomeHostHeading {
+    font-family: "Quicksand", sans-serif;
+    bottom: 3rem;
+}
+
+.exitButton {
+    margin-right: 3rem;
+    width:4rem;
+    border-radius: 20px ;
+    border:2px solid rgb(202, 202, 202);
+    height: 2.3rem;
+}
+
+.rightSideContent{
+    height: fit-content;
+}
+
+.stepDiv{
+    height: 12rem;
+    padding: 4rem 1rem;
+    display: flex;
+}

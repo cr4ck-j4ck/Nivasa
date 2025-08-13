@@ -9,7 +9,7 @@ import { useLocation } from "react-router-dom";
 import UserStore from "@/Store/UserStore";
 import { useNavigate } from "react-router-dom";
 interface INavprops {
-  position: string;
+  position?: string;
 }
 
 const Nav: React.FC<INavprops> = ({ position }) => {

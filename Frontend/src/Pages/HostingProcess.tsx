@@ -1,0 +1,90 @@
+import { useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import GetStarted from "./HostIntro";
+import StepOne from "./TellUsAboutYourPlace";
+import ChoosePropertyType from "./ChoosePropertyType";
+
+export default function HostingProcess() {
+  const [step, setStep] = useState(0);
+  const ElementsArray = [
+    <GetStarted key="get-started" />,
+    <StepOne key="step-one" />,
+    <ChoosePropertyType key={"step-two"}/>
+  ];
+
+  // Animation variants
+  const variants = {
+    enter: (direction: number) => ({
+      x: direction > 0 ? 100 : -100,
+      opacity: 0,
+    }),
+    center: {
+      x: 0,
+      opacity: 1,
+      transition: { duration: 0.4 },
+    },
+    exit: (direction: number) => ({
+      x: direction < 0 ? 100 : -100,
+      opacity: 0,
+      transition: { duration: 0.4 },
+    }),
+  };
+
+  const [direction, setDirection] = useState(0);
+
+  const nextStep = () => {
+    setDirection(1);
+    setStep((state) => Math.min(state + 1, ElementsArray.length - 1));
+  };
+
+  const prevStep = () => {
+    setDirection(-1);
+    setStep((state) => Math.max(state - 1, 0));
+  };
+
+  return (
+    <div className="relative overflow-visible max-h-[100vh] py-50">
+      <div className="fixed top-0 left-0 bg-white">
+        <header className="flex items-center justify-between p-6 w-[100vw]">
+        <img
+          src="/Nivasa-removebg-preview.png"
+          alt="Nivasa Logo"
+          className="h-25"
+        />
+        <button className="exitButton relative z-12">Exit</button>
+      </header>
+      </div>
+      <AnimatePresence custom={direction} mode="wait">
+        <motion.div
+          key={step}
+          custom={direction}
+          variants={variants}
+          initial="enter"
+          animate="center"
+          exit="exit"
+          className="min-h-screen"
+        >
+          {ElementsArray[step]}
+        </motion.div>
+      </AnimatePresence>
+
+      <footer className="w-[100vw] h-24 flex flex-col fixed bottom-0 left-0 bg-white border-t border-gray-200">
+        <div className="w-[100vw] h-2 bg-black"></div>
+        <div className="items-center flex justify-between w-full h-full px-10">
+          <div
+            className="font-semibold underline text-lg cursor-pointer"
+            onClick={prevStep}
+          >
+            Back
+          </div>
+          <button
+            className="text-white bg-[#232323] px-7 py-3 rounded-md"
+            onClick={nextStep}
+          >
+            Next
+          </button>
+        </div>
+      </footer>
+    </div>
+  );
+}

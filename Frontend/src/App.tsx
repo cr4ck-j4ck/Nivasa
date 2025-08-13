@@ -1,5 +1,4 @@
 import "./App.css";
-import Nav from "./Layout/Nav";
 import AppRoutes from "@/Router/Routes";
 import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -23,7 +22,7 @@ const App: React.FC = () => {
   );
 
   useEffect(() => {
-    if (location.pathname === "/settings") {
+    if (location.pathname === "/become-host") {
       setIsFooter(false);
     } else {
       setIsFooter(true);
@@ -47,7 +46,6 @@ const App: React.FC = () => {
   }, []);
   return (
     <div className={`min-h-screen ${location.pathname === "/" ? "marginTopClass":"marginTopForMobile"} flex flex-col items-center relative w-[100vw] h-fit`}>
-      <Nav position={location.pathname === "/" ? "fixed top-0" : ""}></Nav>
       <AppRoutes />
       {isFooter && <Footer />}
     <MobileBottomNavigation/>
