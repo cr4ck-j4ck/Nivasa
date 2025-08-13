@@ -4,7 +4,7 @@ import firstVideo from "@/assets/first.mp4"
 
 const StepOne: React.FC = () => {
   return (
-    <div className="min-h-fit flex flex-col bg-white">
+    <div className="min-h-fit flex flex-col bg-white relative top-50">
 
       {/* Main Content */}
       <main className="flex flex-col-reverse md:flex-row flex-1 items-center justify-between px-6 md:px-20 gap-8  min-h-[643px]">

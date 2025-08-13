@@ -36,7 +36,7 @@ const GetStarted: React.FC = () => {
         </div>
 
         {/* Right steps */}
-        <div className="rightSideContent">
+        <div className="rightSideContent relative top-30">
           <Step
             number={1}
             title="Tell us about your place"

@@ -1,17 +1,19 @@
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import GetStarted from "./HostIntro";
-import StepOne from "./TellUsAboutYourPlace";
+import TellUsAboutYourPlace from "./TellUsAboutYourPlace";
 import ChoosePropertyType from "./ChoosePropertyType";
+import PlaceType from "./TypeOfPlace";
 
 export default function HostingProcess() {
   const [step, setStep] = useState(0);
   const ElementsArray = [
     <GetStarted key="get-started" />,
-    <StepOne key="step-one" />,
-    <ChoosePropertyType key={"step-two"}/>
+    <TellUsAboutYourPlace key="step-one" />,
+    <ChoosePropertyType key={"step-two"}/>,
+    <PlaceType key={"step-three"}/>
   ];
-
+  console.log(step)
   // Animation variants
   const variants = {
     enter: (direction: number) => ({
@@ -43,8 +45,8 @@ export default function HostingProcess() {
   };
 
   return (
-    <div className="relative overflow-visible max-h-[100vh] py-50">
-      <div className="fixed top-0 left-0 bg-white">
+    <div className="relative overflow-visible max-h-[100vh]">
+      <div className="fixed top-0 left-0 bg-white HostProcessNav">
         <header className="flex items-center justify-between p-6 w-[100vw]">
         <img
           src="/Nivasa-removebg-preview.png"
@@ -62,7 +64,7 @@ export default function HostingProcess() {
           initial="enter"
           animate="center"
           exit="exit"
-          className="min-h-screen"
+          className="min-h-screen w-full"
         >
           {ElementsArray[step]}
         </motion.div>

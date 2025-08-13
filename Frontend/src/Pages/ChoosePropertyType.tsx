@@ -22,44 +22,42 @@ import {
   School,
   MapPin,
   TreePine,
-  Wind
+  Wind,
 } from "lucide-react";
 
 // Icon mapping
 const iconMap: Record<string, React.ElementType> = {
-  "House": Home,
+  House: Home,
   "Flat/apartment": Building2,
-  "Barn": Warehouse,
+  Barn: Warehouse,
   "Bed & breakfast": Utensils,
-  "Boat": Ship,
+  Boat: Ship,
   "Campervan/motorhome": Bus,
   "Casa particular": Landmark,
-  "Castle": Castle,
-  "Cave": Mountain,
-  "Container": Package,
+  Castle: Castle,
+  Cave: Mountain,
+  Container: Package,
   "Cycladic home": Columns3,
-  "Dammuso": Square,
-  "Dome": Tent,
+  Dammuso: Square,
+  Dome: Tent,
   "Earth home": Sprout,
-  "Farm": Tractor,
+  Farm: Tractor,
   "Guest house": Hotel,
-  "Hotel": Building,
-  "Houseboat": Sailboat,
-  "Kezhan": Store,
-  "Minsu": School,
-  "Riad": Landmark,
-  "Ryokan": MapPin,
+  Hotel: Building,
+  Houseboat: Sailboat,
+  Kezhan: Store,
+  Minsu: School,
+  Riad: Landmark,
+  Ryokan: MapPin,
   "Shepherd's hut": Warehouse,
-  "Tent": Tent,
+  Tent: Tent,
   "Tiny home": Home,
-  "Tower": Building2,
+  Tower: Building2,
   "Tree house": TreePine,
-  "Trullo": Landmark,
-  "Windmill": Wind,
-  "Yurt": Tent
+  Trullo: Landmark,
+  Windmill: Wind,
+  Yurt: Tent,
 };
-
-
 
 // Enhanced Card component
 interface PlaceTypeCardProps {
@@ -70,75 +68,88 @@ interface PlaceTypeCardProps {
   index: number;
 }
 
-const PlaceTypeCard: React.FC<PlaceTypeCardProps> = ({ label, Icon, isSelected, onClick, index }) => {
+const PlaceTypeCard: React.FC<PlaceTypeCardProps> = ({
+  label,
+  Icon,
+  isSelected,
+  onClick,
+  index,
+}) => {
   return (
     <div
       className="relative overflow-hidden p-5 group"
-      style={{ 
+      style={{
         animationDelay: `${index * 0.08}s`,
-        animation: 'slideInUp 0.6s ease-out forwards'
+        animation: "slideInUp 0.6s ease-out forwards",
       }}
     >
-      <button 
+      <button
         className={`
           relative flex flex-col items-center justify-center gap-3 
           rounded-xl p-6 w-full h-32
           transition-all duration-300 ease-out
           transform hover:scale-105 hover:-translate-y-1
           shadow-sm hover:shadow-xl
-          ${isSelected 
-            ? 'border-2 border-rose-500 bg-gradient-to-br from-rose-50 to-pink-50 shadow-lg' 
-            : 'border border-gray-200 bg-white hover:border-gray-300'
+          ${
+            isSelected
+              ? "border-2 border-rose-500 bg-gradient-to-br from-rose-50 to-pink-50 shadow-lg"
+              : "border border-gray-200 bg-white hover:border-gray-300"
           }
           group-hover:bg-gradient-to-br group-hover:from-gray-50 group-hover:to-blue-50
         `}
         onClick={onClick}
         style={{
-          animationName: isSelected ? 'pump' : undefined,
-          animationDuration: '0.4s',
-          animationTimingFunction: 'ease-in-out',
+          animationName: isSelected ? "pump" : undefined,
+          animationDuration: "0.4s",
+          animationTimingFunction: "ease-in-out",
         }}
       >
         {/* Subtle background glow effect */}
-        <div className={`
+        <div
+          className={`
           absolute inset-0 rounded-xl opacity-0 transition-opacity duration-300
-          ${isSelected ? 'opacity-100' : 'group-hover:opacity-50'}
+          ${isSelected ? "opacity-100" : "group-hover:opacity-50"}
           bg-gradient-to-br from-rose-100/50 via-pink-50/30 to-purple-50/20
-        `} />
-        
+        `}
+        />
+
         {/* Animated border on hover */}
         <div className="absolute inset-0 rounded-xl bg-gradient-to-r opacity-0 group-hover:opacity-20 transition-o-500 opacity duration-300 blur-sm" />
-        
+
         {/* Icon with animation */}
         <div className="relative z-10">
-          <Icon 
+          <Icon
             className={`
               w-8 h-8 transition-all duration-300
-              ${isSelected 
-                ? 'text-rose-600 transform scale-110' 
-                : 'text-gray-600 group-hover:text-red-600'
+              ${
+                isSelected
+                  ? "text-rose-600 transform scale-110"
+                  : "text-gray-600 group-hover:text-red-600"
               }
             `}
             style={{
-              animationName: isSelected ? 'iconPump' : undefined,
-              animationDuration: '0.4s',
-              animationTimingFunction: 'ease-in-out',
+              animationName: isSelected ? "iconPump" : undefined,
+              animationDuration: "0.4s",
+              animationTimingFunction: "ease-in-out",
             }}
           />
         </div>
-        
+
         {/* Label */}
-        <span className={`
+        <span
+          className={`
           text-sm font-medium text-center leading-tight relative z-10
           transition-colors duration-300
-          ${isSelected 
-            ? 'text-rose-700' 
-            : 'text-gray-700 group-hover:text-gray-900'
+          ${
+            isSelected
+              ? "text-rose-700"
+              : "text-gray-700 group-hover:text-gray-900"
           }
-        `}>
+        `}
+        >
           {label}
         </span>
-        
+
         {/* Selection indicator */}
         {isSelected && (
           <div className="absolute top-2 right-2 w-3 h-3 bg-rose-500 rounded-full shadow-sm animate-pulse" />
@@ -153,11 +164,37 @@ const PlaceType: React.FC = () => {
   const [selectedType, setSelectedType] = useState<string | null>(null);
 
   const placeTypes = [
-    "House", "Flat/apartment", "Barn", "Bed & breakfast", "Boat", "Cabin",
-    "Campervan/motorhome", "Casa particular", "Castle", "Cave", "Container",
-    "Cycladic home", "Dammuso", "Dome", "Earth home", "Farm", "Guest house",
-    "Hotel", "Houseboat", "Kezhan", "Minsu", "Riad", "Ryokan", "Shepherd's hut",
-    "Tent", "Tiny home", "Tower", "Tree house", "Trullo", "Windmill", "Yurt"
+    "House",
+    "Flat/apartment",
+    "Barn",
+    "Bed & breakfast",
+    "Boat",
+    "Cabin",
+    "Campervan/motorhome",
+    "Casa particular",
+    "Castle",
+    "Cave",
+    "Container",
+    "Cycladic home",
+    "Dammuso",
+    "Dome",
+    "Earth home",
+    "Farm",
+    "Guest house",
+    "Hotel",
+    "Houseboat",
+    "Kezhan",
+    "Minsu",
+    "Riad",
+    "Ryokan",
+    "Shepherd's hut",
+    "Tent",
+    "Tiny home",
+    "Tower",
+    "Tree house",
+    "Trullo",
+    "Windmill",
+    "Yurt",
   ];
 
   const handleCardClick = (type: string) => {
@@ -165,7 +202,7 @@ const PlaceType: React.FC = () => {
   };
 
   return (
-    <div className="min-h-fit pb-80 bg-gradient-to-br p-6 w-full">
+    <div className="min-h-fit pb-80 bg-gradient-to-br p-6 w-full relative top-20">
       <style>{`
         @keyframes slideInUp {
           from {
@@ -209,13 +246,15 @@ const PlaceType: React.FC = () => {
           animation: fadeInDown 0.8s ease-out;
         }
       `}</style>
-      
+
       {/* Enhanced Heading */}
       <div className="text-center mb-12 animate-fade-in-down">
-        <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-gray-800 via-gray-700 to-gray-600 bg-clip-text text-transparent mb-4">
-          Which of these best describes your place?
+        <h1 className="text-5xl md:text-6xl font-bold text-zinc-900 mb-6 tracking-tight">
+          Which of these Best Describes
+          <span className="block bg-clip-text text-transparent bg-gradient-to-r from-zinc-900 via-zinc-700 to-zinc-900">
+            your Place ?
+          </span>
         </h1>
-
       </div>
 
       {/* Grid */}
@@ -223,10 +262,10 @@ const PlaceType: React.FC = () => {
         {placeTypes.map((type, index) => {
           const Icon = iconMap[type] || Home;
           return (
-            <PlaceTypeCard 
-              key={type} 
-              label={type} 
-              Icon={Icon} 
+            <PlaceTypeCard
+              key={type}
+              label={type}
+              Icon={Icon}
               isSelected={selectedType === type}
               onClick={() => handleCardClick(type)}
               index={index}
@@ -234,12 +273,13 @@ const PlaceType: React.FC = () => {
           );
         })}
       </div>
-      
+
       {/* Selection Summary */}
       {selectedType && (
         <div className="fixed bottom-40 left-1/2 transform -translate-x-1/2 bg-white rounded-full shadow-xl border px-8 py-4 animate-fade-in-down">
           <p className="text-lg text-gray-700">
-            Selected: <span className="font-semibold text-rose-600">{selectedType}</span>
+            Selected:{" "}
+            <span className="font-semibold text-rose-600">{selectedType}</span>
           </p>
         </div>
       )}

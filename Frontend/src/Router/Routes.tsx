@@ -9,6 +9,8 @@ import AuthPage from "@/Pages/LoginSignup";
 import UnderConstruction from "@/Pages/UnderConstruction";
 import Wishlist from "@/Pages/Wishlist";
 import HostingProcess from "@/Pages/HostingProcess";
+import PlaceTypeSelector from "@/Pages/TypeOfPlace";
+import LocationPickerMap from "@/Pages/MapSelection";
 
 export default function AppRoutes() {
   return (
@@ -21,6 +23,8 @@ export default function AppRoutes() {
       <Route path="/auth" element={<AuthPage/>}/>
       <Route path="/wishlist" element={<Wishlist/>}/>
       <Route path="/become-host" element={<HostingProcess/>}/>
+      <Route path="/step" element={<PlaceTypeSelector/>}/>
+      <Route path="/locationPicker" element={<LocationPickerMap/>}/>
       <Route path="*" element={<UnderConstruction/>}/>
     </Routes>
   );
