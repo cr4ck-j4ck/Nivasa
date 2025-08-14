@@ -59,4 +59,9 @@
 .HostProcessNav{
     z-index: 10;
 }
+/* Choose Property Type Page CSS  */
+.ChoosePropertyHead{
+    margin-top: 4rem;
 }
+}
+

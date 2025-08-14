@@ -10,7 +10,7 @@ import UnderConstruction from "@/Pages/UnderConstruction";
 import Wishlist from "@/Pages/Wishlist";
 import HostingProcess from "@/Pages/HostingProcess";
 import PlaceTypeSelector from "@/Pages/TypeOfPlace";
-import LocationPickerMap from "@/Pages/MapSelection";
+import LocationPickerMap from "@/Components/HostingProcess/LocationPicker";
 
 export default function AppRoutes() {
   return (

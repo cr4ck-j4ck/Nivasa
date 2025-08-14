@@ -1,4 +1,4 @@
-.map-wrap {
+.map-wrapper {
   position: relative;
   width: 100%;
   height: calc(100vh - 77px);
@@ -40,10 +40,17 @@
   outline: none !important;
   padding: 8px 12px !important;
 }
+
 .svelte-bz0zu3{
   border: none !important;
 }
 .mapboxgl-ctrl-geocoder{
-  left: 100% !important;
-
+  left: 90% !important;
 }
+
+.locationPickerMap{
+  width: 50rem;
+  height: 40rem;
+  border-radius: 3rem;
+}
+
