@@ -82,7 +82,7 @@ export default function Map(): React.JSX.Element {
   }, [address.lng, address.lat, zoom]);
 
   return (
-    <div className="map-wrap mt-5 max-w-full max-h-[40rem] mx-auto">
+    <div className="map-wrap map-wrapper mt-5 max-w-full max-h-[40rem] mx-auto">
       <div ref={mapContainer} className="map max-h-[40rem] max-w-full" />
     </div>
   );

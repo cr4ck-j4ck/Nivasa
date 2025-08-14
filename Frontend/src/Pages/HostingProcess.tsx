@@ -4,6 +4,7 @@ import GetStarted from "./HostIntro";
 import TellUsAboutYourPlace from "./TellUsAboutYourPlace";
 import ChoosePropertyType from "./ChoosePropertyType";
 import PlaceType from "./TypeOfPlace";
+import Address from "@/Forms/ConfirmAddressForm";
 
 export default function HostingProcess() {
   const [step, setStep] = useState(0);
@@ -11,7 +12,8 @@ export default function HostingProcess() {
     <GetStarted key="get-started" />,
     <TellUsAboutYourPlace key="step-one" />,
     <ChoosePropertyType key={"step-two"}/>,
-    <PlaceType key={"step-three"}/>
+    <PlaceType key={"step-three"}/>,
+    <Address key={"step-four"}/>
   ];
   console.log(step)
   // Animation variants
@@ -64,13 +66,13 @@ export default function HostingProcess() {
           initial="enter"
           animate="center"
           exit="exit"
-          className="min-h-screen w-full"
+          className="min-h-fit w-full"
         >
           {ElementsArray[step]}
         </motion.div>
       </AnimatePresence>
 
-      <footer className="w-[100vw] h-24 flex flex-col fixed bottom-0 left-0 bg-white border-t border-gray-200">
+      <footer className="w-[100vw] h-24 flex flex-col fixed bottom-0 left-0 bg-white border-t border-gray-200 z-10">
         <div className="w-[100vw] h-2 bg-black"></div>
         <div className="items-center flex justify-between w-full h-full px-10">
           <div

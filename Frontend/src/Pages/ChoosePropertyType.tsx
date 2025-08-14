@@ -248,7 +248,7 @@ const PlaceType: React.FC = () => {
       `}</style>
 
       {/* Enhanced Heading */}
-      <div className="text-center mb-12 animate-fade-in-down">
+      <div className="text-center mb-12 animate-fade-in-down ChoosePropertyHead">
         <h1 className="text-5xl md:text-6xl font-bold text-zinc-900 mb-6 tracking-tight">
           Which of these Best Describes
           <span className="block bg-clip-text text-transparent bg-gradient-to-r from-zinc-900 via-zinc-700 to-zinc-900">
