@@ -40,13 +40,16 @@ app.use("/",OauthRoutes)
 app.use("/",ListingRoutes)
 app.use("/",UserRoutes)
 
-
 app.use(
   (err: ExpressError, req: Request, res: Response, next: NextFunction) => {
     console.log(err.message);
     res.send("got error from last middleware");
   }
 );
+app.get("/debug",(req,res)=>{
+  console.log("Got request");
+  res.send("Working Fine!");
+})
 
 app.listen(3000,() => {
   console.log(`started Listening on port ${PORT}`);
