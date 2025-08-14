@@ -47,7 +47,7 @@ const App: React.FC = () => {
   return (
     <div className={`min-h-screen ${location.pathname === "/" ? "marginTopClass":"marginTopForMobile"} flex flex-col items-center relative w-[100vw] h-fit`}>
       <AppRoutes />
-      {/* {isFooter && <Footer />} */}
+      {isFooter && <Footer />}
     <MobileBottomNavigation/>
     </div>
   );
