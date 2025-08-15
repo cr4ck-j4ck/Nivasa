@@ -5,15 +5,26 @@ import TellUsAboutYourPlace from "./TellUsAboutYourPlace";
 import ChoosePropertyType from "./ChoosePropertyType";
 import PlaceType from "./TypeOfPlace";
 import Address from "@/Forms/ConfirmAddressForm";
+import PropertyCapacity from "./PropertyCapacity";
+import firstStepVideo from "@/assets/first.mp4"
+import secondStepVideo from "@/assets/second.mp4"
+import ChooseAmenities from "./ChooseAmenities";
+import PhotoUpload from "./PhotoUpload";
 
 export default function HostingProcess() {
   const [step, setStep] = useState(0);
   const ElementsArray = [
-    <GetStarted key="get-started" />,
-    <TellUsAboutYourPlace key="step-one" />,
-    <ChoosePropertyType key={"step-two"}/>,
-    <PlaceType key={"step-three"}/>,
-    <Address key={"step-four"}/>
+//     <GetStarted key="get-started" />,
+//     <TellUsAboutYourPlace key="step-one" Heading="Tell us about your place" Description="In this step, we'll ask you which type of property you have and if
+//             guests will book the entire place or just a room. Then let us know
+//             the location and how many guests can stay." step={1} video={firstStepVideo}/>,
+//     <ChoosePropertyType key={"step-two"}/>,
+//     <PlaceType key={"step-three"}/>,
+//     <Address key={"step-four"}/>,
+//     <PropertyCapacity key={"step-five"}/>,
+//     <TellUsAboutYourPlace key="step-six" step={2} Heading="Make your place stand out" Description="In this step, you'll add some of the amenities your place offers, plus 5 or more photos. Then you'll create a title and description." video={secondStepVideo}/>,
+// <ChooseAmenities/>,
+<PhotoUpload/>
   ];
   console.log(step)
   // Animation variants

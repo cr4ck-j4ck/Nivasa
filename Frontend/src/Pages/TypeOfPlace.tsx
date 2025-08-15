@@ -90,20 +90,30 @@ const PlaceTypeSelector: React.FC = () => {
       
       <div className="w-full max-w-4xl relative top-30 pb-30">
         {/* Header Section */}
-        <div className="text-center mb-16 animate-slide-up">
+        {/* <div className="text-center mb-16 animate-slide-up">
           
-          <h1 className="text-5xl md:text-6xl font-bold text-zinc-900 mb-6 tracking-tight">
+          <div className="text-5xl md:text-6xl font-bold text-zinc-900  relative tracking-tight">
             What type of place will
-            <span className="block bg-clip-text text-transparent bg-gradient-to-r from-zinc-900 via-zinc-700 to-zinc-900">
+            <div className="block bg-clip-text text-transparent bg-gradient-to-r relative from-zinc-900 via-zinc-700 to-zinc-900">
               guests have?
-            </span>
-          </h1>
+            </div>
+          </div>
+          
+          <p className="text-xl text-zinc-600 max-w-2xl mx-auto leading-relaxed">
+            Choose the option that best describes your space
+          </p>
+        </div> */}
+    <div className="text-center mb-16">
+          
+          <div className="mb-4 text-5xl md:text-6xl font-bold text-zinc-900  relative tracking-tight">
+            <h1>What Type of Place will</h1>
+            <h2>guest Have ?</h2>
+          </div >
           
           <p className="text-xl text-zinc-600 max-w-2xl mx-auto leading-relaxed">
             Choose the option that best describes your space
           </p>
         </div>
-
         {/* Options Grid */}
         <div className="grid gap-6 mb-12">
           {options.map((option, index) => (
