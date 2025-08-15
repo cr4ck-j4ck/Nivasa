@@ -12,6 +12,7 @@ export async function viewListing(req: Request, res: Response) {
   const data = await ListingModel.findById(req.params.id)
     .populate("host")
     .lean();
+  console.log("Got request on the Listing Routes");
   if (data) {
     try {
       if (req.cookies.token) {
@@ -20,18 +21,25 @@ export async function viewListing(req: Request, res: Response) {
           process.env.JWT_SECRET!
         ) as Idecoded;
         const existingUser = await UserModel.findById(decoded.userId);
-        if (existingUser?.wishlist?.includes(data?._id as Types.ObjectId)) {
+        if (
+          data?._id &&
+          existingUser?.wishlist?.includes(data._id as Types.ObjectId)
+        ) {
           res.json({ ...data, isLiked: true });
           return;
+        } else {
+          res.json(data);
         }
-      }
+      }else{
+      res.json(data);
+    }
     } catch (err) {
       res.json(data);
       return;
     }
     res.json(data);
-  }else{
-    res.status(400).send("Ha bhai ma chuda")
+  } else {
+    res.status(400).send("Ha bhai ma chuda");
   }
 }
 
@@ -58,6 +66,8 @@ export async function viewListingViaCity(req: Request, res: Response) {
         res.send(responseWithLikes);
         return;
       }
+    }else{
+      res.json(dataObjects);
     }
   } catch {
     res.json(dataObjects);
