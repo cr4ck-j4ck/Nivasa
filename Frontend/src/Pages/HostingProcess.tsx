@@ -10,7 +10,7 @@ import firstStepVideo from "@/assets/first.mp4"
 import secondStepVideo from "@/assets/second.mp4"
 import ChooseAmenities from "./ChooseAmenities";
 import PhotoUpload from "./PhotoUpload";
-
+import ImageReorderer from "./ReArrangeImages";
 export default function HostingProcess() {
   const [step, setStep] = useState(0);
   const ElementsArray = [
@@ -24,9 +24,9 @@ export default function HostingProcess() {
 //     <PropertyCapacity key={"step-five"}/>,
 //     <TellUsAboutYourPlace key="step-six" step={2} Heading="Make your place stand out" Description="In this step, you'll add some of the amenities your place offers, plus 5 or more photos. Then you'll create a title and description." video={secondStepVideo}/>,
 // <ChooseAmenities/>,
-<PhotoUpload/>
+<PhotoUpload nextFunc={setStep}/>,
+<ImageReorderer/>
   ];
-  console.log(step)
   // Animation variants
   const variants = {
     enter: (direction: number) => ({
