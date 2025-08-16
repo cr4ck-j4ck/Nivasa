@@ -4,7 +4,7 @@ import { useState } from "react";
 import CameraPhoto from "@/assets/camera.avif";
 import PhotoModal from "@/Components/HostingProcess/UploadPhotoModal";
 
-export default function PhotoUpload() {
+export default function PhotoUpload({nextFunc}:{nextFunc:React.Dispatch<React.SetStateAction<number>>}) {
   const [clicked, setClicked] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
@@ -15,7 +15,7 @@ export default function PhotoUpload() {
   };
 
   return (
-    <div className="min-w-full h-full relative top-30">
+    <div className="min-w-full h-full relative top-30 ChoosePropertyHead">
       <style>{`
         @keyframes pump {
           0% { transform: scale(1); }
@@ -29,7 +29,7 @@ export default function PhotoUpload() {
         }
       `}</style>
 
-      <h1 className="showHead text-4xl mb-3 col-black">
+      <h1 className="showHead text-4xl mb-3 col-black ">
         Add Some Photos of Your Property
       </h1>
       <h3 className="showHead text-lg max-w-[50rem]">
@@ -49,7 +49,7 @@ export default function PhotoUpload() {
       </div>
 
       {/* Modal component */}
-      {showModal && <PhotoModal onClose={() => setShowModal(false)} />}
+      {showModal && <PhotoModal onClose={() => setShowModal(false)} nextFunc={nextFunc}/>}
     </div>
   );
 }
