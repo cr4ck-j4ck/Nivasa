@@ -29,9 +29,11 @@ export async function viewListing(req: Request, res: Response) {
           return;
         } else {
           res.json(data);
+          return;
         }
       }else{
       res.json(data);
+      return;
     }
     } catch (err) {
       res.json(data);
