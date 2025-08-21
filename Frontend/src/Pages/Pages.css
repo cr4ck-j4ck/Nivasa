@@ -64,8 +64,26 @@
     .ChoosePropertyHead {
         margin-top: 4rem;
     }
+    /* tell Us About your Place */
+    .tellUsAboutYourPlace{
+        top: 5rem;
+    }
 }
 
 .col-black {
     color: black;
+}
+
+.inDekh{
+    margin: -2rem;
+    margin-left: 0.2rem;
+
+}
+/* Week day price head */
+
+.weekdayPriceHead{
+     font-family: "Poppins", sans-serif;
+     font-weight: 500;
+     font-size:2.5rem;
+     color: black !important;
 }

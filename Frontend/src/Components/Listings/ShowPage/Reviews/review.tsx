@@ -132,7 +132,7 @@ const Review = ():React.JSX.Element => {
               <StarIcon sx={{ fontSize: 11 }} />
               <StarIcon sx={{ fontSize: 11 }} />
             </div>
-            <p className="reviewDesc mt-1">
+            <p className="reviewDesc text-[0.9rem] mt-1">
               He was awesome host, worth staying there, 10 mins distance from mahakaleshwar.
             </p>
           </div>

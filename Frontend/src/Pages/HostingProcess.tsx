@@ -6,26 +6,41 @@ import ChoosePropertyType from "./ChoosePropertyType";
 import PlaceType from "./TypeOfPlace";
 import Address from "@/Forms/ConfirmAddressForm";
 import PropertyCapacity from "./PropertyCapacity";
-import firstStepVideo from "@/assets/first.mp4"
-import secondStepVideo from "@/assets/second.mp4"
+import firstStepVideo from "@/assets/first.mp4";
+import secondStepVideo from "@/assets/second.mp4";
+import thirdStepVideo from "@/assets/third.mp4";
 import ChooseAmenities from "./ChooseAmenities";
 import PhotoUpload from "./PhotoUpload";
 import ImageReorderer from "./ReArrangeImages";
+import PropertyTitleInput from "./PropertyTitleAndDescription";
+import PropertyTag from "./PropertyTag";
+import WeekdayBasePrice from "./Hosting Pages/WeekDayBasePrice";
+
 export default function HostingProcess() {
   const [step, setStep] = useState(0);
   const ElementsArray = [
-//     <GetStarted key="get-started" />,
-//     <TellUsAboutYourPlace key="step-one" Heading="Tell us about your place" Description="In this step, we'll ask you which type of property you have and if
-//             guests will book the entire place or just a room. Then let us know
-//             the location and how many guests can stay." step={1} video={firstStepVideo}/>,
-//     <ChoosePropertyType key={"step-two"}/>,
-//     <PlaceType key={"step-three"}/>,
-//     <Address key={"step-four"}/>,
-//     <PropertyCapacity key={"step-five"}/>,
-//     <TellUsAboutYourPlace key="step-six" step={2} Heading="Make your place stand out" Description="In this step, you'll add some of the amenities your place offers, plus 5 or more photos. Then you'll create a title and description." video={secondStepVideo}/>,
-// <ChooseAmenities/>,
-<PhotoUpload nextFunc={setStep}/>,
-<ImageReorderer/>
+    //     <GetStarted key="get-started" />,
+    //     <TellUsAboutYourPlace key="step-one" Heading="Tell us about your place" Description="In this step, we'll ask you which type of property you have and if
+    //             guests will book the entire place or just a room. Then let us know
+    //             the location and how many guests can stay." step={1} video={firstStepVideo}/>,
+    //     <ChoosePropertyType key={"step-two"}/>,
+    //     <PlaceType key={"step-three"}/>,
+    //     <Address key={"step-four"}/>,
+    //     <PropertyCapacity key={"step-five"}/>,
+    //     <TellUsAboutYourPlace key="step-six" step={2} Heading="Make your place stand out" Description="In this step, you'll add some of the amenities your place offers, plus 5 or more photos. Then you'll create a title and description." video={secondStepVideo}/>,
+    // <ChooseAmenities key="step-seven"/>,
+    // <PhotoUpload nextFunc={setStep} key="step-eight"/>,
+    // <ImageReorderer key="step-nine"/>,
+    // <PropertyTitleInput key="step-ten" />,
+    // <PropertyTag key="step-eleven"/>,
+    // <TellUsAboutYourPlace
+    //  key="step-tweleve"
+    //  Heading="Finish up and publish"
+    //  Description="Finally, you’ll choose booking settings, set up pricing and publish your listing.."
+    //  step={3}
+    //  video={thirdStepVideo}
+    // />,
+    <WeekdayBasePrice/>
   ];
   // Animation variants
   const variants = {
@@ -58,16 +73,16 @@ export default function HostingProcess() {
   };
 
   return (
-    <div className="relative overflow-visible max-h-[100vh]">
+    <div className="relative overflow-visible max-h-[100vh] flex items-center">
       <div className="fixed top-0 left-0 bg-white HostProcessNav">
         <header className="flex items-center justify-between p-6 w-[100vw]">
-        <img
-          src="/Nivasa-removebg-preview.png"
-          alt="Nivasa Logo"
-          className="h-25"
-        />
-        <button className="exitButton relative z-12">Exit</button>
-      </header>
+          <img
+            src="/Nivasa-removebg-preview.png"
+            alt="Nivasa Logo"
+            className="h-25"
+          />
+          <button className="exitButton relative z-12">Exit</button>
+        </header>
       </div>
       <AnimatePresence custom={direction} mode="wait">
         <motion.div

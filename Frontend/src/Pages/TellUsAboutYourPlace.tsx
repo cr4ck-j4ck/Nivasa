@@ -10,7 +10,7 @@ interface ITellUsAboutYourPlace{
 
 const StepOne: React.FC<ITellUsAboutYourPlace> = ({step,Heading,Description,video}) => {
   return (
-    <div className="min-h-fit flex flex-col bg-white relative top-50">
+    <div className="min-h-fit flex flex-col bg-white relative top-40 tellUsAboutYourPlace">
 
       {/* Main Content */}
       <main className="flex flex-col-reverse md:flex-row flex-1 items-center justify-between px-6 md:px-20 gap-8  min-h-[643px]">
