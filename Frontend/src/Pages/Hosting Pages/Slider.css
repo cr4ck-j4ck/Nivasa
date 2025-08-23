@@ -1,0 +1,30 @@
+/* Slider.css */
+
+.custom-slider {
+  -webkit-appearance: none;
+  height: 4px;
+  border-radius: 9999px;
+  outline: none;
+  margin-top: 8px;
+}
+
+.custom-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  background-color: black;
+  border-radius: 50%;
+  cursor: pointer;
+  position: relative;
+  border: none;
+}
+
+.custom-slider::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  background-color: black;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+}

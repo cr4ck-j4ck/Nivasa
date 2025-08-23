@@ -104,12 +104,12 @@ const WeekdayPriceInput: React.FC = () => {
         <div className="relative w-full max-w-md mx-auto">
           <div>
             <button
-            className="text-lg text-gray-600 text-center w-full mt-3 "
-            onClick={() => setShowDetails(!showDetails)}
-          >
-            Guest price before taxes ₹{formatIN(guestPrice)}{" "}
-            {showDetails ? "▲" : "▼"}
-          </button>
+              className="text-lg text-gray-600 text-center w-full mt-3 "
+              onClick={() => setShowDetails(!showDetails)}
+            >
+              Guest price before taxes ₹{formatIN(guestPrice)}{" "}
+              {showDetails ? "▲" : "▼"}
+            </button>
           </div>
 
           {/* Price Breakdown */}

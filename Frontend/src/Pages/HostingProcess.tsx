@@ -15,7 +15,7 @@ import ImageReorderer from "./ReArrangeImages";
 import PropertyTitleInput from "./PropertyTitleAndDescription";
 import PropertyTag from "./PropertyTag";
 import WeekdayBasePrice from "./Hosting Pages/WeekDayBasePrice";
-
+import WeekendPrice from "./Hosting Pages/WeekendPrice";
 export default function HostingProcess() {
   const [step, setStep] = useState(0);
   const ElementsArray = [
@@ -40,7 +40,8 @@ export default function HostingProcess() {
     //  step={3}
     //  video={thirdStepVideo}
     // />,
-    <WeekdayBasePrice/>
+    // <WeekdayBasePrice/>,
+    <WeekendPrice basePrice={2000}/>
   ];
   // Animation variants
   const variants = {
