@@ -1,8 +1,8 @@
 // @ts-nocheck
 
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { FaGem, FaTree, FaHeart } from "react-icons/fa";
+import { motion } from "framer-motion";
+import { FaGem, FaHeart } from "react-icons/fa";
 import { MdNaturePeople, MdHistoryEdu } from "react-icons/md";
 import { BsHouseDoorFill } from "react-icons/bs";
 import { HiOutlinePhotograph } from "react-icons/hi";
@@ -65,26 +65,26 @@ export default function CastleHighlights(): JSX.Element {
   };
 
   return (
-    <div className="max-w-xl mx-auto px-4 py-10 relative top-50">
+    <div className="max-w-6xl mx-auto px-4 py-10 relative top-50">
       <motion.div
         initial={{ opacity: 0, y: 80 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ type: "spring", stiffness: 70, damping: 15 }}
         className="text-center mb-6"
       >
-        <h1 className="text-2xl font-bold">Next, let's describe your castle</h1>
+        <h1 className="text-5xl my-5 ChoosePropertyHead font-bold">Next, let's describe your castle</h1>
         <p className="text-gray-500">
           Choose up to 2 highlights. We'll use these to get your description started.
         </p>
       </motion.div>
 
       <motion.div
-        className="flex flex-wrap justify-center gap-4"
+        className="flex flex-wrap justify-center gap-4 max-w-xl"
         variants={containerVariants}
         initial="hidden"
         animate="visible"
       >
-        {options.map((option, index) => {
+        {options.map((option) => {
           const isSelected = selected.includes(option.label);
           return (
             <motion.button

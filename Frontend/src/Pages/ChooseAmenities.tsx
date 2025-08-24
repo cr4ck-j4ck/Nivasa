@@ -149,7 +149,7 @@ const Amenities: React.FC = () => {
   ];
 
   return (
-    <div className="min-h-fit p-8 min-w-[60vw] relative top-20 pb-60">
+    <div className="min-h-fit p-8 min-w-[60vw] relative top-100 pb-60">
       <style>{`
         @keyframes slideInUp {
           from {
@@ -196,7 +196,7 @@ const Amenities: React.FC = () => {
         }
       `}</style>
 
-      <h1 className="text-5xl md:text-5xl showHead font-bold text-center text-zinc-900 mb-14 animate-fade-in-down">
+      <h1 className="text-5xl md:text-5xl tracking-tight ChoosePropertyHead font-bold text-center text-zinc-900 mb-14 animate-fade-in-down">
         Tell guests what your place has to offer
       </h1>
 

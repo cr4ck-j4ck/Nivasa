@@ -99,7 +99,7 @@ const PhotoModal: React.FC<PhotoModalProps> = ({ onClose ,nextFunc }) => {
         <img
           src={menPointingDown}
           alt="menPointingDown"
-          className="absolute -top-13 h-[40rem] z-10 animate-bounceIn pointer-events-none"
+          className="absolute -top-3 h-[40rem] z-10 animate-bounceIn pointer-events-none"
         />
       )}
 

@@ -19,29 +19,46 @@ import WeekendPrice from "./Hosting Pages/WeekendPrice";
 export default function HostingProcess() {
   const [step, setStep] = useState(0);
   const ElementsArray = [
-    //     <GetStarted key="get-started" />,
-    //     <TellUsAboutYourPlace key="step-one" Heading="Tell us about your place" Description="In this step, we'll ask you which type of property you have and if
-    //             guests will book the entire place or just a room. Then let us know
-    //             the location and how many guests can stay." step={1} video={firstStepVideo}/>,
-    //     <ChoosePropertyType key={"step-two"}/>,
-    //     <PlaceType key={"step-three"}/>,
-    //     <Address key={"step-four"}/>,
-    //     <PropertyCapacity key={"step-five"}/>,
-    //     <TellUsAboutYourPlace key="step-six" step={2} Heading="Make your place stand out" Description="In this step, you'll add some of the amenities your place offers, plus 5 or more photos. Then you'll create a title and description." video={secondStepVideo}/>,
-    // <ChooseAmenities key="step-seven"/>,
-    // <PhotoUpload nextFunc={setStep} key="step-eight"/>,
-    // <ImageReorderer key="step-nine"/>,
-    // <PropertyTitleInput key="step-ten" />,
-    // <PropertyTag key="step-eleven"/>,
-    // <TellUsAboutYourPlace
-    //  key="step-tweleve"
-    //  Heading="Finish up and publish"
-    //  Description="Finally, you’ll choose booking settings, set up pricing and publish your listing.."
-    //  step={3}
-    //  video={thirdStepVideo}
-    // />,
-    // <WeekdayBasePrice/>,
-    <WeekendPrice basePrice={2000}/>
+    <GetStarted key="get-started" />,
+    <TellUsAboutYourPlace
+      key="step-one"
+      Heading="Tell us about your place"
+      Description="In this step, we'll ask you which type of property you have and if
+                guests will book the entire place or just a room. Then let us know
+                the location and how many guests can stay."
+      step={1}
+      video={firstStepVideo}
+    />,
+    <ChoosePropertyType key={"step-two"} />,
+    <PlaceType key={"step-three"} />,
+    <Address key={"step-four"} />,
+    <PropertyCapacity key={"step-five"} />,
+    <TellUsAboutYourPlace
+      key="step-six"
+      step={2}
+      Heading="Make your place stand out"
+      Description="In this step, you'll add some of the amenities your place offers, plus 5 or more photos. Then you'll create a title and description."
+      video={secondStepVideo}
+    />,
+    <ChooseAmenities key="step-seven" />,
+    <PhotoUpload nextFunc={setStep} key="step-eight" />,
+    <ImageReorderer key="step-nine" />,
+    <PropertyTitleInput
+      key="step-ten"
+      heading="Now, let's give your castle a title"
+      midHeading="Short titles work best. Have fun with it – you can always change it later."
+      textLimit={32}
+    />,
+    <PropertyTag key="step-eleven" />,
+    <TellUsAboutYourPlace
+      key="step-tweleve"
+      Heading="Finish up and publish"
+      Description="Finally, you’ll choose booking settings, set up pricing and publish your listing.."
+      step={3}
+      video={thirdStepVideo}
+    />,
+    <WeekdayBasePrice />,
+    <WeekendPrice basePrice={2000} />,
   ];
   // Animation variants
   const variants = {
@@ -112,7 +129,7 @@ export default function HostingProcess() {
             className="text-white bg-[#232323] px-7 py-3 rounded-md"
             onClick={nextStep}
           >
-            Next
+            {step === ElementsArray.length - 1 ? "Create Listing" : "Next"}
           </button>
         </div>
       </footer>
