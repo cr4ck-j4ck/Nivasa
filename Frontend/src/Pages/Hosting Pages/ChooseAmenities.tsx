@@ -28,6 +28,8 @@ import {
   FireExtinguisher,
   ShieldAlert,
 } from "lucide-react";
+import { useHostingProcessStore } from "@/Store/HostingProcessStore";
+import { useShallow } from "zustand/react/shallow";
 
 
 interface AmenityCardProps {
@@ -94,14 +96,17 @@ const AmenityCard: React.FC<AmenityCardProps> = ({
 };
 
 const Amenities: React.FC = () => {
-  const [selected, setSelected] = useState<string[]>([]);
+  const {amenities, setAmenities} = useHostingProcessStore(useShallow(state => ({  amenities: state.listingInfo.amenities,
+      setAmenities: state.setAmenities,
+    })));
 
   const toggleAmenity = (amenity: string) => {
-    setSelected((prev) =>
-      prev.includes(amenity)
-        ? prev.filter((item) => item !== amenity)
-        : [...prev, amenity]
-    );
+    if(amenities.includes(amenity)) {
+      // remove amenity
+      useHostingProcessStore.getState().removeAmenity(amenity);
+      return;
+    }
+    setAmenities(amenity);
   };
 
   const sections = [
@@ -211,7 +216,7 @@ const Amenities: React.FC = () => {
                 key={item.label}
                 label={item.label}
                 Icon={item.icon}
-                isSelected={selected.includes(item.label)}
+                isSelected={amenities.includes(item.label)}
                 onClick={() => toggleAmenity(item.label)}
                 index={index}
               />

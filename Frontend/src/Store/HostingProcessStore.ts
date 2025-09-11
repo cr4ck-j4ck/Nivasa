@@ -39,7 +39,7 @@ interface IlistingInfo {
   title: string | null;
   description: string | null;
   propertyType: string | null;
-  typeOfPlace: string | null;
+  typeOfPlace: string;
   capacity: Icapacity;
   amenities: string[];
   pricing: IPricing;
@@ -66,7 +66,8 @@ interface HostingProcessState {
   setCapacity: (capacity: Icapacity) => void;
   setTitle: (title: string) => void;
   setDescription: (description: string) => void;
-  setAmenities: (amenities: string[]) => void;
+  setAmenities: (amenities: string) => void;
+  removeAmenity: (amenity: string) => void;
   setPricing: (pricing: IPricing) => void;
   addImage: (image: HostingImage[]) => void;
   removeImage: (id: string) => void;
@@ -86,7 +87,7 @@ export const useHostingProcessStore = create<HostingProcessState>((set, get) => 
     title: null,
     description: null,
     propertyType: null,
-    typeOfPlace: null,
+    typeOfPlace: "room",
     capacity: {
       guests: null,
       bedrooms: null,
@@ -132,7 +133,12 @@ export const useHostingProcessStore = create<HostingProcessState>((set, get) => 
     
   setAmenities: (amenities) =>
     set((state) => ({
-      listingInfo: { ...state.listingInfo, amenities },
+      listingInfo: { ...state.listingInfo, amenities:[...state.listingInfo.amenities,amenities]},
+    })),
+    
+  removeAmenity: (amenities) =>
+    set((state) => ({
+      listingInfo: { ...state.listingInfo, amenities: state.listingInfo.amenities.filter(amenity => amenity !== amenities) },
     })),
     
   setPricing: (pricing) =>
@@ -256,7 +262,7 @@ export const useHostingProcessStore = create<HostingProcessState>((set, get) => 
       title: null,
       description: null,
       propertyType: null,
-      typeOfPlace: null,
+      typeOfPlace: "room",
       capacity: {
         guests: null,
         bedrooms: null,
