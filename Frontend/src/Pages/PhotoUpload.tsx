@@ -15,7 +15,7 @@ export default function PhotoUpload({nextFunc}:{nextFunc:React.Dispatch<React.Se
   };
 
   return (
-    <div className="min-w-full h-full relative top-30 ChoosePropertyHead">
+    <div className="min-w-full h-full relative top-40 ChoosePropertyHead">
       <style>{`
         @keyframes pump {
           0% { transform: scale(1); }

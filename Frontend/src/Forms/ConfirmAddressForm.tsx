@@ -3,7 +3,7 @@ import LocationPickerMap from "@/Components/HostingProcess/LocationPicker";
 
 export default function ConfirmAddress() {
   return (
-    <div className="relative pb-40 top-60">
+    <div className="relative pb-40 top-80">
       <div className="rounded-2xl p-6 w-full max-w-2xl ChoosePropertyHead tracking-tight mx-auto relative top-30">
         <h1 className="text-5xl font-bold mb-2">Confirm your address</h1>
         <p className="text-gray-600 mb-6">

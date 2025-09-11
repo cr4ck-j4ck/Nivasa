@@ -20,18 +20,32 @@ interface Iaddress {
 interface HostingImage {
   id: string; // unique identifier (e.g., uuid)
   file: File; // or URL string if already uploaded
-  url:string;
-  order:number;
+  url: string;
+  order: number;
+}
+
+interface Icapacity {
+  guests: number | null;
+  bedrooms: number | null;
+  beds: number | null;
+  bathrooms: number | null;
+}
+
+interface IlistingInfo {
+  title: string | null;
+  propertyType: string | null;
+  typeOfPlace: string | null;
+  capacity:Icapacity;
+  
 }
 
 interface HostingProcessState {
   address: Iaddress | null;
   coordinates: Coordinates | null;
   images: HostingImage[];
-
   setAddress: (address: Iaddress) => void;
   setCoordinates: (coords: Coordinates) => void;
-
+  listingInfo: IlistingInfo;
   addImage: (image: HostingImage[]) => void;
   removeImage: (id: string) => void;
   reorderImages: (images: HostingImage[]) => void;
@@ -42,8 +56,8 @@ interface HostingProcessState {
 export const useHostingProcessStore = create<HostingProcessState>((set) => ({
   address: null,
   coordinates: null,
+  listingInfo: {},
   images: [],
-
   // Update address
   setAddress: (address) => set({ address }),
 
