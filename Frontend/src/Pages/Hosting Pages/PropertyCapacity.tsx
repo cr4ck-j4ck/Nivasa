@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useHostingProcessStore } from "@/Store/HostingProcessStore";
 
 const Counter = ({
   title,
@@ -60,10 +61,21 @@ const Counter = ({
 };
 
 const PropertyCapacity = () => {
-  const [guests, setGuests] = useState(4);
-  const [bedrooms, setBedrooms] = useState(1);
-  const [beds, setBeds] = useState(1);
-  const [bathrooms, setBathrooms] = useState(1);
+  const { listingInfo, setCapacity } = useHostingProcessStore();
+  const [guests, setGuests] = useState(listingInfo.capacity.guests || 4);
+  const [bedrooms, setBedrooms] = useState(listingInfo.capacity.bedrooms || 1);
+  const [beds, setBeds] = useState(listingInfo.capacity.beds || 1);
+  const [bathrooms, setBathrooms] = useState(listingInfo.capacity.bathrooms || 1);
+
+  // Update store whenever values change
+  useEffect(() => {
+    setCapacity({
+      guests,
+      bedrooms,
+      beds,
+      bathrooms,
+    });
+  }, [guests, bedrooms, beds, bathrooms, setCapacity]);
 
   return (
     <div className="min-h-screen w-full flex items-center justify-center bg-white px-6 py-12">

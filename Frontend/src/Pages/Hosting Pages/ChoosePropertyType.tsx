@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useHostingProcessStore } from "@/Store/HostingProcessStore";
 import {
   Home,
   Building2,
@@ -161,7 +162,8 @@ const PlaceTypeCard: React.FC<PlaceTypeCardProps> = ({
 
 // Main component
 const PlaceType: React.FC = () => {
-  const [selectedType, setSelectedType] = useState<string | null>(null);
+  const { listingInfo, setPropertyType } = useHostingProcessStore();
+  const [selectedType, setSelectedType] = useState<string | null>(listingInfo.propertyType);
 
   const placeTypes = [
     "House",
@@ -198,7 +200,9 @@ const PlaceType: React.FC = () => {
   ];
 
   const handleCardClick = (type: string) => {
-    setSelectedType(type === selectedType ? null : type);
+    const newType = type === selectedType ? null : type;
+    setSelectedType(newType);
+    setPropertyType(newType || "");
   };
 
   return (

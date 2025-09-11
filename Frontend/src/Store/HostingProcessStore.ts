@@ -16,7 +16,6 @@ interface Iaddress {
   postalCode: string;
 }
 
-// 👇 Define Image type (can be File or string if uploaded to server/CDN)
 interface HostingImage {
   id: string; // unique identifier (e.g., uuid)
   file: File; // or URL string if already uploaded
@@ -31,54 +30,244 @@ interface Icapacity {
   bathrooms: number | null;
 }
 
+interface IPricing {
+  weekdayPrice: number | null;
+  weekendPrice: number | null;
+}
+
 interface IlistingInfo {
   title: string | null;
+  description: string | null;
   propertyType: string | null;
   typeOfPlace: string | null;
-  capacity:Icapacity;
-  
+  capacity: Icapacity;
+  amenities: string[];
+  pricing: IPricing;
+}
+
+// Step validation interface
+interface StepValidation {
+  isValid: boolean;
+  requiredFields: string[];
 }
 
 interface HostingProcessState {
+  // Data fields
   address: Iaddress | null;
   coordinates: Coordinates | null;
   images: HostingImage[];
+  listingInfo: IlistingInfo;
+  
+  // Actions
   setAddress: (address: Iaddress) => void;
   setCoordinates: (coords: Coordinates) => void;
-  listingInfo: IlistingInfo;
+  setPropertyType: (type: string) => void;
+  setTypeOfPlace: (type: string) => void;
+  setCapacity: (capacity: Icapacity) => void;
+  setTitle: (title: string) => void;
+  setDescription: (description: string) => void;
+  setAmenities: (amenities: string[]) => void;
+  setPricing: (pricing: IPricing) => void;
   addImage: (image: HostingImage[]) => void;
   removeImage: (id: string) => void;
   reorderImages: (images: HostingImage[]) => void;
-
+  
+  // Validation
+  validateStep: (step: number) => StepValidation;
+  
   reset: () => void;
 }
 
-export const useHostingProcessStore = create<HostingProcessState>((set) => ({
+export const useHostingProcessStore = create<HostingProcessState>((set, get) => ({
+  // Initial state
   address: null,
   coordinates: null,
-  listingInfo: {},
+  listingInfo: {
+    title: null,
+    description: null,
+    propertyType: null,
+    typeOfPlace: null,
+    capacity: {
+      guests: null,
+      bedrooms: null,
+      beds: null,
+      bathrooms: null,
+    },
+    amenities: [],
+    pricing: {
+      weekdayPrice: null,
+      weekendPrice: null,
+    },
+  },
   images: [],
-  // Update address
+
+  // Actions
   setAddress: (address) => set({ address }),
-
-  // Update coordinates
   setCoordinates: (coords) => set({ coordinates: coords }),
+  
+  setPropertyType: (type) =>
+    set((state) => ({
+      listingInfo: { ...state.listingInfo, propertyType: type },
+    })),
+    
+  setTypeOfPlace: (type) =>
+    set((state) => ({
+      listingInfo: { ...state.listingInfo, typeOfPlace: type },
+    })),
+    
+  setCapacity: (capacity) =>
+    set((state) => ({
+      listingInfo: { ...state.listingInfo, capacity },
+    })),
+    
+  setTitle: (title) =>
+    set((state) => ({
+      listingInfo: { ...state.listingInfo, title },
+    })),
+    
+  setDescription: (description) =>
+    set((state) => ({
+      listingInfo: { ...state.listingInfo, description },
+    })),
+    
+  setAmenities: (amenities) =>
+    set((state) => ({
+      listingInfo: { ...state.listingInfo, amenities },
+    })),
+    
+  setPricing: (pricing) =>
+    set((state) => ({
+      listingInfo: { ...state.listingInfo, pricing },
+    })),
 
-  // Add image
   addImage: (image) =>
     set((state) => ({
       images: [...state.images, ...image],
     })),
 
-  // Remove image by id
   removeImage: (id) =>
     set((state) => ({
       images: state.images.filter((img) => img.id !== id),
     })),
 
-  // Reorder images (useful for drag & drop)
   reorderImages: (images) => set({ images }),
 
+  // Validation logic for each step
+  validateStep: (step: number): StepValidation => {
+    const state = get();
+    
+    switch (step) {
+      case 0: // Get Started - always valid
+        return { isValid: true, requiredFields: [] };
+        
+      case 1: // Tell us about your place intro - always valid
+        return { isValid: true, requiredFields: [] };
+        
+      case 2: // Choose Property Type
+        return {
+          isValid: !!state.listingInfo.propertyType,
+          requiredFields: state.listingInfo.propertyType ? [] : ['propertyType'],
+        };
+        
+      case 3: // Type of Place
+        return {
+          isValid: !!state.listingInfo.typeOfPlace,
+          requiredFields: state.listingInfo.typeOfPlace ? [] : ['typeOfPlace'],
+        };
+        
+      case 4: // Address
+        return {
+          isValid: !!state.address && !!state.address.city && !!state.address.state,
+          requiredFields: !state.address ? ['address'] : [],
+        };
+        
+      case 5: // Property Capacity
+      {
+          const capacity = state.listingInfo.capacity;
+        const hasValidCapacity = capacity.guests && capacity.guests > 0 &&
+                                capacity.bedrooms && capacity.bedrooms > 0 &&
+                                capacity.beds && capacity.beds > 0 &&
+                                capacity.bathrooms && capacity.bathrooms > 0;
+        return {
+          isValid: !!hasValidCapacity,
+          requiredFields: hasValidCapacity ? [] : ['capacity'],
+        };
+      }
+        
+      case 6: // Make your place stand out intro - always valid
+        return { isValid: true, requiredFields: [] };
+        
+      case 7: // Choose Amenities
+        return {
+          isValid: state.listingInfo.amenities.length > 0,
+          requiredFields: state.listingInfo.amenities.length > 0 ? [] : ['amenities'],
+        };
+        
+      case 8: // Photo Upload
+        return {
+          isValid: state.images.length >= 5,
+          requiredFields: state.images.length >= 5 ? [] : ['images'],
+        };
+        
+      case 9: // Reorder Images - valid if we have images
+        return {
+          isValid: state.images.length >= 5,
+          requiredFields: state.images.length >= 5 ? [] : ['images'],
+        };
+        
+      case 10: // Property Title
+        return {
+          isValid: !!state.listingInfo.title && state.listingInfo.title.trim().length > 0,
+          requiredFields: !state.listingInfo.title || state.listingInfo.title.trim().length === 0 ? ['title'] : [],
+        };
+        
+      case 11: // Property Description/Tag
+        return {
+          isValid: !!state.listingInfo.description && state.listingInfo.description.trim().length > 0,
+          requiredFields: !state.listingInfo.description || state.listingInfo.description.trim().length === 0 ? ['description'] : [],
+        };
+        
+      case 12: // Finish up and publish intro - always valid
+        return { isValid: true, requiredFields: [] };
+        
+      case 13: // Weekday Base Price
+        return {
+          isValid: !!state.listingInfo.pricing.weekdayPrice && state.listingInfo.pricing.weekdayPrice > 0,
+          requiredFields: !state.listingInfo.pricing.weekdayPrice || state.listingInfo.pricing.weekdayPrice <= 0 ? ['weekdayPrice'] : [],
+        };
+        
+      case 14: // Weekend Price
+        return {
+          isValid: !!state.listingInfo.pricing.weekendPrice && state.listingInfo.pricing.weekendPrice > 0,
+          requiredFields: !state.listingInfo.pricing.weekendPrice || state.listingInfo.pricing.weekendPrice <= 0 ? ['weekendPrice'] : [],
+        };
+        
+      default:
+        return { isValid: true, requiredFields: [] };
+    }
+  },
+
   // Reset to initial state
-  reset: () => set({ address: null, coordinates: null, images: [] }),
+  reset: () => set({ 
+    address: null, 
+    coordinates: null, 
+    images: [],
+    listingInfo: {
+      title: null,
+      description: null,
+      propertyType: null,
+      typeOfPlace: null,
+      capacity: {
+        guests: null,
+        bedrooms: null,
+        beds: null,
+        bathrooms: null,
+      },
+      amenities: [],
+      pricing: {
+        weekdayPrice: null,
+        weekendPrice: null,
+      },
+    },
+  }),
 }));

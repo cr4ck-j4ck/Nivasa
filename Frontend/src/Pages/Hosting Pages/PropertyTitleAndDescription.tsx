@@ -1,4 +1,5 @@
 import React, { useState, type ChangeEvent } from "react";
+import { useHostingProcessStore } from "@/Store/HostingProcessStore";
 
 interface IpropertyTitleInput {
   heading: string;
@@ -11,10 +12,13 @@ export default function PropertyTitleInput({
   midHeading,
   textLimit,
 }: IpropertyTitleInput): React.JSX.Element {
-  const [title, setTitle] = useState<string>("");
+  const { listingInfo, setTitle: setStoreTitle } = useHostingProcessStore();
+  const [title, setTitle] = useState<string>(listingInfo.title || "");
 
   const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    setTitle(e.target.value);
+    const newTitle = e.target.value;
+    setTitle(newTitle);
+    setStoreTitle(newTitle);
   };
 
   return (

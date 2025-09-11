@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Home, DoorOpen, Users } from "lucide-react";
+import { useHostingProcessStore } from "@/Store/HostingProcessStore";
 
 interface Option {
   id: string;
@@ -10,7 +11,8 @@ interface Option {
 }
 
 const PlaceTypeSelector: React.FC = () => {
-  const [selected, setSelected] = useState<string>("room");
+  const { listingInfo, setTypeOfPlace } = useHostingProcessStore();
+  const [selected, setSelected] = useState<string>(listingInfo.typeOfPlace || "room");
   const [hoveredCard, setHoveredCard] = useState<string | null>(null);
 
   const options: Option[] = [
@@ -39,6 +41,7 @@ const PlaceTypeSelector: React.FC = () => {
 
   const handleOptionClick = (id: string): void => {
     setSelected(id);
+    setTypeOfPlace(id);
   };
 
   return (
@@ -103,7 +106,7 @@ const PlaceTypeSelector: React.FC = () => {
             Choose the option that best describes your space
           </p>
         </div> */}
-    <div className="text-center mb-16">
+    <div className="text-center mb-16 pt-10">
           
           <div className="mb-4 text-5xl md:text-6xl font-bold text-zinc-900  relative tracking-tight">
             <h1>What Type of Place will</h1>

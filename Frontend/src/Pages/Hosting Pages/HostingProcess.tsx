@@ -8,16 +8,19 @@ import Address from "@/Forms/ConfirmAddressForm";
 import PropertyCapacity from "./PropertyCapacity";
 import firstStepVideo from "@/assets/first.mp4";
 import secondStepVideo from "@/assets/second.mp4";
-import thirdStepVideo from "@/assets/third.mp4";
+import thirdStepVideo from "@/assets/first.mp4";
 import ChooseAmenities from "./ChooseAmenities";
 import PhotoUpload from "./PhotoUpload";
 import ImageReorderer from "./ReArrangeImages";
 import PropertyTitleInput from "./PropertyTitleAndDescription";
 import PropertyTag from "./PropertyTag";
-import WeekdayBasePrice from "./Hosting Pages/WeekDayBasePrice";
-import WeekendPrice from "./Hosting Pages/WeekendPrice";
+import WeekdayBasePrice from "./WeekDayBasePrice";
+import WeekendPrice from "./WeekendPrice"
+import { useHostingProcessStore } from "@/Store/HostingProcessStore";
 export default function HostingProcess() {
   const [step, setStep] = useState(0);
+  const { validateStep } = useHostingProcessStore();
+  
   const ElementsArray = [
     <GetStarted key="get-started" />,
     <TellUsAboutYourPlace
@@ -53,13 +56,20 @@ export default function HostingProcess() {
     <TellUsAboutYourPlace
       key="step-tweleve"
       Heading="Finish up and publish"
-      Description="Finally, you’ll choose booking settings, set up pricing and publish your listing.."
+      Description="Finally, you'll choose booking settings, set up pricing and publish your listing.."
       step={3}
       video={thirdStepVideo}
     />,
-    <WeekdayBasePrice />,
-    <WeekendPrice basePrice={2000} />,
+    <WeekdayBasePrice key="step-thirteen" />,
+    <WeekendPrice key="step-fourteen" basePrice={2000} />,
   ];
+
+  // Calculate progress percentage
+  const progressPercentage = ((step + 1) / ElementsArray.length) * 100;
+  
+  // Get validation for current step
+  const currentStepValidation = validateStep(step);
+  const canProceed = currentStepValidation.isValid;
   // Animation variants
   const variants = {
     enter: (direction: number) => ({
@@ -117,20 +127,50 @@ export default function HostingProcess() {
       </AnimatePresence>
 
       <footer className="w-[100vw] h-24 flex flex-col fixed bottom-0 left-0 bg-white border-t border-gray-200 z-10">
-        <div className="w-[100vw] h-2 bg-black"></div>
+        {/* Progress Bar */}
+        <div className="w-[100vw] h-2 bg-gray-200 relative overflow-hidden">
+          <motion.div
+            className="h-full bg-gradient-to-r from-gray-800 to-black"
+            initial={{ width: 0 }}
+            animate={{ width: `${progressPercentage}%` }}
+            transition={{ duration: 0.5, ease: "easeInOut" }}
+          />
+        </div>
+        
         <div className="items-center flex justify-between w-full h-full px-10">
           <div
-            className="font-semibold underline text-lg cursor-pointer"
-            onClick={prevStep}
+            className={`font-semibold underline text-lg cursor-pointer transition-opacity duration-300 ${
+              step === 0 ? "opacity-50 cursor-not-allowed" : "opacity-100"
+            }`}
+            onClick={step > 0 ? prevStep : undefined}
           >
             Back
           </div>
-          <button
-            className="text-white bg-[#232323] px-7 py-3 rounded-md"
-            onClick={nextStep}
-          >
-            {step === ElementsArray.length - 1 ? "Create Listing" : "Next"}
-          </button>
+          
+          <div className="flex items-center gap-4">
+            {/* Validation message */}
+            {!canProceed && currentStepValidation.requiredFields.length > 0 && (
+              <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                className="text-sm text-gray-500 italic"
+              >
+                Please complete all required fields
+              </motion.div>
+            )}
+            
+            <button
+              className={`px-7 py-3 rounded-md font-medium transition-all duration-300 ${
+                canProceed
+                  ? "text-white bg-[#232323] hover:bg-[#1a1a1a] transform hover:scale-105"
+                  : "text-gray-400 bg-gray-200 !cursor-not-allowed"
+              }`}
+              onClick={canProceed ? nextStep : undefined}
+              disabled={!canProceed}
+            >
+              {step === ElementsArray.length - 1 ? "Create Listing" : "Next"}
+            </button>
+          </div>
         </div>
       </footer>
     </div>

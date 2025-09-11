@@ -8,8 +8,8 @@ import ProfileDashboard from "@/Pages/HostDashboard";
 import AuthPage from "@/Pages/LoginSignup";
 import UnderConstruction from "@/Pages/UnderConstruction";
 import Wishlist from "@/Pages/Wishlist";
-import HostingProcess from "@/Pages/HostingProcess";
-import PlaceTypeSelector from "@/Pages/TypeOfPlace";
+import HostingProcess from "@/Pages/Hosting Pages/HostingProcess";
+import PlaceTypeSelector from "@/Pages/Hosting Pages/TypeOfPlace";
 import LocationPickerMap from "@/Components/HostingProcess/LocationPicker";
 
 export default function AppRoutes() {
