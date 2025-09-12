@@ -6,10 +6,11 @@ import "@maptiler/sdk/dist/maptiler-sdk.css";
 import "@maptiler/geocoding-control/style.css";
 import Nivasa from "/Nivasa-removebg-preview.png";
 import { useHostingProcessStore } from "@/Store/HostingProcessStore";
+import { useShallow } from "zustand/react/shallow";
 export default function LocationPickerMap() {
   const defaultLat = 28.6448; // Default: New Delhi
   const defaultLng = 77.216721;
-  const setAddress = useHostingProcessStore((state) => state.setAddress);
+  const {setAddress,setCoordinates} = useHostingProcessStore(useShallow(state => ({setAddress: state.setAddress,setCoordinates: state.setCoordinates})));
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<maptilersdk.Map | null>(null);
   const marker = useRef<maptilersdk.Marker | null>(null);
@@ -52,9 +53,7 @@ function parseMaptilerFeature(feature: any) {
   const updateMarker = async (lat: number, lng: number) => {
     marker.current!.setLngLat([lng, lat]);
     const addressDetails = await getStructuredAddress(lat, lng);
-    console.log(addressDetails)
     setAddress(addressDetails)
-    console.log("Structured Address:", addressDetails);
 
     map.current!.flyTo({
       center: [lng, lat],
@@ -117,6 +116,7 @@ function parseMaptilerFeature(feature: any) {
 
     // Click on map to move marker
     map.current.on("click", (e) => {
+      setCoordinates({lat: e.lngLat.lat,lng: e.lngLat.lng});
       updateMarker(e.lngLat.lat, e.lngLat.lng);
     });
   }, []);
