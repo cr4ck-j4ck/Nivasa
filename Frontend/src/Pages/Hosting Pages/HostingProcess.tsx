@@ -15,12 +15,12 @@ import ImageReorderer from "./ReArrangeImages";
 import PropertyTitleInput from "./PropertyTitleAndDescription";
 import PropertyTag from "./PropertyTag";
 import WeekdayBasePrice from "./WeekDayBasePrice";
-import WeekendPrice from "./WeekendPrice"
+import WeekendPrice from "./WeekendPrice";
 import { useHostingProcessStore } from "@/Store/HostingProcessStore";
 export default function HostingProcess() {
   const [step, setStep] = useState(0);
-  const { validateStep } = useHostingProcessStore();
-  
+  const { validateStep, listingInfo } = useHostingProcessStore();
+
   const ElementsArray = [
     <GetStarted key="get-started" />,
     <TellUsAboutYourPlace
@@ -48,11 +48,19 @@ export default function HostingProcess() {
     <ImageReorderer key="step-nine" />,
     <PropertyTitleInput
       key="step-ten"
-      heading="Now, let's give your castle a title"
+      heading={`Now, let's give your ${listingInfo.propertyType} a title`}
+      placeholder="Enter a catchy title..."
       midHeading="Short titles work best. Have fun with it – you can always change it later."
       textLimit={32}
     />,
-    <PropertyTag key="step-eleven" />,
+    <PropertyTitleInput
+      key="step-eleven"
+      heading="Create your description"
+      placeholder="Write a description which highlights your space and what makes it unique..."
+      midHeading="Share what makes your place special"
+      textLimit={32}
+    />,
+    <PropertyTag key="step-twelve" />,
     <TellUsAboutYourPlace
       key="step-tweleve"
       Heading="Finish up and publish"
@@ -61,12 +69,11 @@ export default function HostingProcess() {
       video={thirdStepVideo}
     />,
     <WeekdayBasePrice key="step-thirteen" />,
-    <WeekendPrice key="step-fourteen" basePrice={2000} />,
+    <WeekendPrice key="step-fourteen" />,
   ];
-
   // Calculate progress percentage
   const progressPercentage = ((step + 1) / ElementsArray.length) * 100;
-  
+
   // Get validation for current step
   const currentStepValidation = validateStep(step);
   const canProceed = currentStepValidation.isValid;
@@ -87,7 +94,11 @@ export default function HostingProcess() {
       transition: { duration: 0.4 },
     }),
   };
-
+  const handleCreateListing = () => {
+    // Logic to create the listing
+    console.log("Creating listing with info:", listingInfo);
+    // You can add API calls or other logic here
+  }
   const [direction, setDirection] = useState(0);
 
   const nextStep = () => {
@@ -99,7 +110,6 @@ export default function HostingProcess() {
     setDirection(-1);
     setStep((state) => Math.max(state - 1, 0));
   };
-
   return (
     <div className="relative overflow-visible max-h-[100vh] flex items-center">
       <div className="fixed top-0 left-0 bg-white HostProcessNav">
@@ -136,7 +146,7 @@ export default function HostingProcess() {
             transition={{ duration: 0.5, ease: "easeInOut" }}
           />
         </div>
-        
+
         <div className="items-center flex justify-between w-full h-full px-10">
           <div
             className={`font-semibold underline text-lg cursor-pointer transition-opacity duration-300 ${
@@ -146,7 +156,7 @@ export default function HostingProcess() {
           >
             Back
           </div>
-          
+
           <div className="flex items-center gap-4">
             {/* Validation message */}
             {!canProceed && currentStepValidation.requiredFields.length > 0 && (
@@ -158,14 +168,14 @@ export default function HostingProcess() {
                 Please complete all required fields
               </motion.div>
             )}
-            
+
             <button
               className={`px-7 py-3 rounded-md font-medium transition-all duration-300 ${
                 canProceed
                   ? "text-white bg-[#232323] hover:bg-[#1a1a1a] transform hover:scale-105"
                   : "text-gray-400 bg-gray-200 !cursor-not-allowed"
               }`}
-              onClick={canProceed ? nextStep : undefined}
+              onClick={canProceed? (step !== ElementsArray.length - 1? nextStep : handleCreateListing) : undefined}
               disabled={!canProceed}
             >
               {step === ElementsArray.length - 1 ? "Create Listing" : "Next"}
