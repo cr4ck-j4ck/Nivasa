@@ -6,22 +6,22 @@ import { useHostingProcessStore } from "@/Store/HostingProcessStore";
 import { useShallow } from "zustand/react/shallow";
 
 export default function ConfirmAddressForm() {
-  const { address } = useHostingProcessStore(
+  const { address ,setAddress} = useHostingProcessStore(
     useShallow((state) => ({
       address: state.address,
+      setAddress: state.setAddress,
     }))
   );
-
   const form = useForm<TAddressFormValues>({
     resolver: zodResolver(addressSchema),
     defaultValues: {
-      country: "India - IN",
-      flatHouse: "",
+      country: address?.country || "India - IN",
+      flatHouse: address?.flatHouse || "",
       streetAddress: address?.streetAddress || "",
       landmark: address?.landmark || "",
       district: address?.district || "",
       city: address?.city || "",
-      state: address?.city|| "",
+      state: address?.city || "",
       postalCode: address?.postalCode || "",
     },
   });
@@ -33,8 +33,8 @@ export default function ConfirmAddressForm() {
   useEffect(() => {
     if (address) {
       reset({
-        country: "India - IN",
-        flatHouse: "",
+        country: address.country || "India - IN",
+        flatHouse: address.flatHouse || "",
         streetAddress: address.streetAddress || "",
         landmark: address.landmark || "",
         district: address.district || "",
@@ -47,7 +47,7 @@ export default function ConfirmAddressForm() {
 
   const onSubmit = (data: TAddressFormValues) => {
     console.log("Submitted form data:", data);
-    // You can push to store or API here
+    setAddress(data);
   };
 
   return (
@@ -57,10 +57,15 @@ export default function ConfirmAddressForm() {
         <label className="block text-sm font-medium text-gray-700">
           Country/region
         </label>
-        <select {...register("country")} className="mt-1 block w-full border rounded-lg p-2">
+        <select
+          {...register("country")}
+          className="mt-1 block w-full border rounded-lg p-2"
+        >
           <option value="India - IN">India - IN</option>
         </select>
-        {errors.country && <p className="text-red-500">{errors.country.message}</p>}
+        {errors.country && (
+          <p className="text-red-500">{errors.country.message}</p>
+        )}
       </div>
 
       {/* Flat/House */}
@@ -78,7 +83,9 @@ export default function ConfirmAddressForm() {
         placeholder="Street address"
         className="w-full border rounded-lg p-2"
       />
-      {errors.streetAddress && <p className="text-red-500">{errors.streetAddress.message}</p>}
+      {errors.streetAddress && (
+        <p className="text-red-500">{errors.streetAddress.message}</p>
+      )}
 
       {/* Landmark */}
       <input
@@ -121,7 +128,9 @@ export default function ConfirmAddressForm() {
         placeholder="PIN code"
         className="w-full border rounded-lg p-2"
       />
-      {errors.postalCode && <p className="text-red-500">{errors.postalCode.message}</p>}
+      {errors.postalCode && (
+        <p className="text-red-500">{errors.postalCode.message}</p>
+      )}
 
       <button
         type="submit"
