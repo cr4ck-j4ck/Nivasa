@@ -1,14 +1,16 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import './Slider.css';
+import { useHostingProcessStore } from '@/Store/HostingProcessStore';
+import { useShallow } from 'zustand/react/shallow';
 
-interface WeekendPriceProps {
-  basePrice: number;
-}
 
-const WeekendPrice: React.FC<WeekendPriceProps> = ({ basePrice }) => {
+const WeekendPrice = ():React.JSX.Element => {
+  const basePrice = useHostingProcessStore(state => state.listingInfo.pricing.weekdayPrice);
   const maxPrice = Math.round(basePrice * 1.99);
-  const [weekendPrice, setWeekendPrice] = useState(basePrice);
-
+  const { weekendPrice,setWeekendPrice} = useHostingProcessStore(useShallow(state => ({ setWeekendPrice: state.setWeekendPricing,weekendPrice: state.listingInfo.pricing.weekendPrice })));
+  useEffect(() => {
+    setWeekendPrice(basePrice);
+  }, []);
   const handleSliderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setWeekendPrice(Number(e.target.value));
   };

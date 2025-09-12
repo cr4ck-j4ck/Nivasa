@@ -23,7 +23,6 @@ export default function ImageReorderer() {
       reorderImages: state.reorderImages,
     }))
   );
-  console.log("yeh dekh Images hain", images);
   const [activeId, setActiveId] = useState<string | null>(null);
 
   function handleDragStart(event: any) {

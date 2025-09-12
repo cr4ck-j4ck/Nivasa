@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
-
+import { useHostingProcessStore } from "@/Store/HostingProcessStore";
+import { useShallow } from "zustand/react/shallow";
 const MIN_PRICE = 876;
 const MAX_PRICE = 875165;
 
@@ -10,7 +11,11 @@ const formatIN = (num: number): string =>
   new Intl.NumberFormat("en-IN", { maximumFractionDigits: 0 }).format(num);
 
 const WeekdayPriceInput: React.FC = () => {
-  const [price, setPrice] = useState<number>(1575);
+  const { listingInfo, setPricing:setPrice } = useHostingProcessStore(useShallow(state => ({
+    listingInfo: state.listingInfo,
+    setPricing: state.setWeekDayPricing,
+  })));
+  const price = listingInfo.pricing.weekdayPrice;
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [inputValue, setInputValue] = useState<string>(price.toString());
   const [showDetails, setShowDetails] = useState<boolean>(false);
