@@ -1,9 +1,10 @@
-// @ts-nocheck
+//@ts-nocheck
 
-import { useState } from "react";
 import { motion } from "framer-motion";
 import { FaGem, FaHeart } from "react-icons/fa";
+import { useShallow } from "zustand/react/shallow";
 import { MdNaturePeople, MdHistoryEdu } from "react-icons/md";
+import { useHostingProcessStore } from "@/Store/HostingProcessStore";
 import { BsHouseDoorFill } from "react-icons/bs";
 import { HiOutlinePhotograph } from "react-icons/hi";
 import React from "react";
@@ -50,18 +51,16 @@ const itemVariants = {
   },
 };
 
-export default function CastleHighlights(): JSX.Element {
-  const [selected, setSelected] = useState<string[]>([]);
+export default function Highlights(): React.JSX.Element {
+  const { highlights, setHighlight } = useHostingProcessStore(
+    useShallow((state) => ({
+      highlights: state.listingInfo.highlight,
+      setHighlight: state.setHighlight,
+    }))
+  );
 
   const toggleSelection = (label: string) => {
-    setSelected((prev) => {
-      if (prev.includes(label)) {
-        return prev.filter((item) => item !== label);
-      } else if (prev.length < 2) {
-        return [...prev, label];
-      }
-      return prev; // max 2
-    });
+      setHighlight(label);
   };
 
   return (
@@ -72,9 +71,12 @@ export default function CastleHighlights(): JSX.Element {
         transition={{ type: "spring", stiffness: 70, damping: 15 }}
         className="text-center mb-6"
       >
-        <h1 className="text-5xl my-5 ChoosePropertyHead font-bold">Next, let's describe your castle</h1>
+        <h1 className="text-5xl my-5 ChoosePropertyHead font-bold">
+          Next, let's describe your castle
+        </h1>
         <p className="text-gray-500">
-          Choose up to 2 highlights. We'll use these to get your description started.
+          Choose up to 2 highlights. We'll use these to get your description
+          started.
         </p>
       </motion.div>
 
@@ -85,7 +87,7 @@ export default function CastleHighlights(): JSX.Element {
         animate="visible"
       >
         {options.map((option) => {
-          const isSelected = selected.includes(option.label);
+          const isSelected = highlights.includes(option.label);
           return (
             <motion.button
               key={option.label}
@@ -93,7 +95,11 @@ export default function CastleHighlights(): JSX.Element {
               whileTap={{ scale: 0.95 }}
               onClick={() => toggleSelection(option.label)}
               className={`flex items-center gap-2 border px-4 py-2 rounded-full text-sm transition-all duration-200
-                ${isSelected ? "bg-black text-white border-black" : "bg-white text-black border-gray-300 hover:border-black"}
+                ${
+                  isSelected
+                    ? "bg-black text-white border-black"
+                    : "bg-white text-black border-gray-300 hover:border-black"
+                }
               `}
             >
               {option.icon}
