@@ -4,21 +4,29 @@ import { useHostingProcessStore } from "@/Store/HostingProcessStore";
 interface IpropertyTitleInput {
   heading: string;
   midHeading: string;
+  placeholder: string;
   textLimit: number;
 }
 
 export default function PropertyTitleInput({
   heading,
   midHeading,
+  placeholder = "",
   textLimit,
 }: IpropertyTitleInput): React.JSX.Element {
-  const { listingInfo, setTitle: setStoreTitle } = useHostingProcessStore();
-  const [title, setTitle] = useState<string>(listingInfo.title || "");
+  const { listingInfo, setTitle: setStoreTitle, setDescription } = useHostingProcessStore();
+  const [val, setVal] = useState<string>(listingInfo.title || "");
 
   const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    const newTitle = e.target.value;
-    setTitle(newTitle);
-    setStoreTitle(newTitle);
+    if(heading.includes("description")){
+      const newDescription = e.target.value;
+      setVal(newDescription);
+      setDescription(newDescription);
+    } else{
+      const newTitle = e.target.value;
+      setVal(newTitle);
+      setStoreTitle(newTitle);
+    }  
   };
 
   return (
@@ -32,14 +40,14 @@ export default function PropertyTitleInput({
 
       <textarea
         className="w-full border-2 border-gray-300 rounded-md p-4 text-lg resize-none h-59 focus:outline-none focus:ring-2 focus:ring-black"
-        placeholder="Enter a catchy title..."
+        placeholder={placeholder}
         maxLength={textLimit}
-        value={title}
+        value={val}
         onChange={handleChange}
       />
 
       <div className="text-sm text-gray-500 mt-2 text-right">
-        {title.length}/32
+        {val.length}/32
       </div>
     </div>
   );
