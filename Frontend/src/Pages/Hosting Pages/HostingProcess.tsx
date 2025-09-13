@@ -17,9 +17,18 @@ import PropertyTag from "./PropertyTag";
 import WeekdayBasePrice from "./WeekDayBasePrice";
 import WeekendPrice from "./WeekendPrice";
 import { useHostingProcessStore } from "@/Store/HostingProcessStore";
+import LoadingScreen from "@/Components/HostingProcess/LoadingScreen";
+import SuccessScreen from "@/Components/HostingProcess/SuccessScreen";
+import { createListing, fileToBase64, type CreateListingData } from "@/Services/listingService";
 export default function HostingProcess() {
   const [step, setStep] = useState(0);
-  const { validateStep, listingInfo } = useHostingProcessStore();
+  const [isLoading, setIsLoading] = useState(false);
+  const [loadingStep, setLoadingStep] = useState("uploading");
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [createdListingId, setCreatedListingId] = useState<string | undefined>();
+  const [error, setError] = useState<string | null>(null);
+  
+  const { validateStep, listingInfo, address, coordinates, images, reset } = useHostingProcessStore();
 
   const ElementsArray = [
     <GetStarted key="get-started" />,
@@ -94,11 +103,100 @@ export default function HostingProcess() {
       transition: { duration: 0.4 },
     }),
   };
-  const handleCreateListing = () => {
-    // Logic to create the listing
-    console.log("Creating listing with info:", listingInfo);
-    // You can add API calls or other logic here
-  }
+  const handleCreateListing = async () => {
+    try {
+      setIsLoading(true);
+      setError(null);
+      
+      // Validate all required data
+      if (!address || !coordinates || !listingInfo.title || !listingInfo.description || 
+          !listingInfo.propertyType || images.length < 5) {
+        throw new Error("Missing required information. Please complete all steps.");
+      }
+
+      // Step 1: Upload images
+      setLoadingStep("uploading");
+      const base64Images: string[] = [];
+      
+      for (const image of images) {
+        const base64 = await fileToBase64(image.file);
+        base64Images.push(base64);
+      }
+
+      // Step 2: Process images
+      setLoadingStep("processing");
+      await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate processing
+
+      // Step 3: Set location
+      setLoadingStep("location");
+      await new Promise(resolve => setTimeout(resolve, 500));
+
+      // Step 4: Create listing
+      setLoadingStep("creating");
+      
+      const listingData: CreateListingData = {
+        title: listingInfo.title,
+        description: listingInfo.description,
+        propertyType: listingInfo.propertyType,
+        typeOfPlace: listingInfo.typeOfPlace,
+        highlight: listingInfo.highlight,
+        address: {
+          flatHouse: address.flatHouse,
+          streetAddress: address.streetAddress!,
+          landmark: address.landmark,
+          district: address.district,
+          city: address.city!,
+          state: address.state!,
+          postalCode: address.postalCode!,
+          country: address.country || "India",
+        },
+        coordinates: {
+          lat: coordinates.lat,
+          lng: coordinates.lng,
+        },
+        capacity: {
+          guests: listingInfo.capacity.guests!,
+          bedrooms: listingInfo.capacity.bedrooms!,
+          beds: listingInfo.capacity.beds!,
+          bathrooms: listingInfo.capacity.bathrooms!,
+        },
+        amenities: listingInfo.amenities,
+        pricing: {
+          weekdayPrice: listingInfo.pricing.weekdayPrice,
+          weekendPrice: listingInfo.pricing.weekendPrice,
+        },
+        images: base64Images,
+      };
+
+      const response = await createListing(listingData);
+
+      // Step 5: Finalize
+      setLoadingStep("finalizing");
+      await new Promise(resolve => setTimeout(resolve, 500));
+
+      setIsLoading(false);
+      setCreatedListingId(response.listing?._id);
+      setShowSuccess(true);
+      
+      // Reset the store after successful creation
+      reset();
+      
+    } catch (error) {
+      setIsLoading(false);
+      setError(error instanceof Error ? error.message : "Failed to create listing");
+      console.error("Error creating listing:", error);
+    }
+  };
+
+  const handleCloseSuccess = () => {
+    setShowSuccess(false);
+    setCreatedListingId(undefined);
+  };
+
+  const handleRetry = () => {
+    setError(null);
+    handleCreateListing();
+  };
   const [direction, setDirection] = useState(0);
 
   const nextStep = () => {
@@ -111,30 +209,31 @@ export default function HostingProcess() {
     setStep((state) => Math.max(state - 1, 0));
   };
   return (
-    <div className="relative overflow-visible max-h-[100vh] flex items-center">
-      <div className="fixed top-0 left-0 bg-white HostProcessNav">
-        <header className="flex items-center justify-between p-6 w-[100vw]">
-          <img
-            src="/Nivasa-removebg-preview.png"
-            alt="Nivasa Logo"
-            className="h-25"
-          />
-          <button className="exitButton relative z-12">Exit</button>
-        </header>
-      </div>
-      <AnimatePresence custom={direction} mode="wait">
-        <motion.div
-          key={step}
-          custom={direction}
-          variants={variants}
-          initial="enter"
-          animate="center"
-          exit="exit"
-          className="min-h-fit w-full"
-        >
-          {ElementsArray[step]}
-        </motion.div>
-      </AnimatePresence>
+    <>
+      <div className="relative overflow-visible max-h-[100vh] flex items-center">
+        <div className="fixed top-0 left-0 bg-white HostProcessNav">
+          <header className="flex items-center justify-between p-6 w-[100vw]">
+            <img
+              src="/Nivasa-removebg-preview.png"
+              alt="Nivasa Logo"
+              className="h-25"
+            />
+            <button className="exitButton relative z-12">Exit</button>
+          </header>
+        </div>
+        <AnimatePresence custom={direction} mode="wait">
+          <motion.div
+            key={step}
+            custom={direction}
+            variants={variants}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            className="min-h-fit w-full"
+          >
+            {ElementsArray[step]}
+          </motion.div>
+        </AnimatePresence>
 
       <footer className="w-[100vw] h-24 flex flex-col fixed bottom-0 left-0 bg-white border-t border-gray-200 z-10">
         {/* Progress Bar */}
@@ -169,20 +268,49 @@ export default function HostingProcess() {
               </motion.div>
             )}
 
+            {/* Error message */}
+            {error && (
+              <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                className="text-sm text-red-500 italic flex items-center space-x-2"
+              >
+                <span>{error}</span>
+                <button
+                  onClick={handleRetry}
+                  className="text-xs underline hover:no-underline"
+                >
+                  Retry
+                </button>
+              </motion.div>
+            )}
+
             <button
               className={`px-7 py-3 rounded-md font-medium transition-all duration-300 ${
-                canProceed
+                canProceed && !isLoading
                   ? "text-white bg-[#232323] hover:bg-[#1a1a1a] transform hover:scale-105"
                   : "text-gray-400 bg-gray-200 !cursor-not-allowed"
               }`}
-              onClick={canProceed? (step !== ElementsArray.length - 1? nextStep : handleCreateListing) : undefined}
-              disabled={!canProceed}
+              onClick={canProceed && !isLoading ? (step !== ElementsArray.length - 1? nextStep : handleCreateListing) : undefined}
+              disabled={!canProceed || isLoading}
             >
-              {step === ElementsArray.length - 1 ? "Create Listing" : "Next"}
+              {isLoading ? "Creating..." : step === ElementsArray.length - 1 ? "Create Listing" : "Next"}
             </button>
           </div>
         </div>
       </footer>
-    </div>
+      </div>
+
+      {/* Loading Screen */}
+      {isLoading && <LoadingScreen currentStep={loadingStep} />}
+
+      {/* Success Screen */}
+      {showSuccess && (
+        <SuccessScreen 
+          listingId={createdListingId} 
+          onClose={handleCloseSuccess} 
+        />
+      )}
+    </>
   );
 }
