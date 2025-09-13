@@ -3,6 +3,7 @@ import ListingModel from "../Models/ListingModel";
 import jwt from "jsonwebtoken";
 import UserModel from "../Models/UsersModel";
 import { Types } from "mongoose";
+import { uploadBase64Image } from "../config/cloudinary";
 
 interface Idecoded {
   userId: string;
@@ -12,7 +13,6 @@ export async function viewListing(req: Request, res: Response) {
   const data = await ListingModel.findById(req.params.id)
     .populate("host")
     .lean();
-  console.log("Got request on the Listing Routes");
   if (data) {
     try {
       if (req.cookies.token) {
@@ -76,4 +76,134 @@ export async function viewListingViaCity(req: Request, res: Response) {
   }
   // setTimeout(() => {
   // }, 10000);
+}
+
+export async function createListing(req: Request, res: Response) {
+  try {
+    // Verify JWT token
+    if (!req.cookies.token) {
+      return res.status(401).json({ error: "Authentication required" });
+    }
+
+    const decoded = jwt.verify(req.cookies.token, process.env.JWT_SECRET!) as Idecoded;
+    const userId = decoded.userId;
+
+    // Validate user exists
+    const user = await UserModel.findById(userId);
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    const {
+      title,
+      description,
+      propertyType,
+      typeOfPlace,
+      highlight,
+      address,
+      coordinates,
+      capacity,
+      amenities,
+      pricing,
+      images // Array of base64 image strings
+    } = req.body;
+    // Validate required fields
+    if (!title || !description || !propertyType || !typeOfPlace || !address || !coordinates || !capacity || !amenities || !pricing || !images) {
+      return res.status(400).json({ error: "Missing required fields" });
+    }
+
+    // Validate images array
+    if (!Array.isArray(images) || images.length < 5) {
+      return res.status(400).json({ error: "At least 5 images are required" });
+    }
+
+    // Upload images to Cloudinary
+    const uploadPromises = images.map((base64Image: string) => 
+      uploadBase64Image(base64Image, 'nivasa-listings')
+    );
+
+    const uploadedImageUrls = await Promise.all(uploadPromises);
+
+    // Map typeOfPlace to roomType for backward compatibility
+    let roomType: "Entire home/apt" | "Private room" | "Shared room" | "Entire studio";
+    switch (typeOfPlace) {
+      case "entire-place":
+        roomType = "Entire home/apt";
+        break;
+      case "private-room":
+        roomType = "Private room";
+        break;
+      case "shared-room":
+        roomType = "Shared room";
+        break;
+      case "studio":
+        roomType = "Entire studio";
+        break;
+      default:
+        roomType = "Private room";
+    }
+
+    // Create new listing
+    const newListing = new ListingModel({
+      host: userId,
+      title,
+      description,
+      propertyType,
+      typeOfPlace,
+      highlight: highlight || [],
+      location: {
+        address: {
+          flatHouse: address.flatHouse,
+          streetAddress: address.streetAddress,
+          landmark: address.landmark,
+          district: address.district,
+          city: address.city,
+          state: address.state,
+          postalCode: address.postalCode,
+          country: address.country || "India",
+        },
+        coordinates: {
+          latitude: coordinates.lat,
+          longitude: coordinates.lng,
+        },
+      },
+      pricing: {
+        weekdayPrice: pricing.weekdayPrice,
+        weekendPrice: pricing.weekendPrice,
+      },
+      roomType,
+      amenities,
+      capacity: {
+        guests: capacity.guests,
+        bedrooms: capacity.bedrooms,
+        beds: capacity.beds,
+        bathrooms: capacity.bathrooms,
+      },
+      images: uploadedImageUrls,
+      availability: {
+        startDate: new Date(),
+        endDate: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000), // 1 year from now
+      },
+      gallery: new Map([
+        ["Bedroom 1", uploadedImageUrls.slice(0, Math.min(3, uploadedImageUrls.length))],
+        ["Living Room", uploadedImageUrls.slice(3, Math.min(6, uploadedImageUrls.length))],
+        ["Kitchen", uploadedImageUrls.slice(6, Math.min(9, uploadedImageUrls.length))],
+      ]),
+    });
+
+    const savedListing = await newListing.save();
+
+    res.status(201).json({
+      success: true,
+      message: "Listing created successfully",
+      listing: savedListing,
+    });
+
+  } catch (error) {
+    console.error("Error creating listing:", error);
+    res.status(500).json({ 
+      error: "Failed to create listing",
+      details: error instanceof Error ? error.message : "Unknown error"
+    });
+  }
 }
