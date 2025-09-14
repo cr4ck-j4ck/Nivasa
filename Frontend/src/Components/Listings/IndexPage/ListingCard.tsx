@@ -16,6 +16,7 @@ interface IlistingCard {
   customClass: string;
   hideLike?: boolean;
   isLiked?: boolean;
+  title?: string;
 }
 
 const wishlistSavedMessages = [
@@ -35,6 +36,7 @@ export default function ListingCard({
   index = 0,
   customClass,
   hideLike = false,
+  title = "",
 }: IlistingCard) {
   const [liked, setLiked] = useState(isLiked);
   const [animate, setAnimate] = useState(false);
@@ -79,7 +81,7 @@ export default function ListingCard({
           {src ? (
             <img
               src={src}
-              alt="image"
+              alt={title || `Home in ${city}`}
               className="showImg rounded-2xl h-[11.3vw] w-full "
             />
           ) : (
