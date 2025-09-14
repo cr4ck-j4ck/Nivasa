@@ -78,6 +78,99 @@ export async function viewListingViaCity(req: Request, res: Response) {
   // }, 10000);
 }
 
+export async function getRandomCitiesWithListings(req: Request, res: Response) {
+  try {
+    // Get all unique cities that have listings
+    const citiesWithListings = await ListingModel.aggregate([
+      {
+        $group: {
+          _id: "$location.city",
+          count: { $sum: 1 }
+        }
+      },
+      {
+        $match: {
+          _id: { $ne: null },
+          count: { $gte: 1 }
+        }
+      },
+      {
+        $project: {
+          city: "$_id",
+          count: 1,
+          _id: 0
+        }
+      }
+    ]);
+
+    // If we have fewer than 6 cities with listings, add some default cities
+    const defaultCities = ["Mumbai", "Delhi", "Pune", "Gurugram", "Paris", "Indore", "Bengaluru", "Bhopal"];
+    const existingCityNames = citiesWithListings.map(item => item.city);
+    // This is not the right way because what if hosts from a city deleted there listings and now that city has 0 listings
+    // But for now this will do
+    const additionalCities = defaultCities
+      .filter(city => !existingCityNames.includes(city))
+      .slice(0, Math.max(0, 6 - citiesWithListings.length))
+      .map(city => ({ city, count: 0 }));
+
+    const allCities = [...citiesWithListings, ...additionalCities];
+
+    // Randomly select 6 cities
+    const shuffled = allCities.sort(() => 0.5 - Math.random());
+    const selectedCities = shuffled.slice(0, 6);
+
+    // Get listings for each selected city
+    const citiesWithListingsData = await Promise.all(
+      selectedCities.map(async (cityInfo) => {
+        const listings = await ListingModel.find(
+          { "location.city": cityInfo.city },
+          { 
+            title: 1, 
+            price: 1,
+            gallery: 1,
+            "location.city": 1,
+            "location.state": 1,
+            "location.country": 1,
+            createdAt: 1
+          }
+        )
+        .limit(10)
+        .sort({ createdAt: -1 })
+        .lean();
+
+        return {
+          city: cityInfo.city,
+          listings: listings,
+          totalCount: cityInfo.count
+        };
+      })
+    );
+    // Handle user wishlist if authenticated
+    try {
+      if (req.cookies.token) {
+        const decoded = jwt.verify(req.cookies.token, process.env.JWT_SECRET!) as Idecoded;
+        const user = await UserModel.findById(decoded.userId).select("wishlist");
+        const wishlistIds = user?.wishlist?.map((id) => id.toString()) || [];
+
+        const responseWithLikes = citiesWithListingsData.map(cityData => ({
+          ...cityData,
+          listings: cityData.listings.map(listing => ({
+            ...listing,
+            isLiked: wishlistIds.includes(listing._id.toString())
+          }))
+        }));
+        return res.json(responseWithLikes);
+      }
+    } catch (error) {
+      console.log("Auth error in getRandomCitiesWithListings:", error);
+    }
+    res.json(citiesWithListingsData);
+  } catch (error) {
+    console.error("Error in getRandomCitiesWithListings:", error);
+    res.status(500).json({ error: "Failed to fetch cities with listings" });
+  }
+}
+
 export async function createListing(req: Request, res: Response) {
   try {
     // Verify JWT token
