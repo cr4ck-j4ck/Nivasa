@@ -6,7 +6,8 @@
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "module": "ESNext",
     "skipLibCheck": true,
-    "composite": true ,
+    "composite": true,
+    "noEmit": true,    // Add this
 
     /* Bundler mode */
     "moduleResolution": "bundler",
@@ -26,6 +27,6 @@
       "@/*": ["src/*"]
     }
   },
-  "include": ["src", "src/main.tsx", "src/vite-env.d.ts", "src/App.tsx"],
-    "exclude": ["node_modules", "dist"]
+  "include": ["src"],  // Simplified - don't need to list individual files
+  "exclude": ["node_modules", "dist"]
 }
