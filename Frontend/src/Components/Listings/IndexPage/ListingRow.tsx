@@ -1,21 +1,10 @@
 import "./listingRow.css";
 import ListingCard from "./ListingCard";
-import { useState, useEffect, useRef } from "react";
-import { getListingByCity } from "@/Services/listing.api";
+import { useRef } from "react";
 import Option from "@/Components/Option";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-
-interface IlistingData {
-  location: {
-    city: string;
-  };
-  _id: string;
-  title: string;
-  price: number;
-  isLiked: boolean;
-  gallery: Record<string, string[]>;
-}
+import { type CityWithListings } from "@/Services/listingService";
 
 const listingHeadLines = [
   `Fall in love, right here in`,
@@ -48,15 +37,8 @@ const listingHeadLines = [
   `Commitment issues? Not with these stays in`,
 ];
 
-function ListingRow({ city }: { city: string }) {
-  const [data, setData] = useState<IlistingData[] | null>(null);
+function ListingRow({ cityData, isLoading }: { cityData: CityWithListings | null; isLoading: boolean }) {
   const cardContainerRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    getListingByCity(city).then((res) => {
-      setData(res);
-    });
-  }, []);
 
   const skeletonCards = Array.from({ length: 7 }).map((_, i) => (
     <div key={i} className="card rounded-2xl mr-4 w-full">
@@ -66,26 +48,56 @@ function ListingRow({ city }: { city: string }) {
     </div>
   ));
 
+  if (!cityData && !isLoading) {
+    return null;
+  }
+
   return (
     <div className="listingRow">
       <div className="text-xl listingHead ml-1 mb-5 flex justify-between">
-        {data ? (<h1>{listingHeadLines[Math.floor(Math.random() * listingHeadLines.length)]} {city} &gt;</h1>) : (<Skeleton/>)}
+        {cityData ? (
+          <h1>
+            {listingHeadLines[Math.floor(Math.random() * listingHeadLines.length)]} {cityData.city} &gt;
+          </h1>
+        ) : (
+          <Skeleton />
+        )}
         {cardContainerRef && <Option containerRef={cardContainerRef} />}
       </div>
       <div className="cardContainer relative mb-10 flex" ref={cardContainerRef}>
-        {data
-          ? data.map((el, i) => (
-              <ListingCard
-                src={el.gallery["Bedroom 1"][0]}
-                key={i}
-                city={el.location.city}
-                price={el.price}
-                id={el._id}
-                index={i}
-                customClass="card"
-                isLiked={el.isLiked}
-              />
-            ))
+        {cityData && cityData.listings.length > 0
+          ? cityData.listings.map((listing, i) => {
+              // Get the first image from gallery, prioritizing "Bedroom 1"
+              const getFirstImage = () => {
+                if (listing.gallery) {
+                  // Try to get from "Bedroom 1" first
+                  if (listing.gallery["Bedroom 1"] && listing.gallery["Bedroom 1"].length > 0) {
+                    return listing.gallery["Bedroom 1"][0];
+                  }
+                  // If no "Bedroom 1", get the first image from any room
+                  const firstRoomKey = Object.keys(listing.gallery)[0];
+                  if (firstRoomKey && listing.gallery[firstRoomKey].length > 0) {
+                    return listing.gallery[firstRoomKey][0];
+                  }
+                }
+                // Fallback to images array or placeholder
+                return listing.images?.[0] || "/placeholder-image.jpg";
+              };
+
+              return (
+                <ListingCard
+                  src={getFirstImage()}
+                  key={listing._id}
+                  city={listing.location.city}
+                  price={listing.price}
+                  id={listing._id}
+                  index={i}
+                  customClass="card"
+                  isLiked={listing.isLiked || false}
+                  title={listing.title}
+                />
+              );
+            })
           : skeletonCards}
       </div>
     </div>
