@@ -132,3 +132,24 @@ button{
     @apply bg-background text-foreground;
     }
 }
+
+/* Thin, modern horizontal scrollbar for top thumbnail bar */
+.custom-scroll-thin {
+  scrollbar-width: thin;            /* Firefox */
+  scrollbar-color: #c7c7c7 transparent;
+}
+.custom-scroll-thin::-webkit-scrollbar {
+  height: 8px;                      /* horizontal scrollbar height */
+}
+.custom-scroll-thin::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scroll-thin::-webkit-scrollbar-thumb {
+  background-color: #cfcfcf;
+  border-radius: 9999px;
+  border: 2px solid transparent;    /* creates pill look */
+  background-clip: content-box;
+}
+.custom-scroll-thin:hover::-webkit-scrollbar-thumb {
+  background-color: #b5b5b5;
+}
