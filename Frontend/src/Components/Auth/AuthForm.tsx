@@ -1,9 +1,6 @@
 import mockUseForm from "./MockUseForm";
 import InputField from "./InputField";
 import { User, Phone , Calendar, Mail ,Shield , Sparkles,Lock} from "lucide-react";
-import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
-import UserStore from "@/Store/UserStore";
 
 export interface FormData {
   firstName?: string;
@@ -32,14 +29,6 @@ const AuthForm: React.FC<AuthFormProps> = ({
   });
 
   const { errors } = formState;
-  const navigate = useNavigate();
-  const user = UserStore(state => state.user);
-  useEffect(()=>{
-    if(user){
-      navigate("/dashboard")
-    }
-  },[user])
-
   const handleForgotPassword = (): void => {
     console.log("Forgot password clicked");
   };

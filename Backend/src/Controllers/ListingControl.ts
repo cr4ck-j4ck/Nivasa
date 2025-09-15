@@ -236,7 +236,7 @@ export async function createListing(req: Request, res: Response) {
         roomType = "Private room";
     }
 
-    // Create new listing
+    // Create new listing with pending status
     const newListing = new ListingModel({
       host: userId,
       title,
@@ -282,13 +282,14 @@ export async function createListing(req: Request, res: Response) {
         ["Living Room", uploadedImageUrls.slice(3, Math.min(6, uploadedImageUrls.length))],
         ["Kitchen", uploadedImageUrls.slice(6, Math.min(9, uploadedImageUrls.length))],
       ]),
+      status: "pending", // Set status to pending for approval
     });
 
     const savedListing = await newListing.save();
 
     res.status(201).json({
       success: true,
-      message: "Listing created successfully",
+      message: "Listing submitted successfully! It's now under review and will be approved within 24-48 hours.",
       listing: savedListing,
     });
 
@@ -296,6 +297,194 @@ export async function createListing(req: Request, res: Response) {
     console.error("Error creating listing:", error);
     res.status(500).json({ 
       error: "Failed to create listing",
+      details: error instanceof Error ? error.message : "Unknown error"
+    });
+  }
+}
+
+// Get host's listings filtered by status
+export async function getHostListings(req: Request, res: Response) {
+  try {
+    if (!req.cookies.token) {
+      return res.status(401).json({ error: "Authentication required" });
+    }
+
+    const decoded = jwt.verify(req.cookies.token, process.env.JWT_SECRET!) as Idecoded;
+    const userId = decoded.userId;
+
+    const { status } = req.query;
+    const filter: any = { host: userId };
+    
+    // Add status filter if provided
+    if (status && ['pending', 'approved', 'rejected', 'draft'].includes(status as string)) {
+      filter.status = status;
+    }
+
+    const listings = await ListingModel.find(filter)
+      .select('title description propertyType typeOfPlace status createdAt updatedAt images pricing location.address.city rejectionReason')
+      .sort({ updatedAt: -1 })
+      .lean();
+
+    res.json({
+      success: true,
+      listings,
+      count: listings.length
+    });
+
+  } catch (error) {
+    console.error("Error fetching host listings:", error);
+    res.status(500).json({ 
+      error: "Failed to fetch listings",
+      details: error instanceof Error ? error.message : "Unknown error"
+    });
+  }
+}
+
+// Get host dashboard stats
+export async function getHostStats(req: Request, res: Response) {
+  try {
+    if (!req.cookies.token) {
+      return res.status(401).json({ error: "Authentication required" });
+    }
+
+    const decoded = jwt.verify(req.cookies.token, process.env.JWT_SECRET!) as Idecoded;
+    const userId = decoded.userId;
+
+    const stats = await ListingModel.aggregate([
+      { $match: { host: new Types.ObjectId(userId) } },
+      {
+        $group: {
+          _id: "$status",
+          count: { $sum: 1 }
+        }
+      }
+    ]);
+
+    const statsObj = {
+      pending: 0,
+      approved: 0,
+      rejected: 0,
+      draft: 0,
+      total: 0
+    };
+
+    stats.forEach(stat => {
+      statsObj[stat._id as keyof typeof statsObj] = stat.count;
+      statsObj.total += stat.count;
+    });
+
+    res.json({
+      success: true,
+      stats: statsObj
+    });
+
+  } catch (error) {
+    console.error("Error fetching host stats:", error);
+    res.status(500).json({ 
+      error: "Failed to fetch stats",
+      details: error instanceof Error ? error.message : "Unknown error"
+    });
+  }
+}
+
+// Admin: Get all pending listings for approval
+export async function getPendingListings(req: Request, res: Response) {
+  try {
+    if (!req.cookies.token) {
+      return res.status(401).json({ error: "Authentication required" });
+    }
+
+    const decoded = jwt.verify(req.cookies.token, process.env.JWT_SECRET!) as Idecoded;
+    const user = await UserModel.findById(decoded.userId);
+    // Check if user is admin (you can implement role-based check here)
+    if (!user || user.email !== "vermapratyush486@gmail.com") { // Simple admin check - replace with proper role system
+      return res.status(403).json({ error: "Admin access required" });
+    }
+
+    const { page = 1, limit = 10 } = req.query;
+    const skip = (Number(page) - 1) * Number(limit);
+
+    const pendingListings = await ListingModel.find({ status: 'pending' })
+      .populate('host', 'firstName lastName email')
+      .select('title description propertyType typeOfPlace createdAt images location.address host')
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(Number(limit))
+      .lean();
+
+    const totalCount = await ListingModel.countDocuments({ status: 'pending' });
+
+    res.json({
+      success: true,
+      listings: pendingListings,
+      totalCount,
+      currentPage: Number(page),
+      totalPages: Math.ceil(totalCount / Number(limit))
+    });
+
+  } catch (error) {
+    console.error("Error fetching pending listings:", error);
+    res.status(500).json({ 
+      error: "Failed to fetch pending listings",
+      details: error instanceof Error ? error.message : "Unknown error"
+    });
+  }
+}
+
+// Admin: Approve or reject a listing
+export async function updateListingStatus(req: Request, res: Response) {
+  try {
+    if (!req.cookies.token) {
+      return res.status(401).json({ error: "Authentication required" });
+    }
+
+    const decoded = jwt.verify(req.cookies.token, process.env.JWT_SECRET!) as Idecoded;
+    const user = await UserModel.findById(decoded.userId);
+    
+    // Check if user is admin
+    if (!user || user.email !== "admin@nivasa.com") {
+      return res.status(403).json({ error: "Admin access required" });
+    }
+
+    const { listingId } = req.params;
+    const { status, rejectionReason } = req.body;
+
+    if (!['approved', 'rejected'].includes(status)) {
+      return res.status(400).json({ error: "Invalid status. Must be 'approved' or 'rejected'" });
+    }
+
+    if (status === 'rejected' && !rejectionReason) {
+      return res.status(400).json({ error: "Rejection reason is required when rejecting a listing" });
+    }
+
+    const updateData: any = { status };
+    if (status === 'rejected' && rejectionReason) {
+      updateData.rejectionReason = rejectionReason;
+    }
+
+    const listing = await ListingModel.findByIdAndUpdate(
+      listingId,
+      updateData,
+      { new: true }
+    ).populate('host', 'firstName lastName email');
+
+    if (!listing) {
+      return res.status(404).json({ error: "Listing not found" });
+    }
+
+    res.json({
+      success: true,
+      message: `Listing ${status} successfully`,
+      listing
+    });
+
+    // TODO: Here you could add email notification to the host about approval/rejection
+    // Example: await sendNotificationEmail(listing.host.email, status, rejectionReason);
+
+  } catch (error) {
+    console.error("Error updating listing status:", error);
+    res.status(500).json({ 
+      error: "Failed to update listing status",
       details: error instanceof Error ? error.message : "Unknown error"
     });
   }

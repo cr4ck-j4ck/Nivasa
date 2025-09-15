@@ -41,6 +41,8 @@ export interface IListing extends Document {
   };
   images: string[];
   gallery: Map<string, string[]>;
+  status: "pending" | "approved" | "rejected" | "draft";
+  rejectionReason?: string; // Optional reason for rejection
 }
 
 // 2. Define the schema with the interface
@@ -93,9 +95,23 @@ const propertySchema = new Schema<IListing>(
       type: Map,
       of: [String],
     },
+    status: {
+      type: String,
+      enum: ["pending", "approved", "rejected", "draft"],
+      default: "pending",
+    },
+    rejectionReason: {
+      type: String,
+      required: false,
+    },
   },
   { versionKey: false, timestamps: true }
 );
+
+// Add indexes for better query performance
+propertySchema.index({ status: 1 });
+propertySchema.index({ host: 1, status: 1 });
+propertySchema.index({ "location.city": 1 });
 
 
 const ListingModel: Model<IListing> = mongoose.model<IListing>("Listing", propertySchema);

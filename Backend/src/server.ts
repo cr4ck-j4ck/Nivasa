@@ -4,6 +4,7 @@ import { connectDB } from "./config/db";
 import ExpressError from "./utils/expressError";
 import ListingRoutes from "./Routes/ListingRoutes"
 import OauthRoutes from "./Routes/OauthRoutes"
+import adminRoutes from "./Routes/AdminRoutes"
 import UserRoutes from "./Routes/UserRoutes"
 import cookieParser from 'cookie-parser';
 import "./auth";
@@ -39,6 +40,7 @@ app.get("/", (req, res) => {
 app.use("/",OauthRoutes)
 app.use("/",ListingRoutes)
 app.use("/",UserRoutes)
+app.use("/admin",adminRoutes)
 
 app.use(
   (err: ExpressError, req: Request, res: Response, next: NextFunction) => {
