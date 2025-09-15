@@ -43,7 +43,7 @@ const App: React.FC = () => {
           setIsGettingUser("fullfilled"); // Always stop loading even if user is null
         });
     }
-  }, []);
+  }, [location.pathname]);
   return (
     <div className={`min-h-screen ${location.pathname === "/" ? "marginTopClass":"marginTopForMobile"} flex flex-col items-center relative w-[100vw] h-fit`}>
       <AppRoutes />

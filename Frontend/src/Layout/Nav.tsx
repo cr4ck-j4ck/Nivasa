@@ -2,7 +2,7 @@ import "./nav.css";
 import homeImage from "../assets/home.avif";
 import balloon from "../assets/hot_air_balloon.avif";
 import homeVideo from "../assets/house-twirl-selected.webm";
-import { User } from "lucide-react";
+import { User, Home } from "lucide-react";
 import { useState, useEffect } from "react";
 import SearchBar from "../Components/SearchBar";
 import { useLocation } from "react-router-dom";
@@ -25,6 +25,14 @@ const Nav: React.FC<INavprops> = ({ position }) => {
   const handleClick = () => {
     if (user) {
       navigate("/dashboard");
+    } else {
+      navigate("/auth");
+    }
+  };
+
+  const handleHostClick = () => {
+  if (user) {
+      navigate("/dashboard/host");
     } else {
       navigate("/auth");
     }
@@ -86,6 +94,28 @@ const Nav: React.FC<INavprops> = ({ position }) => {
         </div>
         {isGettingUser === "fullfilled" || isGettingUser === "idle" ? (
           <div className="right-options AuthDiv ">
+            {/* Host Your Listing Button - Desktop */}
+            <div className="hidden md:block mr-4 bg-red-500">
+              <button
+                onClick={handleHostClick}
+                className="flex items-center space-x-2 px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded-full transition-colors duration-200"
+              >
+                <Home className="w-4 h-4" />
+                <span>{user ? "Host Dashboard" : "Host Your Listing"}</span>
+              </button>
+            </div>
+            
+            {/* Mobile Host Button */}
+            <div className="md:hidden mr-2">
+              <button
+                onClick={handleHostClick}
+                className="flex items-center justify-center w-10 h-10 text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded-full transition-colors duration-200"
+                aria-label={user ? "Host Dashboard" : "Host Your Listing"}
+              >
+                <Home className="w-5 h-5" />
+              </button>
+            </div>
+
             <div
               className={`login flex justify-evenly items-center ${user ? "w-45" : "w-50"}`}
               onClick={handleClick}
