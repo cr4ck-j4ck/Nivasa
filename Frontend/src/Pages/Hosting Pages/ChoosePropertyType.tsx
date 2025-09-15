@@ -206,7 +206,7 @@ const PlaceType: React.FC = () => {
   };
 
   return (
-    <div className="min-h-fit pb-80 bg-gradient-to-br p-6 w-full relative top-120">
+    <div className="min-h-fit pb-80 bg-gradient-to-br p-6 w-full relative top-140">
       <style>{`
         @keyframes slideInUp {
           from {

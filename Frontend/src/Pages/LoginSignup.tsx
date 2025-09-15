@@ -39,7 +39,9 @@ const AuthPage: React.FC = () => {
         const response = await loginUser(data);
         if (response) {
           setUser(response);
-          navigate("/dashboard");
+          // Check for redirect parameter
+          const redirectTo = searchParams.get("redirect") || "/dashboard";
+          navigate(redirectTo);
         }
       } else {
         const response = await createUser(data);
