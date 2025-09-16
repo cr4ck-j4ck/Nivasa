@@ -1,9 +1,7 @@
-// @ts-nocheck
 
 import { useState } from "react";
 import { motion, easeOut } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-
 import {
   Calendar,
   Heart,
@@ -19,11 +17,31 @@ import {
   ChevronRight,
   MapPin,
   Plus,
+  type LucideIcon,
 } from "lucide-react";
 import { Card, CardContent } from "@/Components/ui/card";
 import { Button } from "@/Components/ui/button";
 import { Badge } from "@/Components/ui/badge";
 import UserStore from "@/Store/UserStore";
+
+interface DashboardSection {
+  id: string;
+  title: string;
+  description: string;
+  icon: LucideIcon;
+  color: string;
+  count: number | string;
+  badge: string;
+  badgeColor: string;
+  path?: string;
+}
+
+interface QuickAction {
+  id: string;
+  title: string;
+  icon: LucideIcon;
+  color: string;
+}
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
@@ -35,7 +53,7 @@ const containerVariants = {
 };
 
 const itemVariants = {
-  hidden: { y: 20, opacity: 0, transition: { duration: 0, ease: "f" } },
+  hidden: { y: 20, opacity: 0 },
   visible: {
     y: 0,
     opacity: 1,
@@ -61,7 +79,7 @@ export default function ProfileDashboard() {
   const user = UserStore((state) => state.user);
   const [activeCard, setActiveCard] = useState<string | null>(null);
   const navigate = useNavigate();
-  const dashboardSections = [
+  const dashboardSections: DashboardSection[] = [
     {
       id: "bookings",
       title: "Your Bookings",
@@ -81,7 +99,7 @@ export default function ProfileDashboard() {
       count: 12,
       badge: "Favorites",
       badgeColor: "bg-red-100 text-red-800",
-      path:"/wishlist"
+      path: "/wishlist"
     },
     {
       id: "messages",
@@ -125,7 +143,7 @@ export default function ProfileDashboard() {
     },
   ];
 
-  const quickActions = [
+  const quickActions: QuickAction[] = [
     {
       id: "book",
       title: "Book New Stay",
@@ -166,7 +184,7 @@ export default function ProfileDashboard() {
       opacity: 1,
       y: 0,
       transition: {
-        type: "spring",
+        type: "spring" as const,
         damping: 12,
         stiffness: 100,
       },

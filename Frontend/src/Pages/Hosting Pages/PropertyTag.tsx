@@ -1,4 +1,4 @@
-// @ts-nocheck
+
 import React from "react";
 import { motion } from "framer-motion";
 import { FaGem, FaHeart } from "react-icons/fa";
@@ -44,7 +44,7 @@ const itemVariants = {
     rotate: 0,
     scale: 1,
     transition: {
-      type: "spring",
+      type: "spring" as const,
       stiffness: 100,
       damping: 10,
     },
