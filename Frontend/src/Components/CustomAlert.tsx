@@ -62,7 +62,7 @@ const CustomAlert: React.FC<AlertProps> = ({
     }, duration);
 
     return () => clearTimeout(timeout);
-  }, [duration]);
+  }, [duration, setFunc]);
 
   if (!visible) return null;
 

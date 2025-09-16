@@ -4,13 +4,13 @@ import { X, Sparkles } from "lucide-react";
 import axios from "axios";
 import confetti from "canvas-confetti";
 import { DatesStep, ReviewStep, SuccessStep } from "./BookingModal/BookingSteps";
-import type { GuestCount, PricingBreakdown, BookingListing, BookingStep } from "../@Types/booking";
+import type { GuestCount, PricingBreakdown, BookingStep } from "../@Types/booking";
 import type { Variants } from "framer-motion";
-
+import  type { IlistingObj,IfullListing } from "@/@Types/interfaces";
 interface BookingModalProps {
   isOpen: boolean;
   onClose: () => void;
-  listing: BookingListing;
+  listing: IlistingObj | IfullListing;
 }
 
 const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, listing }) => {
@@ -97,7 +97,8 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, listing })
       if (type === 'adults' && newCount === 0) return prev; // At least 1 adult required
       
       const totalGuests = type === 'adults' ? newCount : prev.adults + (type === 'children' ? newCount : prev.children);
-      if (totalGuests > listing.maxGuests && increment) return prev;
+      // TODO instead of 10, use listing.capacity.totalGuests if available
+      if (totalGuests > 10 && increment) return prev;
       
       return { ...prev, [type]: newCount };
     });
@@ -281,7 +282,7 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, listing })
                 whileHover={{ scale: 1.05 }}
               >
                 <img
-                  src={listing.images[0]}
+                  src={listing.gallery["Bedroom 1"][0] || listing.gallery["Living Room"][0] || listing.gallery["Exterior"][0]}
                   alt={listing.title}
                   className="w-full h-full object-cover"
                 />

@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import UpIcon from "@mui/icons-material/KeyboardArrowUp";

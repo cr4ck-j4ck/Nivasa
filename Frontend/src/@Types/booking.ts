@@ -1,3 +1,5 @@
+import type { IlistingObj } from "./interfaces";
+
 export interface GuestCount {
   adults: number;
   children: number;
@@ -15,33 +17,11 @@ export interface PricingBreakdown {
   totalPrice: number;
 }
 
-export interface BookingListing {
-  _id: string;
-  title: string;
-  images: string[];
-  pricing: {
-    weekdayPrice: number;
-    weekendPrice: number;
-  };
-  host: {
-    firstName: string;
-    lastName: string;
-    avatar?: string;
-  };
-  location: {
-    address: {
-      city: string;
-      state?: string;
-    };
-  };
-  maxGuests: number;
-  rating?: number;
-  reviewCount?: number;
-}
+
 
 export interface BookingData {
   _id?: string;
-  listing: BookingListing;
+  listing: IlistingObj;
   checkIn: Date;
   checkOut: Date;
   guests: GuestCount;
