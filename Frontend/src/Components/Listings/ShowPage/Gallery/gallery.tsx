@@ -35,7 +35,7 @@ const Gallery = (): React.JSX.Element => {
     if (gallery) {
       setImgArr(getRandomURLs(Object.keys(urlToCategory)));
     }
-  }, [gallery]);
+  }, [gallery, urlToCategory]);
 
   // Viewer (full-screen overlay) state & animation control
   const [viewerOpen, setViewerOpen] = useState(false); // mounted/unmounted

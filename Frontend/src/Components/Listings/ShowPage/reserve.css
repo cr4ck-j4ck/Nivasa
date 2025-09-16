@@ -13,30 +13,36 @@
     box-shadow: none;
     position: relative;
     left: -1rem;
+    margin: 3rem 0 2.4rem;
 }
 
-.checkInCal>div{
+.checkInCal>div {
     width: 100%;
     justify-content: space-around;
 }
+
 .checkInCal>div>div {
     margin: 0 0.5rem;
 }
 
-.checkInCal button{
+.checkInCal button {
     margin: 0rem 0.3rem;
     font-weight: 500;
 }
-.checkInCal [aria-live="polite"]{
+
+.checkInCal [aria-live="polite"] {
     font-size: 1rem;
 }
-.checkInCal .rdp-caption_start > div{
+
+.checkInCal .rdp-caption_start>div {
     margin-bottom: 1rem;
 }
-.checkInCal .rdp-caption_end > div{
+
+.checkInCal .rdp-caption_end>div {
     margin-bottom: 1rem;
 }
-.calRes{
+
+.calRes {
     box-shadow: -1px 1px 12px gray;
     border-radius: 1rem;
     padding: 1rem;
@@ -44,13 +50,13 @@
     width: 645px;
 }
 
-.checkInCal .rdp-head th{
+.checkInCal .rdp-head th {
     margin-right: 0.6rem;
     padding-left: 0.7rem;
     font-weight: 500;
 }
 
-.closeBtn{
+.closeBtn {
     background-color: black;
     color: white;
     width: 5rem;
@@ -59,7 +65,7 @@
     letter-spacing: 1.5px;
 }
 
-.dateInputs input{
+.dateInputs input {
     font-weight: 400;
     color: rgb(0, 0, 0);
 }

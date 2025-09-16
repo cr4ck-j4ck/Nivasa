@@ -1,15 +1,27 @@
 import { useEffect, useRef, useState } from "react";
+import { motion } from "framer-motion";
 import UpIcon from "@mui/icons-material/KeyboardArrowUp";
 import DownIcon from "@mui/icons-material/KeyboardArrowDown";
+import { Sparkles, Star, Shield } from "lucide-react";
 import "./reserve.css";
 import { Calendar02 } from "@/Components/Calendar02";
 import reserveStore from "@/Store/Reserve";
 import { useShallow } from "zustand/react/shallow";
+import BookingModal from "@/Components/Bookings/BookingModal";
+import confetti from "canvas-confetti";
+import type {IlistingObj,IfullListing  } from "@/@Types/interfaces";
 
+interface SeatReservationBoxProps {
+  listing?: IlistingObj | IfullListing;
+  onReserveClick?: () => void;
+}
 
-const SeatReservationBox = () => {
+const SeatReservationBox: React.FC<SeatReservationBoxProps> = ({ listing, onReserveClick }) => {
   const [showGuests, setShowGuests] = useState<boolean>(false);
   const [blurSecondInput, setBlurSecondInput] = useState(false);
+  const [showBookingModal, setShowBookingModal] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
+  
   const { focusInput, bookingDates, showCalendar, setShowCalendar, setFocusInput, setBookingDates, setDate } = reserveStore(useShallow(state => ({
     setShowCalendar: state.setShowCalendar,
     setFocusInput: state.setFocusInput,
@@ -42,7 +54,7 @@ const SeatReservationBox = () => {
     if (focusInput && showCalendar) {
       setBlurSecondInput(bookingDates.checkIn ? false : true)
     }
-  }, [focusInput, showCalendar])
+  }, [focusInput, showCalendar, bookingDates.checkIn])
 
   useEffect(() => {
     const func1 = (e: KeyboardEvent) => {
@@ -71,13 +83,38 @@ const SeatReservationBox = () => {
       document.removeEventListener("keydown", func1);
       document.removeEventListener("click", func2);
     };
-  }, [showCalendar]);
+  }, [showCalendar, setFocusInput, setShowCalendar]);
 
   const updateGuest = (type: keyof typeof guests, change: number) => {
     setGuests((prev) => ({
       ...prev,
       [type]: Math.max(0, prev[type] + change),
     }));
+  };
+
+  const triggerSparkles = () => {
+    confetti({
+      particleCount: 30,
+      spread: 60,
+      origin: { y: 0.7 },
+      shapes: ['star'],
+      colors: ['#FFD700', '#FFA500', '#FF69B4']
+    });
+  };
+
+  const handleReserveClick = () => {
+    if (!listing) {
+      alert("Listing information not available");
+      return;
+    }
+    
+    triggerSparkles();
+    
+    if (onReserveClick) {
+      onReserveClick();
+    } else {
+      setShowBookingModal(true);
+    }
   };
 
   const guestCategories = [
@@ -102,13 +139,46 @@ const SeatReservationBox = () => {
       setFocusInput(bookingDates.checkIn ? "input2" : "input1")
     }
   }
-
+// TODO add Rating Field to the listing interface
   return (
-    <div
-      className="p-4 m-5 ml-10 rounded-2xl no-select sticky w-1/2 max-w-[355px] top-10  mb-10 h-fit"
-      style={{ boxShadow: "#b2b2b2 0px 0px 17px" }}
-    >
-      <h1 className="text-xl ml-1 mt-2">Add dates for prices</h1>
+    <>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="p-6 m-5 ml-10 rounded-2xl no-select sticky w-1/2 max-w-[380px] top-10 mb-10 h-fit bg-white border border-gray-200"
+        style={{ boxShadow: "rgba(0, 0, 0, 0.12) 0px 6px 16px" }}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+      >
+        {/* Header with pricing */}
+        <div className="mb-6">
+          <div className="flex items-baseline space-x-2 mb-2">
+            <span className="text-2xl font-bold">
+              ₹{listing?.pricing?.weekdayPrice || 150}
+            </span>
+            <span className="text-gray-600">night</span>
+            {listing?.rating && (
+              <div className="flex items-center ml-auto">
+                <Star className="w-4 h-4 text-yellow-500 fill-current" />
+                <span className="text-sm font-medium ml-1">{listing.rating}</span>
+                {listing.reviewCount && (
+                  <span className="text-sm text-gray-500 ml-1">
+                    ({listing.reviewCount})
+                  </span>
+                )}
+              </div>
+            )}
+          </div>
+          
+          <motion.div
+            animate={{ opacity: isHovered ? 1 : 0.7 }}
+            className="flex items-center text-sm text-gray-600"
+          >
+            <Shield className="w-4 h-4 mr-1 text-green-500" />
+            <span>Instant booking available</span>
+          </motion.div>
+        </div>
 
       {/* 📅 Date Inputs */}
       <div
@@ -203,7 +273,7 @@ const SeatReservationBox = () => {
       )}
 
       {/* 👨‍👩‍👧‍👦 Guests Dropdown */}
-      <div className="relative mb-4 z-1">
+      <div className="relative mb-4 z-20">
         <div
           className="border p-3 cursor-pointer rounded-bl-md rounded-br-md border-black border-t-0 flex"
           onClick={() => setShowGuests(!showGuests)}
@@ -215,7 +285,8 @@ const SeatReservationBox = () => {
         </div>
 
         {showGuests && (
-          <div className="absolute right-0 top-full mt-2 w-[340px] bg-white border shadow-lg rounded-xl z-10 p-6">
+          <div className="absolute right-0 top-full mt-2 w-[340px] bg-white border shadow-lg rounded-xl 
+          z-10 p-6">
             {guestCategories.map((category, index) => (
               <>
                 <div
@@ -250,7 +321,9 @@ const SeatReservationBox = () => {
                 {index < guestCategories.length - 1 && <hr className="my-4" />}
               </>
             ))}
-            <p className="text-sm text-gray-600 mt-6">This place has a maximum of 4 guests, not including infants. Pets aren't allowed.</p>
+            <p className="text-sm text-gray-600 mt-6">
+              This place has a maximum of {listing?.maxGuests || 4} guests, not including infants.
+            </p>
             <div className="flex justify-end mt-4">
               <button
                 className="font-semibold underline text-lg"
@@ -262,12 +335,74 @@ const SeatReservationBox = () => {
           </div>
         )}
       </div>
+        {/* ✅ Enhanced Reserve Button */}
+        <motion.button
+          whileHover={{ 
+            scale: 1.02,
+            boxShadow: "0 10px 25px rgba(248, 49, 89, 0.3)"
+          }}
+          whileTap={{ scale: 0.98 }}
+          onClick={handleReserveClick}
+          className="relative z-1 cursor-pointer w-full bg-gradient-to-r from-[#F83159] to-[#FF6B9D] text-white py-4 rounded-xl font-semibold text-lg overflow-hidden group transition-all duration-300 hover:from-[#cf2346] hover:to-[#e55a87]"
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+        >
+          {/* Sparkle effect */}
+          <motion.div
+            initial={{ x: -100, opacity: 0 }}
+            animate={{ 
+              x: isHovered ? 400 : -100,
+              opacity: isHovered ? [0, 1, 0] : 0
+            }}
+            transition={{ duration: 0.6 }}
+            className="absolute inset-0 flex items-center justify-center"
+          >
+            <Sparkles className="w-6 h-6 text-white" />
+          </motion.div>
+          
+          {/* Button text */}
+          <span className="relative z-10 flex items-center justify-center">
+            Reserve
+            <motion.div
+              animate={{ rotate: isHovered ? 360 : 0 }}
+              transition={{ duration: 0.5 }}
+              className="ml-2"
+            >
+              ✨
+            </motion.div>
+          </span>
+          
+          {/* Shimmer effect */}
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
+        </motion.button>
 
-      {/* ✅ Reserve Button */}
-      <button className="w-full bg-[#F83159] text-white py-3 rounded-3xl hover:bg-[#cf2346]">
-        Reserve
-      </button>
-    </div>
+        {/* Trust indicators */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.5 }}
+          className="flex items-center justify-center space-x-4 mt-4 text-xs text-gray-500"
+        >
+          <div className="flex items-center">
+            <Shield className="w-3 h-3 mr-1 text-green-500" />
+            <span>Secure payment</span>
+          </div>
+          <div className="flex items-center">
+            <Sparkles className="w-3 h-3 mr-1 text-blue-500" />
+            <span>Instant confirmation</span>
+          </div>
+        </motion.div>
+      </motion.div>
+
+      {/* Booking Modal */}
+      {listing && (
+        <BookingModal
+          isOpen={showBookingModal}
+          onClose={() => setShowBookingModal(false)}
+          listing={listing}
+        />
+      )}
+    </>
   );
 };
 

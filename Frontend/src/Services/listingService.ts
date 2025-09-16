@@ -1,4 +1,3 @@
-// @ts-nocheck
 import axios from 'axios';
 
 const API_BASE_URL = import.meta.env.VITE_BACKEND_API || 'http://localhost:3000';
@@ -37,10 +36,27 @@ export interface CreateListingData {
   images: string[]; // base64 strings
 }
 
+export interface Listing {
+  _id: string;
+  title: string;
+  description: string;
+  propertyType: string;
+  typeOfPlace: string;
+  highlight: string[];
+  address: CreateListingData['address'];
+  coordinates: CreateListingData['coordinates'];
+  capacity: CreateListingData['capacity'];
+  amenities: string[];
+  pricing: CreateListingData['pricing'];
+  images: string[];
+  createdAt: string;
+  updatedAt: string;
+}
+
 export interface CreateListingResponse {
   success: boolean;
   message: string;
-  listing: any;
+  listing: Listing;
 }
 
 export interface ListingCard {
@@ -86,10 +102,7 @@ export const createListing = async (data: CreateListingData): Promise<CreateList
     });
     return response.data;
   } catch (error) {
-    if (axios.isAxiosError(error)) {
-      throw new Error(error.response?.data?.error || 'Failed to create listing');
-    }
-    throw new Error('An unexpected error occurred');
+    throw new Error(error.message || 'Failed to create listing');
   }
 };
 
@@ -100,9 +113,6 @@ export const getCitiesWithListings = async (): Promise<CityWithListings[]> => {
     });
     return response.data;
   } catch (error) {
-    if (axios.isAxiosError(error)) {
-      throw new Error(error.response?.data?.error || 'Failed to fetch cities with listings');
-    }
-    throw new Error('An unexpected error occurred');
+    throw new Error(error.message || 'Failed to fetch cities with listings');
   }
 };
