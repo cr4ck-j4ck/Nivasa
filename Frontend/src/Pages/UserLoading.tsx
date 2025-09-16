@@ -39,7 +39,7 @@ const LoadingUser = () => {
       clearInterval(progressInterval);
       clearInterval(stepInterval);
     };
-  }, []);
+  }, [loadingSteps.length]);
 
   return (
     <div className="min-h-full pt-20 bg-gradient-to-br from-rose-300 via-white to-orange-300 flex items-center justify-center p-6 w-full">

@@ -115,7 +115,7 @@ const UnderConstructionPage = () => {
       clearInterval(progressInterval);
       clearInterval(quoteInterval);
     };
-  }, []);
+  }, [coolQuotes.length]);
 
   return (
     <div className="min-h-fit w-full bg-gradient-to-br from-rose-50 via-white to-orange-50 relative overflow-hidden">
