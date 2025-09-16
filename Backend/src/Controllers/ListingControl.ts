@@ -84,7 +84,7 @@ export async function getRandomCitiesWithListings(req: Request, res: Response) {
     const citiesWithListings = await ListingModel.aggregate([
       {
         $group: {
-          _id: "$location.city",
+          _id: "$location.address.city",
           count: { $sum: 1 }
         }
       },
@@ -118,19 +118,18 @@ export async function getRandomCitiesWithListings(req: Request, res: Response) {
     // Randomly select 6 cities
     const shuffled = allCities.sort(() => 0.5 - Math.random());
     const selectedCities = shuffled.slice(0, 6);
-
     // Get listings for each selected city
     const citiesWithListingsData = await Promise.all(
       selectedCities.map(async (cityInfo) => {
         const listings = await ListingModel.find(
-          { "location.city": cityInfo.city },
+          { "location.address.city": cityInfo.city },
           { 
             title: 1, 
             price: 1,
             gallery: 1,
-            "location.city": 1,
-            "location.state": 1,
-            "location.country": 1,
+            "location.address.city": 1,
+            "location.address.state": 1,
+            "location.address.country": 1,
             createdAt: 1
           }
         )
