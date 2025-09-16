@@ -33,10 +33,14 @@ passport.use(
           await existingUser.save();
           return done(null, existingUser);
         }
+        const lastName = profile.displayName?.split(" ").pop() || "";
+        const firstName = profile.displayName?.replace(` ${lastName}`, "") || profile.displayName || "";
+        // If user doesn't exist, create a new one
         // Create new user
         const newUser = await User.create({
           googleId: profile.id,
-          fullName: profile.displayName,
+          firstName: firstName,
+          lastName: lastName,
           email: profile.emails?.[0]?.value,
           avatar: profile.photos?.[0]?.value,
           provider: "google"
