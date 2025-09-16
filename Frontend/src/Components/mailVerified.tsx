@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Mail, ArrowRight, Home, Shield } from "lucide-react";
@@ -49,7 +48,7 @@ export default function EmailVerificationSuccess({
       pathLength: 1,
       opacity: 1,
       transition: {
-        pathLength: { duration: 0.8, ease: "easeInOut" },
+        pathLength: { duration: 0.8, ease: "easeInOut" as const},
         opacity: { duration: 0.3 },
       },
     },
@@ -62,7 +61,7 @@ export default function EmailVerificationSuccess({
       scale: 1,
       transition: {
         duration: 0.5,
-        ease: "easeOut",
+        ease: "easeOut" as const,
         staggerChildren: 0.2,
       },
     },
@@ -75,7 +74,7 @@ export default function EmailVerificationSuccess({
       opacity: 1,
       transition: {
         duration: 0.5,
-        ease: "easeOut",
+        ease: "easeOut" as const,
       },
     },
   };
@@ -86,7 +85,7 @@ export default function EmailVerificationSuccess({
       transition: {
         duration: 2,
         repeat: Number.POSITIVE_INFINITY,
-        ease: "easeInOut",
+        ease: "easeInOut" as const,
       },
     },
   };
