@@ -23,8 +23,8 @@ const EnhancedWishlist: React.FC = () => {
             key={el._id}
             id={el._id}
             index={i}
-            city={el.location.city}
-            price={el.price}
+            city={el.location.address.city}
+            price={el.pricing.weekdayPrice}
             isLiked={true}
             src={el.gallery["Bedroom 1"][0]}
             customClass="wishlistCard"

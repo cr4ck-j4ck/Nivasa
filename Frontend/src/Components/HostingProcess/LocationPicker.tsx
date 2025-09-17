@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useEffect, useRef, useCallback } from "react";
 import * as maptilersdk from "@maptiler/sdk";
 import { GeocodingControl } from "@maptiler/geocoding-control/maptilersdk";

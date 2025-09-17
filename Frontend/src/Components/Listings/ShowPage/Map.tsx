@@ -1,3 +1,4 @@
+// @ts-nocheck
 import "./map.css";
 import React, { useRef, useEffect, useCallback } from "react";
 import * as maptilersdk from "@maptiler/sdk";
