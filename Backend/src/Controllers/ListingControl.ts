@@ -320,7 +320,7 @@ export async function getHostListings(req: Request, res: Response) {
     }
 
     const listings = await ListingModel.find(filter)
-      .select('title description propertyType typeOfPlace status createdAt updatedAt images pricing location.address.city rejectionReason')
+      .select('title description propertyType typeOfPlace status createdAt updatedAt gallery pricing location.address.city rejectionReason')
       .sort({ updatedAt: -1 })
       .lean();
 
