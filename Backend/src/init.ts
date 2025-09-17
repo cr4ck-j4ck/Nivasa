@@ -1,4 +1,5 @@
 import fs from "fs";
+import path from "path";
 import { connectDB } from "./config/db";
 import ListingModel from "./Models/ListingModel";
 import UserModel from "./Models/UsersModel";
@@ -36,13 +37,13 @@ async function initData() {
     await connectDB();
     console.log("MongoDB connected.");
     const data1 = JSON.parse(
-      fs.readFileSync("/SampleData/userData.json", "utf8")
+      fs.readFileSync(path.join(__dirname, "..", "SampleData", "userData.json"), "utf8")
     );
     await UserModel.deleteMany({});
     const insertedData = await UserModel.insertMany(data1);
 
     const data2 = JSON.parse(
-      fs.readFileSync("/SampleData/listingsData.json", "utf8")
+      fs.readFileSync(path.join(__dirname, "..", "SampleData", "listingsData.json"), "utf8")
     );
     const changedData2 = data2.map((element:IListing) => {
       const randomHost =

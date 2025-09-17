@@ -29,7 +29,7 @@ const AuthPage: React.FC = () => {
   const errMsg = searchParams.get("errMsg");
   useEffect(() => {
     setErrorFromBackend({ emailError: null, passwordError: null });
-  }, []);
+  }, [setErrorFromBackend]);
   const navigate = useNavigate();
   const handleAuth = async (data: FormData): Promise<void> => {
     setIsLoading(true);

@@ -3,19 +3,15 @@ import { X, EyeOff, Eye, type LucideIcon } from "lucide-react";
 import PasswordStrengthIndicator from "./PasswordIndicator";
 import globalStore from "@/Store/Global";
 import { useShallow } from "zustand/react/shallow";
-
+import type { UseFormRegister } from "react-hook-form";
+import { type FormData } from "./AuthForm";
 interface InputFieldProps {
   icon: LucideIcon;
   type?: string;
   placeholder: string;
   error?: string;
   showPasswordToggle?: boolean;
-  register: (name: string) => {
-    name: string;
-    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-    value: string;
-    onBlur: () => void;
-  };
+  register: UseFormRegister<FormData>;
   name: string;
   watch?: (field: string) => string;
   isLogin?:boolean;
@@ -53,7 +49,7 @@ const InputField: React.FC<InputFieldProps> = ({
         <input
           type={showPasswordToggle && showPassword ? "text" : type}
           placeholder={placeholder}
-          {...register(name)}
+          {...register(name as keyof FormData)}
           className={`w-full pl-10 pr-12 py-4 border-2 rounded-xl transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent ${
             error
               ? "border-red-300 bg-red-50"

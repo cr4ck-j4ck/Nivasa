@@ -1,5 +1,5 @@
-//@ts-nocheck
 
+import React from "react";
 import { motion } from "framer-motion";
 import { FaGem, FaHeart } from "react-icons/fa";
 import { useShallow } from "zustand/react/shallow";
@@ -7,11 +7,11 @@ import { MdNaturePeople, MdHistoryEdu } from "react-icons/md";
 import { useHostingProcessStore } from "@/Store/HostingProcessStore";
 import { BsHouseDoorFill } from "react-icons/bs";
 import { HiOutlinePhotograph } from "react-icons/hi";
-import React from "react";
-type HighlightOption = {
+
+interface HighlightOption {
   label: string;
   icon: React.JSX.Element;
-};
+}
 
 const options: HighlightOption[] = [
   { label: "Rare", icon: <FaGem /> },
@@ -44,7 +44,7 @@ const itemVariants = {
     rotate: 0,
     scale: 1,
     transition: {
-      type: "spring",
+      type: "spring" as const,
       stiffness: 100,
       damping: 10,
     },

@@ -84,7 +84,7 @@ export async function getRandomCitiesWithListings(req: Request, res: Response) {
     const citiesWithListings = await ListingModel.aggregate([
       {
         $group: {
-          _id: "$location.city",
+          _id: "$location.address.city",
           count: { $sum: 1 }
         }
       },
@@ -118,19 +118,18 @@ export async function getRandomCitiesWithListings(req: Request, res: Response) {
     // Randomly select 6 cities
     const shuffled = allCities.sort(() => 0.5 - Math.random());
     const selectedCities = shuffled.slice(0, 6);
-
     // Get listings for each selected city
     const citiesWithListingsData = await Promise.all(
       selectedCities.map(async (cityInfo) => {
         const listings = await ListingModel.find(
-          { "location.city": cityInfo.city },
+          { "location.address.city": cityInfo.city },
           { 
             title: 1, 
             price: 1,
             gallery: 1,
-            "location.city": 1,
-            "location.state": 1,
-            "location.country": 1,
+            "location.address.city": 1,
+            "location.address.state": 1,
+            "location.address.country": 1,
             createdAt: 1
           }
         )
@@ -321,7 +320,7 @@ export async function getHostListings(req: Request, res: Response) {
     }
 
     const listings = await ListingModel.find(filter)
-      .select('title description propertyType typeOfPlace status createdAt updatedAt images pricing location.address.city rejectionReason')
+      .select('title description propertyType typeOfPlace status createdAt updatedAt gallery pricing location.address.city rejectionReason')
       .sort({ updatedAt: -1 })
       .lean();
 
@@ -397,7 +396,7 @@ export async function getPendingListings(req: Request, res: Response) {
     const decoded = jwt.verify(req.cookies.token, process.env.JWT_SECRET!) as Idecoded;
     const user = await UserModel.findById(decoded.userId);
     // Check if user is admin (you can implement role-based check here)
-    if (!user || user.email !== "vermapratyush486@gmail.com") { // Simple admin check - replace with proper role system
+    if (!user || user.role !== "admin") { // Simple admin check - replace with proper role system
       return res.status(403).json({ error: "Admin access required" });
     }
 
@@ -442,7 +441,7 @@ export async function updateListingStatus(req: Request, res: Response) {
     const user = await UserModel.findById(decoded.userId);
     
     // Check if user is admin
-    if (!user || user.email !== "admin@nivasa.com") {
+    if (!user || user.role !== "admin") {
       return res.status(403).json({ error: "Admin access required" });
     }
 

@@ -1,6 +1,4 @@
-// @ts-nocheck
-
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Mail, ArrowRight, Home, Shield } from "lucide-react";
 import { Card, CardContent } from "@/Components/ui/card";
@@ -19,16 +17,19 @@ export default function EmailVerificationSuccess({
 }: EmailVerificationSuccessProps) {
   const [countdown, setCountdown] = useState(redirectDelay);
   const [isComplete, setIsComplete] = useState(false);
+
+  const handleRedirect = useCallback(() => {
+    setIsComplete(true);
+    setTimeout(() => {
+      onRedirect?.();
+    }, 500);
+  }, [onRedirect]);
+
   useEffect(() => {
     const timer = setInterval(() => {
       setCountdown((prev) => {
         if (prev <= 1) {
-          setIsComplete(true);
-          clearInterval(timer);
-          // Simulate redirect
-          setTimeout(() => {
-            onRedirect?.();
-          }, 500);
+          handleRedirect();
           return 0;
         }
         return prev - 1;
@@ -36,7 +37,7 @@ export default function EmailVerificationSuccess({
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [onRedirect]);
+  }, [handleRedirect]);
 
   const checkmarkVariants = {
     hidden: {
@@ -47,7 +48,7 @@ export default function EmailVerificationSuccess({
       pathLength: 1,
       opacity: 1,
       transition: {
-        pathLength: { duration: 0.8, ease: "easeInOut" },
+        pathLength: { duration: 0.8, ease: "easeInOut" as const},
         opacity: { duration: 0.3 },
       },
     },
@@ -60,7 +61,7 @@ export default function EmailVerificationSuccess({
       scale: 1,
       transition: {
         duration: 0.5,
-        ease: "easeOut",
+        ease: "easeOut" as const,
         staggerChildren: 0.2,
       },
     },
@@ -73,7 +74,7 @@ export default function EmailVerificationSuccess({
       opacity: 1,
       transition: {
         duration: 0.5,
-        ease: "easeOut",
+        ease: "easeOut" as const,
       },
     },
   };
@@ -84,7 +85,7 @@ export default function EmailVerificationSuccess({
       transition: {
         duration: 2,
         repeat: Number.POSITIVE_INFINITY,
-        ease: "easeInOut",
+        ease: "easeInOut" as const,
       },
     },
   };

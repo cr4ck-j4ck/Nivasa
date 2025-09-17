@@ -1,6 +1,6 @@
 import express, { RequestHandler } from "express";
 import {
-  addToWhislist,
+  addToWishlist,
   createUser,
   getWishList,
   loginUser,
@@ -28,7 +28,7 @@ router.get("/auth/status", verifyToken, (req, res) => {
   }
 });
 
-router.post("/user/wishlist", verifyToken, addToWhislist);
+router.post("/user/wishlist", verifyToken, addToWishlist);
 router.delete("/user/wishlist/:id",verifyToken,removeFromWishlist)
 
 router.get("/user/getWishlist", verifyToken, getWishList);

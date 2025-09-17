@@ -187,7 +187,7 @@ export const verifyEmailToken: RequestHandler = async (req, res) => {
   }
 };
 
-export const addToWhislist: RequestHandler = async (req, res) => {
+export const addToWishlist: RequestHandler = async (req, res) => {
   try {
     const { listingId } = req.body;
     console.log("Request recieved ")

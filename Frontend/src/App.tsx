@@ -27,6 +27,9 @@ const App: React.FC = () => {
     } else {
       setIsFooter(true);
     }
+  }, [location.pathname]);
+
+  useEffect(() => {
     if (!user) {
       setIsGettingUser("pending");
       getUser()
@@ -43,7 +46,7 @@ const App: React.FC = () => {
           setIsGettingUser("fullfilled"); // Always stop loading even if user is null
         });
     }
-  }, [location.pathname]);
+  }, [user, setUser, setIsGettingUser]);
   return (
     <div className={`min-h-screen ${location.pathname === "/" ? "marginTopClass":"marginTopForMobile"} flex flex-col items-center relative w-[100vw] h-fit`}>
       <AppRoutes />

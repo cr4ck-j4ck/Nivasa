@@ -31,7 +31,7 @@ const ListingDesc = (): React.JSX.Element | null => {
       <h3 className="text-2xl font-semibold">
         {" "}
         {listingObj.roomType} in{" "}
-        {listingObj.location.city + ", " + listingObj.location.country}{" "}
+        {listingObj.location.address.city + ", " + listingObj.location.address.country}{" "}
       </h3>{" "}
       <p className="flex flex-wrap">
         {" "}

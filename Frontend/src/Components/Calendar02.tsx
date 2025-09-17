@@ -17,7 +17,7 @@ export function Calendar02({
     if(focusInput == "input2" && bookingDates.checkIn){
       setFromD(bookingDates.checkIn);
     }
-  },[focusInput])
+  },[focusInput, bookingDates.checkIn])
   return (
     <Calendar
       mode="single"

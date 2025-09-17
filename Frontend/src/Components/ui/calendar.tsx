@@ -7,7 +7,7 @@ import type {
 } from "react-day-picker";
 
 import { cn } from "@/lib/utils";
-import { buttonVariants } from "@/Components/ui/button";
+import { buttonVariants } from "@/Components/ui/button-variants";
 import reserveStore from "@/Store/Reserve";
 import { useShallow } from "zustand/react/shallow";
 

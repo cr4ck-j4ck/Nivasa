@@ -107,26 +107,41 @@ interface Icapacity {
   bathrooms: number;
 }
 interface Ilocation {
-  city: "Mumbai";
-  country: "India";
-  latitude: 19.119;
-  longitude: 72.8467;
+  address: {
+    flatHouse?: string;
+    streetAddress: string;
+    landmark?: string;
+    district?: string;
+    city: string;
+    state: string;
+    postalCode: string;
+    country: string;
+  };
+  coordinates: {
+    latitude: number;
+    longitude: number;
+  };
 }
+// TODO add Rating field to the listing interface, not just rating but then after structure whole the code accordingly to that and also backend , like fully implement that feature in both frontend and backend
 export interface IlistingObj {
-  _id:string,
-  id:string,
+  _id: string;
+  id: string;
   host: string;
   title: string;
   description: string;
   location: Ilocation;
-  price: number;
+  pricing:{
+    weekdayPrice: number;
+    weekendPrice: number;
+  }
   roomType: string;
-  isLiked:boolean;
+  isLiked: boolean;
   amenities: Tamenities;
   availability: Iavailability;
   capacity: Icapacity;
   gallery: Record<string, string[]>;
   createdAt: Date;
+  maxGuests:number
 }
 
 export interface IfullListing extends Omit<IlistingObj, "host"> {
@@ -140,7 +155,7 @@ interface Iverification {
 }
 
 export interface Iuser {
-  superhost:boolean;
+  superhost: boolean;
   firstName: string;
   lastName: string;
   email: string;
@@ -151,10 +166,10 @@ export interface Iuser {
   bio: string;
   location: string;
   verification: Iverification;
-  verified:boolean;
+  verified: boolean;
   savedListings: string[];
   bookings: string[];
-  createdAt:string;
+  createdAt: string;
 }
 
 export interface Ihost extends Iuser {

@@ -1,6 +1,8 @@
-import mockUseForm from "./MockUseForm";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { loginSchema, signupSchema } from "@/Schema/auth.ZodSchema";
 import InputField from "./InputField";
-import { User, Phone , Calendar, Mail ,Shield , Sparkles,Lock} from "lucide-react";
+import { User, Phone, Calendar, Mail, Shield, Sparkles, Lock } from "lucide-react";
 
 export interface FormData {
   firstName?: string;
@@ -10,7 +12,6 @@ export interface FormData {
   phoneNumber?: string;
   birthDate?: string;
 }
-
 
 interface AuthFormProps {
   isLogin: boolean;
@@ -24,11 +25,10 @@ const AuthForm: React.FC<AuthFormProps> = ({
   onSubmit,
   isLoading,
 }) => {
-  const { register, handleSubmit, formState, watch } = mockUseForm({
-    resolver: isLogin ? "loginSchema" : "signupSchema",
+  const { register, handleSubmit, formState: { errors }, watch } = useForm<FormData>({
+    resolver: zodResolver(isLogin ? loginSchema : signupSchema),
   });
 
-  const { errors } = formState;
   const handleForgotPassword = (): void => {
     console.log("Forgot password clicked");
   };
@@ -37,7 +37,7 @@ const AuthForm: React.FC<AuthFormProps> = ({
   };
 
   return (
-    <div className="space-y-6">
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
       {/* Sign Up Fields */}
       {!isLogin && (
         <div className="space-y-6 animate-slideIn">
@@ -46,14 +46,14 @@ const AuthForm: React.FC<AuthFormProps> = ({
               icon={User}
               name="firstName"
               placeholder="First name"
-              error={errors.firstName}
+              error={errors.firstName?.message}
               register={register}
             />
             <InputField
               icon={User}
               name="lastName"
               placeholder="Last name"
-              error={errors.lastName}
+              error={errors.lastName?.message}
               register={register}
             />
           </div>
@@ -62,7 +62,7 @@ const AuthForm: React.FC<AuthFormProps> = ({
             type="tel"
             name="phoneNumber"
             placeholder="Phone number"
-            error={errors.phoneNumber}
+            error={errors.phoneNumber?.message}
             register={register}
           />
           <InputField
@@ -70,7 +70,7 @@ const AuthForm: React.FC<AuthFormProps> = ({
             type="date"
             name="birthDate"
             placeholder="Birth date"
-            error={errors.birthDate}
+            error={errors.birthDate?.message}
             register={register}
           />
         </div>
@@ -82,7 +82,7 @@ const AuthForm: React.FC<AuthFormProps> = ({
         type="email"
         name="email"
         placeholder="Email address"
-        error={errors.email}
+        error={errors.email?.message}
         register={register}
       />
 
@@ -91,7 +91,7 @@ const AuthForm: React.FC<AuthFormProps> = ({
         type="password"
         name="password"
         placeholder="Password"
-        error={errors.password}
+        error={errors.password?.message}
         showPasswordToggle={true}
         register={register}
         watch={watch}
@@ -135,7 +135,7 @@ const AuthForm: React.FC<AuthFormProps> = ({
 
       {/* Submit Button */}
       <button
-        onClick={handleSubmit(onSubmit)}
+        type="submit"
         disabled={isLoading}
         className="w-full bg-gradient-to-r from-rose-500 to-orange-500 text-white py-4 rounded-xl font-semibold text-lg shadow-lg hover:shadow-xl transform hover:scale-[1.02] transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed relative overflow-hidden"
       >
@@ -164,7 +164,7 @@ const AuthForm: React.FC<AuthFormProps> = ({
           </button>
         </div>
       )}
-    </div>
+    </form>
   );
 };
 

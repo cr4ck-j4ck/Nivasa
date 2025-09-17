@@ -1,6 +1,13 @@
 import { create } from "zustand";
 import type { TFocInput, IBookingDates } from "@/@Types/interfaces";
 
+export interface IGuestCount {
+  adults: number;
+  children: number;
+  infants: number;
+  pets: number;
+}
+
 export interface IreserveStore {
   showCalendar: boolean;
   setShowCalendar: (toUpdate: boolean) => void;
@@ -10,6 +17,8 @@ export interface IreserveStore {
   setBookingDates: (toUpdate: Partial<IBookingDates>) => void;
   date: Date | undefined;
   setDate: (toUpdate: Date | undefined) => void;
+  guests: IGuestCount;
+  setGuests: (toUpdate: Partial<IGuestCount>) => void;
 }
 
 const reserveStore = create<IreserveStore>((set) => ({
@@ -24,6 +33,11 @@ const reserveStore = create<IreserveStore>((set) => ({
     })),
   date: undefined,
   setDate: (toUpdate) => set({ date: toUpdate }),
+  guests: { adults: 1, children: 0, infants: 0, pets: 0 },
+  setGuests: (toUpdate) =>
+    set((state) => ({
+      guests: { ...state.guests, ...toUpdate },
+    })),
 }));
 
 export default reserveStore;

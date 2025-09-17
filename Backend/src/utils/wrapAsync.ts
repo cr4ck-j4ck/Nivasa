@@ -1,7 +1,11 @@
 import { Request, Response, NextFunction, RequestHandler } from "express";
+import { IUser } from "../Models/UsersModel";
+interface AuthenticatedRequest extends Omit<Request, 'user'> {
+  user?: IUser;
+}
 
 type CallbackFunc = (
-  req: Request,
+  req: Request | AuthenticatedRequest,
   res: Response
 ) => Promise<any>;
 

@@ -67,13 +67,12 @@ export default function Option({ containerRef, classNames }: Ioptions) {
       }
     };
 
-    containerRef.current?.addEventListener("scroll", func);
+    const containerSecond = containerRef.current;
+    containerSecond?.addEventListener("scroll", func);
     return () => {
-      if (containerRef?.current) {
-        containerRef?.current.removeEventListener("scroll", func);
-      }
+      container?.removeEventListener("scroll", func);
     };
-  }, []);
+  }, [containerRef]);
   return (
     <div className={`${classNames} forMobile`}>
       <span

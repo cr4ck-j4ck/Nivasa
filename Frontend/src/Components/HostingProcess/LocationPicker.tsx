@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useCallback } from "react";
 import * as maptilersdk from "@maptiler/sdk";
 import { GeocodingControl } from "@maptiler/geocoding-control/maptilersdk";
 import "@maptiler/sdk/dist/maptiler-sdk.css";
@@ -7,6 +7,28 @@ import "@maptiler/geocoding-control/style.css";
 import Nivasa from "/Nivasa-removebg-preview.png";
 import { useHostingProcessStore } from "@/Store/HostingProcessStore";
 import { useShallow } from "zustand/react/shallow";
+
+interface MaptilerContext {
+  id: string;
+  text: string;
+}
+
+interface MaptilerFeature {
+  text?: string;
+  context?: MaptilerContext[];
+  center?: [number, number];
+}
+
+interface StructuredAddress {
+  streetAddress: string;
+  landmark: string;
+  postalCode: string;
+  district: string;
+  city: string;
+  state: string;
+  country: string;
+}
+
 export default function LocationPickerMap() {
   const defaultLat = 28.6448; // Default: New Delhi
   const defaultLng = 77.216721;
@@ -17,10 +39,10 @@ export default function LocationPickerMap() {
 
   maptilersdk.config.apiKey = import.meta.env.VITE_MAPTILER_KEY;
 
-function parseMaptilerFeature(feature: any) {
+function parseMaptilerFeature(feature: MaptilerFeature): StructuredAddress {
   const context = feature.context || [];
   const getFromContext = (prefix: string) => {
-    return context.find((c: any) => c.id.startsWith(prefix))?.text || "";
+    return context.find((c: MaptilerContext) => c.id.startsWith(prefix))?.text || "";
   };
 
   return {
@@ -35,31 +57,39 @@ function parseMaptilerFeature(feature: any) {
 }
 
   // Helper: Reverse geocode to get location name
-  async function getStructuredAddress(lat: number, lng: number) {
-    const res = await fetch(
-      `https://api.maptiler.com/geocoding/${lng},${lat}.json?key=${
-        import.meta.env.VITE_MAPTILER_KEY
-      }`
-    );
-    const data = await res.json();
-    if (!data.features || data.features.length === 0) {
+  const getStructuredAddress = useCallback(async (lat: number, lng: number): Promise<StructuredAddress | null> => {
+    try {
+      const res = await fetch(
+        `https://api.maptiler.com/geocoding/${lng},${lat}.json?key=${
+          import.meta.env.VITE_MAPTILER_KEY
+        }`
+      );
+      const data = await res.json();
+      if (!data.features || data.features.length === 0) {
+        return null;
+      }
+
+      return parseMaptilerFeature(data.features[0]);
+    } catch (error) {
+      console.error('Error fetching address:', error);
       return null;
     }
-
-    return parseMaptilerFeature(data.features[0]);
-  }
+  }, []);
 
   // Helper: Update marker position & get location name
-  const updateMarker = async (lat: number, lng: number) => {
-    marker.current!.setLngLat([lng, lat]);
+  const updateMarker = useCallback(async (lat: number, lng: number) => {
+    if (!marker.current || !map.current) return;
+    
+    marker.current.setLngLat([lng, lat]);
     const addressDetails = await getStructuredAddress(lat, lng);
-    setAddress(addressDetails)
+    setAddress(addressDetails);
+    setCoordinates({ lat, lng });
 
-    map.current!.flyTo({
+    map.current.flyTo({
       center: [lng, lat],
-      zoom: map.current!.getZoom(),
+      zoom: map.current.getZoom(),
     });
-  };
+  }, [getStructuredAddress, setAddress, setCoordinates]);
 
   useEffect(() => {
     if (map.current) return;
@@ -86,7 +116,7 @@ function parseMaptilerFeature(feature: any) {
     map.current.addControl(geocodingControl, "top-left");
 
     // When user selects from search
-    geocodingControl.on("result", (e: any) => {
+    geocodingControl.on("result", (e: { center: [number, number] }) => {
       const [lngRes, latRes] = e.center;
       updateMarker(latRes, lngRes);
     });
@@ -119,7 +149,7 @@ function parseMaptilerFeature(feature: any) {
       setCoordinates({lat: e.lngLat.lat,lng: e.lngLat.lng});
       updateMarker(e.lngLat.lat, e.lngLat.lng);
     });
-  }, []);
+  }, [setCoordinates, updateMarker]);
 
   return (
     <div className="relative flex justify-center items-center top-40 mb-40">

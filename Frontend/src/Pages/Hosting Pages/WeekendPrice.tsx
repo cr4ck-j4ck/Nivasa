@@ -10,7 +10,7 @@ const WeekendPrice = ():React.JSX.Element => {
   const { weekendPrice,setWeekendPrice} = useHostingProcessStore(useShallow(state => ({ setWeekendPrice: state.setWeekendPricing,weekendPrice: state.listingInfo.pricing.weekendPrice })));
   useEffect(() => {
     setWeekendPrice(basePrice);
-  }, []);
+  }, [basePrice, setWeekendPrice]);
   const handleSliderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setWeekendPrice(Number(e.target.value));
   };

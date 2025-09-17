@@ -11,7 +11,8 @@ import Wishlist from "@/Pages/Wishlist";
 import HostingProcess from "@/Pages/Hosting Pages/HostingProcess";
 import PlaceTypeSelector from "@/Pages/Hosting Pages/TypeOfPlace";
 import  NivasaLoadingScreen  from "@/Components/Nivasa-Host-Loading";
-
+import BookingSuccess from "@/Pages/BookingSuccess";
+import UserDashboard from "@/Pages/UserDashboard";
 export default function AppRoutes() {
   return (
     <Routes>
@@ -22,9 +23,11 @@ export default function AppRoutes() {
       <Route path="/admin/dashboard" element={<PrivateRoutes><AdminDashboard/></PrivateRoutes>}/>
       <Route path="/auth" element={<AuthPage/>}/>
       <Route path="/wishlist" element={<Wishlist/>}/>
+      <Route path="/userDashboard" element={<UserDashboard/>}/>
       <Route path="/become-host" element={<PrivateRoutes><HostingProcess/></PrivateRoutes>}/>
       <Route path="/step" element={<PlaceTypeSelector/>}/>
       <Route path="/loading" element={<NivasaLoadingScreen/>}/>
+      <Route path="/booking/success/:bookingId" element={<PrivateRoutes><BookingSuccess/></PrivateRoutes>}/>
       <Route path="*" element={<UnderConstruction/>}/>
     </Routes>
   );

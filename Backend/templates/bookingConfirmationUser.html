@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Confirmed - Nivasa</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #0EA5E9 0%, #FCD34D 100%);
+            padding: 40px 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="2" fill="white" opacity="0.1"/></svg>') repeat;
+            animation: sparkle 3s linear infinite;
+        }
+        
+        @keyframes sparkle {
+            0% { transform: translateX(0) translateY(0); }
+            100% { transform: translateX(-50px) translateY(-50px); }
+        }
+        
+        .header h1 {
+            color: white;
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .header p {
+            color: rgba(255,255,255,0.9);
+            font-size: 18px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .celebration {
+            font-size: 48px;
+            margin: 20px 0;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .content {
+            padding: 40px 30px;
+        }
+        
+        .booking-card {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            border-radius: 16px;
+            padding: 30px;
+            margin: 30px 0;
+            border: 1px solid #e2e8f0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .booking-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #0EA5E9, #FCD34D, #10B981);
+        }
+        
+        .property-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+        
+        .property-image {
+            width: 80px;
+            height: 80px;
+            border-radius: 12px;
+            object-fit: cover;
+            margin-right: 20px;
+            border: 3px solid white;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .property-details h3 {
+            font-size: 20px;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 5px;
+        }
+        
+        .property-details p {
+            color: #64748b;
+            font-size: 14px;
+        }
+        
+        .booking-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 25px 0;
+        }
+        
+        .detail-item {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        
+        .detail-item .icon {
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+        
+        .detail-item .label {
+            font-size: 12px;
+            color: #64748b;
+            text-transform: uppercase;
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+        
+        .detail-item .value {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1e293b;
+        }
+        
+        .price-breakdown {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 25px 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        
+        .price-breakdown h4 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #1e293b;
+        }
+        
+        .price-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            padding: 8px 0;
+        }
+        
+        .price-row.total {
+            border-top: 2px solid #e2e8f0;
+            margin-top: 15px;
+            padding-top: 15px;
+            font-weight: 600;
+            font-size: 18px;
+            color: #10B981;
+        }
+        
+        .qr-section {
+            text-align: center;
+            margin: 30px 0;
+            padding: 25px;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            border-radius: 16px;
+            border: 1px solid #0EA5E9;
+        }
+        
+        .qr-code {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 15px;
+            background: white;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .cta-section {
+            text-align: center;
+            margin: 40px 0;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #0EA5E9 0%, #10B981 100%);
+            color: white;
+            text-decoration: none;
+            padding: 16px 32px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 16px;
+            margin: 10px;
+            box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3);
+            transition: transform 0.2s ease;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(14, 165, 233, 0.4);
+        }
+        
+        .cta-button.secondary {
+            background: linear-gradient(135deg, #64748b 0%, #475569 100%);
+            box-shadow: 0 4px 12px rgba(100, 116, 139, 0.3);
+        }
+        
+        .footer {
+            background: #f8fafc;
+            padding: 30px;
+            text-align: center;
+            border-top: 1px solid #e2e8f0;
+        }
+        
+        .footer p {
+            color: #64748b;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+        
+        .social-links {
+            margin: 20px 0;
+        }
+        
+        .social-links a {
+            display: inline-block;
+            margin: 0 10px;
+            color: #64748b;
+            text-decoration: none;
+            font-size: 24px;
+        }
+        
+        .trust-badges {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin: 25px 0;
+            flex-wrap: wrap;
+        }
+        
+        .trust-badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #10B981;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                margin: 10px;
+                border-radius: 16px;
+            }
+            
+            .header, .content, .footer {
+                padding: 20px;
+            }
+            
+            .booking-details {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
+            .property-info {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .property-image {
+                margin: 0 0 15px 0;
+            }
+            
+            .cta-button {
+                display: block;
+                margin: 10px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="celebration">🎉</div>
+            <h1>Booking Confirmed!</h1>
+            <p>Your amazing getaway is all set</p>
+        </div>
+        
+        <!-- Content -->
+        <div class="content">
+            <p style="font-size: 18px; margin-bottom: 20px;">Hi {{guestName}},</p>
+            
+            <p style="margin-bottom: 30px;">
+                Fantastic news! Your booking for <strong>{{propertyTitle}}</strong> has been confirmed. 
+                Get ready for an unforgettable experience from {{checkInDate}} to {{checkOutDate}}!
+            </p>
+            
+            <!-- Booking Card -->
+            <div class="booking-card">
+                <div class="property-info">
+                    <img src="{{propertyImage}}" alt="{{propertyTitle}}" class="property-image">
+                    <div class="property-details">
+                        <h3>{{propertyTitle}}</h3>
+                        <p>📍 {{propertyLocation}}</p>
+                        <p>🏠 Hosted by {{hostName}}</p>
+                    </div>
+                </div>
+                
+                <div class="booking-details">
+                    <div class="detail-item">
+                        <div class="icon">📅</div>
+                        <div class="label">Check-in</div>
+                        <div class="value">{{checkInDate}}</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="icon">📅</div>
+                        <div class="label">Check-out</div>
+                        <div class="value">{{checkOutDate}}</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="icon">👥</div>
+                        <div class="label">Guests</div>
+                        <div class="value">{{guestCount}}</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="icon">🌙</div>
+                        <div class="label">Nights</div>
+                        <div class="value">{{nights}}</div>
+                    </div>
+                </div>
+                
+                <!-- Price Breakdown -->
+                <div class="price-breakdown">
+                    <h4>💰 Price Breakdown</h4>
+                    <div class="price-row">
+                        <span>${{basePrice}} × {{nights}} nights</span>
+                        <span>${{subtotal}}</span>
+                    </div>
+                    <div class="price-row">
+                        <span>Cleaning fee</span>
+                        <span>${{cleaningFee}}</span>
+                    </div>
+                    <div class="price-row">
+                        <span>Service fee</span>
+                        <span>${{serviceFee}}</span>
+                    </div>
+                    <div class="price-row">
+                        <span>Taxes</span>
+                        <span>${{taxes}}</span>
+                    </div>
+                    {{#if discount}}
+                    <div class="price-row" style="color: #10B981;">
+                        <span>Discount</span>
+                        <span>-${{discount}}</span>
+                    </div>
+                    {{/if}}
+                    <div class="price-row total">
+                        <span>Total</span>
+                        <span>${{totalPrice}}</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- QR Code Section -->
+            <div class="qr-section">
+                <h4 style="margin-bottom: 15px; color: #0EA5E9;">🔑 Your Digital Key</h4>
+                <div class="qr-code">
+                    <img src="{{qrCodeUrl}}" alt="Check-in QR Code" style="width: 100px; height: 100px;">
+                </div>
+                <p style="color: #64748b; font-size: 14px;">
+                    Show this QR code for easy check-in
+                </p>
+            </div>
+            
+            <!-- Trust Badges -->
+            <div class="trust-badges">
+                <div class="trust-badge">
+                    <span>🛡️</span>
+                    <span>Secure Payment</span>
+                </div>
+                <div class="trust-badge">
+                    <span>✅</span>
+                    <span>Instant Confirmation</span>
+                </div>
+                <div class="trust-badge">
+                    <span>📞</span>
+                    <span>24/7 Support</span>
+                </div>
+            </div>
+            
+            <!-- Call to Action -->
+            <div class="cta-section">
+                <h3 style="margin-bottom: 20px; color: #1e293b;">What's Next?</h3>
+                <a href="{{dashboardUrl}}" class="cta-button">
+                    📱 View Your Itinerary
+                </a>
+                <a href="{{hostContactUrl}}" class="cta-button secondary">
+                    💬 Contact Your Host
+                </a>
+            </div>
+            
+            <!-- Important Information -->
+            <div style="background: #fef3c7; border: 1px solid #f59e0b; border-radius: 12px; padding: 20px; margin: 30px 0;">
+                <h4 style="color: #92400e; margin-bottom: 10px;">📋 Important Information</h4>
+                <ul style="color: #92400e; margin-left: 20px;">
+                    <li>Check-in time: 3:00 PM</li>
+                    <li>Check-out time: 11:00 AM</li>
+                    <li>Booking ID: <strong>{{bookingId}}</strong></li>
+                    <li>Keep this email for your records</li>
+                </ul>
+            </div>
+            
+            <p style="margin-top: 30px; color: #64748b;">
+                We're excited for your stay! If you have any questions, don't hesitate to reach out to our support team or your host.
+            </p>
+            
+            <p style="margin-top: 20px;">
+                Safe travels,<br>
+                <strong style="color: #0EA5E9;">The Nivasa Team</strong>
+            </p>
+        </div>
+        
+        <!-- Footer -->
+        <div class="footer">
+            <p><strong>Nivasa</strong> - Your home away from home</p>
+            <div class="social-links">
+                <a href="#">📘</a>
+                <a href="#">📷</a>
+                <a href="#">🐦</a>
+            </div>
+            <p>
+                Need help? Contact us at 
+                <a href="mailto:support@nivasa.com" style="color: #0EA5E9;">support@nivasa.com</a>
+            </p>
+            <p style="font-size: 12px; margin-top: 20px;">
+                © 2024 Nivasa. All rights reserved.<br>
+                You're receiving this email because you made a booking with us.
+            </p>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useMemo, useCallback } from "react";
 import "./searchBar.css";
 import { Calendar02 } from "./Calendar02";
 import SearchIcon from "@mui/icons-material/Search";
@@ -47,18 +47,19 @@ export default function SearchBar({
   });
   const [position, updatePosition] = useState<number>(0);
   const calendarRef = useRef<HTMLDivElement>(null);
-  const buttonRefs: ButtonRefs = {
+  const buttonRefs: ButtonRefs = useMemo(() => ({
     input1: buttonReferences.current[0] || null,
     input2: buttonReferences.current[1] || null,
     input3: buttonReferences.current[2] || null,
     input4: buttonReferences.current[3] || null,
-  };
-  const inputRefs: InputRefs = {
+  }), []);
+  
+  const inputRefs: InputRefs = useMemo(() => ({
     input1: inputReferences.current[0] || null,
     input2: inputReferences.current[1] || null,
     input3: inputReferences.current[2] || null,
     input4: inputReferences.current[3] || null,
-  };
+  }), []);
   const dynamicLeftClass: string = `${Math.floor(position)}`;
   useEffect(() => {
     if (focusedInput && isScrolled) {
@@ -66,7 +67,7 @@ export default function SearchBar({
       inputRefs[focusedInput]?.blur();
       setFocusedInput(null);
     }
-  }, [isScrolled]);
+  }, [isScrolled, buttonRefs, focusedInput, inputRefs]);
 
   useEffect(() => {
     if (!calendarRef.current) return;
@@ -106,7 +107,7 @@ export default function SearchBar({
     };
   }, []);
 
-  const updateIndicatorPosition = (key: InputKey): void => {
+  const updateIndicatorPosition = useCallback((key: InputKey): void => {
     const button = buttonRefs[key];
     const container = elementRef.current;
 
@@ -118,13 +119,13 @@ export default function SearchBar({
         width: buttonRect.width,
       });
     }
-  };
+  }, [buttonRefs]);
 
   useEffect(() => {
     if (focusedInput) {
       updateIndicatorPosition(focusedInput);
     }
-  }, [focusedInput]);
+  }, [focusedInput, updateIndicatorPosition]);
 
   const handleClick = (
     button: HTMLButtonElement,

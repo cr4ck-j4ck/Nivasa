@@ -1,8 +1,9 @@
-// @ts-nocheck
 import {
   DndContext,
   closestCenter,
   DragOverlay,
+  type DragStartEvent,
+  type DragEndEvent,
 } from "@dnd-kit/core";
 import {
   arrayMove,
@@ -25,11 +26,11 @@ export default function ImageReorderer() {
   );
   const [activeId, setActiveId] = useState<string | null>(null);
 
-  function handleDragStart(event: any) {
-    setActiveId(event.active.id);
+  function handleDragStart(event: DragStartEvent) {
+    setActiveId(event.active.id as string);
   }
 
-  function handleDragEnd(event: any) {
+  function handleDragEnd(event: DragEndEvent) {
     const { active, over } = event;
     if (!over) return;
 

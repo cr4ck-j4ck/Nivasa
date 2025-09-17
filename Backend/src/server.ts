@@ -6,6 +6,7 @@ import ListingRoutes from "./Routes/ListingRoutes"
 import OauthRoutes from "./Routes/OauthRoutes"
 import adminRoutes from "./Routes/AdminRoutes"
 import UserRoutes from "./Routes/UserRoutes"
+import BookingRoutes from "./Routes/BookingRoutes"
 import cookieParser from 'cookie-parser';
 import "./auth";
 const app = express();
@@ -41,6 +42,7 @@ app.use("/",OauthRoutes)
 app.use("/",ListingRoutes)
 app.use("/",UserRoutes)
 app.use("/admin",adminRoutes)
+app.use("/api/bookings",BookingRoutes)
 
 app.use(
   (err: ExpressError, req: Request, res: Response, next: NextFunction) => {

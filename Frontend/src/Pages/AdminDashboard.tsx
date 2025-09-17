@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
 import {
   Shield,
@@ -49,11 +49,7 @@ const AdminDashboard: React.FC = () => {
   const [rejectionReason, setRejectionReason] = useState("");
   const [showRejectionModal, setShowRejectionModal] = useState<string | null>(null);
 
-  useEffect(() => {
-    fetchPendingListings();
-  }, [currentPage]);
-
-  const fetchPendingListings = async () => {
+  const fetchPendingListings = useCallback(async () => {
     try {
       setLoading(true);
       const response = await axios.get(
@@ -71,7 +67,11 @@ const AdminDashboard: React.FC = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [currentPage]);
+
+  useEffect(() => {
+    fetchPendingListings();
+  }, [fetchPendingListings]);
 
   const handleApprove = async (listingId: string) => {
     try {

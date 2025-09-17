@@ -6,7 +6,7 @@ import { getListingData } from "@/Services/listing.api";
 import "./Pages.css";
 import Skeleton from "react-loading-skeleton";
 import { Heart } from "lucide-react";
-import SeatReservationBox from "../Components/Listings/ShowPage/reserve";
+import SeatReservationBox from "@/Components/Listings/ShowPage/reserve";
 import ShowReview from "@/Components/Listings/ShowPage/Reviews/review";
 import Map from "@/Components/Listings/ShowPage/Map";
 import { useListingStore, type IlistingState } from "@/Store/ListingStore";
@@ -14,11 +14,13 @@ import { useShallow } from "zustand/react/shallow";
 import HostProfile from "@/Components/Listings/ShowPage/Description/HostProfile";
 import { addToWhislist, removeFromWishlist } from "@/Services/user.api";
 import Nav from "@/Layout/Nav";
+import BookingModal from "@/Components/BookingModal";
 
 const ShowListing = (): React.JSX.Element => {
 const { listingId } = useParams();
   const [isSaved, setIsSaved] = useState(false);
   const [animate, setAnimate] = useState(false);
+  const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
   const toggleSave = () => {
     setAnimate(true);
     if(isSaved && listingObj){
@@ -52,7 +54,7 @@ const { listingId } = useParams();
         setListingObj(data.data);
       });
     }
-  }, []);
+  }, [listingId, setListingObj]);
 
   return (
     <>
@@ -84,7 +86,10 @@ const { listingId } = useParams();
           <>
             <div className="flex bottomLine relative pb-5 xl:w-[90%] w-full xl:mx-auto">
               <Description />
-              <SeatReservationBox />
+              <SeatReservationBox 
+                listing={listingObj} 
+                onReserveClick={() => setIsBookingModalOpen(true)}
+              />
             </div>
             <div className="showReviews">
               <ShowReview />
@@ -92,7 +97,7 @@ const { listingId } = useParams();
             <div className="showMap flex flex-col text-center w-[90%] border-t border-b pb-15 mt-15 mb-5 border-gray-400 mx-auto">
               <h1 className="mt-10 mb-3 text-5xl showHead">Where you'll be</h1>
               <h4 className="my-2 text-2xl showHead">
-                {listingObj.location.city}, {listingObj.location.country}
+                {listingObj.location.address.city}, {listingObj.location.address.state}, {listingObj.location.address.country}
               </h4>
               <Map />
             </div>
@@ -105,6 +110,15 @@ const { listingId } = useParams();
           ""
         )}
       </div>
+      
+      {/* Booking Modal */}
+      {listingObj && (
+        <BookingModal
+          isOpen={isBookingModalOpen}
+          onClose={() => setIsBookingModalOpen(false)}
+          listing={listingObj}
+        />
+      )}
     </>
   );
 };
