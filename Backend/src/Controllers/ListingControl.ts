@@ -396,7 +396,7 @@ export async function getPendingListings(req: Request, res: Response) {
     const decoded = jwt.verify(req.cookies.token, process.env.JWT_SECRET!) as Idecoded;
     const user = await UserModel.findById(decoded.userId);
     // Check if user is admin (you can implement role-based check here)
-    if (!user || user.email !== "vermapratyush486@gmail.com") { // Simple admin check - replace with proper role system
+    if (!user || user.role !== "admin") { // Simple admin check - replace with proper role system
       return res.status(403).json({ error: "Admin access required" });
     }
 
@@ -441,7 +441,7 @@ export async function updateListingStatus(req: Request, res: Response) {
     const user = await UserModel.findById(decoded.userId);
     
     // Check if user is admin
-    if (!user || user.email !== "admin@nivasa.com") {
+    if (!user || user.role !== "admin") {
       return res.status(403).json({ error: "Admin access required" });
     }
 
