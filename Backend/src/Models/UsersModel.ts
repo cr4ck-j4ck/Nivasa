@@ -23,6 +23,7 @@ export interface IUser extends Document {
   bookings: mongoose.Types.ObjectId[] | null;
   wishlist: mongoose.Types.ObjectId[] | null;
   createdAt?: Date;
+  role: string;
 }
 
 // 2. Define the schema with the interface
@@ -64,7 +65,8 @@ const userSchema = new Schema<IUser>(
     hostedListings: [{ type: Schema.Types.ObjectId, ref: "Listing", default:[] }],
     bookings: [{ type: Schema.Types.ObjectId, ref: "Booking", default:[]}],
     createdAt: { type: Date, default: Date.now },
-    wishlist: [ {type: Schema.Types.ObjectId, ref:"Listing" } ]
+    wishlist: [ {type: Schema.Types.ObjectId, ref:"Listing" } ],
+    role: { type: String, enum: ['user', 'admin'], default: 'user' }
   },
   { timestamps: true, versionKey: false }
 );
