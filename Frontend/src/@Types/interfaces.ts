@@ -141,6 +141,7 @@ export interface IlistingObj {
   capacity: Icapacity;
   gallery: Record<string, string[]>;
   createdAt: Date;
+  maxGuests:number
 }
 
 export interface IfullListing extends Omit<IlistingObj, "host"> {

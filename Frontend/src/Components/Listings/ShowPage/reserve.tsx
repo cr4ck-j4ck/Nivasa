@@ -10,43 +10,55 @@ import { Calendar02 } from "@/Components/Calendar02";
 import reserveStore from "@/Store/Reserve";
 import { useShallow } from "zustand/react/shallow";
 
-import type {IlistingObj,IfullListing  } from "@/@Types/interfaces";
+import type { IlistingObj, IfullListing } from "@/@Types/interfaces";
 
 interface SeatReservationBoxProps {
   listing?: IlistingObj | IfullListing;
   onReserveClick?: () => void;
 }
 
-const SeatReservationBox: React.FC<SeatReservationBoxProps> = ({ listing, onReserveClick }) => {
+const SeatReservationBox: React.FC<SeatReservationBoxProps> = ({
+  listing,
+  onReserveClick,
+}) => {
   const [showGuests, setShowGuests] = useState<boolean>(false);
   const [blurSecondInput, setBlurSecondInput] = useState(false);
 
-
-  const { focusInput, bookingDates, showCalendar, setShowCalendar, setFocusInput, setBookingDates, setDate, guests, setGuests, date: selectedDate } = reserveStore(useShallow(state => ({
-    setShowCalendar: state.setShowCalendar,
-    setFocusInput: state.setFocusInput,
-    showCalendar: state.showCalendar,
-    focusInput: state.focusInput,
-    bookingDates: state.bookingDates,
-    setBookingDates: state.setBookingDates,
-    date: state.date,
-    setDate: state.setDate,
-    guests: state.guests,
-    setGuests: state.setGuests
-  })))
-
+  const {
+    focusInput,
+    bookingDates,
+    showCalendar,
+    setShowCalendar,
+    setFocusInput,
+    setBookingDates,
+    setDate,
+    guests,
+    setGuests,
+    date: selectedDate,
+  } = reserveStore(
+    useShallow((state) => ({
+      setShowCalendar: state.setShowCalendar,
+      setFocusInput: state.setFocusInput,
+      showCalendar: state.showCalendar,
+      focusInput: state.focusInput,
+      bookingDates: state.bookingDates,
+      setBookingDates: state.setBookingDates,
+      date: state.date,
+      setDate: state.setDate,
+      guests: state.guests,
+      setGuests: state.setGuests,
+    }))
+  );
 
   const inputRef = useRef<(HTMLDivElement | null)[]>([]);
   const calRef = useRef<HTMLDivElement | null>(null);
   const dateDiv = useRef<HTMLDivElement | null>(null);
 
-
-
   useEffect(() => {
     if (focusInput && showCalendar) {
-      setBlurSecondInput(bookingDates.checkIn ? false : true)
+      setBlurSecondInput(bookingDates.checkIn ? false : true);
     }
-  }, [focusInput, showCalendar, bookingDates.checkIn])
+  }, [focusInput, showCalendar, bookingDates.checkIn]);
 
   // Convert selected date to checkIn/checkOut based on focusInput
   useEffect(() => {
@@ -55,7 +67,7 @@ const SeatReservationBox: React.FC<SeatReservationBoxProps> = ({ listing, onRese
         // Setting check-in date
         setBookingDates({
           checkIn: selectedDate,
-          checkOut: null // Reset checkout when changing checkin
+          checkOut: null, // Reset checkout when changing checkin
         });
         // Move to checkout input
         setFocusInput("input2");
@@ -64,7 +76,7 @@ const SeatReservationBox: React.FC<SeatReservationBoxProps> = ({ listing, onRese
         // Setting check-out date
         if (selectedDate > bookingDates.checkIn) {
           setBookingDates({
-            checkOut: selectedDate
+            checkOut: selectedDate,
           });
           // Close calendar after selecting checkout
           setShowCalendar(false);
@@ -73,7 +85,7 @@ const SeatReservationBox: React.FC<SeatReservationBoxProps> = ({ listing, onRese
           // If selected date is before checkin, set it as new checkin
           setBookingDates({
             checkIn: selectedDate,
-            checkOut: null
+            checkOut: null,
           });
           setFocusInput("input2");
         }
@@ -81,7 +93,15 @@ const SeatReservationBox: React.FC<SeatReservationBoxProps> = ({ listing, onRese
       // Clear the selected date after processing
       setDate(undefined);
     }
-  }, [selectedDate, focusInput, bookingDates.checkIn, setBookingDates, setDate, setFocusInput, setShowCalendar]);
+  }, [
+    selectedDate,
+    focusInput,
+    bookingDates.checkIn,
+    setBookingDates,
+    setDate,
+    setFocusInput,
+    setShowCalendar,
+  ]);
 
   useEffect(() => {
     const func1 = (e: KeyboardEvent) => {
@@ -115,8 +135,8 @@ const SeatReservationBox: React.FC<SeatReservationBoxProps> = ({ listing, onRese
   const updateGuest = (type: keyof typeof guests, change: number) => {
     const newCount = Math.max(0, guests[type] + change);
     // At least 1 adult required
-    if (type === 'adults' && newCount === 0) return;
-    
+    if (type === "adults" && newCount === 0) return;
+
     setGuests({ [type]: newCount });
   };
 
@@ -125,17 +145,22 @@ const SeatReservationBox: React.FC<SeatReservationBoxProps> = ({ listing, onRese
       alert("Listing information not available");
       return;
     }
-    
+
     if (onReserveClick) {
       onReserveClick();
     }
   };
 
   const guestCategories = [
-    { id: 'adults', title: 'Adults', description: 'Ages 13 or above' },
-    { id: 'children', title: 'Children', description: 'Ages 2–12' },
-    { id: 'infants', title: 'Infants', description: 'Under 2' },
-    { id: 'pets', title: 'Pets', description: 'Bringing a service animal?', isLink: true },
+    { id: "adults", title: "Adults", description: "Ages 13 or above" },
+    { id: "children", title: "Children", description: "Ages 2–12" },
+    { id: "infants", title: "Infants", description: "Under 2" },
+    {
+      id: "pets",
+      title: "Pets",
+      description: "Bringing a service animal?",
+      isLink: true,
+    },
   ];
 
   function formatDate(date?: Date | null): string {
@@ -150,10 +175,10 @@ const SeatReservationBox: React.FC<SeatReservationBoxProps> = ({ listing, onRese
     if (inputRef.current[0]?.contains(e.target as Node)) {
       setFocusInput("input1");
     } else {
-      setFocusInput(bookingDates.checkIn ? "input2" : "input1")
+      setFocusInput(bookingDates.checkIn ? "input2" : "input1");
     }
   }
-// TODO add Rating Field to the listing interface
+  // TODO add Rating Field to the listing interface
   return (
     <>
       <motion.div
@@ -173,7 +198,9 @@ const SeatReservationBox: React.FC<SeatReservationBoxProps> = ({ listing, onRese
             {listing?.rating && (
               <div className="flex items-center ml-auto">
                 <Star className="w-4 h-4 text-yellow-500 fill-current" />
-                <span className="text-sm font-medium ml-1">{listing.rating}</span>
+                <span className="text-sm font-medium ml-1">
+                  {listing.rating}
+                </span>
                 {listing.reviewCount && (
                   <span className="text-sm text-gray-500 ml-1">
                     ({listing.reviewCount})
@@ -182,7 +209,7 @@ const SeatReservationBox: React.FC<SeatReservationBoxProps> = ({ listing, onRese
               </div>
             )}
           </div>
-          
+
           <motion.div
             animate={{ opacity: 0.7 }}
             className="flex items-center text-sm text-gray-600"
@@ -192,154 +219,97 @@ const SeatReservationBox: React.FC<SeatReservationBoxProps> = ({ listing, onRese
           </motion.div>
         </div>
 
-      {/* 📅 Date Inputs */}
-      <div
-        className="md:flex mt-5 z-10 relative dateInputs"
-        onClick={(e) => {
-          setShowCalendar(true);
-          handleRowClick(e);
-        }}
-        ref={dateDiv}
-      >
-        {/* Check-in */}
+        {/* 📅 Date Inputs */}
         <div
-          className={`${focusInput === "input1" ? "border-3" : "border"
-            } p-3 border-black md:rounded-tl-md cursor-pointer md:w-1/2 ${showCalendar ? "rounded-bl-md" : ""
+          className="md:flex mt-5 z-10 relative dateInputs"
+          onClick={(e) => {
+            setShowCalendar(true);
+            handleRowClick(e);
+          }}
+          ref={dateDiv}
+        >
+          {/* Check-in */}
+          <div
+            className={`${
+              focusInput === "input1" ? "border-3" : "border"
+            } p-3 border-black md:rounded-tl-md cursor-pointer md:w-1/2 ${
+              showCalendar ? "rounded-bl-md" : ""
             }`}
-          ref={(el) => { (inputRef.current[0] = el!) }}
-          id="input1"
-        >
-          <p className="reservePara">CHECK-IN</p>
-          <input
-            type="text"
-            readOnly
-            value={formatDate(bookingDates.checkIn)}
-            placeholder={`${showCalendar ? "DD/MM/YYYY" : "Add Date"}`}
-            className="cursor-pointer outline-none w-full min-w-[80px]"
-          />
-        </div>
-
-        {/* Check-out */}
-        <div
-          className={`${focusInput === "input2" ? "border-3" : "border md:border-l-0"
-            } p-3 md:rounded-tr-md border-black ${blurSecondInput ? "bg-black/20 opacity-55" : ""} cursor-pointer md:w-1/2 ${showCalendar ? "rounded-br-md" : ""
-            }`}
-          ref={(el) => { (inputRef.current[1] = el!) }}
-          id="input2"
-        >
-          <p className="reservePara">CHECKOUT</p>
-          <input
-            type="text"
-            placeholder={`${showCalendar ? "DD/MM/YYYY" : "Add Date"}`}
-            className="cursor-pointer outline-none w-full min-w-[80px]"
-            readOnly
-            value={formatDate(bookingDates.checkOut)}
-          />
-        </div>
-      </div>
-
-      {/* 📆 Calendar */}
-      {showCalendar && (
-        <div
-          className="absolute top-14 right-0 calRes z-2 w-[50rem]"
-          ref={calRef}
-        >
-          <div className="ml-3 mb-4">
-            <p className="font-semibold text-2xl">Select Dates</p>
-            <p className="text-sm text-[#5b5b5b]">
-              Add your travel dates for exact pricing
-            </p>
+            ref={(el) => {
+              inputRef.current[0] = el!;
+            }}
+            id="input1"
+          >
+            <p className="reservePara">CHECK-IN</p>
+            <input
+              type="text"
+              readOnly
+              value={formatDate(bookingDates.checkIn)}
+              placeholder={`${showCalendar ? "DD/MM/YYYY" : "Add Date"}`}
+              className="cursor-pointer outline-none w-full min-w-[80px]"
+            />
           </div>
 
-          <Calendar02
-            className="checkInCal"
-          />
-
-          <div className="flex w-full justify-end mt-5">
-            <p
-              className="mr-5 mt-2 underline text-black font-semibold cursor-pointer"
-              onClick={() => {
-                setDate(undefined);
-                setBookingDates({
-                  checkIn: null,
-                  checkOut: null
-                })
-                setFocusInput("input1");
-                setBlurSecondInput(true)
-              }}
-            >
-              Clear dates
-            </p>
-            <button
-              className="mr-5 closeBtn font-semibold"
-              onClick={() => {
-                setShowCalendar(false);
-                setFocusInput(null);
-                setBlurSecondInput(false);
-              }}
-            >
-              Close
-            </button>
-          </div>
-        </div>
-      )}
-
-      {/* 👨‍👩‍👧‍👦 Guests Dropdown */}
-      <div className="relative mb-4 z-20">
-        <div
-          className="border p-3 cursor-pointer rounded-bl-md rounded-br-md border-black border-t-0 flex"
-          onClick={() => setShowGuests(!showGuests)}
-        >
-          Guests: {guests.adults + guests.children + guests.infants}
-          <div className="absolute right-4">
-            {showGuests ? <UpIcon /> : <DownIcon />}
+          {/* Check-out */}
+          <div
+            className={`${
+              focusInput === "input2" ? "border-3" : "border md:border-l-0"
+            } p-3 md:rounded-tr-md border-black ${
+              blurSecondInput ? "bg-black/20 opacity-55" : ""
+            } cursor-pointer md:w-1/2 ${showCalendar ? "rounded-br-md" : ""}`}
+            ref={(el) => {
+              inputRef.current[1] = el!;
+            }}
+            id="input2"
+          >
+            <p className="reservePara">CHECKOUT</p>
+            <input
+              type="text"
+              placeholder={`${showCalendar ? "DD/MM/YYYY" : "Add Date"}`}
+              className="cursor-pointer outline-none w-full min-w-[80px]"
+              readOnly
+              value={formatDate(bookingDates.checkOut)}
+            />
           </div>
         </div>
 
-        {showGuests && (
-          <div className="absolute right-0 top-full mt-2 w-[340px] bg-white border shadow-lg rounded-xl 
-          z-10 p-6">
-            {guestCategories.map((category, index) => (
-              <>
-                <div
-                  key={category.id}
-                  className="flex items-center justify-between"
-                >
-                  <div>
-                    <p className="font-semibold">{category.title}</p>
-                    <p className={`text-sm ${category.isLink ? 'underline' : 'text-gray-600'}`}>{category.description}</p>
-                  </div>
-                  <div className="flex items-center gap-4">
-                    <button
-                      onClick={() => updateGuest(category.id as keyof typeof guests, -1)}
-                      disabled={
-                        category.id === 'adults'
-                          ? guests.adults <= 1
-                          : guests[category.id as keyof typeof guests] === 0
-                      }
-                      className="w-8 h-8 border border-gray-400 rounded-full flex items-center justify-center text-gray-600 disabled:opacity-40 disabled:cursor-not-allowed hover:border-black"
-                    >
-                      −
-                    </button>
-                    <span className="w-5 text-center text-lg">{guests[category.id as keyof typeof guests]}</span>
-                    <button
-                      onClick={() => updateGuest(category.id as keyof typeof guests, 1)}
-                      className="w-8 h-8 border border-gray-400 rounded-full flex items-center justify-center text-gray-600 hover:border-black"
-                    >
-                      +
-                    </button>
-                  </div>
-                </div>
-                {index < guestCategories.length - 1 && <hr className="my-4" />}
-              </>
-            ))}
-            <p className="text-sm text-gray-600 mt-6">
-              This place has a maximum of {listing?.maxGuests || 4} guests, not including infants.
-            </p>
-            <div className="flex justify-end mt-4">
+        {/* 📆 Calendar */}
+        {showCalendar && (
+          <div
+            className="absolute top-14 right-0 calRes z-2 w-[50rem]"
+            ref={calRef}
+          >
+            <div className="ml-3 mb-4">
+              <p className="font-semibold text-2xl">Select Dates</p>
+              <p className="text-sm text-[#5b5b5b]">
+                Add your travel dates for exact pricing
+              </p>
+            </div>
+
+            <Calendar02 className="checkInCal" />
+
+            <div className="flex w-full justify-end mt-5">
+              <p
+                className="mr-5 mt-2 underline text-black font-semibold cursor-pointer"
+                onClick={() => {
+                  setDate(undefined);
+                  setBookingDates({
+                    checkIn: null,
+                    checkOut: null,
+                  });
+                  setFocusInput("input1");
+                  setBlurSecondInput(true);
+                }}
+              >
+                Clear dates
+              </p>
               <button
-                className="font-semibold underline text-lg"
-                onClick={() => setShowGuests(false)}
+                className="mr-5 closeBtn font-semibold"
+                onClick={() => {
+                  setShowCalendar(false);
+                  setFocusInput(null);
+                  setBlurSecondInput(false);
+                }}
               >
                 Close
               </button>
@@ -347,12 +317,91 @@ const SeatReservationBox: React.FC<SeatReservationBoxProps> = ({ listing, onRese
           </div>
         )}
 
-      </div>
+        {/* 👨‍👩‍👧‍👦 Guests Dropdown */}
+        <div className="relative mb-4 z-20">
+          <div
+            className="border p-3 cursor-pointer rounded-bl-md rounded-br-md border-black border-t-0 flex"
+            onClick={() => setShowGuests(!showGuests)}
+          >
+            Guests: {guests.adults + guests.children + guests.infants}
+            <div className="absolute right-4">
+              {showGuests ? <UpIcon /> : <DownIcon />}
+            </div>
+          </div>
+
+          {showGuests && (
+            <div
+              className="absolute right-0 top-full mt-2 w-[340px] bg-white border shadow-lg rounded-xl 
+          z-10 p-6"
+            >
+              {guestCategories.map((category, index) => (
+                <>
+                  <div
+                    key={category.id}
+                    className="flex items-center justify-between"
+                  >
+                    <div>
+                      <p className="font-semibold">{category.title}</p>
+                      <p
+                        className={`text-sm ${
+                          category.isLink ? "underline" : "text-gray-600"
+                        }`}
+                      >
+                        {category.description}
+                      </p>
+                    </div>
+                    <div className="flex items-center gap-4">
+                      <button
+                        onClick={() =>
+                          updateGuest(category.id as keyof typeof guests, -1)
+                        }
+                        disabled={
+                          category.id === "adults"
+                            ? guests.adults <= 1
+                            : guests[category.id as keyof typeof guests] === 0
+                        }
+                        className="w-8 h-8 border border-gray-400 rounded-full flex items-center justify-center text-gray-600 disabled:opacity-40 disabled:cursor-not-allowed hover:border-black"
+                      >
+                        −
+                      </button>
+                      <span className="w-5 text-center text-lg">
+                        {guests[category.id as keyof typeof guests]}
+                      </span>
+                      <button
+                        onClick={() =>
+                          updateGuest(category.id as keyof typeof guests, 1)
+                        }
+                        className="w-8 h-8 border border-gray-400 rounded-full flex items-center justify-center text-gray-600 hover:border-black"
+                      >
+                        +
+                      </button>
+                    </div>
+                  </div>
+                  {index < guestCategories.length - 1 && (
+                    <hr className="my-4" />
+                  )}
+                </>
+              ))}
+              <p className="text-sm text-gray-600 mt-6">
+                This place has a maximum of {listing?.maxGuests || 4} guests,
+                not including infants.
+              </p>
+              <div className="flex justify-end mt-4">
+                <button
+                  className="font-semibold underline text-lg"
+                  onClick={() => setShowGuests(false)}
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
         {/* ✅ Enhanced Reserve Button */}
         <motion.button
-          whileHover={{ 
+          whileHover={{
             scale: 1.02,
-            boxShadow: "0 10px 25px rgba(248, 49, 89, 0.3)"
+            boxShadow: "0 10px 25px rgba(248, 49, 89, 0.3)",
           }}
           whileTap={{ scale: 0.98 }}
           onClick={handleReserveClick}
@@ -362,7 +411,7 @@ const SeatReservationBox: React.FC<SeatReservationBoxProps> = ({ listing, onRese
           <span className="relative z-10 flex items-center justify-center">
             Reserve
           </span>
-          
+
           {/* Shimmer effect */}
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
         </motion.button>

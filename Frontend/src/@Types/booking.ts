@@ -1,4 +1,4 @@
-import type { IlistingObj } from "./interfaces";
+import type { IfullListing, IlistingObj } from "./interfaces";
 
 export interface GuestCount {
   adults: number;
@@ -21,7 +21,7 @@ export interface PricingBreakdown {
 
 export interface BookingData {
   _id?: string;
-  listing: IlistingObj;
+  listing: IlistingObj | IfullListing;
   checkIn: Date;
   checkOut: Date;
   guests: GuestCount;

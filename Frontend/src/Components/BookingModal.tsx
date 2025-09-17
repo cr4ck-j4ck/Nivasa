@@ -6,7 +6,9 @@ import confetti from "canvas-confetti";
 import { DatesStep, ReviewStep, SuccessStep } from "./BookingModal/BookingSteps";
 import type { GuestCount, PricingBreakdown, BookingStep } from "../@Types/booking";
 import type { Variants } from "framer-motion";
-import  type { IlistingObj,IfullListing } from "@/@Types/interfaces";
+import type { IlistingObj,IfullListing } from "@/@Types/interfaces";
+import reserveStore from "@/Store/Reserve";
+import { useShallow } from "zustand/react/shallow";
 interface BookingModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -15,19 +17,21 @@ interface BookingModalProps {
 
 const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, listing }) => {
   const [step, setStep] = useState<BookingStep>('dates');
-  const [checkIn, setCheckIn] = useState<Date | null>(null);
-  const [checkOut, setCheckOut] = useState<Date | null>(null);
-  const [guests, setGuests] = useState<GuestCount>({
-    adults: 1,
-    children: 0,
-    infants: 0,
-    pets: 0
-  });
   const [pricing, setPricing] = useState<PricingBreakdown | null>(null);
   const [loading, setLoading] = useState(false);
   const [bookingId, setBookingId] = useState<string>("");
   const [promoCode, setPromoCode] = useState("");
   const [notes, setNotes] = useState("");
+  
+  // Get dates and guests from reserveStore
+  const { bookingDates, setBookingDates, guests: storeGuests, setGuests: setStoreGuests } = reserveStore(useShallow(state => ({
+    bookingDates: state.bookingDates,
+    setBookingDates: state.setBookingDates,
+    guests: state.guests,
+    setGuests: state.setGuests
+  })));
+  
+  const { checkIn, checkOut } = bookingDates;
   
   const controls = useAnimation();
   const sparkleRef = useRef<HTMLDivElement>(null);
@@ -68,7 +72,7 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, listing })
           listingId: listing._id,
           checkIn: checkIn?.toISOString(),
           checkOut: checkOut?.toISOString(),
-          guests: JSON.stringify(guests),
+          guests: JSON.stringify(storeGuests),
           promoCode: promoCode || undefined,
         },
       });
@@ -82,26 +86,31 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, listing })
     } catch (error) {
       console.error("Error calculating pricing:", error);
     }
-  }, [listing._id, checkIn, checkOut, guests, promoCode, createSparkles]);
+  }, [listing._id, checkIn, checkOut, storeGuests, promoCode, createSparkles]);
 
   // Calculate pricing when dates or guests change
   useEffect(() => {
     if (checkIn && checkOut) {
       calculatePricing();
     }
-  }, [checkIn, checkOut, calculatePricing]);
+  }, [checkIn, checkOut, storeGuests, calculatePricing]);
+
+  // Reset step when modal closes
+  useEffect(() => {
+    if (!isOpen) {
+      setStep('dates');
+    }
+  }, [isOpen]);
 
   const handleGuestChange = (type: keyof GuestCount, increment: boolean) => {
-    setGuests(prev => {
-      const newCount = increment ? prev[type] + 1 : Math.max(0, prev[type] - 1);
-      if (type === 'adults' && newCount === 0) return prev; // At least 1 adult required
-      
-      const totalGuests = type === 'adults' ? newCount : prev.adults + (type === 'children' ? newCount : prev.children);
-      // TODO instead of 10, use listing.capacity.totalGuests if available
-      if (totalGuests > 10 && increment) return prev;
-      
-      return { ...prev, [type]: newCount };
-    });
+    const newCount = increment ? storeGuests[type] + 1 : Math.max(0, storeGuests[type] - 1);
+    if (type === 'adults' && newCount === 0) return; // At least 1 adult required
+    
+    const totalGuests = type === 'adults' ? newCount : storeGuests.adults + (type === 'children' ? newCount : storeGuests.children);
+    // TODO instead of 10, use listing.capacity.totalGuests if available
+    if (totalGuests > 10 && increment) return;
+    
+    setStoreGuests({ [type]: newCount });
   };
 
   const handleContinueToReview = () => {
@@ -137,7 +146,7 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, listing })
           listingId: listing._id,
           checkIn: checkIn.toISOString(),
           checkOut: checkOut.toISOString(),
-          guests,
+          guests: storeGuests,
           promoCode: promoCode || undefined,
           notes: notes || undefined,
         },
@@ -324,9 +333,8 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, listing })
                 <DatesStep
                   checkIn={checkIn}
                   checkOut={checkOut}
-                  setCheckIn={setCheckIn}
-                  setCheckOut={setCheckOut}
-                  guests={guests}
+                  setBookingDates={setBookingDates}
+                  guests={storeGuests}
                   onGuestChange={handleGuestChange}
                   pricing={pricing}
                   promoCode={promoCode}
@@ -346,7 +354,7 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, listing })
                     listing,
                     checkIn: checkIn!,
                     checkOut: checkOut!,
-                    guests,
+                    guests: storeGuests,
                     pricing: pricing!,
                     promoCode,
                     notes
@@ -364,7 +372,7 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, listing })
                     listing,
                     checkIn: checkIn!,
                     checkOut: checkOut!,
-                    guests,
+                    guests: storeGuests,
                     pricing: pricing!,
                   }}
                   onClose={onClose}
