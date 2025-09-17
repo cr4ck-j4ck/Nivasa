@@ -3,19 +3,15 @@ import { X, EyeOff, Eye, type LucideIcon } from "lucide-react";
 import PasswordStrengthIndicator from "./PasswordIndicator";
 import globalStore from "@/Store/Global";
 import { useShallow } from "zustand/react/shallow";
-
+import type { UseFormRegister, FieldValues } from "react-hook-form";
+import { type FormData } from "./AuthForm";
 interface InputFieldProps {
   icon: LucideIcon;
   type?: string;
   placeholder: string;
   error?: string;
   showPasswordToggle?: boolean;
-  register: (name: string) => {
-    name: string;
-    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-    value: string;
-    onBlur: () => void;
-  };
+  register: UseFormRegister<FormData>;
   name: string;
   watch?: (field: string) => string;
   isLogin?:boolean;

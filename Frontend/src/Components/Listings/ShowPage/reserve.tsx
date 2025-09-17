@@ -4,13 +4,12 @@ import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import UpIcon from "@mui/icons-material/KeyboardArrowUp";
 import DownIcon from "@mui/icons-material/KeyboardArrowDown";
-import { Sparkles, Star, Shield } from "lucide-react";
+import { Star, Shield } from "lucide-react";
 import "./reserve.css";
 import { Calendar02 } from "@/Components/Calendar02";
 import reserveStore from "@/Store/Reserve";
 import { useShallow } from "zustand/react/shallow";
-import BookingModal from "@/Components/Bookings/BookingModal";
-import confetti from "canvas-confetti";
+
 import type {IlistingObj,IfullListing  } from "@/@Types/interfaces";
 
 interface SeatReservationBoxProps {
@@ -21,10 +20,9 @@ interface SeatReservationBoxProps {
 const SeatReservationBox: React.FC<SeatReservationBoxProps> = ({ listing, onReserveClick }) => {
   const [showGuests, setShowGuests] = useState<boolean>(false);
   const [blurSecondInput, setBlurSecondInput] = useState(false);
-  const [showBookingModal, setShowBookingModal] = useState(false);
-  const [isHovered, setIsHovered] = useState(false);
-  
-  const { focusInput, bookingDates, showCalendar, setShowCalendar, setFocusInput, setBookingDates, setDate } = reserveStore(useShallow(state => ({
+
+
+  const { focusInput, bookingDates, showCalendar, setShowCalendar, setFocusInput, setBookingDates, setDate, guests, setGuests, date: selectedDate } = reserveStore(useShallow(state => ({
     setShowCalendar: state.setShowCalendar,
     setFocusInput: state.setFocusInput,
     showCalendar: state.showCalendar,
@@ -32,7 +30,9 @@ const SeatReservationBox: React.FC<SeatReservationBoxProps> = ({ listing, onRese
     bookingDates: state.bookingDates,
     setBookingDates: state.setBookingDates,
     date: state.date,
-    setDate: state.setDate
+    setDate: state.setDate,
+    guests: state.guests,
+    setGuests: state.setGuests
   })))
 
 
@@ -40,23 +40,48 @@ const SeatReservationBox: React.FC<SeatReservationBoxProps> = ({ listing, onRese
   const calRef = useRef<HTMLDivElement | null>(null);
   const dateDiv = useRef<HTMLDivElement | null>(null);
 
-  const [guests, setGuests] = useState<{
-    adults: number;
-    children: number;
-    infants: number;
-    pets: number;
-  }>({
-    adults: 1,
-    children: 0,
-    infants: 0,
-    pets: 0,
-  });
+
 
   useEffect(() => {
     if (focusInput && showCalendar) {
       setBlurSecondInput(bookingDates.checkIn ? false : true)
     }
   }, [focusInput, showCalendar, bookingDates.checkIn])
+
+  // Convert selected date to checkIn/checkOut based on focusInput
+  useEffect(() => {
+    if (selectedDate) {
+      if (focusInput === "input1") {
+        // Setting check-in date
+        setBookingDates({
+          checkIn: selectedDate,
+          checkOut: null // Reset checkout when changing checkin
+        });
+        // Move to checkout input
+        setFocusInput("input2");
+        setBlurSecondInput(false);
+      } else if (focusInput === "input2" && bookingDates.checkIn) {
+        // Setting check-out date
+        if (selectedDate > bookingDates.checkIn) {
+          setBookingDates({
+            checkOut: selectedDate
+          });
+          // Close calendar after selecting checkout
+          setShowCalendar(false);
+          setFocusInput(null);
+        } else {
+          // If selected date is before checkin, set it as new checkin
+          setBookingDates({
+            checkIn: selectedDate,
+            checkOut: null
+          });
+          setFocusInput("input2");
+        }
+      }
+      // Clear the selected date after processing
+      setDate(undefined);
+    }
+  }, [selectedDate, focusInput, bookingDates.checkIn, setBookingDates, setDate, setFocusInput, setShowCalendar]);
 
   useEffect(() => {
     const func1 = (e: KeyboardEvent) => {
@@ -88,20 +113,11 @@ const SeatReservationBox: React.FC<SeatReservationBoxProps> = ({ listing, onRese
   }, [showCalendar, setFocusInput, setShowCalendar]);
 
   const updateGuest = (type: keyof typeof guests, change: number) => {
-    setGuests((prev) => ({
-      ...prev,
-      [type]: Math.max(0, prev[type] + change),
-    }));
-  };
-
-  const triggerSparkles = () => {
-    confetti({
-      particleCount: 30,
-      spread: 60,
-      origin: { y: 0.7 },
-      shapes: ['star'],
-      colors: ['#FFD700', '#FFA500', '#FF69B4']
-    });
+    const newCount = Math.max(0, guests[type] + change);
+    // At least 1 adult required
+    if (type === 'adults' && newCount === 0) return;
+    
+    setGuests({ [type]: newCount });
   };
 
   const handleReserveClick = () => {
@@ -110,12 +126,8 @@ const SeatReservationBox: React.FC<SeatReservationBoxProps> = ({ listing, onRese
       return;
     }
     
-    triggerSparkles();
-    
     if (onReserveClick) {
       onReserveClick();
-    } else {
-      setShowBookingModal(true);
     }
   };
 
@@ -150,8 +162,6 @@ const SeatReservationBox: React.FC<SeatReservationBoxProps> = ({ listing, onRese
         transition={{ duration: 0.6 }}
         className="p-6 m-5 ml-10 rounded-2xl no-select sticky w-1/2 max-w-[380px] top-10 mb-10 h-fit bg-white border border-gray-200"
         style={{ boxShadow: "rgba(0, 0, 0, 0.12) 0px 6px 16px" }}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
       >
         {/* Header with pricing */}
         <div className="mb-6">
@@ -174,7 +184,7 @@ const SeatReservationBox: React.FC<SeatReservationBoxProps> = ({ listing, onRese
           </div>
           
           <motion.div
-            animate={{ opacity: isHovered ? 1 : 0.7 }}
+            animate={{ opacity: 0.7 }}
             className="flex items-center text-sm text-gray-600"
           >
             <Shield className="w-4 h-4 mr-1 text-green-500" />
@@ -336,6 +346,7 @@ const SeatReservationBox: React.FC<SeatReservationBoxProps> = ({ listing, onRese
             </div>
           </div>
         )}
+
       </div>
         {/* ✅ Enhanced Reserve Button */}
         <motion.button
@@ -346,32 +357,10 @@ const SeatReservationBox: React.FC<SeatReservationBoxProps> = ({ listing, onRese
           whileTap={{ scale: 0.98 }}
           onClick={handleReserveClick}
           className="relative z-1 cursor-pointer w-full bg-gradient-to-r from-[#F83159] to-[#FF6B9D] text-white py-4 rounded-xl font-semibold text-lg overflow-hidden group transition-all duration-300 hover:from-[#cf2346] hover:to-[#e55a87]"
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}
         >
-          {/* Sparkle effect */}
-          <motion.div
-            initial={{ x: -100, opacity: 0 }}
-            animate={{ 
-              x: isHovered ? 400 : -100,
-              opacity: isHovered ? [0, 1, 0] : 0
-            }}
-            transition={{ duration: 0.6 }}
-            className="absolute inset-0 flex items-center justify-center"
-          >
-            <Sparkles className="w-6 h-6 text-white" />
-          </motion.div>
-          
           {/* Button text */}
           <span className="relative z-10 flex items-center justify-center">
             Reserve
-            <motion.div
-              animate={{ rotate: isHovered ? 360 : 0 }}
-              transition={{ duration: 0.5 }}
-              className="ml-2"
-            >
-              ✨
-            </motion.div>
           </span>
           
           {/* Shimmer effect */}
@@ -390,20 +379,11 @@ const SeatReservationBox: React.FC<SeatReservationBoxProps> = ({ listing, onRese
             <span>Secure payment</span>
           </div>
           <div className="flex items-center">
-            <Sparkles className="w-3 h-3 mr-1 text-blue-500" />
+            <Shield className="w-3 h-3 mr-1 text-blue-500" />
             <span>Instant confirmation</span>
           </div>
         </motion.div>
       </motion.div>
-
-      {/* Booking Modal */}
-      {listing && (
-        <BookingModal
-          isOpen={showBookingModal}
-          onClose={() => setShowBookingModal(false)}
-          listing={listing}
-        />
-      )}
     </>
   );
 };
