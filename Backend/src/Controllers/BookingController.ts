@@ -319,7 +319,7 @@ export async function getUserBookings(req: AuthenticatedRequest, res: Response) 
     }
 
     const bookings = await BookingModel.find(query)
-      .populate('listing', 'title images location pricing')
+      .populate('listing', 'title gallery location pricing')
       .populate('host', 'firstName lastName email')
       .sort({ createdAt: -1 })
       .skip(skip)

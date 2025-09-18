@@ -24,7 +24,7 @@ const generateCheckInQR = (bookingId: string): string => {
 // Load and process email templates
 const getBookingConfirmationTemplate = (booking: any): string => {
   try {
-    const templatePath = path.join(__dirname, '../templates/bookingConfirmationUser.html');
+    const templatePath = path.join(__dirname, '../../templates/bookingConfirmationUser.html');
     let template = fs.readFileSync(templatePath, 'utf8');
     
     // Replace placeholders with actual data
@@ -87,7 +87,7 @@ const getBookingConfirmationTemplate = (booking: any): string => {
 
 const getHostNotificationTemplate = (booking: any): string => {
   try {
-    const templatePath = path.join(__dirname, '../templates/bookingNotificationHost.html');
+    const templatePath = path.join(__dirname, '../../templates/bookingNotificationHost.html');
     let template = fs.readFileSync(templatePath, 'utf8');
     
     // Replace placeholders with actual data
@@ -170,7 +170,7 @@ const getHostNotificationTemplate = (booking: any): string => {
 export const sendBookingConfirmationEmail = async (booking: any): Promise<void> => {
   try {
     const mailOptions = {
-      from: `"Nivasa" <${process.env.EMAIL_USER}>`,
+      from: `"Nivasa" <${process.env.SMTP_USER}>`,
       to: booking.user.email,
       subject: `🎉 Booking Confirmed - ${booking.listing.title}`,
       html: getBookingConfirmationTemplate(booking),
@@ -188,7 +188,7 @@ export const sendBookingConfirmationEmail = async (booking: any): Promise<void> 
 export const sendHostNotificationEmail = async (booking: any): Promise<void> => {
   try {
     const mailOptions = {
-      from: `"Nivasa Host" <${process.env.EMAIL_USER}>`,
+      from: `"Nivasa Host" <${process.env.SMTP_USER}>`,
       to: booking.host.email,
       subject: `🎉 New Booking - ${booking.listing.title}`,
       html: getHostNotificationTemplate(booking),
@@ -206,7 +206,7 @@ export const sendHostNotificationEmail = async (booking: any): Promise<void> => 
 export const sendBookingCancellationEmail = async (booking: any): Promise<void> => {
   try {
     const mailOptions = {
-      from: `"Nivasa" <${process.env.EMAIL_USER}>`,
+      from: `"Nivasa" <${process.env.SMTP_USER}>`,
       to: booking.user.email,
       subject: `Booking Cancelled - ${booking.listing.title}`,
       html: `

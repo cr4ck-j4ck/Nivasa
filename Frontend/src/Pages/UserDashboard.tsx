@@ -28,7 +28,9 @@ interface Booking {
   listing: {
     _id: string;
     title: string;
-    images: string[];
+    gallery: {
+      [key: string]: string[];
+    };
     location: {
       address: {
         city: string;
@@ -100,6 +102,7 @@ const UserDashboard: React.FC = () => {
         return "bg-gray-100 text-gray-800";
     }
   };
+  console.log(bookings)
 
   const getStatusIcon = (status: string) => {
     switch (status) {
@@ -143,9 +146,9 @@ const UserDashboard: React.FC = () => {
             <div className="grid md:grid-cols-4 gap-0">
               {/* Image */}
               <div className="relative h-48 md:h-full overflow-hidden">
-                {booking.listing.images[0] ? (
+                {booking.listing.gallery["Bedroom 1"][0] ? (
                   <motion.img
-                    src={booking.listing.images[0]}
+                    src={booking.listing.gallery["Bedroom 1"][0] || booking.listing.gallery["Living Room"][0] || booking.listing.gallery["Exterior"][0]}
                     alt={booking.listing.title}
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                     whileHover={{ scale: 1.05 }}

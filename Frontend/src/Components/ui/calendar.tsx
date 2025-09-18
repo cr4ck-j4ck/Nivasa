@@ -10,7 +10,7 @@ import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/Components/ui/button-variants";
 import reserveStore from "@/Store/Reserve";
 import { useShallow } from "zustand/react/shallow";
-
+import { useMemo, useState } from "react";
 
 
 // 👇 Union type to support both single and range modes
@@ -29,13 +29,28 @@ function Calendar({
   ...props
 }: CalendarProps) {
 
-  const { setBookingDates, setFocusInput, focusInput, setShowCalendar } = reserveStore(useShallow(state => ({
+  const { setBookingDates, setFocusInput, focusInput, setShowCalendar, bookingDates } = reserveStore(useShallow(state => ({
     setBookingDates: state.setBookingDates,
     setFocusInput: state.setFocusInput,
     focusInput: state.focusInput,
-    setShowCalendar: state.setShowCalendar
+    setShowCalendar: state.setShowCalendar,
+    bookingDates: state.bookingDates
   })))
 
+  // hoveredDate tracks the day the user is hovering while choosing checkout
+  const [hoveredDate, setHoveredDate] = useState<Date | undefined>(undefined);
+
+  // when user is selecting checkout and checkIn exists, compute a preview range
+  const isPreviewingRange = focusInput === "input2" && !!bookingDates?.checkIn;
+  const previewSelected = useMemo(() => {
+    if (!isPreviewingRange) return props.selected;
+    const start = bookingDates!.checkIn!;
+    if (!hoveredDate) return { from: start };
+    const from = start <= hoveredDate ? start : hoveredDate;
+    const to = start <= hoveredDate ? hoveredDate : start;
+    return { from, to };
+  }, [isPreviewingRange, bookingDates?.checkIn, hoveredDate, props.selected]);
+  
   return (
     <DayPicker
       showOutsideDays={showOutsideDays}
@@ -79,7 +94,7 @@ function Calendar({
           "day-outside text-muted-foreground aria-selected:text-muted-foreground",
         day_disabled: "text-muted-foreground opacity-50",
         day_range_middle:
-          "aria-selected:bg-accent aria-selected:text-accent-foreground",
+          "aria-selected:bg-gray-300 aria-selected:text-accent-foreground",
         day_hidden: "invisible",
         ...classNames,
       }}
@@ -92,6 +107,13 @@ function Calendar({
         ),
       }}
       {...props}
+      // override selected so the hover preview range is rendered
+      selected={previewSelected as any}
+      // while previewing, force range mode so range classes are applied
+      mode={isPreviewingRange ? "range" : (props as any).mode}
+      // update hoveredDate as user moves over days; clear on leave
+      onDayMouseEnter={(day) => day && setHoveredDate(day)}
+      onMouseLeave={() => setHoveredDate(undefined)}
       onDayClick={(e) => {
         // const day = String(e.getDate()).padStart(2, "0");
         // const month = String(e.getMonth() + 1).padStart(2, "0");

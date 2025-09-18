@@ -258,9 +258,9 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, listing })
           />
           <defs>
             <linearGradient id="waveGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#0EA5E9" stopOpacity="0.1" />
-              <stop offset="50%" stopColor="#FCD34D" stopOpacity="0.1" />
-              <stop offset="100%" stopColor="#F59E0B" stopOpacity="0.1" />
+              <stop offset="0%" stopColor="#fc325e" stopOpacity="0.1" />
+              <stop offset="50%" stopColor="#fa1648" stopOpacity="0.1" />
+              <stop offset="100%" stopColor="#cc063e" stopOpacity="0.1" />
             </linearGradient>
           </defs>
         </svg>
@@ -268,7 +268,7 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, listing })
         {/* Modal Content */}
         <motion.div
           ref={modalRef}
-          className="relative w-full max-w-4xl max-h-[90vh] bg-white rounded-3xl shadow-2xl overflow-hidden"
+          className="relative w-full max-w-7xl max-h-[90vh] bg-white rounded-3xl shadow-2xl overflow-hidden"
           variants={modalVariants}
           initial="hidden"
           animate="visible"
@@ -287,7 +287,7 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, listing })
             
             <div className="flex items-center gap-4">
               <motion.div
-                className="w-16 h-16 rounded-2xl overflow-hidden"
+                className="w-26 h-26 rounded-tl-xl overflow-hidden"
                 whileHover={{ scale: 1.05 }}
               >
                 <img

@@ -276,7 +276,7 @@ const SeatReservationBox: React.FC<SeatReservationBoxProps> = ({
         {/* 📆 Calendar */}
         {showCalendar && (
           <div
-            className="absolute top-14 right-0 calRes z-2 w-[50rem]"
+            className="absolute top-14 right-0 calRes z-8 w-[50rem]"
             ref={calRef}
           >
             <div className="ml-3 mb-4">
@@ -318,7 +318,7 @@ const SeatReservationBox: React.FC<SeatReservationBoxProps> = ({
         )}
 
         {/* 👨‍👩‍👧‍👦 Guests Dropdown */}
-        <div className="relative mb-4 z-20">
+        <div className="relative mb-4 z-2">
           <div
             className="border p-3 cursor-pointer rounded-bl-md rounded-br-md border-black border-t-0 flex"
             onClick={() => setShowGuests(!showGuests)}
