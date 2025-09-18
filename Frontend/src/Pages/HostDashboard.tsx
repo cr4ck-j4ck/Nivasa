@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, easeOut } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import {
@@ -23,6 +23,7 @@ import { Card, CardContent } from "@/Components/ui/card";
 import { Button } from "@/Components/ui/button";
 import { Badge } from "@/Components/ui/badge";
 import UserStore from "@/Store/UserStore";
+import { getDashboardStats, getRecentActivity, type IDashboardStats } from "@/Services/booking.api";
 
 interface DashboardSection {
   id: string;
@@ -78,7 +79,31 @@ const cardHoverVariants = {
 export default function ProfileDashboard() {
   const user = UserStore((state) => state.user);
   const [activeCard, setActiveCard] = useState<string | null>(null);
+  const [dashboardStats, setDashboardStats] = useState<IDashboardStats | null>(null);
+  const [recentActivity, setRecentActivity] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchDashboardData = async () => {
+      try {
+        setLoading(true);
+        const [stats, activity] = await Promise.all([
+          getDashboardStats(),
+          getRecentActivity()
+        ]);
+        setDashboardStats(stats);
+        setRecentActivity(activity);
+      } catch (error) {
+        console.error('Error fetching dashboard data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchDashboardData();
+  }, []);
+
   const dashboardSections: DashboardSection[] = [
     {
       id: "bookings",
@@ -86,9 +111,9 @@ export default function ProfileDashboard() {
       description: "Active, past, and upcoming trips",
       icon: Calendar,
       color: "bg-blue-50 text-blue-600",
-      count: 3,
-      badge: "Active",
-      badgeColor: "bg-green-100 text-green-800",
+      count: dashboardStats?.totalBookings || 0,
+      badge: dashboardStats?.activeBookings ? `${dashboardStats.activeBookings} Active` : "No Active",
+      badgeColor: dashboardStats?.activeBookings ? "bg-green-100 text-green-800" : "bg-gray-100 text-gray-800",
     },
     {
       id: "saved",
@@ -96,7 +121,7 @@ export default function ProfileDashboard() {
       description: "Your wishlist homes",
       icon: Heart,
       color: "bg-red-50 text-red-600",
-      count: 12,
+      count: dashboardStats?.wishlistCount || 0,
       badge: "Favorites",
       badgeColor: "bg-red-100 text-red-800",
       path: "/wishlist"
@@ -107,8 +132,8 @@ export default function ProfileDashboard() {
       description: "Chats with hosts",
       icon: MessageCircle,
       color: "bg-green-50 text-green-600",
-      count: 2,
-      badge: "New",
+      count: 0, // Placeholder since we don't have messages API
+      badge: "Coming Soon",
       badgeColor: "bg-blue-100 text-blue-800",
     },
     {
@@ -117,7 +142,7 @@ export default function ProfileDashboard() {
       description: "Monthly & trip expenses",
       icon: DollarSign,
       color: "bg-yellow-50 text-yellow-600",
-      count: "$2,450",
+      count: dashboardStats ? `$${dashboardStats.monthlySpending.toLocaleString()}` : "$0",
       badge: "This Month",
       badgeColor: "bg-yellow-100 text-yellow-800",
     },
@@ -127,19 +152,19 @@ export default function ProfileDashboard() {
       description: "Reviews you've left",
       icon: Star,
       color: "bg-purple-50 text-purple-600",
-      count: 8,
-      badge: "4.9 avg",
+      count: dashboardStats?.totalReviews || 0,
+      badge: dashboardStats ? `${dashboardStats.averageRating} avg` : "No reviews",
       badgeColor: "bg-purple-100 text-purple-800",
     },
     {
       id: "reminders",
-      title: "Check-in Reminders",
-      description: "When to leave for check-in",
+      title: "Upcoming Trips",
+      description: "Your next adventures",
       icon: Clock,
       color: "bg-orange-50 text-orange-600",
-      count: 1,
-      badge: "Tomorrow",
-      badgeColor: "bg-orange-100 text-orange-800",
+      count: dashboardStats?.upcomingBookings || 0,
+      badge: dashboardStats?.upcomingBookings ? "Upcoming" : "None",
+      badgeColor: dashboardStats?.upcomingBookings ? "bg-orange-100 text-orange-800" : "bg-gray-100 text-gray-800",
     },
   ];
 
@@ -286,7 +311,13 @@ export default function ProfileDashboard() {
                 >
                   <Button
                     className={`w-full h-16 ${action.color} hover:opacity-90 text-white font-medium text-lg shadow-lg`}
-                    onClick={() => console.log(`${action.title} clicked`)}
+                    onClick={() => {
+                      if (action.id === 'book') {
+                        navigate('/');
+                      } else {
+                        console.log(`${action.title} clicked - Feature coming soon`);
+                      }
+                    }}
                   >
                     <action.icon className="w-5 h-5 mr-2" />
                     {action.title}
@@ -345,9 +376,13 @@ export default function ProfileDashboard() {
 
                         <div className="flex items-center justify-between">
                           <div className="flex items-center">
-                            <span className="text-2xl font-bold text-gray-900">
-                              {section.count}
-                            </span>
+                            {loading ? (
+                              <div className="animate-pulse bg-gray-200 h-8 w-16 rounded"></div>
+                            ) : (
+                              <span className="text-2xl font-bold text-gray-900">
+                                {section.count}
+                              </span>
+                            )}
                           </div>
                           <motion.div
                             animate={{
@@ -380,55 +415,50 @@ export default function ProfileDashboard() {
                   Recent Activity
                 </h3>
                 <div className="space-y-4">
-                  {[
-                    {
-                      action: "New booking confirmed",
-                      location: "Cozy Cabin in Aspen",
-                      time: "2 hours ago",
-                      icon: Calendar,
-                      color: "text-green-600",
-                    },
-                    {
-                      action: "Message from host",
-                      location: "Beach House in Malibu",
-                      time: "1 day ago",
-                      icon: MessageCircle,
-                      color: "text-blue-600",
-                    },
-                    {
-                      action: "Review submitted",
-                      location: "Mountain Lodge in Whistler",
-                      time: "3 days ago",
-                      icon: Star,
-                      color: "text-yellow-600",
-                    },
-                  ].map((activity, index) => (
-                    <motion.div
-                      key={index}
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: 1 + index * 0.1, duration: 0.5 }}
-                      className="flex items-center p-3 rounded-lg hover:bg-gray-50 transition-colors duration-200"
-                    >
-                      <div className={`p-2 rounded-full bg-gray-100 mr-4`}>
-                        <activity.icon
-                          className={`w-4 h-4 ${activity.color}`}
-                        />
-                      </div>
-                      <div className="flex-1">
-                        <p className="font-medium text-gray-900">
-                          {activity.action}
-                        </p>
-                        <p className="text-sm text-gray-600 flex items-center">
-                          <MapPin className="w-3 h-3 mr-1" />
-                          {activity.location}
-                        </p>
-                      </div>
-                      <span className="text-sm text-gray-500">
-                        {activity.time}
-                      </span>
-                    </motion.div>
-                  ))}
+                  {loading ? (
+                    <div className="flex items-center justify-center py-8">
+                      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-pink-500"></div>
+                    </div>
+                  ) : recentActivity.length > 0 ? (
+                    recentActivity.map((activity, index) => (
+                      <motion.div
+                        key={index}
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: 1 + index * 0.1, duration: 0.5 }}
+                        className="flex items-center p-3 rounded-lg hover:bg-gray-50 transition-colors duration-200"
+                      >
+                        <div className={`p-2 rounded-full bg-gray-100 mr-4`}>
+                          <Calendar
+                            className={`w-4 h-4 ${
+                              activity.status === 'confirmed' ? 'text-green-600' :
+                              activity.status === 'pending' ? 'text-yellow-600' :
+                              activity.status === 'cancelled' ? 'text-red-600' :
+                              'text-blue-600'
+                            }`}
+                          />
+                        </div>
+                        <div className="flex-1">
+                          <p className="font-medium text-gray-900">
+                            {activity.action}
+                          </p>
+                          <p className="text-sm text-gray-600 flex items-center">
+                            <MapPin className="w-3 h-3 mr-1" />
+                            {activity.location}
+                          </p>
+                        </div>
+                        <span className="text-sm text-gray-500">
+                          {activity.time}
+                        </span>
+                      </motion.div>
+                    ))
+                  ) : (
+                    <div className="text-center py-8 text-gray-500">
+                      <Calendar className="w-12 h-12 mx-auto mb-4 text-gray-300" />
+                      <p>No recent activity</p>
+                      <p className="text-sm">Your booking activity will appear here</p>
+                    </div>
+                  )}
                 </div>
               </CardContent>
             </Card>
