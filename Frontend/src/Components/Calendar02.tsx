@@ -25,7 +25,7 @@ export function Calendar02({
       numberOfMonths={2}
       selected={date}
       onSelect={setDate}
-      fromDate={fromD}
+      disabled={{ before: fromD }}
       className={`${className} border shadow-sm relative top-2 flex justify-center bg-white z-2`}
     />
   );

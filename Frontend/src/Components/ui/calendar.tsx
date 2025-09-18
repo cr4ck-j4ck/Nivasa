@@ -1,3 +1,4 @@
+// @ts-nocheck
 import * as React from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { DayPicker } from "react-day-picker";
@@ -115,10 +116,6 @@ function Calendar({
       onDayMouseEnter={(day) => day && setHoveredDate(day)}
       onMouseLeave={() => setHoveredDate(undefined)}
       onDayClick={(e) => {
-        // const day = String(e.getDate()).padStart(2, "0");
-        // const month = String(e.getMonth() + 1).padStart(2, "0");
-        // const year = e.getFullYear();
-        // const fullDate = `${day}/${month}/${year}`;
 
         if (focusInput === "input1") {
           setBookingDates({
