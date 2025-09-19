@@ -1,5 +1,6 @@
 
 // @ts-nocheck
+
 import axios from 'axios';
 
 const API_BASE_URL = import.meta.env.VITE_BACKEND_API || 'http://localhost:3000';
@@ -70,9 +71,9 @@ export interface ListingCard {
     [roomType: string]: string[];
   };
   location: {
-    city: string;
-    state?: string;
-    country: string;
+    address: {
+        city: string;
+      }
   };
   createdAt: string;
   isLiked?: boolean;

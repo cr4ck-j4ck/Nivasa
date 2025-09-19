@@ -88,7 +88,7 @@ function ListingRow({ cityData, isLoading }: { cityData: CityWithListings | null
                 <ListingCard
                   src={getFirstImage()}
                   key={listing._id}
-                  city={listing.location.city}
+                  city={listing.location.address.city}
                   price={listing.price}
                   id={listing._id}
                   index={i}
