@@ -114,6 +114,7 @@ export default function ProfileDashboard() {
       count: dashboardStats?.totalBookings || 0,
       badge: dashboardStats?.activeBookings ? `${dashboardStats.activeBookings} Active` : "No Active",
       badgeColor: dashboardStats?.activeBookings ? "bg-green-100 text-green-800" : "bg-gray-100 text-gray-800",
+      path: "/bookingPage"
     },
     {
       id: "saved",
