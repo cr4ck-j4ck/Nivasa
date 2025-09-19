@@ -108,7 +108,7 @@ const Nav: React.FC<INavprops> = ({ position }) => {
               className={`login flex justify-evenly items-center h-10`}
               onClick={handleClick}
             >
-            {(user ? "" : "Login / Signup")}
+            
             <User size={20}/>
             </div>
           </div>
