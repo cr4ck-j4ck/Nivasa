@@ -138,11 +138,17 @@ bookingSchema.set('toObject', { virtuals: true });
 // Pre-save middleware to validate dates
 bookingSchema.pre('save', function(next) {
   if (this.checkIn >= this.checkOut) {
-    next(new Error('Check-out date must be after check-in date'));
+    return next(new Error('Check-out date must be after check-in date'));
   }
   
-  if (this.checkIn < new Date()) {
-    next(new Error('Check-in date cannot be in the past'));
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const checkInDate = new Date(this.checkIn);
+  checkInDate.setHours(0, 0, 0, 0);
+
+  if (checkInDate < today) {
+    return next(new Error('Check-in date cannot be in the past'));
   }
   
   next();
