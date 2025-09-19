@@ -49,13 +49,18 @@ export async function checkAvailability(req: Request, res: Response) {
       });
     }
 
-    if (checkInDate < new Date()) {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const checkInDateOnly = new Date(checkIn as string);
+    checkInDateOnly.setHours(0, 0, 0, 0);
+
+    if (checkInDateOnly < today) {
       return res.status(400).json({
         success: false,
         message: "Check-in date cannot be in the past",
       });
     }
-
     // Check for existing bookings that overlap with requested dates
     const existingBookings = await BookingModel.find({
       listing: listingId,
@@ -210,7 +215,7 @@ export async function createBooking(req: AuthenticatedRequest, res: Response) {
     }
 
     const totalPrice = basePrice + cleaningFee + serviceFee + taxes - discount;
-
+    console.log("checkInDate, checkOutDate", checkInDate, checkOutDate);
     // Create booking
     const booking = new BookingModel({
       user: userId,
