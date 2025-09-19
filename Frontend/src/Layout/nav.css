@@ -41,20 +41,23 @@
 
 .login {
     background-color: #f32e52;
-    padding: 0.6rem 1.5rem;
     border-radius: 999px;
     color: white;
     font-weight: 600;
     font-size: 0.95rem;
     cursor: pointer;
     position: relative;
-    right: 2rem;
     top: 1.5rem;
+    right : 3rem;
+    width: 2.5rem;
+    padding: 0.6rem;
     text-align: center;
     border: none;
     transition: background-color 0.3s ease, transform 0.2s ease;
 }
-
+.dasa{
+    transition: 0.4s;
+}
 .login:hover {
     background-color: #d82847;
     transform: scale(1.05);

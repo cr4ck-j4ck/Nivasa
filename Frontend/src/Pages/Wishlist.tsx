@@ -3,14 +3,16 @@ import type { IlistingObj } from "@/@Types/interfaces";
 import { getWishlist } from "@/Services/user.api";
 import ListingCard from "@/Components/Listings/IndexPage/ListingCard";
 import WishlistLoading from "./WishlistLoading";
-
+import { EmptyWishlist } from "@/Components/EmptyWishlist";
 const EnhancedWishlist: React.FC = () => {
-  const [data, setData] = useState<IlistingObj[] | null>(null);
+  const [data, setData] = useState<IlistingObj[] | null | string>(null);
 
   useEffect(() => {
     getWishlist().then((res) => setData(res));
   }, []);
-
+  if(typeof data === "string"){
+    return <EmptyWishlist/>;
+  }
   return (
     <>
     {data ? 

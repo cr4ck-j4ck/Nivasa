@@ -405,7 +405,7 @@ export async function getPendingListings(req: Request, res: Response) {
 
     const pendingListings = await ListingModel.find({ status: 'pending' })
       .populate('host', 'firstName lastName email')
-      .select('title description propertyType typeOfPlace createdAt images location.address host')
+      .select('title description propertyType typeOfPlace createdAt gallery location.address host')
       .sort({ createdAt: -1 })
       .skip(skip)
       .limit(Number(limit))

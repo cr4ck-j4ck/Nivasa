@@ -24,7 +24,7 @@ interface BookingDetails {
   bookingId: string;
   listing: {
     title: string;
-    images: string[];
+    gallery: Record<string, string[]>;
     location: {
       address: {
         city: string;
@@ -72,6 +72,21 @@ const BookingSuccess: React.FC = () => {
   const [booking, setBooking] = useState<BookingDetails | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+
+  // Helper function to get first image from gallery
+  const getFirstImageFromGallery = (gallery: Record<string, string[]>): string => {
+    // Try to get from "Bedroom 1" first
+    if (gallery["Bedroom 1"] && gallery["Bedroom 1"].length > 0) {
+      return gallery["Bedroom 1"][0];
+    }
+    // If no "Bedroom 1", get the first image from any room
+    const firstRoomKey = Object.keys(gallery)[0];
+    if (firstRoomKey && gallery[firstRoomKey].length > 0) {
+      return gallery[firstRoomKey][0];
+    }
+    // Fallback to placeholder
+    return "/placeholder-image.jpg";
+  };
 
   const fetchBookingDetails = React.useCallback(async () => {
     try {
@@ -349,7 +364,7 @@ const BookingSuccess: React.FC = () => {
                   initial={{ scale: 1.2 }}
                   animate={{ scale: 1 }}
                   transition={{ duration: 1.5 }}
-                  src={booking.listing.images[0]}
+                  src={getFirstImageFromGallery(booking.listing.gallery)}
                   alt={booking.listing.title}
                   className="w-full h-full object-cover"
                 />

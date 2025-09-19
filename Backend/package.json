@@ -7,7 +7,9 @@
     "dev": "nodemon dist/server.js",
     "watch": "tsc --watch",
     "build": "tsc",
-    "start": "node dist/server.js"
+    "start": "node dist/server.js",
+    "assign-hosts": "ts-node-dev assignHosts.ts",
+    "seed:transformed": "ts-node-dev seedTransformed.ts"
   },
   "repository": {
     "type": "git",

@@ -32,7 +32,7 @@ const Nav: React.FC<INavprops> = ({ position }) => {
 
   const handleHostClick = () => {
   if (user) {
-      navigate("/dashboard/host");
+      navigate("/hostProfile");
     } else {
       navigate("/auth");
     }
@@ -93,34 +93,23 @@ const Nav: React.FC<INavprops> = ({ position }) => {
           </div>
         </div>
         {isGettingUser === "fullfilled" || isGettingUser === "idle" ? (
-          <div className="right-options AuthDiv ">
+          <div className="right-options AuthDiv flex ">
             {/* Host Your Listing Button - Desktop */}
-            <div className="hidden md:block mr-4 bg-red-500">
+            <div className="hidden md:block mr-15 bg-black/80 rounded-full  h-11 py-1 mt-6">
               <button
                 onClick={handleHostClick}
-                className="flex items-center space-x-2 px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded-full transition-colors duration-200"
+                className="flex items-center space-x-2 px-3 py-2 text-sm font-medium text-gray-700 hover:text-gray-900 hover:scale-140 rounded-full dasa transition-colors duration-500"
               >
-                <Home className="w-4 h-4" />
-                <span>{user ? "Host Dashboard" : "Host Your Listing"}</span>
-              </button>
-            </div>
-            
-            {/* Mobile Host Button */}
-            <div className="md:hidden mr-2">
-              <button
-                onClick={handleHostClick}
-                className="flex items-center justify-center w-10 h-10 text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded-full transition-colors duration-200"
-                aria-label={user ? "Host Dashboard" : "Host Your Listing"}
-              >
-                <Home className="w-5 h-5" />
+                <Home color="white" size={20}/>
               </button>
             </div>
 
             <div
-              className={`login flex justify-evenly items-center ${user ? "w-45" : "w-50"}`}
+              className={`login flex justify-evenly items-center h-10`}
               onClick={handleClick}
             >
-            {(user ? "Dashboard" : "Login / Signup")}<User size={30}/>
+            {(user ? "" : "Login / Signup")}
+            <User size={20}/>
             </div>
           </div>
         ) : (

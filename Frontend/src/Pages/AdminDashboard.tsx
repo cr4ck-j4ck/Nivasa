@@ -24,7 +24,7 @@ interface PendingListing {
   propertyType: string;
   typeOfPlace: string;
   createdAt: string;
-  images: string[];
+  gallery: Record<string, string[]>;
   location: {
     address: {
       city: string;
@@ -125,16 +125,28 @@ const AdminDashboard: React.FC = () => {
     }
   };
 
-  const ListingCard = ({ listing }: { listing: PendingListing }) => (
+  // Helper function to get all images from gallery
+  const getAllImagesFromGallery = (gallery: Record<string, string[]>): string[] => {
+    const allImages: string[] = [];
+    Object.values(gallery).forEach(images => {
+      allImages.push(...images);
+    });
+    return allImages;
+  };
+
+  const ListingCard = ({ listing }: { listing: PendingListing }) => {
+    const allImages = getAllImagesFromGallery(listing.gallery || {});
+    
+    return (
     <Card className="hover:shadow-lg transition-all duration-300">
       <CardContent className="p-6">
         <div className="grid md:grid-cols-3 gap-4">
           {/* Images */}
           <div className="space-y-2">
             <div className="relative w-full h-48 rounded-lg overflow-hidden">
-              {listing.images[0] ? (
+              {allImages[0] ? (
                 <img
-                  src={listing.images[0]}
+                  src={allImages[0]}
                   alt={listing.title}
                   className="w-full h-full object-cover"
                 />
@@ -144,16 +156,30 @@ const AdminDashboard: React.FC = () => {
                 </div>
               )}
             </div>
-            {listing.images.length > 1 && (
-              <div className="flex gap-1 overflow-x-auto">
-                {listing.images.slice(1, 4).map((img, idx) => (
-                  <div key={idx} className="w-16 h-16 rounded-md overflow-hidden flex-shrink-0">
-                    <img src={img} alt="" className="w-full h-full object-cover" />
-                  </div>
-                ))}
-                {listing.images.length > 4 && (
-                  <div className="w-16 h-16 bg-gray-100 rounded-md flex items-center justify-center">
-                    <span className="text-xs text-gray-500">+{listing.images.length - 4}</span>
+            
+            {/* Gallery Categories */}
+            {Object.keys(listing.gallery || {}).length > 0 && (
+              <div className="space-y-2">
+                <div className="flex flex-wrap gap-1 text-xs">
+                  {Object.keys(listing.gallery).map((category, idx) => (
+                    <span key={idx} className="px-2 py-1 bg-blue-100 text-blue-800 rounded-full">
+                      {category} ({listing.gallery[category].length})
+                    </span>
+                  ))}
+                </div>
+                
+                {allImages.length > 1 && (
+                  <div className="flex gap-1 overflow-x-auto">
+                    {allImages.slice(1, 4).map((img, idx) => (
+                      <div key={idx} className="w-16 h-16 rounded-md overflow-hidden flex-shrink-0">
+                        <img src={img} alt="" className="w-full h-full object-cover" />
+                      </div>
+                    ))}
+                    {allImages.length > 4 && (
+                      <div className="w-16 h-16 bg-gray-100 rounded-md flex items-center justify-center">
+                        <span className="text-xs text-gray-500">+{allImages.length - 4}</span>
+                      </div>
+                    )}
                   </div>
                 )}
               </div>
@@ -241,7 +267,8 @@ const AdminDashboard: React.FC = () => {
         </div>
       </CardContent>
     </Card>
-  );
+    );
+  };
 
   if (loading) {
     return (

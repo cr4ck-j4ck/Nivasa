@@ -247,7 +247,7 @@ export async function createBooking(req: AuthenticatedRequest, res: Response) {
 
     // Populate booking for response
     const populatedBooking = await BookingModel.findById(booking._id)
-      .populate('listing', 'title images location pricing')
+      .populate('listing', 'title gallery location pricing')
       .populate('user', 'firstName lastName email')
       .populate('host', 'firstName lastName email');
 
@@ -368,7 +368,7 @@ export async function getHostBookings(req: AuthenticatedRequest, res: Response) 
     }
 
     const bookings = await BookingModel.find({ host: hostId })
-      .populate('listing', 'title images location pricing')
+      .populate('listing', 'title gallery location pricing')
       .populate('user', 'firstName lastName email')
       .sort({ createdAt: -1 })
       .skip(skip)
@@ -410,7 +410,7 @@ export async function getBookingById(req: AuthenticatedRequest, res: Response) {
     }
 
     const booking = await BookingModel.findById(bookingId)
-      .populate('listing', 'title images location pricing amenities')
+      .populate('listing', 'title gallery location pricing amenities')
       .populate('user', 'firstName lastName email')
       .populate('host', 'firstName lastName email');
 
@@ -456,7 +456,7 @@ export async function cancelBooking(req: AuthenticatedRequest, res: Response) {
     }
 
     const booking = await BookingModel.findById(bookingId)
-      .populate('listing', 'title images location pricing')
+      .populate('listing', 'title gallery location pricing')
       .populate('user', 'firstName lastName email')
       .populate('host', 'firstName lastName email');
 

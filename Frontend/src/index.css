@@ -8,6 +8,7 @@
 }
 
 @custom-variant dark (&:is(.dark *));
+
 body{
     background-color: white;
     height: 100vh;
@@ -55,83 +56,6 @@ button{
     --color-sidebar-ring: var(--sidebar-ring);
 }
 
-:root {
-    --radius: 0.625rem;
-    --background: oklch(1 0 0);
-    --foreground: oklch(0.145 0 0);
-    --card: oklch(1 0 0);
-    --card-foreground: oklch(0.145 0 0);
-    --popover: oklch(1 0 0);
-    --popover-foreground: oklch(0.145 0 0);
-    --primary: oklch(0.205 0 0);
-    --primary-foreground: oklch(0.985 0 0);
-    --secondary: oklch(0.97 0 0);
-    --secondary-foreground: oklch(0.205 0 0);
-    --muted: oklch(0.97 0 0);
-    --muted-foreground: oklch(0.556 0 0);
-    --accent: oklch(0.97 0 0);
-    --accent-foreground: oklch(0.205 0 0);
-    --destructive: oklch(0.577 0.245 27.325);
-    --border: oklch(0.922 0 0);
-    --input: oklch(0.922 0 0);
-    --ring: oklch(0.708 0 0);
-    --chart-1: oklch(0.646 0.222 41.116);
-    --chart-2: oklch(0.6 0.118 184.704);
-    --chart-3: oklch(0.398 0.07 227.392);
-    --chart-4: oklch(0.828 0.189 84.429);
-    --chart-5: oklch(0.769 0.188 70.08);
-    --sidebar: oklch(0.985 0 0);
-    --sidebar-foreground: oklch(0.145 0 0);
-    --sidebar-primary: oklch(0.205 0 0);
-    --sidebar-primary-foreground: oklch(0.985 0 0);
-    --sidebar-accent: oklch(0.97 0 0);
-    --sidebar-accent-foreground: oklch(0.205 0 0);
-    --sidebar-border: oklch(0.922 0 0);
-    --sidebar-ring: oklch(0.708 0 0);
-}
-
-.dark {
-    --background: oklch(0.145 0 0);
-    --foreground: oklch(0.985 0 0);
-    --card: oklch(0.205 0 0);
-    --card-foreground: oklch(0.985 0 0);
-    --popover: oklch(0.205 0 0);
-    --popover-foreground: oklch(0.985 0 0);
-    --primary: oklch(0.922 0 0);
-    --primary-foreground: oklch(0.205 0 0);
-    --secondary: oklch(0.269 0 0);
-    --secondary-foreground: oklch(0.985 0 0);
-    --muted: oklch(0.269 0 0);
-    --muted-foreground: oklch(0.708 0 0);
-    --accent: oklch(0.269 0 0);
-    --accent-foreground: oklch(0.985 0 0);
-    --destructive: oklch(0.704 0.191 22.216);
-    --border: oklch(1 0 0 / 10%);
-    --input: oklch(1 0 0 / 15%);
-    --ring: oklch(0.556 0 0);
-    --chart-1: oklch(0.488 0.243 264.376);
-    --chart-2: oklch(0.696 0.17 162.48);
-    --chart-3: oklch(0.769 0.188 70.08);
-    --chart-4: oklch(0.627 0.265 303.9);
-    --chart-5: oklch(0.645 0.246 16.439);
-    --sidebar: oklch(0.205 0 0);
-    --sidebar-foreground: oklch(0.985 0 0);
-    --sidebar-primary: oklch(0.488 0.243 264.376);
-    --sidebar-primary-foreground: oklch(0.985 0 0);
-    --sidebar-accent: oklch(0.269 0 0);
-    --sidebar-accent-foreground: oklch(0.985 0 0);
-    --sidebar-border: oklch(1 0 0 / 10%);
-    --sidebar-ring: oklch(0.556 0 0);
-}
-
-@layer base {
-  * {
-    @apply border-border outline-ring/50;
-    }
-  body {
-    @apply bg-background text-foreground;
-    }
-}
 
 /* Thin, modern horizontal scrollbar for top thumbnail bar */
 .custom-scroll-thin {
@@ -152,4 +76,87 @@ button{
 }
 .custom-scroll-thin:hover::-webkit-scrollbar-thumb {
   background-color: #b5b5b5;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    /* Updated to use ethereal gradient background */
+    @apply text-foreground;
+    background: linear-gradient(135deg, oklch(0.98 0.02 45) 0%, oklch(0.95 0.03 280) 100%);
+    min-height: 100vh;
+  }
+
+  .dark body {
+    background: linear-gradient(135deg, oklch(0.15 0.05 240) 0%, oklch(0.12 0.08 280) 100%);
+  }
+}
+
+/* Added custom animations for magical effects */
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-20px) rotate(5deg);
+  }
+}
+
+@keyframes sparkle {
+  0%,
+  100% {
+    opacity: 0;
+    transform: scale(0);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes drift {
+  0% {
+    transform: translateX(-10px) translateY(0px);
+  }
+  100% {
+    transform: translateX(10px) translateY(-20px);
+  }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-sparkle {
+  animation: sparkle 2s ease-in-out infinite;
+}
+
+.animate-drift {
+  animation: drift 8s linear infinite;
+}
+:root {
+  /* Updated color tokens for Nivasa's warm, ethereal theme */
+  --background: oklch(0.98 0.02 45); /* Soft peach base */
+  --foreground: oklch(0.35 0.05 280); /* Deep lavender text */
+  --card: oklch(0.99 0.01 0); /* Pure white cards */
+  --card-foreground: oklch(0.35 0.05 280);
+  --popover: oklch(0.99 0.01 0 / 0.95);
+  --popover-foreground: oklch(0.35 0.05 280);
+  --primary: oklch(0.65 0.15 25); /* Coral for CTAs */
+  --primary-foreground: oklch(0.99 0.01 0);
+  --secondary: oklch(0.75 0.08 280); /* Soft lavender */
+  --secondary-foreground: oklch(0.35 0.05 280);
+  --muted: oklch(0.96 0.01 0);
+  --muted-foreground: oklch(0.65 0.02 0);
+  --accent-foreground: oklch(0.99 0.01 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: oklch(0.99 0.01 0);
+  --border: oklch(0.92 0.01 0);
+  --input: oklch(0.99 0.01 0);
+  --ring: oklch(0.65 0.15 25 / 0.5);
+  --radius: 0.5rem;
+  --sidebar: oklch(0.99 0.01 0);
 }

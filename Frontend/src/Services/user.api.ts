@@ -100,7 +100,7 @@ export const removeFromWishlist = async (listingId: string) => {
   return;
 };
 
-export const getWishlist = async (): Promise<IlistingObj[]> => {
+export const getWishlist = async (): Promise<IlistingObj[] | string> => {
   const res = await axios.get(`${BackendAPI}/user/getWishlist`, {
     withCredentials: true,
   });
