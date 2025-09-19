@@ -7,15 +7,17 @@ import VerificationTab from "@/Components/Dashboard/VerificationTab";
 import UserHeader from "@/Components/Dashboard/UserHeader";
 import StatsGrid from "@/Components/Dashboard/StatsGrid";
 import { useHostData } from "@/hooks/useHostData";
+import { useNavigate } from "react-router-dom";
 
 const ProfilePage = () => {
   const [activeTab, setActiveTab] = useState("overview");
   const { error } = useHostData();
+  const navigate = useNavigate();
 
   if (error) {
     return (
       <>
-        <title>Nivasa - Host Dashboard</title>
+        <title >Nivasa - Host Dashboard</title>
         <div className="w-full sm:max-w-[97vw] md:max-w-[90vw] lg:max-w-[75vw] 3xl:max-w-[80vw] mx-auto p-6 bg-white">
           <div className="text-center py-12">
             <div className="text-red-600 mb-4">
@@ -39,8 +41,14 @@ const ProfilePage = () => {
 
   return (
     <>
-      <title>Nivasa - Host Dashboard</title>
+      <title >Nivasa - Host Dashboard</title>
       <div className="w-full sm:max-w-[97vw] md:max-w-[90vw] lg:max-w-[75vw] 3xl:max-w-[80vw] mx-auto p-6 bg-white">
+        <div className="mb-6">
+          <button className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors" onClick={() => navigate(-1)}>
+          &larr; Back to Nivasa
+        </button>
+        </div>
+
         {/* Header, Stats, Bio */}
         <UserHeader />
         <StatsGrid />

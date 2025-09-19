@@ -105,7 +105,7 @@ const Nav: React.FC<INavprops> = ({ position }) => {
             </div>
 
             <div
-              className={`login flex justify-evenly items-center h-10`}
+              className={`login flex justify-evenly items-center h-11`}
               onClick={handleClick}
             >
             

@@ -74,12 +74,14 @@ export const loginUser: RequestHandler = async (req, res) => {
           httpOnly: true,
           secure: process.env.NODE_ENV === "production",
           sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+          domain: process.env.NODE_ENV === "production" ? ".nivasa.site" : "localhost",
           maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
         });
         res.cookie("refreshToken", refreshToken, {
           httpOnly: true,
           secure: process.env.NODE_ENV === "production",
           sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+          domain: process.env.NODE_ENV === "production" ? ".nivasa.site" : "localhost",
           maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
         });
         const { password, ...responseObject } = existingUser;
@@ -156,12 +158,14 @@ export const verifyEmailToken: RequestHandler = async (req, res) => {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
         sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+        domain: process.env.NODE_ENV === "production" ? ".nivasa.site" : "localhost",
         maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
       });
       res.cookie("refreshToken", refreshToken, {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
         sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+        domain: process.env.NODE_ENV === "production" ? ".nivasa.site" : "localhost",
         maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
       });
       const streamRes = {

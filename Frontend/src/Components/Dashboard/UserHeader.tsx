@@ -1,7 +1,6 @@
 import { Award, Calendar, CheckCircle, Edit3, MapPin, Settings } from "lucide-react";
 import UserStore from "@/Store/UserStore";
 
-
 const UserHeader = () => {
   const userData = UserStore(state => state.user)
   if(!userData){

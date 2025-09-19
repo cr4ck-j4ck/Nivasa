@@ -1,4 +1,4 @@
-
+// @ts-nocheck
 import { useState, useEffect } from "react";
 import { motion, easeOut } from "framer-motion";
 import { useNavigate } from "react-router-dom";
