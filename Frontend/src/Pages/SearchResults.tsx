@@ -224,7 +224,7 @@ const SearchResults = (): React.JSX.Element => {
         </div>
 
         {/* Main Content */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <div className="mx-auto sm:px-6 lg:px-8 py-6 px-4">
           {listings.length === 0 && !loading ? (
             <div className="text-center py-12">
               <MapPin className="h-12 w-12 text-gray-400 mx-auto mb-4" />
@@ -240,7 +240,7 @@ const SearchResults = (): React.JSX.Element => {
               </button>
             </div>
           ) : (
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 h-[calc(100vh-200px)]">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 h-[calc(100vh-200px)] min-w-full">
               {/* List View */}
               <div className={`${viewMode === 'map' ? 'hidden lg:block' : ''}`}>
                 <SearchResultsList
@@ -254,7 +254,7 @@ const SearchResults = (): React.JSX.Element => {
               </div>
 
               {/* Map View */}
-              <div className={`${viewMode === 'list' ? 'hidden lg:block' : ''}`}>
+              <div className={`${viewMode === 'list' ? 'hidden lg:block' : ''} h-[75vh]`}>
                 <SearchResultsMap
                   listings={listings}
                   selectedListing={selectedListing}
