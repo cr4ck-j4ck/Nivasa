@@ -44,8 +44,6 @@ const SearchResultsMap: React.FC<SearchResultsMapProps> = ({
       zoom: 10,
     });
 
-    map.current.addControl(new maptilersdk.NavigationControl(), "top-right");
-
     map.current.on('load', () => {
       setMapLoaded(true);
     });
@@ -136,12 +134,12 @@ const SearchResultsMap: React.FC<SearchResultsMapProps> = ({
     const formattedPrice = `₹${price.toLocaleString()}`;
 
     return `
-      <div class="listing-popup" style="width: 280px; font-family: system-ui, -apple-system, sans-serif;">
+      <div class="listing-popup w-full" style=" font-family: system-ui, -apple-system, sans-serif;">
         <div style="position: relative;">
           <img 
             src="${mainImage}" 
             alt="${listing.title}"
-            style="width: 100%; height: 160px; object-fit: cover; border-radius: 8px;"
+            style="width: 99%; height: 160px; object-fit: cover; border-radius: 8px;"
             onerror="this.src='/placeholder-property.jpg'"
           />
           <button 
@@ -363,6 +361,7 @@ const SearchResultsMap: React.FC<SearchResultsMapProps> = ({
         if (popup.current) {
           popup.current.remove();
         }
+        
 
         popup.current = new maptilersdk.Popup({
           closeButton: false,
