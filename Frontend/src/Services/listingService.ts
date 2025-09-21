@@ -119,3 +119,53 @@ export const getCitiesWithListings = async (): Promise<CityWithListings[]> => {
     throw new Error(error.message || 'Failed to fetch cities with listings');
   }
 };
+
+// Search listings interface
+export interface SearchParams {
+  city?: string;
+  checkIn?: string;
+  checkOut?: string;
+  guests?: string;
+  page?: string;
+  limit?: string;
+}
+
+export interface SearchResponse {
+  success: boolean;
+  listings: any[];
+  pagination: {
+    currentPage: number;
+    totalPages: number;
+    totalCount: number;
+    hasNextPage: boolean;
+    hasPrevPage: boolean;
+    limit: number;
+  };
+  searchParams: {
+    city: string | null;
+    checkIn: string | null;
+    checkOut: string | null;
+    guests: string | null;
+  };
+}
+
+// Search listings function
+export const searchListings = async (params: SearchParams): Promise<SearchResponse> => {
+  try {
+    const queryParams = new URLSearchParams();
+    
+    Object.entries(params).forEach(([key, value]) => {
+      if (value && value.trim() !== '') {
+        queryParams.append(key, value);
+      }
+    });
+
+    const response = await axios.get(`${API_BASE_URL}/search?${queryParams.toString()}`, {
+      withCredentials: true,
+    });
+    
+    return response.data;
+  } catch (error) {
+    throw new Error(error.message || 'Failed to search listings');
+  }
+};
