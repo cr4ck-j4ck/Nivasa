@@ -56,7 +56,7 @@ const SearchResultsList: React.FC<SearchResultsListProps> = ({
   };
 
   return (
-    <div className="h-full flex flex-col">
+    <div className="h-[80vh] flex flex-col min-w-full">
       {/* Results List */}
       <div className="flex-1 overflow-y-auto space-y-4 pr-2">
         {listings.map((listing) => (
