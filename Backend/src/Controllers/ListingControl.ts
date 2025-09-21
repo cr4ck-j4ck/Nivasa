@@ -386,6 +386,114 @@ export async function getHostStats(req: Request, res: Response) {
   }
 }
 
+// Enhanced search functionality with city and date filtering
+export async function searchListings(req: Request, res: Response) {
+  try {
+    const { city, checkIn, checkOut, guests, page = 1, limit = 20 } = req.query;
+
+    // Build the base query - only show approved listings
+    const query: any = { status: "approved" };
+
+    // City filter (case-insensitive)
+    if (city && typeof city === 'string') {
+      query["location.address.city"] = { $regex: new RegExp(city, 'i') };
+    }
+
+    // Guest capacity filter
+    if (guests && !isNaN(Number(guests))) {
+      query["capacity.guests"] = { $gte: Number(guests) };
+    }
+
+    // Date availability filter
+    if (checkIn || checkOut) {
+      const availabilityQuery: any = {};
+      
+      if (checkIn) {
+        const checkInDate = new Date(checkIn as string);
+        if (!isNaN(checkInDate.getTime())) {
+          availabilityQuery["availability.startDate"] = { $lte: checkInDate };
+        }
+      }
+      
+      if (checkOut) {
+        const checkOutDate = new Date(checkOut as string);
+        if (!isNaN(checkOutDate.getTime())) {
+          availabilityQuery["availability.endDate"] = { $gte: checkOutDate };
+        }
+      }
+      
+      // Merge availability query with main query
+      Object.assign(query, availabilityQuery);
+    }
+
+    // Pagination
+    const pageNum = Math.max(1, Number(page));
+    const limitNum = Math.min(50, Math.max(1, Number(limit))); // Max 50 results per page
+    const skip = (pageNum - 1) * limitNum;
+
+    // Execute search with pagination
+    const [listings, totalCount] = await Promise.all([
+      ListingModel.find(query)
+        .populate("host", "firstName lastName avatar superhost")
+        .select("title description location pricing roomType amenities capacity gallery images createdAt")
+        .sort({ createdAt: -1 })
+        .skip(skip)
+        .limit(limitNum)
+        .lean(),
+      ListingModel.countDocuments(query)
+    ]);
+
+    // Handle user wishlist if authenticated
+    let listingsWithLikes = listings;
+    try {
+      if (req.cookies.token) {
+        const decoded = jwt.verify(req.cookies.token, process.env.JWT_SECRET!) as Idecoded;
+        const user = await UserModel.findById(decoded.userId).select("wishlist");
+        const wishlistIds = user?.wishlist?.map((id) => id.toString()) || [];
+
+        listingsWithLikes = listings.map(listing => ({
+          ...listing,
+          isLiked: wishlistIds.includes(listing._id.toString())
+        }));
+      }
+    } catch (error) {
+      console.log("Auth error in searchListings:", error);
+      // Continue without wishlist data
+    }
+
+    // Calculate pagination info
+    const totalPages = Math.ceil(totalCount / limitNum);
+    const hasNextPage = pageNum < totalPages;
+    const hasPrevPage = pageNum > 1;
+
+    res.json({
+      success: true,
+      listings: listingsWithLikes,
+      pagination: {
+        currentPage: pageNum,
+        totalPages,
+        totalCount,
+        hasNextPage,
+        hasPrevPage,
+        limit: limitNum
+      },
+      searchParams: {
+        city: city || null,
+        checkIn: checkIn || null,
+        checkOut: checkOut || null,
+        guests: guests || null
+      }
+    });
+
+  } catch (error) {
+    console.error("Error in searchListings:", error);
+    res.status(500).json({ 
+      error: "Failed to search listings",
+      details: error instanceof Error ? error.message : "Unknown error"
+    });
+  }
+}
+
 // Admin: Get all pending listings for approval
 export async function getPendingListings(req: Request, res: Response) {
   try {

@@ -6,7 +6,8 @@ import {
   createListing, 
   getRandomCitiesWithListings,
   getHostListings,
-  getHostStats
+  getHostStats,
+  searchListings
 } from "../Controllers/ListingControl";
 import asyncWrapper from "../utils/wrapAsync";
 
@@ -17,6 +18,9 @@ router.route("/listingCard/:city").get(asyncWrapper(viewListingViaCity))
 router.route("/create-listing").post(asyncWrapper(createListing))
 
 router.route("/cities-with-listings").get(asyncWrapper(getRandomCitiesWithListings))
+
+// Search route
+router.route("/search").get(asyncWrapper(searchListings))
 
 // Host dashboard routes
 router.route("/host/listings").get(asyncWrapper(getHostListings))

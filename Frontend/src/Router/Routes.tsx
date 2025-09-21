@@ -1,6 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import Home from "@/Pages/mainListing";
 import ShowListing from "@/Pages/showListing";
+import SearchResults from "@/Pages/SearchResults";
 import ProfilePage from "@/Pages/ProfilePage";
 import PrivateRoutes from "@/Pages/PrivateRoutes";
 import ProfileDashboard from "@/Pages/HostDashboard";
@@ -15,6 +16,7 @@ export default function AppRoutes() {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
+      <Route path="/search" element={<SearchResults />} />
       <Route path="/room/:listingId" element={<ShowListing />} />
       <Route path="/hostProfile" element={<PrivateRoutes><ProfilePage /></PrivateRoutes>} />
       <Route path="/dashboard"  element={<PrivateRoutes><ProfileDashboard/></PrivateRoutes>}/>

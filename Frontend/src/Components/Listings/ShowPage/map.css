@@ -54,3 +54,8 @@
   border-radius: 3rem;
 }
 
+/*  Search Map CSS */
+
+.maplibregl-popup-content{
+  width: calc(100% + 20px);
+}

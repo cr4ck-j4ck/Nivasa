@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect, useMemo, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 import "./searchBar.css";
 import { Calendar02 } from "./Calendar02";
 import SearchIcon from "@mui/icons-material/Search";
@@ -35,6 +36,7 @@ export default function SearchBar({
   scroll: isScrolled,
   setIsScrolled,
 }: SearchBarProps) {
+  const navigate = useNavigate();
   const elementRef = useRef<HTMLDivElement>(null);
   const inputReferences = useRef<(HTMLInputElement | null)[]>([]);
   const buttonReferences = useRef<(HTMLButtonElement | null)[]>([]);
@@ -46,6 +48,14 @@ export default function SearchBar({
     width: 0,
   });
   const [position, updatePosition] = useState<number>(0);
+  
+  // Search form state
+  const [searchData, setSearchData] = useState({
+    city: '',
+    checkIn: '',
+    checkOut: '',
+    guests: ''
+  });
   const calendarRef = useRef<HTMLDivElement>(null);
   const buttonRefs: ButtonRefs = useMemo(() => ({
     input1: buttonReferences.current[0] || null,
@@ -191,6 +201,33 @@ export default function SearchBar({
     }
   };
 
+  // Handle input changes
+  const handleInputChange = (field: keyof typeof searchData, value: string) => {
+    setSearchData(prev => ({
+      ...prev,
+      [field]: value
+    }));
+  };
+
+  // Handle search submission
+  const handleSearch = () => {
+    if (!searchData.city.trim()) {
+      // Focus on city input if empty
+      inputReferences.current[0]?.focus();
+      return;
+    }
+
+    // Build search params
+    const params = new URLSearchParams();
+    if (searchData.city.trim()) params.set('city', searchData.city.trim());
+    if (searchData.checkIn) params.set('checkIn', searchData.checkIn);
+    if (searchData.checkOut) params.set('checkOut', searchData.checkOut);
+    if (searchData.guests) params.set('guests', searchData.guests);
+
+    // Navigate to search results
+    navigate(`/search?${params.toString()}`);
+  };
+
   if (focusedInput === "input2" || focusedInput === "input3") focInput = true;
 
   return (
@@ -261,6 +298,8 @@ export default function SearchBar({
                 inputReferences.current[0] = el;
               }}
               type="text"
+              value={searchData.city}
+              onChange={(e) => handleInputChange('city', e.target.value)}
               onBlur={() => {
                 handleInputBlur("input1");
               }}
@@ -299,7 +338,9 @@ export default function SearchBar({
               {`${isScrolled ? "Anytime" : "Check in"}`}
             </p>
             <input
-              type="text"
+              type="date"
+              value={searchData.checkIn}
+              onChange={(e) => handleInputChange('checkIn', e.target.value)}
               placeholder={`${isScrolled ? "" : "Add Dates"}`}
               ref={(el) => {
                 inputReferences.current[1] = el;
@@ -340,7 +381,9 @@ export default function SearchBar({
                   Check Out
                 </p>
                 <input
-                  type="text"
+                  type="date"
+                  value={searchData.checkOut}
+                  onChange={(e) => handleInputChange('checkOut', e.target.value)}
                   ref={(el) => {
                     inputReferences.current[2] = el;
                   }}
@@ -381,7 +424,11 @@ export default function SearchBar({
               {isScrolled ? "Add Guests" : "Who"}
             </p>
             <input
-              type="text"
+              type="number"
+              min="1"
+              max="16"
+              value={searchData.guests}
+              onChange={(e) => handleInputChange('guests', e.target.value)}
               placeholder={`${isScrolled ? "" : "Add Guests"}`}
               onBlur={() => {
                 handleInputBlur("input4");
@@ -393,7 +440,8 @@ export default function SearchBar({
             />
 
             <div
-              className={`rounded-full flex ${
+              onClick={handleSearch}
+              className={`rounded-full flex cursor-pointer ${
                 isScrolled
                   ? "h-8 w-8 absolute right-2 bottom-2 pt-1 px-1"
                   : "h-12 w-12 absolute right-2 bottom-2 py-3 px-3"

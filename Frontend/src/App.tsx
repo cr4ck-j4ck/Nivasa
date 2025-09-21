@@ -22,7 +22,7 @@ const App: React.FC = () => {
   );
 
   useEffect(() => {
-    if (location.pathname === "/become-host") {
+    if (location.pathname === "/become-host" || location.pathname === "/search") {
       setIsFooter(false);
     } else {
       setIsFooter(true);
