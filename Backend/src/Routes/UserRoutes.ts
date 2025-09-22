@@ -6,9 +6,17 @@ import {
   loginUser,
   verifcationStream,
   verifyEmailToken,
-  removeFromWishlist
+  removeFromWishlist,
+  requestPasswordReset,
+  verifyPasswordResetToken,
+  resetPassword
 } from "../Controllers/UserController";
 import { verifyToken } from "../JWT/JWT";
+import {
+  passwordResetLimiter,
+  tokenVerificationLimiter,
+  passwordResetCompletionLimiter
+} from "../utils/rateLimiter";
 
 const router = express.Router();
 
@@ -32,5 +40,10 @@ router.post("/user/wishlist", verifyToken, addToWishlist);
 router.delete("/user/wishlist/:id",verifyToken,removeFromWishlist)
 
 router.get("/user/getWishlist", verifyToken, getWishList);
+
+// Password reset routes
+router.post("/user/forgot-password", passwordResetLimiter, requestPasswordReset);
+router.post("/user/verify-reset-token", tokenVerificationLimiter, verifyPasswordResetToken);
+router.post("/user/reset-password", passwordResetCompletionLimiter, resetPassword);
 
 export default router;

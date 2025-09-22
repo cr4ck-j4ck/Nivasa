@@ -24,6 +24,11 @@ export interface IUser extends Document {
   wishlist: mongoose.Types.ObjectId[] | null;
   createdAt?: Date;
   role: string;
+  // Password reset fields
+  passwordResetToken?: string;
+  passwordResetExpires?: Date;
+  passwordResetAttempts?: number;
+  passwordResetLastAttempt?: Date;
 }
 
 // 2. Define the schema with the interface
@@ -66,7 +71,12 @@ const userSchema = new Schema<IUser>(
     bookings: [{ type: Schema.Types.ObjectId, ref: "Booking", default:[]}],
     createdAt: { type: Date, default: Date.now },
     wishlist: [ {type: Schema.Types.ObjectId, ref:"Listing" } ],
-    role: { type: String, enum: ['user', 'admin'], default: 'user' }
+    role: { type: String, enum: ['user', 'admin'], default: 'user' },
+    // Password reset fields
+    passwordResetToken: { type: String },
+    passwordResetExpires: { type: Date },
+    passwordResetAttempts: { type: Number, default: 0 },
+    passwordResetLastAttempt: { type: Date }
   },
   { timestamps: true, versionKey: false }
 );

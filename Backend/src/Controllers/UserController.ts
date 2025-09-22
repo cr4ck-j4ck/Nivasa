@@ -9,6 +9,14 @@ import sendMail from "./gmail";
 import { v4 as uuidv4 } from "uuid";
 import { Response } from "express";
 import ListingModel from "../Models/ListingModel";
+import {
+  generateResetToken,
+  hashResetToken,
+  verifyResetToken,
+  validatePasswordStrength,
+  sendPasswordResetEmail,
+  sendPasswordResetConfirmationEmail
+} from "../utils/passwordReset";
 const SALT_ROUNDS = 12;
 
 const clients = new Map<string, Response>(); // key = userId, value = res object
@@ -255,5 +263,202 @@ export const getWishList: RequestHandler = async (req, res) => {
     }
   } else {
     res.status(404).send("User Doesn't exists!!");
+  }
+};
+
+// Password Reset Functions
+
+export const requestPasswordReset: RequestHandler = async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    if (!email) {
+      return res.status(400).json({
+        error: 'Email is required',
+        code: 'EMAIL_REQUIRED'
+      });
+    }
+
+    // Always return success response to prevent email enumeration
+    const successResponse = {
+      message: 'If an account with that email exists, we have sent a password reset link.',
+      code: 'RESET_EMAIL_SENT'
+    };
+
+    const user = await UserModel.findOne({ email: email.toLowerCase() });
+    
+    if (!user) {
+      // Return success even if user doesn't exist (security)
+      return res.status(200).json(successResponse);
+    }
+
+    // Check if user is a Google OAuth user
+    if (user.provider === 'google') {
+      return res.status(200).json(successResponse); // Don't reveal it's a Google user
+    }
+
+    // Rate limiting check at user level
+    const now = new Date();
+    const fifteenMinutesAgo = new Date(now.getTime() - 15 * 60 * 1000);
+
+    if (user.passwordResetLastAttempt && user.passwordResetLastAttempt > fifteenMinutesAgo) {
+      if ((user.passwordResetAttempts || 0) >= 3) {
+        return res.status(200).json(successResponse); // Don't reveal rate limiting
+      }
+    } else {
+      // Reset attempts if more than 15 minutes have passed
+      user.passwordResetAttempts = 0;
+    }
+
+    // Generate and hash reset token
+    const resetToken = generateResetToken();
+    const hashedToken = await hashResetToken(resetToken);
+
+    // Update user with reset token info
+    user.passwordResetToken = hashedToken;
+    user.passwordResetExpires = new Date(now.getTime() + 15 * 60 * 1000); // 15 minutes
+    user.passwordResetAttempts = (user.passwordResetAttempts || 0) + 1;
+    user.passwordResetLastAttempt = now;
+
+    await user.save();
+
+    // Send reset email
+    try {
+      await sendPasswordResetEmail(user.email, resetToken, user.firstName);
+    } catch (emailError) {
+      console.error('Failed to send password reset email:', emailError);
+      // Still return success to prevent information disclosure
+    }
+
+    res.status(200).json(successResponse);
+  } catch (error) {
+    console.error('Password reset request error:', error);
+    res.status(500).json({
+      error: 'An error occurred while processing your request',
+      code: 'INTERNAL_ERROR'
+    });
+  }
+};
+
+export const verifyPasswordResetToken: RequestHandler = async (req, res) => {
+  try {
+    const { token } = req.body;
+
+    if (!token) {
+      return res.status(400).json({
+        valid: false,
+        error: 'Token is required',
+        code: 'TOKEN_REQUIRED'
+      });
+    }
+
+    const user = await UserModel.findOne({
+      passwordResetExpires: { $gt: new Date() }
+    });
+
+    if (!user || !user.passwordResetToken) {
+      return res.status(200).json({
+        valid: false,
+        error: 'Invalid or expired token',
+        code: 'INVALID_TOKEN'
+      });
+    }
+
+    const isValidToken = await verifyResetToken(token, user.passwordResetToken);
+
+    if (!isValidToken) {
+      return res.status(200).json({
+        valid: false,
+        error: 'Invalid or expired token',
+        code: 'INVALID_TOKEN'
+      });
+    }
+
+    res.status(200).json({
+      valid: true,
+      message: 'Token is valid',
+      code: 'VALID_TOKEN'
+    });
+  } catch (error) {
+    console.error('Token verification error:', error);
+    res.status(500).json({
+      valid: false,
+      error: 'An error occurred while verifying the token',
+      code: 'INTERNAL_ERROR'
+    });
+  }
+};
+
+export const resetPassword: RequestHandler = async (req, res) => {
+  try {
+    const { token, newPassword } = req.body;
+
+    if (!token || !newPassword) {
+      return res.status(400).json({
+        error: 'Token and new password are required',
+        code: 'MISSING_FIELDS'
+      });
+    }
+
+    // Validate password strength
+    const passwordValidation = validatePasswordStrength(newPassword);
+    if (!passwordValidation.isValid) {
+      return res.status(400).json({
+        error: 'Password does not meet requirements',
+        details: passwordValidation.errors,
+        code: 'WEAK_PASSWORD'
+      });
+    }
+
+    const user = await UserModel.findOne({
+      passwordResetExpires: { $gt: new Date() }
+    });
+
+    if (!user || !user.passwordResetToken) {
+      return res.status(400).json({
+        error: 'Invalid or expired token',
+        code: 'INVALID_TOKEN'
+      });
+    }
+
+    const isValidToken = await verifyResetToken(token, user.passwordResetToken);
+
+    if (!isValidToken) {
+      return res.status(400).json({
+        error: 'Invalid or expired token',
+        code: 'INVALID_TOKEN'
+      });
+    }
+
+    // Hash new password
+    const hashedPassword = await bcrypt.hash(newPassword, SALT_ROUNDS);
+
+    // Update user password and clear reset fields
+    user.password = hashedPassword;
+    user.passwordResetToken = undefined;
+    user.passwordResetExpires = undefined;
+    user.passwordResetAttempts = 0;
+    user.passwordResetLastAttempt = undefined;
+
+    await user.save();
+
+    // Send confirmation email
+    try {
+      await sendPasswordResetConfirmationEmail(user.email, user.firstName);
+    } catch (emailError) {
+      console.error('Failed to send confirmation email:', emailError);
+      // Don't fail the request if email fails
+    }
+
+    res.status(200).json({
+      message: 'Password has been reset successfully',
+      code: 'PASSWORD_RESET_SUCCESS'
+    });
+  } catch (error) {
+    console.error('Password reset error:', error);
+    res.status(500).json({
+      error: 'An error occurred while resetting your password',
+      code: 'INTERNAL_ERROR'
+    });
   }
 };
