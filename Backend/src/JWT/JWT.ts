@@ -55,3 +55,6 @@ export const generateRefreshToken = (userId: string) => {
     { expiresIn: "30d" } // Refresh token expires in 30 days
   );
 };
+
+// Alias for authenticateToken to match the existing verifyToken function
+export const authenticateToken = verifyToken;
