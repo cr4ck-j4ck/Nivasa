@@ -7,6 +7,7 @@ import PrivateRoutes from "@/Pages/PrivateRoutes";
 import ProfileDashboard from "@/Pages/HostDashboard";
 import AdminDashboard from "@/Pages/AdminDashboard";
 import AuthPage from "@/Pages/LoginSignup";
+import ResetPassword from "@/Components/Auth/ResetPassword";
 import UnderConstruction from "@/Pages/UnderConstruction";
 import Wishlist from "@/Pages/Wishlist";
 import HostingProcess from "@/Pages/Hosting Pages/HostingProcess";
@@ -22,6 +23,7 @@ export default function AppRoutes() {
       <Route path="/dashboard"  element={<PrivateRoutes><ProfileDashboard/></PrivateRoutes>}/>
       <Route path="/admin/dashboard" element={<PrivateRoutes><AdminDashboard/></PrivateRoutes>}/>
       <Route path="/auth" element={<AuthPage/>}/>
+      <Route path="/reset-password/:token" element={<ResetPassword/>}/>
       <Route path="/wishlist" element={<Wishlist/>}/>
       <Route path="/bookingPage" element={<BookingsPage/>}/>
       <Route path="/become-host" element={<PrivateRoutes><HostingProcess/></PrivateRoutes>}/>

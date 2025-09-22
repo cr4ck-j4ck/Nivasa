@@ -3,6 +3,7 @@ import FloatingBackground from "@/Components/Auth/FloatingBackground";
 import AuthForm from "@/Components/Auth/AuthForm";
 import SocialLogin from "@/Components/Auth/SocialLogin";
 import TrustIndicators from "@/Components/Auth/TrustIndicators";
+import ForgotPassword from "@/Components/Auth/ForgotPassword";
 import { type FormData } from "@/Components/Auth/AuthForm";
 import {
   createUser,
@@ -21,6 +22,7 @@ import EmailVerificationSuccess from "@/Components/mailVerified";
 const AuthPage: React.FC = () => {
   const [isLogin, setIsLogin] = useState<boolean>(true);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [showForgotPassword, setShowForgotPassword] = useState<boolean>(false);
   const setUser = UserStore((state) => state.setUser);
   const setErrorFromBackend = globalStore((state) => state.setErrorFromBackend);
   const [isEmailSent, SetIsEmailSent] = useState(false);
@@ -91,6 +93,15 @@ Maybe it got tampered, just sign up again`;
   }
   const toggleAuthMode = (): void => {
     setIsLogin(!isLogin);
+    setShowForgotPassword(false); // Reset forgot password state when switching modes
+  };
+
+  const handleForgotPassword = (): void => {
+    setShowForgotPassword(true);
+  };
+
+  const handleBackToLogin = (): void => {
+    setShowForgotPassword(false);
   };
 
   if (mailVerified) {
@@ -146,61 +157,70 @@ Maybe it got tampered, just sign up again`;
 
             {/* Auth Form Card */}
             <div className="bg-white/80 backdrop-blur-lg rounded-3xl shadow-2xl border border-white/20 p-8 transform hover:scale-[1.02] transition-all duration-300">
-              {/* Toggle Buttons */}
-              <div className="flex bg-gray-100 rounded-xl p-1 mb-8">
-                <button
-                  onClick={() => setIsLogin(true)}
-                  className={`flex-1 py-3 px-4 rounded-lg font-medium transition-all duration-300 ${
-                    isLogin
-                      ? "bg-white text-rose-600 shadow-sm"
-                      : "text-gray-600 hover:text-gray-800"
-                  }`}
-                >
-                  Sign In
-                </button>
-                <button
-                  onClick={() => setIsLogin(false)}
-                  className={`flex-1 py-3 px-4 rounded-lg font-medium transition-all duration-300 ${
-                    !isLogin
-                      ? "bg-white text-rose-600 shadow-sm"
-                      : "text-gray-600 hover:text-gray-800"
-                  }`}
-                >
-                  Sign Up
-                </button>
-              </div>
+              {showForgotPassword ? (
+                <ForgotPassword onBackToLogin={handleBackToLogin} />
+              ) : (
+                <>
+                  {/* Toggle Buttons */}
+                  <div className="flex bg-gray-100 rounded-xl p-1 mb-8">
+                    <button
+                      onClick={() => setIsLogin(true)}
+                      className={`flex-1 py-3 px-4 rounded-lg font-medium transition-all duration-300 ${
+                        isLogin
+                          ? "bg-white text-rose-600 shadow-sm"
+                          : "text-gray-600 hover:text-gray-800"
+                      }`}
+                    >
+                      Sign In
+                    </button>
+                    <button
+                      onClick={() => setIsLogin(false)}
+                      className={`flex-1 py-3 px-4 rounded-lg font-medium transition-all duration-300 ${
+                        !isLogin
+                          ? "bg-white text-rose-600 shadow-sm"
+                          : "text-gray-600 hover:text-gray-800"
+                      }`}
+                    >
+                      Sign Up
+                    </button>
+                  </div>
 
-              <AuthForm
-                isLogin={isLogin}
-                onSubmit={handleAuth}
-                isLoading={isLoading}
-              />
+                  <AuthForm
+                    isLogin={isLogin}
+                    onSubmit={handleAuth}
+                    isLoading={isLoading}
+                    onForgotPassword={handleForgotPassword}
+                  />
 
-              {/* Divider */}
-              <div className="flex items-center my-8">
-                <div className="flex-1 h-px bg-gray-200"></div>
-                <span className="px-4 text-gray-500 text-sm">
-                  or continue with
-                </span>
-                <div className="flex-1 h-px bg-gray-200"></div>
-              </div>
+                  {/* Divider */}
+                  <div className="flex items-center my-8">
+                    <div className="flex-1 h-px bg-gray-200"></div>
+                    <span className="px-4 text-gray-500 text-sm">
+                      or continue with
+                    </span>
+                    <div className="flex-1 h-px bg-gray-200"></div>
+                  </div>
 
-              <SocialLogin />
-              <TrustIndicators />
+                  <SocialLogin />
+                  <TrustIndicators />
+                </>
+              )}
             </div>
 
             {/* Bottom Text */}
-            <div className="text-center mt-6 text-sm text-gray-600">
-              {isLogin
-                ? "Don't have an account? "
-                : "Already have an account? "}
-              <button
-                onClick={toggleAuthMode}
-                className="text-rose-600 hover:text-rose-700 font-medium hover:underline transition-colors"
-              >
-                {isLogin ? "Sign up" : "Sign in"}
-              </button>
-            </div>
+            {!showForgotPassword && (
+              <div className="text-center mt-6 text-sm text-gray-600">
+                {isLogin
+                  ? "Don't have an account? "
+                  : "Already have an account? "}
+                <button
+                  onClick={toggleAuthMode}
+                  className="text-rose-600 hover:text-rose-700 font-medium hover:underline transition-colors"
+                >
+                  {isLogin ? "Sign up" : "Sign in"}
+                </button>
+              </div>
+            )}
           </div>
 
           <style>{`

@@ -17,6 +17,7 @@ interface AuthFormProps {
   isLogin: boolean;
   onSubmit: (data: FormData) => Promise<void>;
   isLoading: boolean;
+  onForgotPassword?: () => void;
 }
 
 // Auth Form Component
@@ -24,13 +25,16 @@ const AuthForm: React.FC<AuthFormProps> = ({
   isLogin,
   onSubmit,
   isLoading,
+  onForgotPassword,
 }) => {
   const { register, handleSubmit, formState: { errors }, watch } = useForm<FormData>({
     resolver: zodResolver(isLogin ? loginSchema : signupSchema),
   });
 
   const handleForgotPassword = (): void => {
-    console.log("Forgot password clicked");
+    if (onForgotPassword) {
+      onForgotPassword();
+    }
   };
   const handleTermsClick = (type: string): void => {
     console.log(`${type} clicked`);

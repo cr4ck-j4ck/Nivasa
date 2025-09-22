@@ -106,3 +106,69 @@ export const getWishlist = async (): Promise<IlistingObj[] | string> => {
   });
   return res.data;
 };
+
+// Password Reset API Functions
+
+interface PasswordResetResponse {
+  message: string;
+  code: string;
+}
+
+interface TokenVerificationResponse {
+  valid: boolean;
+  message?: string;
+  error?: string;
+  code: string;
+}
+
+export const requestPasswordReset = async (email: string): Promise<PasswordResetResponse> => {
+  try {
+    const res = await axios.post(
+      `${BackendAPI}/user/forgot-password`,
+      { email },
+      { withCredentials: true }
+    );
+    return res.data;
+  } catch (err) {
+    if (err instanceof AxiosError) {
+      throw new Error(err.response?.data?.error || 'Failed to send password reset email');
+    }
+    throw new Error('An unexpected error occurred');
+  }
+};
+
+export const verifyPasswordResetToken = async (token: string): Promise<TokenVerificationResponse> => {
+  try {
+    const res = await axios.post(
+      `${BackendAPI}/user/verify-reset-token`,
+      { token },
+      { withCredentials: true }
+    );
+    return res.data;
+  } catch (err) {
+    if (err instanceof AxiosError) {
+      throw new Error(err.response?.data?.error || 'Failed to verify reset token');
+    }
+    throw new Error('An unexpected error occurred');
+  }
+};
+
+export const resetPassword = async (token: string, newPassword: string): Promise<PasswordResetResponse> => {
+  try {
+    const res = await axios.post(
+      `${BackendAPI}/user/reset-password`,
+      { token, newPassword },
+      { withCredentials: true }
+    );
+    return res.data;
+  } catch (err) {
+    if (err instanceof AxiosError) {
+      const errorData = err.response?.data;
+      if (errorData?.details && Array.isArray(errorData.details)) {
+        throw new Error(errorData.details.join(', '));
+      }
+      throw new Error(errorData?.error || 'Failed to reset password');
+    }
+    throw new Error('An unexpected error occurred');
+  }
+};
