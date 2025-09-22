@@ -92,7 +92,7 @@ const { listingId } = useParams();
               />
             </div>
             <div className="showReviews">
-              <ShowReview />
+              <ShowReview listingId={listingObj._id} />
             </div>
             <div className="showMap flex flex-col text-center w-[90%] border-t border-b pb-15 mt-15 mb-5 border-gray-400 mx-auto">
               <h1 className="mt-10 mb-3 text-5xl showHead">Where you'll be</h1>

@@ -2,16 +2,128 @@ import leftLeaf from "@/assets/leftleaf.avif";
 import rightLeaf from "@/assets/rightLeaf.avif";
 import "./review.css";
 import StarIcon from "@mui/icons-material/Star";
+import { useEffect, useState } from "react";
+import { getListingReviews, getReviewStats, type IReview, type IReviewStats } from "@/Services/review.api";
+import { useParams } from "react-router-dom";
+import Skeleton from "react-loading-skeleton";
 
-const Review = ():React.JSX.Element => {
-  const arr = [1, 2, 3, 4, 5, 6];
+interface ReviewProps {
+  listingId?: string;
+}
+
+const Review = ({ listingId }: ReviewProps): React.JSX.Element => {
+  const { listingId: paramListingId } = useParams();
+  const currentListingId = listingId || paramListingId;
+  
+  const [reviews, setReviews] = useState<IReview[]>([]);
+  const [reviewStats, setReviewStats] = useState<IReviewStats | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchReviewData = async () => {
+      if (!currentListingId) return;
+      
+      try {
+        setLoading(true);
+        setError(null);
+        
+        // Fetch both reviews and stats
+        const [reviewsResponse, statsResponse] = await Promise.all([
+          getListingReviews(currentListingId, 1, 6), // Get first 6 reviews
+          getReviewStats(currentListingId)
+        ]);
+        
+        setReviews(reviewsResponse.data);
+        setReviewStats(statsResponse.data);
+      } catch (err) {
+        console.error("Error fetching review data:", err);
+        setError("Failed to load reviews");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchReviewData();
+  }, [currentListingId]);
+
+  if (loading) {
+    return (
+      <div className="review mt-10">
+        <div className="rating flex justify-center w-full">
+          <div className="leftLeaf">
+            <img src={leftLeaf} alt="Image" className="h-[8rem]" />
+          </div>
+          <h1 className="text-8xl text-[#222222] reviewHead">
+            <Skeleton width={100} />
+          </h1>
+          <div className="leftLeaf">
+            <img src={rightLeaf} alt="Image" className="h-[8rem]" />
+          </div>
+        </div>
+        <div className="reviewsIcons h-40 pb-10 pl-5 flex max-w-[66rem] 9kl:overflow-x-hidden overflow-x-auto mx-auto overflow-y-hidden mb-10 box-border">
+          {[...Array(6)].map((_, index) => (
+            <div key={index} className="reviewDiv flex-1">
+              <div className="detail pt-2 font-semibold pl-6">
+                <Skeleton width={80} height={16} />
+                <Skeleton width={40} height={20} />
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="review mt-10 text-center">
+        <p className="text-red-500">{error}</p>
+      </div>
+    );
+  }
+
+  // If no reviews exist
+  if (!reviewStats || reviewStats.totalReviews === 0) {
+    return (
+      <div className="review mt-10">
+        <div className="text-center py-16">
+          <div className="mb-6">
+            <svg
+              className="mx-auto h-16 w-16 text-gray-400"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={1}
+                d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
+              />
+            </svg>
+          </div>
+          <h3 className="text-2xl font-semibold text-gray-900 mb-2">No reviews yet</h3>
+          <p className="text-gray-600 text-lg mb-4">
+            This listing hasn't been reviewed yet.
+          </p>
+          <p className="text-gray-500">
+            Book this listing and be the first to share your experience!
+          </p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="review mt-10">
       <div className="rating flex justify-center w-full">
         <div className="leftLeaf">
           <img src={leftLeaf} alt="Image" className="h-[8rem]" />
         </div>
-        <h1 className="text-8xl text-[#222222] reviewHead">5.0</h1>
+        <h1 className="text-8xl text-[#222222] reviewHead">
+          {reviewStats.averageRating.toFixed(1)}
+        </h1>
         <div className="leftLeaf">
           <img src={rightLeaf} alt="Image" className="h-[8rem]" />
         </div>
@@ -20,7 +132,7 @@ const Review = ():React.JSX.Element => {
         <div className="reviewDiv cleanliness flex-1">
           <div className="detail pt-2 font-semibold pl-8">
             <p className="text-md ">Cleanliness</p>
-            <p className="text-lg">4.9</p>
+            <p className="text-lg">{reviewStats.averageRating.toFixed(1)}</p>
           </div>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -35,7 +147,7 @@ const Review = ():React.JSX.Element => {
         <div className="reviewDiv flex-1">
           <div className="detail pt-2 font-semibold pl-6">
             <p className="text-md ">Accuracy</p>
-            <p className="text-lg">5.0</p>
+            <p className="text-lg">{reviewStats.averageRating.toFixed(1)}</p>
           </div>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -49,7 +161,7 @@ const Review = ():React.JSX.Element => {
         <div className="reviewDiv flex-1">
           <div className="detail pt-2 font-semibold pl-6">
             <p className="text-md ">Check-in</p>
-            <p className="text-lg">5.0</p>
+            <p className="text-lg">{reviewStats.averageRating.toFixed(1)}</p>
           </div>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -65,7 +177,7 @@ const Review = ():React.JSX.Element => {
         <div className="reviewDiv flex-1">
           <div className="detail pt-2 font-semibold pl-6">
             <p className="text-md ">Communication</p>
-            <p className="text-lg">5.0</p>
+            <p className="text-lg">{reviewStats.averageRating.toFixed(1)}</p>
           </div>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -81,7 +193,7 @@ const Review = ():React.JSX.Element => {
         <div className="reviewDiv flex-1">
           <div className="detail pt-2 font-semibold pl-6">
             <p className="text-md ">Location</p>
-            <p className="text-lg">5.0</p>
+            <p className="text-lg">{reviewStats.averageRating.toFixed(1)}</p>
           </div>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -97,7 +209,7 @@ const Review = ():React.JSX.Element => {
         <div className="flex-1 h-full relative min-w-[7rem] max-w-[120px]">
           <div className="detail pt-2 font-semibold pl-6">
             <p className="text-md ">Value</p>
-            <p className="text-lg">5.0</p>
+            <p className="text-lg">{reviewStats.averageRating.toFixed(1)}</p>
           </div>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -111,32 +223,59 @@ const Review = ():React.JSX.Element => {
           </svg>
         </div>
       </div>
-      <div className="grid grid-cols-2 gap-10 xl:w-[90%] mx-auto">
-        {arr.map(() => (
-          <div className="reviewUserInfo max-w-[500px]">
-            <div className="flex">
-              <img
-                src="https://res.cloudinary.com/dscntdruu/image/upload/v1750431885/Dream_opyfuf.jpg"
-                alt="Dream's Image"
-                className="h-12 w-12 rounded-full"
-              />
-              <div>
-                <p className="ml-[0.8rem]">Dream</p>
-                <p className="ml-[0.8rem]">7 years on Airbnb</p>
+      
+      {/* Reviews Section */}
+      <div className="mt-8">
+        <h2 className="text-2xl font-semibold mb-6 text-center">
+          {reviewStats.totalReviews} Review{reviewStats.totalReviews !== 1 ? 's' : ''}
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 xl:w-[90%] mx-auto">
+          {reviews.map((review) => (
+            <div key={review._id} className="reviewUserInfo max-w-[500px]">
+              <div className="flex">
+                <img
+                  src={review.user.avatar || "https://res.cloudinary.com/dscntdruu/image/upload/v1750431885/Dream_opyfuf.jpg"}
+                  alt={`${review.user.firstName}'s Image`}
+                  className="h-12 w-12 rounded-full object-cover"
+                />
+                <div>
+                  <p className="ml-[0.8rem] font-medium">
+                    {review.user.firstName} {review.user.lastName}
+                  </p>
+                  <p className="ml-[0.8rem] text-gray-500 text-sm">
+                    {new Date(review.createdAt).toLocaleDateString('en-US', {
+                      year: 'numeric',
+                      month: 'long'
+                    })}
+                  </p>
+                </div>
               </div>
+              <div className="starIcons flex mt-3">
+                {[...Array(5)].map((_, index) => (
+                  <StarIcon 
+                    key={index}
+                    sx={{ 
+                      fontSize: 11,
+                      color: index < review.rating ? '#FFD700' : '#E5E7EB'
+                    }} 
+                  />
+                ))}
+              </div>
+              <p className="reviewDesc text-[0.9rem] mt-1 text-gray-700">
+                {review.reviewText}
+              </p>
+              {review.hostReply && (
+                <div className="mt-4 ml-4 p-3 bg-gray-50 rounded-lg border-l-4 border-blue-500">
+                  <p className="text-sm font-medium text-gray-900 mb-1">Host Reply:</p>
+                  <p className="text-sm text-gray-700">{review.hostReply.text}</p>
+                  <p className="text-xs text-gray-500 mt-1">
+                    {new Date(review.hostReply.repliedAt).toLocaleDateString()}
+                  </p>
+                </div>
+              )}
             </div>
-            <div className="starIcons flex mt-3">
-              <StarIcon sx={{ fontSize: 11 }} />
-              <StarIcon sx={{ fontSize: 11 }} />
-              <StarIcon sx={{ fontSize: 11 }} />
-              <StarIcon sx={{ fontSize: 11 }} />
-              <StarIcon sx={{ fontSize: 11 }} />
-            </div>
-            <p className="reviewDesc text-[0.9rem] mt-1">
-              He was awesome host, worth staying there, 10 mins distance from mahakaleshwar.
-            </p>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </div>
   );
