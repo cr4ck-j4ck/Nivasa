@@ -1,5 +1,6 @@
 import { Award, Calendar, CheckCircle, Edit3, MapPin, Settings } from "lucide-react";
 import UserStore from "@/Store/UserStore";
+import { Link } from "react-router-dom";
 
 const UserHeader = () => {
   const userData = UserStore(state => state.user)
@@ -45,10 +46,10 @@ const UserHeader = () => {
             </div>
           </div>
           <div className="flex gap-2">
-            <button className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
+            <Link to="/profile/edit" className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
               <Edit3 className="w-4 h-4" />
               Edit Profile
-            </button>
+            </Link>
             <button className="p-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
               <Settings className="w-4 h-4" />
             </button>

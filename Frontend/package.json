@@ -33,7 +33,7 @@
     "date-fns": "^3.0.1",
     "framer-motion": "^12.23.9",
     "lucide-react": "^0.513.0",
-    "react": "^19.1.0",
+    "react": "^19.1.1",
     "react-confetti": "^6.4.0",
     "react-datepicker": "^8.7.0",
     "react-day-picker": "^8.10.1",
