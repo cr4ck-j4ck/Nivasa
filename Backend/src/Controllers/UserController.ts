@@ -462,3 +462,101 @@ export const resetPassword: RequestHandler = async (req, res) => {
     });
   }
 };
+
+// Profile Update Function
+export const updateUserProfile: RequestHandler = async (req, res) => {
+  try {
+    const userId = req.user?.id;
+    
+    if (!userId) {
+      return res.status(401).json({
+        error: 'User not authenticated',
+        code: 'UNAUTHORIZED'
+      });
+    }
+
+
+
+    const { firstName, lastName, email, bio } = req.body;
+
+    // Validate required fields
+    if (!firstName || !lastName || !email) {
+      return res.status(400).json({
+        error: 'First name, last name, and email are required',
+        code: 'MISSING_REQUIRED_FIELDS'
+      });
+    }
+
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return res.status(400).json({
+        error: 'Please enter a valid email address',
+        code: 'INVALID_EMAIL'
+      });
+    }
+
+    // Check if email is already taken by another user
+    const existingUser = await UserModel.findOne({ 
+      email: email.toLowerCase(), 
+      _id: { $ne: userId } 
+    });
+    
+    if (existingUser) {
+      return res.status(409).json({
+        error: 'Email is already taken by another user',
+        code: 'EMAIL_TAKEN'
+      });
+    }
+
+    // Validate bio length
+    if (bio && bio.length > 300) {
+      return res.status(400).json({
+        error: 'Bio must be 300 characters or less',
+        code: 'BIO_TOO_LONG'
+      });
+    }
+
+    // Prepare update data
+    const updateData: Partial<IUser> = {
+      firstName: firstName.trim(),
+      lastName: lastName.trim(),
+      email: email.toLowerCase().trim(),
+      bio: bio ? bio.trim() : undefined
+    };
+
+    // Handle avatar upload if present (Cloudinary automatically handles the upload)
+    if (req.file) {
+      // Cloudinary URL is available in req.file.path
+      updateData.avatar = req.file.path;
+    }
+
+    // Update user profile
+    const updatedUser = await UserModel.findByIdAndUpdate(
+      userId,
+      updateData,
+      { 
+        new: true, 
+        runValidators: true,
+        select: '-password -passwordResetToken -passwordResetExpires -passwordResetAttempts -passwordResetLastAttempt'
+      }
+    );
+
+    if (!updatedUser) {
+      return res.status(404).json({
+        error: 'User not found',
+        code: 'USER_NOT_FOUND'
+      });
+    }
+
+    // Return the updated user data in the same format as login/auth responses
+    res.status(200).json(updatedUser);
+
+  } catch (error) {
+    console.error('Profile update error:', error);
+    res.status(500).json({
+      error: 'An error occurred while updating your profile',
+      code: 'INTERNAL_ERROR'
+    });
+  }
+};

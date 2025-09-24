@@ -13,6 +13,7 @@ import Wishlist from "@/Pages/Wishlist";
 import HostingProcess from "@/Pages/Hosting Pages/HostingProcess";
 import BookingSuccess from "@/Pages/BookingSuccess";
 import BookingsPage from "@/Pages/BookingsPage";
+import PersonalEditPage from "@/Components/PersonalEditForm/PersonalEditPage";
 export default function AppRoutes() {
   return (
     <Routes>
@@ -28,6 +29,7 @@ export default function AppRoutes() {
       <Route path="/bookingPage" element={<BookingsPage/>}/>
       <Route path="/become-host" element={<PrivateRoutes><HostingProcess/></PrivateRoutes>}/>
       <Route path="/booking/success/:bookingId" element={<PrivateRoutes><BookingSuccess/></PrivateRoutes>}/>
+      <Route path="/profile/edit" element={<PrivateRoutes><PersonalEditPage/></PrivateRoutes>}/>
       <Route path="*" element={<UnderConstruction/>}/>
     </Routes>
   );

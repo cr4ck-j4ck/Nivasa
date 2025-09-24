@@ -21,11 +21,38 @@ const storage = new CloudinaryStorage({
   } as any,
 });
 
-// Create multer upload middleware
+// Create multer upload middleware for listings
 export const upload = multer({ 
   storage: storage,
   limits: {
     fileSize: 10 * 1024 * 1024, // 10MB limit
+  },
+  fileFilter: (req, file, cb) => {
+    if (file.mimetype.startsWith('image/')) {
+      cb(null, true);
+    } else {
+      cb(new Error('Only image files are allowed!'));
+    }
+  },
+});
+
+// Configure Cloudinary storage for avatar uploads
+const avatarStorage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: {
+    folder: 'nivasa-avatars', // Separate folder for avatars
+    allowed_formats: ['jpg', 'jpeg', 'png', 'webp'],
+    transformation: [
+      { width: 400, height: 400, crop: 'fill', quality: 'auto', gravity: 'face' },
+    ],
+  } as any,
+});
+
+// Create multer upload middleware specifically for avatars
+export const uploadAvatar = multer({ 
+  storage: avatarStorage,
+  limits: {
+    fileSize: 2 * 1024 * 1024, // 2MB limit for avatars
   },
   fileFilter: (req, file, cb) => {
     if (file.mimetype.startsWith('image/')) {
