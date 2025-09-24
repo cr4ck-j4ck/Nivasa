@@ -160,8 +160,8 @@ export async function getRandomCitiesWithListings(req: Request, res: Response) {
         }));
         return res.json(responseWithLikes);
       }
-    } catch (error) {
-      console.log("Auth error in getRandomCitiesWithListings:", error);
+    } catch {
+      console.log("Auth error in getRandomCitiesWithListings");
     }
     res.json(citiesWithListingsData);
   } catch (error) {

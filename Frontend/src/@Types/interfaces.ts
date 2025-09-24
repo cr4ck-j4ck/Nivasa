@@ -155,21 +155,28 @@ interface Iverification {
 }
 
 export interface Iuser {
-  superhost: boolean;
+  _id?: string;
+  googleId?: string;
+  provider?: string;
   firstName: string;
   lastName: string;
   email: string;
-  password: string;
-  phoneNumber: number;
-  avatar: string;
+  password?: string;
+  phoneNumber?: string;
+  avatar?: string;
   isHost: boolean;
-  bio: string;
-  location: string;
+  bio?: string;
+  location?: string;
   verification: Iverification;
-  verified: boolean;
-  savedListings: string[];
-  bookings: string[];
-  createdAt: string;
+  savedListings?: string[];
+  hostedListings?: string[];
+  bookings?: string[];
+  wishlist?: string[];
+  createdAt?: string;
+  role?: string;
+  // Legacy fields for backward compatibility
+  superhost?: boolean;
+  verified?: boolean;
 }
 
 export interface Ihost extends Iuser {

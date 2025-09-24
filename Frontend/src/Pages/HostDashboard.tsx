@@ -223,6 +223,11 @@ export default function ProfileDashboard() {
 
       <div className="min-h-fit w-full sm:max-w-[97vw] md:max-w-[92vw] lg:max-w-[95vw] 3xl:max-w-[80vw]">
         <div className="mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="mb-6">
+          <button className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors" onClick={() => navigate("/")}>
+          &larr; Back to Nivasa
+        </button>
+        </div>
           {/* Welcome Banner */}
           <motion.div
             initial={{ opacity: 0, y: -20 }}
