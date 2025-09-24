@@ -4,17 +4,19 @@ import PasswordStrengthIndicator from "./PasswordIndicator";
 import globalStore from "@/Store/Global";
 import { useShallow } from "zustand/react/shallow";
 import type { UseFormRegister } from "react-hook-form";
-import { type FormData } from "./AuthForm";
 interface InputFieldProps {
   icon: LucideIcon;
   type?: string;
   placeholder: string;
   error?: string;
   showPasswordToggle?: boolean;
-  register: UseFormRegister<FormData>;
+  register: UseFormRegister<any>;
   name: string;
   watch?: (field: string) => string;
-  isLogin?:boolean;
+  isLogin?: boolean;
+  label?: string;
+  id?: string;
+  textarea?: boolean;
 }
 
 // Input Field Component
@@ -28,6 +30,9 @@ const InputField: React.FC<InputFieldProps> = ({
   name,
   watch,
   isLogin,
+  label,
+  id,
+  textarea = false,
 }) => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const fieldValue = watch ? watch(name) : "";
@@ -44,19 +49,39 @@ const InputField: React.FC<InputFieldProps> = ({
   }
   return (
     <div className="relative">
+      {label && (
+        <label htmlFor={id} className="block text-sm font-medium text-gray-700 mb-2">
+          {label}
+        </label>
+      )}
       <div className="relative">
         <Icon className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
-        <input
-          type={showPasswordToggle && showPassword ? "text" : type}
-          placeholder={placeholder}
-          {...register(name as keyof FormData)}
-          className={`w-full pl-10 pr-12 py-4 border-2 rounded-xl transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent ${
-            error
-              ? "border-red-300 bg-red-50"
-              : "border-gray-200 bg-white hover:border-gray-300 focus:bg-white"
-          }`}
-        />
-        {showPasswordToggle && (
+        {textarea ? (
+          <textarea
+            id={id}
+            placeholder={placeholder}
+            {...register(name)}
+            className={`w-full pl-10 pr-12 py-4 border-2 rounded-xl transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent resize-none ${
+              error
+                ? "border-red-300 bg-red-50"
+                : "border-gray-200 bg-white hover:border-gray-300 focus:bg-white"
+            }`}
+            rows={4}
+          />
+        ) : (
+          <input
+            id={id}
+            type={showPasswordToggle && showPassword ? "text" : type}
+            placeholder={placeholder}
+            {...register(name)}
+            className={`w-full pl-10 pr-12 py-4 border-2 rounded-xl transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent ${
+              error
+                ? "border-red-300 bg-red-50"
+                : "border-gray-200 bg-white hover:border-gray-300 focus:bg-white"
+            }`}
+          />
+        )}
+        {showPasswordToggle && !textarea && (
           <button
             type="button"
             onClick={() => setShowPassword(!showPassword)}

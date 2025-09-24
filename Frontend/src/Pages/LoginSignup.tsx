@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import FloatingBackground from "@/Components/Auth/FloatingBackground";
 import AuthForm from "@/Components/Auth/AuthForm";
 import SocialLogin from "@/Components/Auth/SocialLogin";
@@ -23,7 +23,7 @@ const AuthPage: React.FC = () => {
   const [isLogin, setIsLogin] = useState<boolean>(true);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [showForgotPassword, setShowForgotPassword] = useState<boolean>(false);
-  const setUser = UserStore((state) => state.setUser);
+  const {setUser,user} = UserStore();
   const setErrorFromBackend = globalStore((state) => state.setErrorFromBackend);
   const [isEmailSent, SetIsEmailSent] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
@@ -33,7 +33,12 @@ const AuthPage: React.FC = () => {
     setErrorFromBackend({ emailError: null, passwordError: null });
   }, [setErrorFromBackend]);
   const navigate = useNavigate();
-  const handleAuth = async (data: FormData): Promise<void> => {
+    useEffect(() => {
+    if(user){
+      navigate("/dashboard")
+    }
+  },[user])
+  const handleAuth = useCallback(async (data: FormData): Promise<void> => {
     setIsLoading(true);
     try {
       // Simulate API call
@@ -75,7 +80,7 @@ const AuthPage: React.FC = () => {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, []);
   let mailErrMsg: string = "";
   if (errMsg) {
     if (errMsg == "jwt expired") {
@@ -91,6 +96,7 @@ No worries, just sign up again to get a new one.`;
 Maybe it got tampered, just sign up again`;
     }
   }
+
   const toggleAuthMode = (): void => {
     setIsLogin(!isLogin);
     setShowForgotPassword(false); // Reset forgot password state when switching modes
