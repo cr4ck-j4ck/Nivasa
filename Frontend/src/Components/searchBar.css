@@ -1,3 +1,4 @@
+/* General styles for the search bar container */
 .df {
   box-shadow: 0px 1px 7px 0px rgb(134, 134, 134);
   max-width: 54rem;
@@ -6,22 +7,12 @@
   min-width: 20rem;
 }
 
-.bg-dots {
-  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23000000' fill-opacity='0.1'%3E%3Ccircle cx='7' cy='7' r='1'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-}
-
-.searchIncrease {
-  width: 6.5rem;
-  align-items: center;
-  justify-content: space-around;
-}
-
+/* Animation for the search bar moving up and shrinking */
 @keyframes toTop {
   from {
     transform: translate(0px, 0px);
     height: 4rem;
   }
-
   to {
     width: 25rem;
     transform: translate(-5rem, -80px);
@@ -29,12 +20,12 @@
   }
 }
 
+/* Animation for the search bar moving down and expanding */
 @keyframes toDown {
   from {
     transform: translate(-5rem, -90px);
     height: 3rem;
   }
-
   to {
     width: 100%;
     max-width: 54rem;
@@ -43,24 +34,25 @@
   }
 }
 
+/* Ripple effect for the first click */
 .ripple-btn .ripple {
   position: absolute;
-  background: white;
-  opacity: 1;
+  background: rgba(255, 255, 255, 0.7);
   border-radius: 50%;
   transform: scale(0);
-  animation: ripple-solid 1.5s ease-out;
+  animation: ripple-effect 0.6s ease-out;
   pointer-events: none;
   z-index: 10;
 }
 
-@keyframes ripple-solid {
+@keyframes ripple-effect {
   to {
-    transform: translate(-50%, -50%) scale(4);
+    transform: scale(4);
     opacity: 0;
   }
 }
 
+/* Input placeholder styling */
 input::placeholder {
   color: rgb(116, 116, 116);
   font-weight: 500;
@@ -72,10 +64,7 @@ input {
   font-weight: 500;
 }
 
-button:hover+div {
-  visibility: hidden;
-}
-
+/* General placeholder and calendar styling */
 ::placeholder,
 .bla {
   user-select: none;
@@ -84,23 +73,7 @@ button:hover+div {
   -ms-user-select: none;
 }
 
-
-.custom-ripple {
-  position: absolute;
-  top: 10%;
-  left: 10%;
-  width: 80%;
-  height: 80%;
-  background: white;
-  opacity: 0.9;
-  border-radius: 1rem;
-  transform: scale(0.8);
-  animation: ripple-grow 0.4s ease-out forwards;
-  pointer-events: none;
-  z-index: 0;
-}
-
-
+/* Calendar specific styles for different screen sizes */
 @media(max-width:925px) {
   .bla {
     width: 90vw;
@@ -110,29 +83,10 @@ button:hover+div {
     border-radius: 3rem;
     height: 28rem;
   }
-
-  .bla>div {
-    justify-content: space-around;
-    width: 100%;
-    padding: 2rem 0;
-  }
-
-  .bla button {
-    margin: 0.6vw;
-    font-weight: 600;
-  }
-
-  .bla .rdp-head tr {
-    margin-left: 5px;
-    margin-top: 1rem;
-  }
-
-  .bla .rdp-head tr th {
-    /* background-color: red; */
-    margin-right: 1.1vw;
-    color: rgb(113, 113, 113);
-    font-weight: 500;
-  }
+  .bla>div { justify-content: space-around; width: 100%; padding: 2rem 0; }
+  .bla button { margin: 0.6vw; font-weight: 600; }
+  .bla .rdp-head tr { margin-left: 5px; margin-top: 1rem; }
+  .bla .rdp-head tr th { margin-right: 1.1vw; color: rgb(113, 113, 113); font-weight: 500; }
 }
 
 @media(min-width:925px) {
@@ -143,52 +97,20 @@ button:hover+div {
     width: 54rem;
     top: -0.5rem;
   }
-
-  .bla th {
-    margin: 0.6rem;
-    margin-right: 0.8rem;
-    font-weight: 600;
-  }
-
-  .bla button {
-    font-weight: 700;
-    height: 3rem;
-    width: 3rem;
-    margin: 0.2rem;
-  }
-
-  .bla>div {
-    width: 88%;
-    height: fit-content;
-    position: relative;
-    top: 3rem;
-    display: flex;
-    justify-content: space-between;
-  }
+  .bla th { margin: 0.6rem; margin-right: 0.8rem; font-weight: 600; }
+  .bla button { font-weight: 700; height: 3rem; width: 3rem; margin: 0.2rem; }
+  .bla>div { width: 88%; height: fit-content; position: relative; top: 3rem; display: flex; justify-content: space-between; }
 }
 
+/* Responsive adjustments for the search bar */
 .df {
   width: 95%;
   margin: 0 auto;
 }
 
 @media(max-width:740px) {
-  .df {
-    max-height: 3rem;
-  }
-
-  .animatedBox {
-    display: none;
-  }
-
-  button.ripple-btn {
-    display: none;
-  }
-
-  .divider {
-    display: none;
-  }
-
+  .df { max-height: 3rem; }
+  .animatedBox, button.ripple-btn, .divider { display: none; }
   .searchPlaceholder {
     display: flex;
     align-items: center;
@@ -199,22 +121,10 @@ button:hover+div {
     position: relative;
     z-index: 1;
   }
-
-  
 }
 
 @media(min-width:740px) {
-  .moveTop {
-    animation: toTop 0.3s linear 1 forwards;
-    position: absolute;
-  }
-
-  .moveDown {
-    animation: toDown 0.3s linear 1 forwards;
-    position: absolute;
-  }
-
-  .searchPlaceholder {
-    display: none;
-  }
+  .moveTop { animation: toTop 0.3s linear 1 forwards; position: absolute; }
+  .moveDown { animation: toDown 0.3s linear 1 forwards; position: absolute; }
+  .searchPlaceholder { display: none; }
 }
