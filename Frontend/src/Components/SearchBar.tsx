@@ -1,10 +1,10 @@
 import { useState, useRef, useEffect, useMemo, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import "./searchBar.css";
-import { Calendar02 } from "./Calendar02";
+import { SearchCalendar } from "./SearchCalendar";
 import SearchIcon from "@mui/icons-material/Search";
 import HomeIcon from "../assets/home.avif";
-import { Search } from "lucide-react";
+import {Search } from "lucide-react";
 
 interface SearchBarProps {
   scroll: boolean;
@@ -43,33 +43,125 @@ export default function SearchBar({
   let focInput: boolean = false;
 
   const [focusedInput, setFocusedInput] = useState<InputKey | null>(null);
+  const [activeButton, setActiveButton] = useState<InputKey | null>(null);
   const [indicatorStyle, setIndicatorStyle] = useState<IndicatorStyle>({
     left: 0,
     width: 0,
   });
   const [position, updatePosition] = useState<number>(0);
-  
-  // Search form state
+
+  // Search form state with local calendar state
   const [searchData, setSearchData] = useState({
-    city: '',
-    checkIn: '',
-    checkOut: '',
-    guests: ''
+    city: "",
+    checkIn: "",
+    checkOut: "",
+    guests: "",
   });
-  const calendarRef = useRef<HTMLDivElement>(null);
-  const buttonRefs: ButtonRefs = useMemo(() => ({
-    input1: buttonReferences.current[0] || null,
-    input2: buttonReferences.current[1] || null,
-    input3: buttonReferences.current[2] || null,
-    input4: buttonReferences.current[3] || null,
-  }), []);
   
-  const inputRefs: InputRefs = useMemo(() => ({
-    input1: inputReferences.current[0] || null,
-    input2: inputReferences.current[1] || null,
-    input3: inputReferences.current[2] || null,
-    input4: inputReferences.current[3] || null,
-  }), []);
+  // Local calendar state for SearchBar
+  const [searchCalendarFocus, setSearchCalendarFocus] = useState<"checkIn" | "checkOut" | null>(null);
+  const [searchBookingDates, setSearchBookingDates] = useState<{
+    checkIn: Date | null;
+    checkOut: Date | null;
+  }>({
+    checkIn: null,
+    checkOut: null,
+  });
+
+  const calendarRef = useRef<HTMLDivElement>(null);
+
+  // Synchronize search booking dates with display
+  useEffect(() => {
+    // Debug logging to help identify any future issues
+    if (searchBookingDates.checkIn && !(searchBookingDates.checkIn instanceof Date)) {
+      console.error("checkIn is not a Date object:", searchBookingDates.checkIn, typeof searchBookingDates.checkIn);
+    }
+    if (searchBookingDates.checkOut && !(searchBookingDates.checkOut instanceof Date)) {
+      console.error("checkOut is not a Date object:", searchBookingDates.checkOut, typeof searchBookingDates.checkOut);
+    }
+
+    setSearchData(prev => ({
+      ...prev,
+      checkIn: searchBookingDates.checkIn && searchBookingDates.checkIn instanceof Date 
+        ? searchBookingDates.checkIn.toLocaleDateString() 
+        : "",
+      checkOut: searchBookingDates.checkOut && searchBookingDates.checkOut instanceof Date 
+        ? searchBookingDates.checkOut.toLocaleDateString() 
+        : "",
+    }));
+  }, [searchBookingDates.checkIn, searchBookingDates.checkOut]);
+
+  // Handle date selection from calendar
+  const handleDateSelect = (date: Date, type: "checkIn" | "checkOut") => {
+    // Ensure we have a valid Date object
+    if (!date || !(date instanceof Date)) {
+      console.error("Invalid date passed to handleDateSelect:", date);
+      return;
+    }
+
+    if (type === "checkIn") {
+      console.log("CheckIn selection:", date);
+      setSearchBookingDates(prev => ({
+        ...prev,
+        checkIn: date, // Use the date directly from the calendar
+        checkOut: null, // Reset checkout when changing checkin
+      }));
+      // Move to checkout input
+      setSearchCalendarFocus("checkOut");
+      setFocusedInput("input3");
+      setActiveButton("input3");
+      setTimeout(() => {
+        inputReferences.current[2]?.focus();
+      }, 100);
+    } else if (type === "checkOut") {
+      console.log("Checkout selection:", {
+        selectedDate: date,
+        checkInDate: searchBookingDates.checkIn,
+        comparison: searchBookingDates.checkIn ? date >= searchBookingDates.checkIn : "no checkIn"
+      });
+
+      if (searchBookingDates.checkIn && date >= searchBookingDates.checkIn) {
+        setSearchBookingDates(prev => ({
+          ...prev,
+          checkOut: date, // Use the date directly from the calendar
+        }));
+        // Close calendar and focus on guests
+        setSearchCalendarFocus(null);
+        setFocusedInput("input4");
+        setActiveButton("input4");
+        setTimeout(() => {
+          inputReferences.current[3]?.focus();
+        }, 100);
+      } else if (searchBookingDates.checkIn) {
+        // If selected date is before checkin, set it as new checkin
+        setSearchBookingDates({
+          checkIn: date, // Use the date directly from the calendar
+          checkOut: null,
+        });
+        setSearchCalendarFocus("checkOut");
+      }
+    }
+  };
+
+  const buttonRefs: ButtonRefs = useMemo(
+    () => ({
+      input1: buttonReferences.current[0] || null,
+      input2: buttonReferences.current[1] || null,
+      input3: buttonReferences.current[2] || null,
+      input4: buttonReferences.current[3] || null,
+    }),
+    [buttonReferences.current[0], buttonReferences.current[1], buttonReferences.current[2], buttonReferences.current[3]]
+  );
+
+  const inputRefs: InputRefs = useMemo(
+    () => ({
+      input1: inputReferences.current[0] || null,
+      input2: inputReferences.current[1] || null,
+      input3: inputReferences.current[2] || null,
+      input4: inputReferences.current[3] || null,
+    }),
+    [inputReferences.current[0], inputReferences.current[1], inputReferences.current[2], inputReferences.current[3]]
+  );
   const dynamicLeftClass: string = `${Math.floor(position)}`;
   useEffect(() => {
     if (focusedInput && isScrolled) {
@@ -117,19 +209,21 @@ export default function SearchBar({
     };
   }, []);
 
-  const updateIndicatorPosition = useCallback((key: InputKey): void => {
-    const button = buttonRefs[key];
-    const container = elementRef.current;
-
-    if (button && container) {
-      const buttonRect = button.getBoundingClientRect();
-      const containerRect = container.getBoundingClientRect();
-      setIndicatorStyle({
-        left: buttonRect.left - containerRect.left,
-        width: buttonRect.width,
-      });
-    }
-  }, [buttonRefs]);
+  const updateIndicatorPosition = useCallback(
+    (key: InputKey): void => {
+      const button = buttonRefs[key];
+      const container = elementRef.current;
+      if (button && container) {
+        const buttonRect = button.getBoundingClientRect();
+        const containerRect = container.getBoundingClientRect();
+        setIndicatorStyle({
+          left: buttonRect.left - containerRect.left,
+          width: buttonRect.width,
+        });
+      }
+    },
+    [buttonRefs]
+  );
 
   useEffect(() => {
     if (focusedInput) {
@@ -142,31 +236,41 @@ export default function SearchBar({
     inputRef: HTMLInputElement | null,
     inputKey: InputKey
   ): void => {
-    if(focusedInput !== inputKey){
+    if (focusedInput !== inputKey) {
       const circle = document.createElement("span");
-    circle.classList.add("ripple");
-    const rect = button.getBoundingClientRect();
-    const size = Math.max(rect.width, rect.height);
+      circle.classList.add("ripple");
+      const rect = button.getBoundingClientRect();
+      const size = Math.max(rect.width, rect.height);
 
-    circle.style.width = circle.style.height = `${size}px`;
-    circle.style.left = "50%";
-    circle.style.top = "50%";
-    circle.style.transform = `translate(-50%, -50%) scale(0)`;
+      circle.style.width = circle.style.height = `${size}px`;
+      circle.style.left = "50%";
+      circle.style.top = "50%";
+      circle.style.transform = `translate(-50%, -50%) scale(0)`;
 
-    if (!button.querySelector(".ripple")) {
-      button.appendChild(circle);
-    }
-
-    setTimeout(() => {
-      if (button.contains(circle)) {
-        circle.remove();
+      if (!button.querySelector(".ripple")) {
+        button.prepend(circle);
       }
-      inputRef?.focus();
-    }, 500);
-    setTimeout(() => {
+
+      setTimeout(() => {
+        if (button.contains(circle)) {
+          circle.remove();
+        }
+      }, 500);
+
       setFocusedInput(inputKey);
-      
-    }, 100);
+      setActiveButton(null);
+
+      // Handle calendar for date inputs
+      if (inputKey === "input2") {
+        setSearchCalendarFocus("checkIn");
+      } else if (inputKey === "input3") {
+        setSearchCalendarFocus("checkOut");
+      }
+
+      setTimeout(() => {
+        setActiveButton(inputKey);
+        inputRef?.focus();
+      }, 200);
     }
   };
 
@@ -180,6 +284,10 @@ export default function SearchBar({
       setTimeout(() => {
         if (!elementRef.current?.contains(document.activeElement)) {
           setFocusedInput(null);
+          setActiveButton(null);
+          if (val === "cal") {
+            setSearchCalendarFocus(null);
+          }
         }
       }, 0);
     }
@@ -203,12 +311,11 @@ export default function SearchBar({
 
   // Handle input changes
   const handleInputChange = (field: keyof typeof searchData, value: string) => {
-    setSearchData(prev => ({
+    setSearchData((prev) => ({
       ...prev,
-      [field]: value
+      [field]: value,
     }));
   };
-
   // Handle search submission
   const handleSearch = () => {
     if (!searchData.city.trim()) {
@@ -219,10 +326,10 @@ export default function SearchBar({
 
     // Build search params
     const params = new URLSearchParams();
-    if (searchData.city.trim()) params.set('city', searchData.city.trim());
-    if (searchData.checkIn) params.set('checkIn', searchData.checkIn);
-    if (searchData.checkOut) params.set('checkOut', searchData.checkOut);
-    if (searchData.guests) params.set('guests', searchData.guests);
+    if (searchData.city.trim()) params.set("city", searchData.city.trim());
+    if (searchData.checkIn) params.set("checkIn", searchData.checkIn);
+    if (searchData.checkOut) params.set("checkOut", searchData.checkOut);
+    if (searchData.guests) params.set("guests", searchData.guests);
 
     // Navigate to search results
     navigate(`/search?${params.toString()}`);
@@ -274,13 +381,13 @@ export default function SearchBar({
               )
             }
             className={`z-2 ripple-btn relative bottom-[1px] rounded-4xl overflow-hidden mr-2 ${
-              focusedInput === "input1" ? "bg-white" : "hover:bg-[#bebebe]"
+              activeButton === "input1" ? "bg-white" : "hover:bg-[#bebebe]"
             } ${
               isScrolled ? "w-[10rem] h-12.5" : "w-[30%] min-w-[12rem] h-16.5"
             }`}
           >
             <p
-              className={`absolute z-20 font-bold top-3 text-[0.8em] ${
+              className={`absolute z-10 font-bold top-3 text-[0.8em] ${
                 isScrolled ? "left-20 flex items-center" : "left-[1.7rem]"
               }`}
             >
@@ -288,7 +395,7 @@ export default function SearchBar({
                 <img
                   src={HomeIcon}
                   alt="homeImage"
-                  className="h-10 absolute -left-16"
+                  className="h-10 absolute z-20 -left-16"
                 />
               )}
               {isScrolled ? "AnyWhere" : "Where"}
@@ -299,7 +406,7 @@ export default function SearchBar({
               }}
               type="text"
               value={searchData.city}
-              onChange={(e) => handleInputChange('city', e.target.value)}
+              onChange={(e) => handleInputChange("city", e.target.value)}
               onBlur={() => {
                 handleInputBlur("input1");
               }}
@@ -318,9 +425,7 @@ export default function SearchBar({
 
           {/* Button 2 */}
           <button
-            className={`z-2 ripple-btn rounded-4xl relative mr-2 overflow-hidden ${
-              focusedInput === "input2" ? "bg-white" : "hover:bg-[#bebebe]"
-            } ${isScrolled ? "w-[7rem]" : "w-[15%] min-w-[8rem]"}`}
+            className={`z-2 ripple-btn rounded-4xl relative mr-2 overflow-hidden ${activeButton === "input2" ? "bg-white" : "hover:bg-[#bebebe]"}`}
             ref={(el) => {
               buttonReferences.current[1] = el;
             }}
@@ -338,14 +443,14 @@ export default function SearchBar({
               {`${isScrolled ? "Anytime" : "Check in"}`}
             </p>
             <input
-              type="date"
+              type="text"
               value={searchData.checkIn}
-              onChange={(e) => handleInputChange('checkIn', e.target.value)}
+              onChange={(e) => handleInputChange("checkIn", e.target.value)}
               placeholder={`${isScrolled ? "" : "Add Dates"}`}
               ref={(el) => {
                 inputReferences.current[1] = el;
               }}
-              className="w-[80%] ml-4 relative outline-none top-2 cursor-pointer"
+              className="w-[80%] ml-4 relative z-10 outline-none top-2 cursor-pointer"
             />
           </button>
 
@@ -362,7 +467,7 @@ export default function SearchBar({
             <>
               <button
                 className={`w-[15%] min-w-[8rem] ripple-btn overflow-hidden rounded-4xl relative z-2 ${
-                  focusedInput === "input3" ? "bg-white" : "hover:bg-[#bebebe]"
+                  activeButton === "input3" ? "bg-white" : "hover:bg-[#bebebe]"
                 }`}
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
@@ -381,14 +486,16 @@ export default function SearchBar({
                   Check Out
                 </p>
                 <input
-                  type="date"
+                  type="text"
                   value={searchData.checkOut}
-                  onChange={(e) => handleInputChange('checkOut', e.target.value)}
+                  onChange={(e) =>
+                    handleInputChange("checkOut", e.target.value)
+                  }
                   ref={(el) => {
                     inputReferences.current[2] = el;
                   }}
                   placeholder="Add Dates"
-                  className="w-[80%] ml-2 outline-none relative top-2 cursor-pointer"
+                  className="w-[80%] ml-2 outline-none z-10 relative top-2 cursor-pointer"
                 />
               </button>
 
@@ -399,9 +506,7 @@ export default function SearchBar({
           )}
           {/* Button 4 */}
           <button
-            className={`input4 ripple-btn overflow-hidden ml-2 rounded-4xl relative z-2 flex-1 min-w-[8rem] ${
-              focusedInput === "input4" ? "bg-white" : "hover:bg-[#bebebe]"
-            }`}
+            className={`input4 ripple-btn overflow-hidden ml-2 rounded-4xl relative z-50 flex-1 min-w-[8rem] ${activeButton === "input4" ? "bg-white" : "hover:bg-[#bebebe]"}`}
             ref={(el) => {
               buttonReferences.current[3] = el;
             }}
@@ -414,7 +519,6 @@ export default function SearchBar({
                 "input4"
               )
             }
-            
           >
             <p
               className={`absolute text-[0.8em] font-bold z-50 top-3 ${
@@ -428,13 +532,12 @@ export default function SearchBar({
               min="1"
               max="16"
               value={searchData.guests}
-              onChange={(e) => handleInputChange('guests', e.target.value)}
+              onChange={(e) => handleInputChange("guests", e.target.value)}
               placeholder={`${isScrolled ? "" : "Add Guests"}`}
               onBlur={() => {
                 handleInputBlur("input4");
               }}
-              className={`relative -bottom-[8px] left-1 outline-none w-[80%]`}
-              ref={(el) => {
+              className={`relative z-10 -bottom-[8px] left-1 outline-none w-[80%]`}              ref={(el) => {
                 inputReferences.current[3] = el;
               }}
             />
@@ -464,7 +567,12 @@ export default function SearchBar({
           className="relative w-fit"
           style={{ left: `${dynamicLeftClass}px` }}
         >
-          <Calendar02 className="bla rounded-4xl" />
+          <SearchCalendar 
+            className="bla rounded-4xl" 
+            focusInput={searchCalendarFocus}
+            bookingDates={searchBookingDates}
+            onDateSelect={handleDateSelect}
+          />
         </div>
       ) : null}
     </>
