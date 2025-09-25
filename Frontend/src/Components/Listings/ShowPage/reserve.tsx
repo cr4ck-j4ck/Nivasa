@@ -21,7 +21,7 @@ const SeatReservationBox: React.FC<SeatReservationBoxProps> = ({
   listing,
   onReserveClick,
 }) => {
-  const [showGuests, setShowGuests] = useState<boolean>(false);
+
   const [blurSecondInput, setBlurSecondInput] = useState(false);
 
   const {
@@ -34,6 +34,8 @@ const SeatReservationBox: React.FC<SeatReservationBoxProps> = ({
     setDate,
     guests,
     setGuests,
+    showGuests,
+    setShowGuests,
     date: selectedDate,
   } = reserveStore(
     useShallow((state) => ({
@@ -47,6 +49,8 @@ const SeatReservationBox: React.FC<SeatReservationBoxProps> = ({
       setDate: state.setDate,
       guests: state.guests,
       setGuests: state.setGuests,
+      showGuests: state.showGuests,
+      setShowGuests: state.setShowGuests,
     }))
   );
 
@@ -60,48 +64,7 @@ const SeatReservationBox: React.FC<SeatReservationBoxProps> = ({
     }
   }, [focusInput, showCalendar, bookingDates.checkIn]);
 
-  // Convert selected date to checkIn/checkOut based on focusInput
-  useEffect(() => {
-    if (selectedDate) {
-      if (focusInput === "input1") {
-        // Setting check-in date
-        setBookingDates({
-          checkIn: selectedDate,
-          checkOut: null, // Reset checkout when changing checkin
-        });
-        // Move to checkout input
-        setFocusInput("input2");
-        setBlurSecondInput(false);
-      } else if (focusInput === "input2" && bookingDates.checkIn) {
-        // Setting check-out date
-        if (selectedDate > bookingDates.checkIn) {
-          setBookingDates({
-            checkOut: selectedDate,
-          });
-          // Close calendar after selecting checkout
-          setShowCalendar(false);
-          setFocusInput(null);
-        } else {
-          // If selected date is before checkin, set it as new checkin
-          setBookingDates({
-            checkIn: selectedDate,
-            checkOut: null,
-          });
-          setFocusInput("input2");
-        }
-      }
-      // Clear the selected date after processing
-      setDate(undefined);
-    }
-  }, [
-    selectedDate,
-    focusInput,
-    bookingDates.checkIn,
-    setBookingDates,
-    setDate,
-    setFocusInput,
-    setShowCalendar,
-  ]);
+  // Date selection is now handled directly in the calendar component
 
   useEffect(() => {
     const func1 = (e: KeyboardEvent) => {
