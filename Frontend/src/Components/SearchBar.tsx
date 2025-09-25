@@ -223,12 +223,12 @@ export default function SearchBar({
           ))}
           <div
             onClick={handleSearch}
-            className={`absolute right-2 top-1/2 -translate-y-1/2 rounded-full flex items-center justify-center cursor-pointer bg-gradient-to-r from-[#F83159] to-[#FF6B9D] text-white hover:opacity-90 transition-all duration-300 ${
+            className={`absolute right-2 top-1/2 -translate-y-1/2 rounded-full flex items-center justify-center cursor-pointer bg-gradient-to-r from-[#F83159] to-[#FF6B9D] text-white hover:opacity-90 transition-all duration-300 z-200 ${
               focusedInput ? "w-24 h-12" : "w-12 h-12"
             }`}
           >
             <SearchIcon />
-            {focusedInput && <span className="font-bold text-sm ml-1">Search</span>}
+            {focusedInput && <div className="font-bold text-sm ml-1">Search</div>}
           </div>
         </motion.div>
         <div className="searchPlaceholder">
