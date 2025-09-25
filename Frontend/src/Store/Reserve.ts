@@ -19,6 +19,8 @@ export interface IreserveStore {
   setDate: (toUpdate: Date | undefined) => void;
   guests: IGuestCount;
   setGuests: (toUpdate: Partial<IGuestCount>) => void;
+  showGuests: boolean;
+  setShowGuests: (toUpdate: boolean) => void;
 }
 
 const reserveStore = create<IreserveStore>((set) => ({
@@ -38,6 +40,8 @@ const reserveStore = create<IreserveStore>((set) => ({
     set((state) => ({
       guests: { ...state.guests, ...toUpdate },
     })),
+  showGuests: false,
+  setShowGuests: (toUpdate) => set({ showGuests: toUpdate }),
 }));
 
 export default reserveStore;
