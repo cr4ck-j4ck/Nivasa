@@ -1,139 +1,230 @@
-# Nivasa - A Modern Property Rental Platform
+# Nivasa - Property Listing and Booking Platform
 
-**Nivasa** is a full-stack, feature-rich property rental platform inspired by Airbnb. It provides a seamless experience for users to discover, book, and host unique properties around the world. This project is built with a modern tech stack, featuring a React frontend and a Node.js backend.
+![Nivasa](https://img.shields.io/badge/Nivasa-Property%20Booking-blue)
+![Backend](https://img.shields.io/badge/Backend-Node.js%2FExpress-green)
+![Frontend](https://img.shields.io/badge/Frontend-React%2FVite-orange)
+![License](https://img.shields.io/badge/License-MIT-lightgrey)
 
-## ✨ Key Features
+## 📖 Table of Contents
 
--   **User Authentication**: Secure user registration and login with email/password, plus seamless Google OAuth 2.0 integration. Includes email verification and JWT-based sessions.
--   **Dynamic Property Listings**: Browse listings by city, view detailed property pages with comprehensive information, image galleries, and interactive maps.
--   **Complete Booking System**: Check date availability in real-time, get dynamic pricing calculations, and create bookings with ease.
--   **Wishlist Management**: Users can save and manage their favorite properties in a personal wishlist.
--   **Multi-Step Hosting Flow**: A guided, user-friendly process for hosts to list their own properties, including photo uploads, setting amenities, and defining pricing.
--   **Host Dashboard**: A dedicated dashboard for hosts to manage their listings, track performance statistics, and view bookings.
--   **Admin Dashboard**: An internal tool for administrators to review, approve, or reject new property submissions, ensuring quality control.
--   **Real-time Feedback**: Server-Sent Events (SSE) for real-time updates during processes like email verification.
+- [Project Overview](#-project-overview)
+- [Folder Structure](#-folder-structure)
+- [Environment Variables](#-environment-variables)
+- [Getting Started](#-getting-started)
+- [API Endpoints](#-api-endpoints)
+- [Contribution Guide](#-contribution-guide)
+- [License](#-license)
 
-## 🛠️ Tech Stack
+## 📝 Project Overview
 
-### Frontend
-
--   **Framework**: [React](https://reactjs.org/) with [Vite](https://vitejs.dev/)
--   **Language**: [TypeScript](https://www.typescriptlang.org/)
--   **Styling**: [Tailwind CSS](https://tailwindcss.com/)
--   **UI Components**: [Shadcn/ui](https://ui.shadcn.com/) & custom components
--   **State Management**: [Zustand](https://zustand-demo.pmnd.rs/)
--   **Routing**: [React Router](https://reactrouter.com/)
--   **Animations**: [Framer Motion](https://www.framer.com/motion/)
--   **API Communication**: [Axios](https://axios-http.com/)
+Nivasa is a full-stack web application designed to serve as a comprehensive platform for listing, discovering, and booking properties. It provides a seamless user experience for both property owners who wish to list their spaces and users looking for a place to stay. The application is built with a modern technology stack, ensuring scalability, maintainability, and a high-quality user experience.
 
 ### Backend
 
--   **Framework**: [Express.js](https://expressjs.com/)
--   **Language**: [TypeScript](https://www.typescriptlang.org/)
--   **Database**: [MongoDB](https://www.mongodb.com/) with [Mongoose](https://mongoosejs.com/)
--   **Authentication**: [Passport.js](http://www.passportjs.org/) (for Google OAuth), [JWT](https://jwt.io/), [bcrypt](https://www.npmjs.com/package/bcrypt)
--   **Validation**: [Zod](https://zod.dev/)
--   **Emailing**: [Nodemailer](https://nodemailer.com/)
--   **Image Handling**: [Cloudinary](https://cloudinary.com/) for image storage and transformations.
+The backend is a robust RESTful API built with **Node.js** and **Express.js**. It is written in **TypeScript** to ensure type safety and improve developer productivity. The backend is responsible for handling all business logic, including user authentication, property listings, bookings, and payments.
+
+- **Framework**: Express.js
+- **Language**: TypeScript
+- **Database**: MongoDB with Mongoose ODM
+- **Authentication**: JWT (JSON Web Tokens) and Google OAuth 2.0
+- **Image Storage**: Cloudinary for cloud-based image management
+- **Key Libraries**: `bcrypt` for password hashing, `zod` for validation, and `nodemailer` for email services.
+
+### Frontend
+
+The frontend is a modern, responsive, and interactive single-page application (SPA) built with **React**. It utilizes **Vite** for a fast and efficient development experience and is also written in **TypeScript**. The frontend is designed to provide a smooth and intuitive user interface for interacting with the platform.
+
+- **Framework**: React
+- **Language**: TypeScript
+- **Bundler**: Vite
+- **Routing**: React Router
+- **State Management**: Zustand
+- **Styling**: Tailwind CSS with Radix UI components
+- **Mapping**: MapTiler SDK for interactive maps
+
+## 📁 Folder Structure
+
+The repository is organized into two main directories: `Backend` and `Frontend`. Below is a simplified overview of the project structure:
+
+```
+.
+├── Backend/
+│   ├── src/
+│   │   ├── config/       # Database and Cloudinary configuration
+│   │   ├── Controllers/  # Request handlers and business logic
+│   │   ├── JWT/          # JWT generation and verification middleware
+│   │   ├── Models/       # Mongoose schemas and models
+│   │   ├── Routes/       # API endpoint definitions
+│   │   └── server.ts     # Express server entry point
+│   ├── package.json
+│   └── tsconfig.json
+│
+├── Frontend/
+│   ├── src/
+│   │   ├── Components/   # Reusable React components
+│   │   ├── Context/      # React context providers
+│   │   ├── Pages/        # Top-level page components
+│   │   ├── Services/     # API service functions
+│   │   ├── Store/        # Zustand state management store
+│   │   └── App.tsx       # Main application component
+│   ├── package.json
+│   └── vite.config.ts
+│
+├── LICENSE
+└── README.md
+```
+
+## ⚙️ Environment Variables
+
+To run the application locally, you need to set up environment variables for both the backend and frontend. Create a `.env` file in both the `Backend` and `Frontend` directories and populate them with the required values.
+
+### Backend (`Backend/.env`)
+
+```env
+# MongoDB Connection
+# Get this from your MongoDB Atlas dashboard
+MONGO_URI=mongodb+srv://<user>:<password>@<cluster-url>/<database-name>
+
+# JWT Secrets
+# Use strong, randomly generated strings
+JWT_SECRET=your_jwt_secret_key
+JWT_REFRESH_SECRET=your_jwt_refresh_secret_key
+
+# Google OAuth Credentials
+# Get these from the Google Cloud Console
+GOOGLE_CLIENT_ID=your_google_client_id
+GOOGLE_CLIENT_SECRET=your_google_client_secret
+GOOGLE_REDIRECT_URI=http://localhost:3000/api # Adjust if your backend port is different
+
+# Cloudinary Credentials
+# Get these from your Cloudinary dashboard
+CLOUDINARY_CLOUD_NAME=your_cloudinary_cloud_name
+CLOUDINARY_API_KEY=your_cloudinary_api_key
+CLOUDINARY_API_SECRET=your_cloudinary_api_secret
+```
+
+### Frontend (`Frontend/.env`)
+
+```env
+# Backend API URL
+# The URL of your running backend server
+VITE_BACKEND_API=http://localhost:3000
+
+# MapTiler API Key
+# Get this from your MapTiler Cloud dashboard
+VITE_MAPTILER_KEY=your_maptiler_api_key
+```
 
 ## 🚀 Getting Started
 
+Follow these instructions to set up and run the project on your local machine.
+
 ### Prerequisites
 
--   Node.js (v18 or higher)
--   npm
--   MongoDB instance (local or cloud)
--   Cloudinary account for image uploads
+- [Node.js](https://nodejs.org/) (v18 or later)
+- [npm](https://www.npmjs.com/) (or your preferred package manager)
+- [Git](https://git-scm.com/)
 
-### Backend Setup
+### 1. Clone the Repository
 
-1.  **Navigate to the backend directory**:
-    ```bash
-    cd Backend
-    ```
-2.  **Install dependencies**:
-    ```bash
-    npm install
-    ```
-3.  **Set up environment variables**:
-    Create a `.env` file in the `Backend` directory. Use `Backend/.env.example` as a template and fill in your credentials.
-4.  **Run the development server**:
-    ```bash
-    npm run dev
-    ```
-    The backend will be running on `http://localhost:3000` (or your specified `PORT`).
+```bash
+git clone https://github.com/cr4ck-j4ck/Nivasa.git
+cd Nivasa
+```
 
-### Frontend Setup
+### 2. Set Up the Backend
 
-1.  **Navigate to the frontend directory**:
-    ```bash
-    cd Frontend
-    ```
-2.  **Install dependencies**:
-    ```bash
-    npm install
-    ```
-3.  **Set up environment variables**:
-    Create a `.env` file in the `Frontend` directory and add your backend API URL:
-    ```env
-    VITE_BACKEND_API=http://localhost:3000
-    ```
-4.  **Run the development server**:
-    ```bash
-    npm run dev
-    ```
-    The frontend will be running on `http://localhost:5173`.
+- Navigate to the `Backend` directory:
+  ```bash
+  cd Backend
+  ```
+- Install dependencies:
+  ```bash
+  npm install
+  ```
+- Create a `.env` file and add the required backend environment variables (see [Environment Variables](#-environment-variables)).
+- Run the development server:
+  ```bash
+  npm run dev
+  ```
+- The backend server should now be running on `http://localhost:3000` (or the port you configured).
+
+### 3. Set Up the Frontend
+
+- Open a new terminal and navigate to the `Frontend` directory:
+  ```bash
+  cd Frontend
+  ```
+- Install dependencies:
+  ```bash
+  npm install
+  ```
+- Create a `.env` file and add the required frontend environment variables (see [Environment Variables](#-environment-variables)).
+- Run the development server:
+  ```bash
+  npm run dev
+  ```
+- The frontend development server should now be running on `http://localhost:5173` (or the port Vite assigns).
 
 ## 📝 API Endpoints
 
+Here is a summary of the available API endpoints.
+
 ### Authentication
 
-| Method | Endpoint                | Description                               |
-| :----- | :---------------------- | :---------------------------------------- |
-| `POST` | `/user/signup`          | Registers a new user.                     |
-| `POST` | `/user/login`           | Logs in a user and returns JWTs.          |
-| `GET`  | `/auth/google`          | Initiates Google OAuth 2.0 flow.          |
-| `GET`  | `/auth/google/callback` | Handles the Google OAuth callback.        |
-| `GET`  | `/auth/status`          | Checks if the user is authenticated.      |
+| Method | Endpoint                   | Description                                  |
+| :----- | :------------------------- | :------------------------------------------- |
+| `POST` | `/user/signup`             | Registers a new user via email and password. |
+| `POST` | `/user/login`              | Logs in a user and returns JWTs in cookies.  |
+| `GET`  | `/auth/google`             | Initiates the Google OAuth 2.0 flow.         |
+| `GET`  | `/auth/google/callback`    | Handles the Google OAuth callback.           |
+| `GET`  | `/auth/status`             | Checks if the user is currently authenticated. |
+| `GET`  | `/user/verifyEmail-token`  | Verifies a user's email via a token link.    |
+| `GET`  | `/user/verification-stream/:id` | SSE endpoint for real-time verification status. |
 
 ### Listings
 
-| Method | Endpoint                   | Description                                  |
-| :----- | :------------------------- | :------------------------------------------- |
-| `POST` | `/create-listing`          | Creates a new property listing (for hosts).  |
-| `GET`  | `/listing/:id`             | Fetches details for a single property.       |
-| `GET`  | `/listingCard/:city`       | Fetches listings in a specific city.         |
-| `GET`  | `/cities-with-listings`    | Gets a random selection of cities with their listings. |
+| Method | Endpoint              | Description                                      |
+| :----- | :-------------------- | :----------------------------------------------- |
+| `GET`  | `/listing/:id`        | Fetches details for a single property by its ID. |
+| `GET`  | `/listingCard/:city`  | Fetches a list of properties in a specific city. |
 
-### Bookings
+### Wishlist
 
-| Method | Endpoint                   | Description                                  |
-| :----- | :------------------------- | :------------------------------------------- |
-| `GET`  | `/api/bookings/availability` | Checks if a listing is available for given dates. |
-| `GET`  | `/api/bookings/calculate-pricing` | Calculates the price for a potential booking. |
-| `POST` | `/api/bookings`            | Creates a new booking.                       |
-| `GET`  | `/api/bookings/user`       | Retrieves all bookings for the logged-in user. |
-| `GET`  | `/api/bookings/:bookingId` | Fetches details for a single booking.        |
-| `PUT`  | `/api/bookings/:bookingId/cancel` | Cancels a booking.                    |
+| Method   | Endpoint               | Description                               |
+| :------- | :--------------------- | :---------------------------------------- |
+| `GET`    | `/user/getWishlist`    | Retrieves the user's complete wishlist.   |
+| `POST`   | `/user/wishlist`       | Adds a listing to the user's wishlist.    |
+| `DELETE` | `/user/wishlist/:id`   | Removes a listing from the user's wishlist. |
 
-### User & Wishlist
+## 🤝 Contribution Guide
 
-| Method   | Endpoint             | Description                               |
-| :------- | :------------------- | :---------------------------------------- |
-| `GET`    | `/user/getWishlist`  | Retrieves the user's complete wishlist.   |
-| `POST`   | `/user/wishlist`     | Adds a listing to the user's wishlist.    |
-| `DELETE` | `/user/wishlist/:id` | Removes a listing from the user's wishlist. |
+We welcome contributions from the community! To contribute, please follow these guidelines.
 
-### Host Dashboard
+### Reporting Issues
 
-| Method | Endpoint          | Description                               |
-| :----- | :---------------- | :---------------------------------------- |
-| `GET`  | `/host/listings`  | Gets all listings for the logged-in host. |
-| `GET`  | `/host/stats`     | Gets statistics for the host's listings.  |
+- If you find a bug or have a feature request, please open an issue on GitHub.
+- Provide a clear and descriptive title and a detailed description of the issue.
 
-### Admin
+### Submitting Pull Requests
 
-| Method | Endpoint                       | Description                                  |
-| :----- | :----------------------------- | :------------------------------------------- |
-| `GET`  | `/admin/pending`               | Retrieves all listings pending approval.     |
-| `PUT`  | `/admin/listings/:listingId/status` | Approves or rejects a listing.          |
+1.  **Fork the repository** and create a new branch for your feature or bug fix:
+    ```bash
+    git checkout -b feature/your-feature-name
+    ```
+2.  **Make your changes** and ensure the code follows the existing style.
+3.  **Test your changes** to ensure they work as expected and do not break existing functionality.
+4.  **Commit your changes** with a clear and concise commit message.
+5.  **Push your branch** to your fork:
+    ```bash
+    git push origin feature/your-feature-name
+    ```
+6.  **Open a pull request** to the `main` branch of the original repository.
+
+## 📜 License
+
+This project is licensed under the **MIT License**.
+
+The MIT License is a permissive free software license that allows for the reuse of the software within proprietary software, provided that all copies of the licensed software include a copy of the MIT License terms and the copyright notice. It grants you the right to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the software.
+
+For the full license text, please see the [LICENSE](LICENSE) file.
