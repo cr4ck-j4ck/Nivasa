@@ -68,7 +68,7 @@
     margin-top: 10rem;
   }
 }
-@media(max-width:740px) {
+@media(max-width:741px) {
   .marginTopClass{
     margin-top: 3rem;
   }

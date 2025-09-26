@@ -11,7 +11,7 @@ import MobileBottomNavigation from "./Pages/MobileFooter";
 const App: React.FC = () => {
   const location = useLocation();
   const [isFooter, setIsFooter] = useState(true);
-
+const [isBottomNavigation, setIsBottomNavigation] = useState(true);
 
   const { setUser, user, setIsGettingUser } = UserStore(
     useShallow((state) => ({
@@ -26,6 +26,9 @@ const App: React.FC = () => {
       setIsFooter(false);
     } else {
       setIsFooter(true);
+    }
+    if(location.pathname.includes("/room/")){
+      setIsBottomNavigation(false);
     }
   }, [location.pathname]);
 
@@ -51,7 +54,7 @@ const App: React.FC = () => {
     <div className={`min-h-screen ${location.pathname === "/" ? "marginTopClass":"marginTopForMobile"} flex flex-col items-center relative w-[100vw] h-fit`}>
       <AppRoutes />
       {isFooter && <Footer />}
-    <MobileBottomNavigation/>
+      {isBottomNavigation && <MobileBottomNavigation />}
     </div>
   );
 };
