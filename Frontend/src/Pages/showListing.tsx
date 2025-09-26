@@ -15,23 +15,26 @@ import HostProfile from "@/Components/Listings/ShowPage/Description/HostProfile"
 import { addToWhislist, removeFromWishlist } from "@/Services/user.api";
 import Nav from "@/Layout/Nav";
 import BookingModal from "@/Components/BookingModal";
+import MobileGallery from "@/Components/Listings/ShowPage/Gallery/mobileGallery";
+import useMediaQuery from "@/hooks/useMediaQuery";
 
 const ShowListing = (): React.JSX.Element => {
-const { listingId } = useParams();
+  const { listingId } = useParams();
   const [isSaved, setIsSaved] = useState(false);
   const [animate, setAnimate] = useState(false);
   const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
+  const isMobile = useMediaQuery("(max-width: 46.25rem)");
   const toggleSave = () => {
     setAnimate(true);
-    if(isSaved && listingObj){
+    if (isSaved && listingObj) {
       removeFromWishlist(listingObj?._id);
       setIsSaved(false);
       setTimeout(() => {
         setAnimate(false);
       }, 300);
-    }else if(listingObj){
+    } else if (listingObj) {
       setIsSaved(true);
-      addToWhislist(listingObj?._id)
+      addToWhislist(listingObj?._id);
       setTimeout(() => {
         setAnimate(false);
       }, 300);
@@ -58,7 +61,7 @@ const { listingId } = useParams();
 
   return (
     <>
-    <Nav></Nav>
+      <Nav></Nav>
       <title>{listingObj?.title ?? "Loading listing..."}</title>
       <div className="w-full sm:max-w-[97vw] md:max-w-[92vw] lg:max-w-[95vw] 3xl:max-w-[80vw] pl-3 top-[3rem] relative">
         <header className="flex justify-between items-center">
@@ -81,13 +84,13 @@ const { listingId } = useParams();
             Save
           </button>
         </header>
-        <Gallery />
+        {isMobile ? <MobileGallery /> : <Gallery />}
         {listingObj ? (
           <>
             <div className="flex bottomLine relative pb-5 xl:w-[90%] w-full xl:mx-auto">
               <Description />
-              <SeatReservationBox 
-                listing={listingObj} 
+              <SeatReservationBox
+                listing={listingObj}
                 onReserveClick={() => setIsBookingModalOpen(true)}
               />
             </div>
