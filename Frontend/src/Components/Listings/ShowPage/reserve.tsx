@@ -36,7 +36,6 @@ const SeatReservationBox: React.FC<SeatReservationBoxProps> = ({
     setGuests,
     showGuests,
     setShowGuests,
-    date: selectedDate,
   } = reserveStore(
     useShallow((state) => ({
       setShowCalendar: state.setShowCalendar,
@@ -148,7 +147,7 @@ const SeatReservationBox: React.FC<SeatReservationBoxProps> = ({
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="p-6 m-5 ml-10 rounded-2xl no-select sticky w-1/2 max-w-[380px] top-10 mb-10 h-fit bg-white border border-gray-200"
+        className="p-6 m-5 ml-10 rounded-2xl no-select sticky w-1/2 max-w-[380px] top-10 mb-10 h-fit bg-white border border-gray-200 mobileView:block hidden"
         style={{ boxShadow: "rgba(0, 0, 0, 0.12) 0px 6px 16px" }}
       >
         {/* Header with pricing */}
