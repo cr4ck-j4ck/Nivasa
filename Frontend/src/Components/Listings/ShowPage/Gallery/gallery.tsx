@@ -5,7 +5,6 @@ import { useListingStore } from "@/Store/ListingStore";
 import PreviewGrid from "./components/PreviewGrid";
 import PhotoViewer, { type GalleryMap } from "./components/PhotoViewer";
 import CategorySection from "./components/CategorySection";
-
 const Gallery = (): React.JSX.Element => {
   const listing = useListingStore((state) => state.listingObj);
   const gallery: GalleryMap | null = listing ? (listing.gallery as GalleryMap) : null;
