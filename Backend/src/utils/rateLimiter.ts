@@ -28,6 +28,18 @@ export const tokenVerificationLimiter = rateLimit({
   legacyHeaders: false,
 });
 
+// Stricter rate limiter for authentication routes
+export const authLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 10, // Limit each IP to 10 requests per windowMs
+    message: {
+        error: 'Too many authentication attempts. Please try again in 15 minutes.',
+        code: 'RATE_LIMIT_EXCEEDED'
+    },
+    standardHeaders: true,
+    legacyHeaders: false,
+});
+
 // Rate limiter for password reset completion
 export const passwordResetCompletionLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes

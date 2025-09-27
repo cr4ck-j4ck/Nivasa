@@ -1,7 +1,7 @@
 import { signupSchema, loginSchema } from "../Schemas/user.Zodschema";
 import { generateToken, generateRefreshToken } from "../JWT/JWT";
 import UserModel, { type IUser } from "../Models/UsersModel";
-import bcrypt from "bcrypt";
+import argon2 from "argon2";
 import jwt, { JsonWebTokenError, JwtPayload } from "jsonwebtoken";
 import { ZodError } from "zod";
 import { RequestHandler } from "express-serve-static-core";
@@ -17,7 +17,6 @@ import {
   sendPasswordResetEmail,
   sendPasswordResetConfirmationEmail
 } from "../utils/passwordReset";
-const SALT_ROUNDS = 12;
 
 const clients = new Map<string, Response>(); // key = userId, value = res object
 
@@ -28,10 +27,7 @@ export const createUser: RequestHandler = async (req, res) => {
       email: resultOfParsing.email,
     });
     if (!existingUser) {
-      const hashedPassword = await bcrypt.hash(
-        resultOfParsing.password,
-        SALT_ROUNDS
-      );
+      const hashedPassword = await argon2.hash(resultOfParsing.password);
       const uniqueUserID = uuidv4();
       const payloadJWT = {
         ...resultOfParsing,
@@ -71,9 +67,9 @@ export const loginUser: RequestHandler = async (req, res) => {
       })
     )?.toObject();
     if (existingUser) {
-      const passwordIsCorrect = await bcrypt.compare(
-        resultOfParsing.password,
-        existingUser.password
+      const passwordIsCorrect = await argon2.verify(
+        existingUser.password,
+        resultOfParsing.password
       );
       if (passwordIsCorrect) {
         const token = generateToken({ userId: existingUser._id }, "7d");
@@ -81,14 +77,14 @@ export const loginUser: RequestHandler = async (req, res) => {
         res.cookie("token", token, {
           httpOnly: true,
           secure: process.env.NODE_ENV === "production",
-          sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+          sameSite: "strict",
           domain: process.env.NODE_ENV === "production" ? ".nivasa.site" : "localhost",
           maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
         });
         res.cookie("refreshToken", refreshToken, {
           httpOnly: true,
           secure: process.env.NODE_ENV === "production",
-          sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+          sameSite: "strict",
           domain: process.env.NODE_ENV === "production" ? ".nivasa.site" : "localhost",
           maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
         });
@@ -165,14 +161,14 @@ export const verifyEmailToken: RequestHandler = async (req, res) => {
       res.cookie("token", token, {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
-        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+        sameSite: "strict",
         domain: process.env.NODE_ENV === "production" ? ".nivasa.site" : "localhost",
         maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
       });
       res.cookie("refreshToken", refreshToken, {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
-        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+        sameSite: "strict",
         domain: process.env.NODE_ENV === "production" ? ".nivasa.site" : "localhost",
         maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
       });
@@ -431,7 +427,7 @@ export const resetPassword: RequestHandler = async (req, res) => {
     }
 
     // Hash new password
-    const hashedPassword = await bcrypt.hash(newPassword, SALT_ROUNDS);
+    const hashedPassword = await argon2.hash(newPassword);
 
     // Update user password and clear reset fields
     user.password = hashedPassword;
