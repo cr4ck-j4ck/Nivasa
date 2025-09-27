@@ -1,11 +1,28 @@
-BOOKING_IMPLEMENTATION_SUMMARY.md
-BOOKING_SYSTEM_GUIDE.md
-test-booking-system.js
-test-listing-creation.js
-UI
-.zencoder
+# Dependency directories
+node_modules/
+/Backend/node_modules/
+/Frontend/node_modules/
+
+# Environment variables
 .env
-.geminiignore
-FORGOT_PASSWORD_IMPLEMENTATION.md
-Nivasa.listings.json
-SEARCH_IMPLEMENTATION.md
+/Backend/.env
+/Frontend/.env
+
+# Build output
+/Backend/dist/
+/Frontend/dist/
+
+# Log files
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# IDE and editor directories
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?

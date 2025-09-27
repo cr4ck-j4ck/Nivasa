@@ -1,5 +1,5 @@
 import crypto from 'crypto';
-import bcrypt from 'bcrypt';
+import argon2 from 'argon2';
 import nodemailer from 'nodemailer';
 
 // Generate cryptographically secure reset token
@@ -9,13 +9,12 @@ export const generateResetToken = (): string => {
 
 // Hash the reset token for secure storage
 export const hashResetToken = async (token: string): Promise<string> => {
-  const saltRounds = 12;
-  return await bcrypt.hash(token, saltRounds);
+  return await argon2.hash(token);
 };
 
 // Verify reset token against hashed version
 export const verifyResetToken = async (token: string, hashedToken: string): Promise<boolean> => {
-  return await bcrypt.compare(token, hashedToken);
+  return await argon2.verify(hashedToken, token);
 };
 
 // Validate password strength
