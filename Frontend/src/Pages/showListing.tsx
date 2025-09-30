@@ -63,7 +63,7 @@ const ShowListing = (): React.JSX.Element => {
     <>
       <Nav></Nav>
       <title>{listingObj?.title ?? "Loading listing..."}</title>
-      <div className="w-full sm:max-w-[97vw] md:max-w-[92vw] lg:max-w-[95vw] 3xl:max-w-[80vw] pl-3 top-[3rem] relative">
+      <div className="w-full sm:max-w-[97vw] md:max-w-[92vw] lg:max-w-[95vw] 3xl:max-w-[80vw] pl-3 top-[3rem] relative pb-20">
         <header className="flex justify-between items-center">
           <h1 className="text-3xl showHead mb-6 pl-2 md:pl-10 z-50">
             {listingObj ? listingObj.title : <Skeleton />}
@@ -87,7 +87,7 @@ const ShowListing = (): React.JSX.Element => {
         {isMobile ? <MobileGallery /> : <Gallery />}
         {listingObj ? (
           <>
-            <div className="flex bottomLine relative pb-5 xl:w-[90%] w-full xl:mx-auto">
+            <div className="flex flex-col lg:flex-row gap-12 bottomLine relative pb-5 xl:w-[90%] w-full xl:mx-auto">
               <Description />
               <SeatReservationBox
                 listing={listingObj}

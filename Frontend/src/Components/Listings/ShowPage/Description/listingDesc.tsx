@@ -27,7 +27,7 @@ const ListingDesc = (): React.JSX.Element | null => {
   if (!listingObj) return null;
 
   return (
-    <div className="min-w-[450px] w-[100%] xl:w-[55vw] max-w-4xl relative shrink-1">
+    <div className="w-full xl:w-[55vw] max-w-4xl relative shrink-1">
       <h3 className="text-2xl font-semibold">
         {" "}
         {listingObj.roomType} in{" "}
@@ -96,7 +96,7 @@ const ListingDesc = (): React.JSX.Element | null => {
             What This place offers
           </h4>
         </div>
-        <div className="w-full grid grid-cols-2 grid-rows-4 gap-4 text-xl">
+        <div className="w-full grid grid-cols-1 sm:grid-cols-2 grid-rows-4 gap-4 text-xl">
           <Amenities amenity={listingObj.amenities} />
         </div>
       </div>
