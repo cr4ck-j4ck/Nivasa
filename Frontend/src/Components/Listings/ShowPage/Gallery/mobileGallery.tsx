@@ -77,7 +77,7 @@ const MobileGallery: React.FC = () => {
               x: { type: 'spring', stiffness: 300, damping: 30 },
               opacity: { duration: 0.2 },
             }}
-            className="absolute w-[97%] h-full object-cover"
+            className="absolute rounded-2xl w-[97%] h-full object-cover"
             drag="x"
             dragConstraints={{ left: 0, right: 0 }}
             dragElastic={1}
