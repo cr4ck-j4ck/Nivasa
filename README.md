@@ -84,6 +84,8 @@ To run the application locally, you need to set up environment variables for bot
 # MongoDB Connection
 # Get this from your MongoDB Atlas dashboard
 MONGO_URI=mongodb+srv://<user>:<password>@<cluster-url>/<database-name>
+PORT=3000
+NODE_ENV=development
 
 # JWT Secrets
 # Use strong, randomly generated strings
@@ -94,7 +96,7 @@ JWT_REFRESH_SECRET=your_jwt_refresh_secret_key
 # Get these from the Google Cloud Console
 GOOGLE_CLIENT_ID=your_google_client_id
 GOOGLE_CLIENT_SECRET=your_google_client_secret
-GOOGLE_REDIRECT_URI=http://localhost:3000/api # Adjust if your backend port is different
+GOOGLE_REDIRECT_URI=http://localhost:3000 # Adjust if your backend port is different
 
 # Cloudinary Credentials
 # Get these from your Cloudinary dashboard
